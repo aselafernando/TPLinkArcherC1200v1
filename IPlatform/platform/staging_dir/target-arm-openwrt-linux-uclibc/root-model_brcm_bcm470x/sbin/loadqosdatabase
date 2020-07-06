@@ -1,0 +1,5 @@
+#!/usr/bin/lua
+
+config = require "luci.controller.admin.qos"
+
+config.db_create_config(nil)

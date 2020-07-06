@@ -1,0 +1,11 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：folder share页面中获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":
+	[
+		{ "media_server": "on", "path": "K:/picture", "enable": "on", "writable": "on", "name": "Picturues", "key": "83872", "guest_nerwork": "on", "authentication": "on", "uuid": "000B15D60004B408", "volumn": "volumn5" }
+	]
+}

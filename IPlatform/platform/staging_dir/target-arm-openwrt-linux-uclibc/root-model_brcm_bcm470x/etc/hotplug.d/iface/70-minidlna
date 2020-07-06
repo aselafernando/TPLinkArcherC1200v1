@@ -1,0 +1,16 @@
+#!/bin/sh
+
+. /lib/functions.sh
+
+if [ "$INTERFACE" != "lan" ]; then
+    exit 0
+fi
+
+if [ "$ACTION" = "ifup" ]; then
+    config_load usbshare
+    config_get dlna global dlna
+
+    if [ "$dlna" == "on" ]; then
+        /etc/init.d/minidlna restart
+    fi
+fi

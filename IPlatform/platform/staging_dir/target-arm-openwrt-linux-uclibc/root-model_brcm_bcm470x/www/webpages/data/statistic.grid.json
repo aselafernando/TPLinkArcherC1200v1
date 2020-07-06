@@ -1,0 +1,10 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：static页面中获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":[
+		{"ip":"192.168.0.100", "total_pkt": "10000","total_byte":"20000","cur_pkt":"30000","cur_byte":"40000","cur_icmp":"50000","cur_udp":"60000","cur_syn":"70000","key":"001"}
+	]	
+}

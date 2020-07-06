@@ -1,0 +1,27 @@
+#!/bin/sh
+
+local led_onoff;
+
+local generl_en=`uci get ledctrl.GENERAL.enable`
+local pm_en=`[ -f /tmp/ledpm_period ] && cat /tmp/ledpm_period`
+
+[ -z $pm_en ] && pm_en=0
+
+if [ $generl_en = "on" -a $pm_en = "0" ]; then
+    led_onoff=on
+else
+    led_onoff=off
+fi
+
+if [ "$1" = "status" ];then
+    echo "$led_onoff"
+    exit 0
+fi
+
+if [ "$led_onoff" = "on" ]; then
+    wps_gpio_set 1
+elif [ "$led_onoff" = "off" ]; then 
+    wps_gpio_set 0
+fi
+
+

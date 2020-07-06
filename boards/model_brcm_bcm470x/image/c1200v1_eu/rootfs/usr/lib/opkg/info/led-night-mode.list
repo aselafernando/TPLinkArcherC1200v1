@@ -1,0 +1,9 @@
+/sbin/ledpm_onoff
+/lib/led_night_mode/ledgeneral_core.sh
+/sbin/ledpm
+/sbin/ledgeneral
+/etc/config/ledpm
+/lib/led_night_mode/ledpm_function.sh
+/etc/init.d/ledgeneral
+/etc/init.d/ledpm
+/lib/led_night_mode/ledpm_core.sh

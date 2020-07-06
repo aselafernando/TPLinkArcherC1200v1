@@ -1,0 +1,150 @@
+#新固件检测
+config router_request 'check_fw_ver'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+#固件下载
+config router_request 'download_fw'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+config router_request 'firmware_service'
+        option owner '0'
+        option action_status '0'
+        option err_code '0'
+
+#获取云帐号状态
+config router_request 'get_account_stat'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+#重置云帐号密码
+config router_request 'reset_account_pwd'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+#修改云帐号密码
+config router_request 'modify_account_pwd'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+#获取注册校验码
+config router_request 'get_reg_verify_code'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#获取重置密码校验码
+config router_request 'get_reset_pwd_verify_code'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+#验证注册校验码
+config router_request 'check_reg_verify_code'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#验证重置密码校验码
+config router_request 'check_reset_pwd_verify_code'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#往云端发送事件通知
+config router_request 'notify_event'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#绑定
+config router_request 'bind'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+#登录
+config router_request 'login'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+#请求重发账户激活邮件
+config router_request 'resend_email'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+#解绑定
+config router_request 'unbind'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+#注册云帐号
+config router_request 'register'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#云设备请求分类插件信息
+config router_request 'get_plugins'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#云设备请求可更新插件信息
+config router_request 'get_can_update_plugins'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#云设备请求未安装插件信息
+config router_request 'get_not_installed_plugins'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#云设备请求某一个功能插件更新情况
+config router_request 'check_plugin_update'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+
+#云设备请求某一个功能插件的完整信息
+config router_request 'get_plugin_info'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#云设备请求下载某一个插件
+config router_request 'download_plugin'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#云设备和云端同步插件信息
+config router_request 'synchronize_plugin'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#插件服务：安装、卸载、更新
+config router_request 'plugin_service'
+	option owner '0'
+	option action_status '0'
+	option err_code '0'
+	
+#云客户端连接状态
+config cloud_client 'client_info'
+	option connect_status '0'
+	option reconnect_time '0'
+	option disconnect_reason '0'
+	option fw_download_progress '0'
+	option fw_download_status '0'

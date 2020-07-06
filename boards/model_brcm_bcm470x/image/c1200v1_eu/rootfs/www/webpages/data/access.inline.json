@@ -1,0 +1,15 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：Security Access Control页面中online获取数据",
+	
+	"timeout": false,
+	"success": true,
+	"data": [
+			{"access_online_name":"TP-LINK-PXC", "access_online_ip": "172.29.85.1", "access_online_mac":"00-11-22-33-44-55", "access_online_type":"0", "key":"001"},
+			{"access_online_name":"TP-LINK-SMB", "access_online_ip": "172.29.85.2", "access_online_mac":"00-11-22-33-44-55", "access_online_type":"0", "key":"002"},
+			{"access_online_name":"TP-LINK-SOHO", "access_online_ip": "172.29.85.3", "access_online_mac":"00-11-22-33-44-55", "access_online_type":"0", "key":"003"},
+			{"access_online_name":"TP-LINK-BA", "access_online_ip": "172.29.85.4", "access_online_mac":"00-11-22-33-44-55", "access_online_type":"0", "key":"004"},
+			{"access_online_name":"TP-LINK-MOBILE", "access_online_ip": "172.29.85.5", "access_online_mac":"00-11-22-33-44-55", "access_online_type":"0", "key":"005"}
+	]
+			
+}

@@ -1,0 +1,35 @@
+#!/bin/sh /etc/rc.common
+# Copyright(c) 2011-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+# file     nat.init
+# brief    
+# author   Guo Dongxian
+# version  1.0.0
+# date     26Feb14
+# histry   arg 1.0.0, 26Feb14, Guo Dongxian, Create the file. 
+
+START=46
+
+NAT_LIBDIR=/lib/nat
+
+nat() {
+	. $NAT_LIBDIR/nat_core.sh
+	nat_$1 $2
+
+}
+
+start() {
+	nat start $1
+}
+
+stop() {
+	nat stop $1
+}
+
+restart() {
+	nat restart $1
+}
+
+reload() {
+	nat reload $1
+}
+

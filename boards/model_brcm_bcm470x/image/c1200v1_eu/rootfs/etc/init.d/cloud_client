@@ -1,0 +1,97 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2010 Jo-Philipp Wich
+
+START=80
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+#cloud-client and cloud-server information
+CLOUD_CLIENT_BIN="/bin/cloud-client"
+CLOUD_SERVER_HOST_NAME="devs.tplinkcloud.com"
+#CLOUD_SERVER_HOST_NAME="172.29.88.115"
+CLOUD_SERVER_LISTEN_PORT='50443'
+
+#cloud client config file name
+CLOUD_STATUS="cloud_status"
+CLOUD_CONFIG="cloud_config"
+CLOUD_CONFIG_BAK="cloud_config_bak"
+
+#init action status
+cloud_init_status()
+{
+	#cloud client option name
+	local optOwner="owner"
+	local optActionStatus="action_status"
+	local optErrorCode="err_code"
+
+	uci_set "$CLOUD_STATUS" "$1" "$optOwner" 0
+	uci_set "$CLOUD_STATUS" "$1" "$optActionStatus" 0
+	uci_set "$CLOUD_STATUS" "$1" "$optErrorCode" 0
+}
+
+#init config information
+init_config()
+{
+	config_load "$CLOUD_STATUS"
+	config_foreach cloud_init_status router_request
+	
+	uci_set "$CLOUD_STATUS" client_info connect_status 0
+	uci_set "$CLOUD_STATUS" client_info fw_download_progress 0
+	uci_set "$CLOUD_STATUS" client_info fw_download_status 0
+	uci_set "$CLOUD_STATUS" client_info disconnect_reason 0
+	uci_set "$CLOUD_STATUS" client_info reconnect_time 0
+	uci commit "$CLOUD_STATUS"
+	
+	config_load "$CLOUD_CONFIG"
+	
+	uci_set "$CLOUD_CONFIG" device_legality illegal 0
+	uci_set "$CLOUD_CONFIG" device_legality illegal_type 0
+	uci commit "$CLOUD_CONFIG"
+}
+
+factory_pre()                     
+{                                            
+        [ -f /etc/config/$CLOUD_CONFIG ] && cp -f /etc/config/$CLOUD_CONFIG /tmp/
+}                                                                              
+                                                              
+factory_reset()                                                                
+{                                                                              
+    [ -f /tmp/cloud_config ] || return                                         
+    cp -f /tmp/$CLOUD_CONFIG /etc/config/$CLOUD_CONFIG_BAK                       
+    config_load "$CLOUD_CONFIG_BAK"                                            
+    local username="$(uci_get ${CLOUD_CONFIG_BAK}.bind_info.username)"              
+    local password="$(uci_get ${CLOUD_CONFIG_BAK}.bind_info.password)"              
+                                                                               
+    config_load "$CLOUD_CONFIG"                                                
+    [ -z $username ] || uci_set "$CLOUD_CONFIG" bind_info username "$username"                          
+    [ -z $password ] || uci_set "$CLOUD_CONFIG" bind_info password "$password"                          
+    uci commit "$CLOUD_CONFIG"                                                 
+                                                                               
+    rm -f /etc/config/$CLOUD_CONFIG_BAK                                        
+} 
+
+#start cloud-client program
+start()
+{
+	## To avoid certificate expired, we set system time(using firmware build time which obtained
+	## by parsing software version) when DUT start. 
+	local version=`getfirm SOFTVERSION|awk '{print $3}'`
+	local curTime=${version:0-3:4}'-'${version:4-5:2}'-'${version:6-7:2}
+	date -s $curTime" 00:00:00"
+
+	init_config	
+	SERVICE_PID_FILE=/var/run/cloud-client.pid
+	service_start $CLOUD_CLIENT_BIN -h $CLOUD_SERVER_HOST_NAME -p $CLOUD_SERVER_LISTEN_PORT
+
+	# Check if daemon is running, if not then re-execute.
+	(sleep 1 && service_check $CLOUD_CLIENT_BIN || \
+		service_start $CLOUD_CLIENT_BIN -h $CLOUD_SERVER_HOST_NAME -p $CLOUD_SERVER_LISTEN_PORT) &
+}
+
+#stop cloud-client program
+stop() 
+{
+	SERVICE_PID_FILE=/var/run/cloud-client.pid
+	service_stop $CLOUD_CLIENT_BIN
+}

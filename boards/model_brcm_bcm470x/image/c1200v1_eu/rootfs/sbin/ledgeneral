@@ -1,0 +1,12 @@
+#!/bin/sh
+# Copyright (C) 2011-2015 TP-LINK
+#Author  :  Liu Qu <liuqu@tp-link.net>
+# Date   27Feb2015
+
+
+
+#add by leo,for led_general test
+
+#echo "General shell run!" > /dev/console
+ledcli "GENERAL"
+[ -f /sbin/wps_led_set ] && wps_led_set

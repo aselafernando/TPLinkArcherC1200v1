@@ -1,0 +1,13 @@
+#!/bin/sh /etc/rc.common
+
+START=50
+
+start()
+{
+	service_start /usr/bin/tmpServer &
+}
+
+stop()
+{
+	service_stop /usr/bin/tmpServer
+}

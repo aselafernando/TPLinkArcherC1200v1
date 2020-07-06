@@ -1,0 +1,8 @@
+{
+	"errorcode": false,
+	"success": true,
+	"data":{
+
+		"supported": ["auto", "10H", "10F", "100H", "100F", "1000H", "1000F"]
+	}
+}

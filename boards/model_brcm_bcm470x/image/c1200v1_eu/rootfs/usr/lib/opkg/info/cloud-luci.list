@@ -1,0 +1,6 @@
+/usr/lib/lua/luci-cloud/cloud-request.lua
+/usr/lib/lua/luci-cloud/cloud-error.lua
+/usr/lib/lua/luci-cloud/cloud-luci.lua
+/usr/lib/lua/luci-cloud/cloud-uci-iface.lua
+/www/cgi-bin/luci-cloud
+/usr/lib/lua/luci-cloud/cloud-common.lua

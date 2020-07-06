@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" manifest="app.manifest">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<link rel="shortcut icon" href="favicon.ico"/>
+<!-- <link type="text/css" href="css/reset.css" rel="stylesheet" /> -->
+<link type="text/css" href="css/widget.css" rel="stylesheet" />
+
+<link type="text/css" href="themes/blue/css/widget.css" rel="stylesheet" />
+<link type="text/css" href="themes/blue/css/style.css" rel="stylesheet" />
+
+<!--[if lte IE 8]>
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<link href="themes/blue/css/ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<!--[if lte IE 7]>
+<link href="themes/blue/css/ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<!--[if lte IE 6]>
+<link href="themes/blue/css/ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<title>Opening...</title>
+<style type="text/css">
+	div.center{
+		text-align: center;
+	}
+</style>
+</head>
+
+<body id="abnormal-body">
+
+<noscript>
+	<meta http-equiv="refresh" content="0; url=error.html"/>
+</noscript>
+
+<div class="top" id="abnormal-main">
+
+	   <!--  <div class="top-main">
+        <div class="top-main-wrap"> -->
+        <div class="top-header">
+	        <div class="top-header-wrap">
+	            <h1 id="product-tag">Wireless Router Archer C1200</h1>
+			<div class="top-content">
+				<div class="top-content-wrap" id="top-content">
+					<h3 class="title" id="error-hint">
+						<span class="icon"></span>
+						<span id="error-hint-title" class="text"></span>
+					</h3>
+					<div id="error-list"></div>
+
+					<div class="part-seperate center">
+						
+						<button id="never-btn" type="button"></button>
+						<button id="setup-btn" type="button"></button>
+					</div>
+					
+
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript" src="js/libs/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/su/locale.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+	try{
+		$.su.locale.URL_LAN_CHECK =  $.su.url("/locale?form=lang");//"./data/lan.json";
+		$.su.locale.get();
+	}catch(error){
+		location.href = "./error.html";
+	};
+//]]>
+</script>
+<!--<script type="text/javascript" src="http://192.168.1.101:1070/target/target-script-min.js#anonymous"></script>-->
+<script type="text/javascript" src="js/libs/encrypt.js"></script>
+<!--<script type="text/javascript" src="js/su/su.full.min.js"></script>-->
+
+
+<script type="text/javascript" src="js/su/su.js"></script>
+<script type="text/javascript" src="js/libs/encrypt.js"></script>
+
+<script type="text/javascript" src="js/su/data/proxy.js"></script>
+<script type="text/javascript" src="js/su/data/store.js"></script>
+
+
+<script type="text/javascript" src="js/su/widget/widget.js"></script>
+
+<script type="text/javascript" src="js/su/widget/window/panel.js"></script>
+<script type="text/javascript" src="js/su/widget/window/page.js"></script>
+<script type="text/javascript" src="js/su/widget/window/wizard.js"></script>
+
+
+
+
+<script type="text/javascript" src="js/su/widget/grid/grid.js"></script>
+<script type="text/javascript" src="js/su/widget/grid/editor.js"></script>
+<script type="text/javascript" src="js/su/widget/grid/paging.js"></script>
+
+
+
+
+<script type="text/javascript" src="js/su/widget/form/button.js"></script>
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(e){
+	document.title = $.su.locale.model;
+    $("h1#product-tag").text($.su.locale.model);
+	var URL_WAN_ERROR = $.su.url("/wan_error?form=read");
+	var URL_WAN = $.su.url("/wan_error?form=never");
+
+
+
+
+	//主页面内容部分
+	document.title = $.su.locale.model;
+	$("span#error-hint-title").html($.su.CHAR.WAN_ERROR.TITLE);
+
+	var domainList = $("div#error-list").grid({
+		store:{
+			proxy: {
+				url: URL_WAN_ERROR
+			},
+			fields: [
+				{name: "errnum"}
+			],
+			autoLoad: true
+		},
+		minLines: 0,
+		paging: {},
+		columns: [
+			{
+				text: $.su.CHAR.WAN_ERROR.STATUS, 
+				width: 120,
+				dataIndex: "status",
+				renderer:function(val,index,data){
+					var txt;
+					switch(data.errnum){
+						case "-50101":
+							txt = $.su.CHAR.ERROR["10000158"];
+							break;
+						case "-50102":
+							txt = $.su.CHAR.ERROR["10000139"];
+							break;
+						case "-50103":
+							txt = $.su.CHAR.ERROR["10000172"];
+							break;
+						case "-50111":
+							txt = $.su.CHAR.ERROR["10000172"];
+							break;
+						case "-50112":
+							txt = $.su.CHAR.ERROR["10000172"];
+							break;
+						case "-50121":
+							txt = $.su.CHAR.ERROR["10000172"];
+							break;
+						case "-50122":
+							txt = $.su.CHAR.ERROR["10000172"];
+							break;
+						case "-50131":
+							txt = $.su.CHAR.ERROR["10000172"];
+							break;
+						case "-50132":
+							txt = $.su.CHAR.ERROR["10000172"];
+							break;
+						case "-50140":
+							txt = $.su.CHAR.ERROR["10000172"];
+							break;
+					}
+					return txt;
+					
+				}
+			},{
+				text: $.su.CHAR.WAN_ERROR.INFO, 
+				width: 120,
+				dataIndex: "info",
+				renderer:function(val,index,data){
+					var txt;
+					switch(data.errnum){
+						case "-50101":
+							txt = $.su.CHAR.ERROR["10000158"];
+							break;
+						case "-50102":
+							txt = $.su.CHAR.ERROR["10000159"];
+							break;
+						case "-50103":
+							txt = $.su.CHAR.ERROR["10000160"];
+							break;
+						case "-50111":
+							txt = $.su.CHAR.ERROR["10000161"];
+							break;
+						case "-50112":
+							txt = $.su.CHAR.ERROR["10000162"];
+							break;
+						case "-50121":
+							txt = $.su.CHAR.ERROR["10000164"];
+							break;
+						case "-50122":
+							txt = $.su.CHAR.ERROR["10000165"];
+							break;
+						case "-50131":
+							txt = $.su.CHAR.ERROR["10000167"];
+							break;
+						case "-50132":
+							txt = $.su.CHAR.ERROR["10000168"];
+							break;
+						case "-50140":
+							txt = $.su.CHAR.ERROR["10000169"];
+							break;
+					}
+					return txt;
+					
+				}
+			}
+		]
+	});
+
+	$("button#setup-btn").button({
+		text: $.su.CHAR.WAN_ERROR.SETUP,
+		handler: function(e){
+			location.href = "./login.html";
+		},
+		cls: "submit wan-error-btn gap inline-block"
+	});
+
+	var wanProxy = new $.su.Proxy({
+		url: URL_WAN,
+		autoLoad: false
+	});
+
+	$("button#never-btn").button({
+		text: $.su.CHAR.WAN_ERROR.NEVER,
+		handler: function(e){
+			var oldUrl = top.location.href.split("url=")[1];
+			wanProxy.read({
+				operation: "never"
+			}, function(){
+				location.href = oldUrl;
+			});
+		},
+		cls: "submit wan-error-btn gap inline-block"
+	});
+
+
+	$.su.loading.hide();
+
+
+
+	
+});
+//]]>
+</script>
+</body>
+</html>

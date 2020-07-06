@@ -1,0 +1,6 @@
+#!/usr/bin/env lua
+
+local uci = require "luci.model.uci"
+local uci_t = uci.cursor()
+
+print(uci_t:get("ledctrl", "NIGHT", "enable") or "off")

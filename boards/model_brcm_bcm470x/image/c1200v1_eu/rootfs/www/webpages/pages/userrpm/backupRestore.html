@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+</head>
+
+<body>
+<div class="func-container">
+	 <div id="backup_cnt">
+	 	<form id="backup-setting" enctype="multipart/form-data">
+	    	<p id="backupNote" name="backupNote"  class="note first-line"></p>
+	    	<button type="button" id="backup" name="backup"></button>
+	    </form>
+	 </div>
+	 
+
+	<div id="restore_cnt">
+	 	<div id="restore-setting">
+	    	<p id="restoreNote" name="restoreNote"  class="note first-line"></p>
+			<input id="file" name="archive" type="file" />
+			
+	    	<button type="button" id="restore" name="restore"></button>
+	    	<!-- <span id="error_str" class="error"></span> -->
+	    </div>
+	    
+	</div>
+
+	<div id="factory_cnt">
+	 	<div id="factory-setting">
+	    	<p id="factoryNote" name="factoryNote"  class="note first-line"></p>
+	    	 
+	    	<button type="button" id="factory" name="factory"></button>
+			<!-- <span id="factory_error_str" class="error"></span> -->
+	    </div>
+	</div>
+	
+	<div id="restore_alert_cnt">
+		<h4 class="title" id="restore_confirm_cnt">
+	    	<span class="icon"></span>
+	 		<span class="text" id="restore_confirm_content"></span>
+	 	</h4>
+
+	 	<div id="restore_pro_cnt" class="reboot-loading-msg hidden">
+	 		<p id="restore_note"  class="reboot-progressbar-text"></p>
+	    	<input id="restore_pro_bar" type="text" />
+	    </div>
+	</div> 
+
+	<div id="restore_failed_cnt">
+		<h4 class="title">
+			<span class="icon" ></span>
+			<span class="text" id="error_str"></span>
+		</h4>
+	</div> 
+
+	<div id="factory_alert_cnt">
+		<h4 class="title"  id="factory_confirm_cnt">
+			<span class="icon"></span>
+	 		<span class="text" id="factory_confirm_content"></span>
+	 	</h4>
+	 	<div id="factory_pro_cnt" class="reboot-loading-msg hidden">
+	 		<p id="factory_note"  class="reboot-progressbar-text"></p>
+	    	<input id="factory_pro_bar" type="text" />
+	    </div>
+	</div> 
+
+	<div id="factory_failed_cnt">
+		<h4 class="title">
+			<span class="icon" ></span>
+			<span class="text" id="factory_error_str"></span>
+		</h4>
+	</div> 
+
+	<div id="help_backup"></div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var restore_total_time = 2*60*1000;
+	// var restore_step1_time = 3*1000;
+	// var restore_mid_val = 0.2;
+	var restore_query_interval = false;
+	// var restore_step2_query_flag = false;
+	// var restore_count = 0;
+	var restore_pro_id = false;
+
+
+	var factory_total_time = 2*60*1000;
+	var factory_query_interval = false;
+	// var factory_count = 0;
+
+
+	var BACKUP_URL = "./data/system.backup.json";
+	var BACKUP_URL_NEW = $.su.url("/admin/firmware?form=config"); 
+
+	// var RESTORE_URL = "./data/system.restore.json";
+	// var RESTORE_URL_NEW = $.su.url("/admin/system/firmware?form=restore"); 
+
+	// var FACTORY_URL = "./data/system.factory.json";
+	// var FACTORY_URL_NEW = $.su.url("/admin/system/firmware?form=factory"); 
+
+
+	$("div.func-container").page({
+		title: $.su.CHAR.BACKUP.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+
+
+	$("#backup_cnt").panel({
+		title: $.su.CHAR.BACKUP.BACKUP,
+		collapsible: false
+	});
+
+	$("#restore_cnt").panel({
+		title: $.su.CHAR.BACKUP.RESTORE,
+		collapsible: false
+	});
+
+	$("#factory_cnt").panel({
+		title: $.su.CHAR.BACKUP.FACTORY,
+		collapsible: false
+
+	});
+
+	$("#restore_note").html($.su.CHAR.BACKUP.RESTORE_WARN);
+	$("#factory_note").html($.su.CHAR.BACKUP.FACTORY_WARN);
+
+
+	$("p#backupNote").html($.su.CHAR.BACKUP.BACKUPTIP);
+	$("p#restoreNote").html($.su.CHAR.BACKUP.RESTORETIP);
+	$("p#factoryNote").html($.su.CHAR.BACKUP.FACTORYTIP);
+
+	
+
+	
+
+	
+	$("#file").file({
+		fieldLabel: $.su.CHAR.BACKUP.FILE,
+		allowBlank: false,
+		extension: "bin"
+	});
+
+
+
+	$("#backup-setting").form({
+		proxy:{url: BACKUP_URL_NEW},
+		formEnctype: "multipart/form-data",
+		traditional: true,
+		hiddenFrame: true,
+		autoLoad: false
+	});
+
+	$("#restore-setting").form({
+		proxy: {url: BACKUP_URL_NEW},
+		formEnctype: "multipart/form-data",
+		traditional: true,
+		hiddenFrame: true,
+		fields: [
+			{"name": "archive"}
+		],
+		autoLoad: true
+	}).on("ev_loadData", function(e, data){
+		restore_total_time = Number(data.totaltime*1000 || restore_total_time);
+		factory_total_time = Number(data.totaltime*1000 || factory_total_time);
+	});
+
+	$("#factory-setting").form({
+		proxy: {url: BACKUP_URL_NEW},
+		formEnctype: "multipart/form-data",
+		traditional: true,
+		hiddenFrame: true,
+		autoLoad: false
+	});
+
+	var restore_proxy = new $.su.Proxy({
+		url: BACKUP_URL_NEW
+	});
+
+
+	var factory_proxy = new $.su.Proxy({
+		url: BACKUP_URL_NEW
+	});
+
+	
+	
+
+	$("#backup").button({
+		text: $.su.CHAR.BACKUP.BACKUPBTN,
+		cls: "submit",
+		handler: function(){
+			$("#backup-setting").form('submit', {operation:'backup'});
+		//	ipv4ProxyPppoe.read({operation:'connect'});
+		}
+	});
+
+	$("#restore").button({
+		text: $.su.CHAR.BACKUP.RESTOREBTN,
+		handler: function(){
+			// alert(11);
+			// $("div#restore-setting").form('submit', {operation:'restore'});
+			if($("#restore-setting").form('validate'))
+			{
+				$("#restore_alert_cnt").msg("show");
+			}
+			else
+			{
+				return false;
+			}
+			
+		//	ipv4ProxyPppoe.read({operation:'connect'});
+		},
+		cls: "submit"
+	});
+
+	
+
+	function restore_getResult()
+	{
+		restore_proxy.write({operation:'check'}, function(data){
+		}, function(errcode){
+			// console.dir(arguments);
+			function showAlertMag()
+			{
+				$("#restore_failed_cnt").msg("show", function(){
+				});
+			}
+			if(restore_pro_id){
+				clearTimeout(restore_pro_id);
+				restore_pro_id = false;
+			}
+			function hideProMsg()
+			{
+				clearTimeout(restore_query_interval);
+				restore_pro_bar.progressbar("stop");
+				restore_pro_bar.progressbar("reset");
+				restore_query_interval = false;
+
+				$("#restore_alert_cnt").hide();
+				$("#restore_alert_cnt").msg("close", function(){
+					$("#restore_alert_cnt").msg('showButtons');
+					$('#restore_confirm_cnt').show();
+		            $("#restore_pro_cnt").hide();
+				});
+			}
+			// console.log(errcode);
+			if(errcode == "err_form")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000001"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_check")
+			{
+				
+				$("#error_str").html($.su.CHAR.ERROR["00000002"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_sizex")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000003"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_flash")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000004"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_reboot")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000005"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_other")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000006"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_failed")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000136"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else
+			{
+				//正常
+				hideProMsg();
+			}
+		});
+	}
+
+	function restore_write()
+	{
+		// restore_proxy.write({operation:'restore'}, function(data){
+		// });
+		$("#restore-setting").form('submit',{operation:"restore"}, function(){
+			// $("#restore_pro_cnt").fadeIn(200);
+			clearTimeout(restore_query_interval);
+			// console.log(restore_total_time);
+			restore_query_interval = setTimeout(restore_getResult,1000);
+			if(restore_pro_id){
+				clearTimeout(restore_pro_id);
+				restore_pro_id = false;
+			}
+			restore_pro_id = setTimeout(function(){
+				restore_pro_bar.progressbar("animate", 0, 1, restore_total_time, function(){
+					 if (localStorage){
+						localStorage.setItem("token", "");
+					};
+					location.href = "/";
+				});
+			},1200);
+
+		},function(){
+			clearTimeout(restore_query_interval);
+			restore_getResult();
+		},function(){
+			
+		});
+	}
+
+	$("#restore_failed_cnt").msg({
+		cls: 'warning reboot-confirm-size',
+		type: "alert"
+	});
+
+	$("#restore_alert_cnt").msg({
+		okHandler:function(){
+			// if($("#adv_wps_just_for_timmmer")[0])
+			// if(1)
+			// {
+			// 	$("#pro_cnt").fadeIn(200); 
+			// 	$("#firmware-setting").form('submit', {operation:'upgrade',"name":"archive"});
+			// 	if(!restore_query_interval)
+			// 	{
+			// 		restore_query_interval = setInterval(getStep1,1000);
+			// 	}
+			// 	setTimeout(endStep1,step1_time);	
+			// }
+
+			$("#restore_alert_cnt").msg('hideButtons');
+            $('#restore_confirm_cnt').hide();
+            $("#restore_pro_cnt").show();
+			// $("#firmware-setting").form('submit',{operation:"firmware"}, function(){
+			// 	//$("#pro_cnt").fadeIn(200); 
+			// 	if(!query_interval)
+			// 	{
+			// 		query_interval = setInterval(getResult,1000);
+			// 		pro_bar.progressbar("animate", 0, 1, total_time, function(){
+			// 			 if (localStorage){
+   //                            localStorage.setItem("token", "");
+   //                        };
+   //                        location.href = "/";
+			// 		});
+			// 	}
+			// });
+			// //console.log(query_interval);
+			restore_write();
+			return false;
+		},
+		cancelHandler:function(){
+			return true;
+		},
+		cls: 'warning reboot-confirm-size',
+   	    closeBtn: false,
+		type: "confirm"
+	});
+
+
+	var restore_pro_bar  = $('input#restore_pro_bar').progressbar({
+		fieldLabel: null,
+		cls: 'inline',
+		width: 326,
+		height: 6,
+		value: 0
+	});	
+	
+	// $("#restore_alert_cnt").css("top", ($(window).height()-$("#restore_alert_cnt").height()-76)/2);
+	// $("#restore_alert_cnt").css("left", "50%" );
+
+	$("#confirm_content").html($.su.CHAR.FIMWARE.CONFIRM_CONTENT);
+
+
+	function factory_getResult()
+	{
+		factory_proxy.write({operation:'check'}, function(data){
+		}, function(errcode){
+			// console.log(arguments);
+			function showAlertMag()
+			{
+				 $("#factory_failed_cnt").msg("show");
+			}
+
+			function hideProMsg()
+			{
+				clearTimeout(factory_query_interval);
+				factory_pro_bar.progressbar("stop");
+				factory_pro_bar.progressbar("reset");
+				factory_query_interval = false;
+
+
+				// pro_bar.progressbar("hide");
+				// $("#factory_pro_cnt").hide();
+
+				$("#factory_alert_cnt").hide();
+				$("#factory_alert_cnt").msg("close", function(){
+					$("#factory_alert_cnt").msg('showButtons');
+					$('#factory_confirm_cnt').show();
+		            $("#factory_pro_cnt").hide();
+				});
+			}
+
+			if(errcode == "err_form")
+			{
+				$("#factory_error_str").html($.su.CHAR.ERROR["00000001"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_check")
+			{
+				$("#factory_error_str").html($.su.CHAR.ERROR["00000002"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_sizex")
+			{
+				$("#factory_error_str").html($.su.CHAR.ERROR["00000003"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_flash")
+			{
+				$("#factory_error_str").html($.su.CHAR.ERROR["00000004"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_reboot")
+			{
+				$("#factory_error_str").html($.su.CHAR.ERROR["00000005"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_other")
+			{
+				$("#factory_error_str").html($.su.CHAR.ERROR["00000006"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_failed")
+			{
+				$("#factory_error_str").html($.su.CHAR.ERROR["00000136"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else
+			{
+				hideProMsg();
+			}
+		});
+	}
+
+	function factory_write()
+	{
+		// $("#factory_pro_cnt").fadeIn(200); 
+		factory_proxy.write({operation:'factory'}, function(data){
+			// console.log(data);
+			clearTimeout(factory_query_interval);
+			factory_query_interval = setTimeout(factory_getResult,1000);
+			factory_pro_bar.progressbar("animate", 0, 1, factory_total_time,function(){
+				if(localStorage){
+				localStorage.setItem("token", "");
+			};
+			location.href = "/";
+			});
+
+		},function(){
+			clearTimeout(factory_query_interval);
+			factory_getResult();
+		},function(){
+			
+		});
+	}
+
+	$("#factory_failed_cnt").msg({
+		cls: 'warning reboot-confirm-size',
+		type: "alert"
+	});
+
+	$("#factory_alert_cnt").msg({
+		okHandler:function(){
+			$("#factory_alert_cnt").msg('hideButtons');
+            $('#factory_confirm_cnt').hide();
+            $("#factory_pro_cnt").show();
+			factory_write();
+			return false;
+		},
+		// cls:"m warning",
+		cancelHandler:function(){
+			return true;
+		},
+		cls: 'warning reboot-confirm-size',
+   	    closeBtn: false,
+		type: "confirm"
+	});
+
+	var factory_pro_bar  = $('input#factory_pro_bar').progressbar({
+		fieldLabel: null,
+		cls: 'inline',
+		width: 326,
+		height: 6,
+		value: 0
+	});
+
+
+	$("#factory").button({
+		text: $.su.CHAR.BACKUP.FACTORYBTN,
+		handler: function(){
+			$("#factory_alert_cnt").msg("show");
+		},
+		cls: "submit"
+	});
+
+	$.su.app.runningModule.addUnloadHandler(function(){
+		if(restore_query_interval)
+	    {
+	    	clearTimeout(restore_query_interval);
+			restore_query_interval = false;
+	    }
+
+	    if(factory_query_interval)
+	    {
+	    	clearTimeout(factory_query_interval);
+			factory_query_interval = false;
+	    }
+
+	    restore_pro_bar.progressbar("stop");
+		restore_pro_bar.progressbar("reset");
+
+	    factory_pro_bar.progressbar("stop");
+		factory_pro_bar.progressbar("reset");
+	});
+
+
+	$("#restore_confirm_content").html($.su.CHAR.BACKUP.RESTORE_CONFIRM_CONTENT);
+	$("#factory_confirm_content").html($.su.CHAR.BACKUP.FACTORY_CONFIRM_CONTENT);
+
+	var helpBackup = new $.su.Help({
+		container: "div#help_backup",
+		content: ["BACKUP", "RESTORE", "FACTORY"]
+	});
+});
+</script>
+</body>
+
+</html>

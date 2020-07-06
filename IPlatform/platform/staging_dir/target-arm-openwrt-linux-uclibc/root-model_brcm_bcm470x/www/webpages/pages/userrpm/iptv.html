@@ -1,0 +1,1121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>IPTV</title>
+</head>
+
+<body>
+<div class="func-container">
+	
+
+	<div id="settings">
+	 	<form  id="iptv-setting">
+	 		
+				<input id="igmp_enable" name="igmp_enable" type="text" />
+				<input id="igmp_version" name="igmp_version" type="text" />
+			
+			<div id="iptv_cnt"  class="part-seperate">
+		    	<input name="enable" id="enable" type="text" />
+		    	<input id="mode" name="mode" type="text" />
+	    	</div>
+	    	
+
+	   
+	    	
+
+	    	<div id="vlan_cnt"  class="part-seperate">
+	    		<div id="internet_vlan_cnt">
+	    			<input type="text" id="internet_vid" name="internet_vid" />
+	    			<input type="text" id="internet_vprio" name="internet_vprio" />
+	    			<input type="text" id="internet_tag" name="internet_tag" />
+	    		</div>
+	    		<div id="ip_vlan_cnt">
+	    			<input type="text" id="ipphone_vid" name="ipphone_vid" />
+	    			<input type="text" id="ipphone_vprio" name="ipphone_vprio" />
+	    		</div>
+	    		<div id="iptv_vlan_cnt">
+	    			<input type="text" id="iptv_vid" name="iptv_vid" />
+	    			<input type="text" id="iptv_vprio" name="iptv_vprio" />
+	    		</div>
+	    		<div id="iptv_multi_vlan_cnt">
+	    			<input type="text" id="mciptv_vid" name="mciptv_vid" />
+	    			<input type="text" id="mciptv_vprio" name="mciptv_vprio" />
+	    			<input type="text" id="mciptv_enable" name="mciptv_enable" />
+	    		</div>
+	    	</div>
+
+	    	<div id="vlan_cnt"  class="part-seperate">
+	    		<input type="text" id="lan1" name="lan1" />
+	    		<input type="text" id="lan2" name="lan2" />
+	    		<input type="text" id="lan3" name="lan3" />
+	    		<input type="text" id="lan4" name="lan4" />
+	    	</div>
+
+	    </form>
+
+		<div id="upgrade_alert_cnt">
+		    <div id="upload_loading_msg" class="reboot-loading-msg hidden">
+	    		      <p id="note" class="reboot-progressbar-text"></p>
+		    	      <input id="pro_bar" type="text" />
+		    </div>
+		</div>
+	    
+	 </div>
+
+	<div id="iptv_help"></div>
+</div>
+
+<script type="text/javascript">
+
+
+var IPTV_URL = "./data/iptv.setttings.json";
+var IPTV_URL_NEW = $.su.url("/admin/iptv?form=setting");
+
+var URL_QOS_STATUS_NEW = $.su.url("/admin/qos?form=settings"); //./data/qos.enable.json 
+var SYS_NAT_URL_NEW = $.su.url("/admin/nat?form=setting");
+var qos_enable = false;
+var cur_mode = "";
+var cur_lan1 = "";
+var cur_lan2 = "";
+var cur_lan3 = "";
+var cur_lan4 = "";
+
+var cur_igmp_version = "";
+
+var cur_internet_vlanid = "";
+var cur_internet_vlanpri = "";
+var cur_internet_vlancheck = "";
+
+var cur_ipphone_vlanid = "";
+var cur_ipphone_vlanpri = "";
+
+var cur_iptv_vlanid = "";
+var cur_iptv_vlanpri = "";
+
+
+var cur_iptv_multi_vlanid = "";
+var cur_iptv_multi_vlanpri = "";
+var cur_iptv_multi_vlancheck = "";
+
+var wait_time = 10*1000;
+
+
+var qosProxy = new $.su.Proxy({
+	url: URL_QOS_STATUS_NEW
+});
+
+
+var sysNatProxy = new $.su.Proxy({
+	url: SYS_NAT_URL_NEW
+});
+
+$(document).ready(function(e){
+	$("div#settings").panel({
+		title: $.su.CHAR.IPTV.TITLE,
+		collapsible: false
+	});
+
+	$(".reboot-progressbar-text").html($.su.CHAR.ERROR["00000123"]);
+	$("#enable").checkbox({
+		fieldLabel: $.su.CHAR.IPTV.IPTV,
+		labelCls: 'm',
+		tips:"",
+		items: [
+			{boxlabel: $.su.CHAR.IPTV.ENABLE_IPTV, inputValue: "on", uncheckedValue: "off"}
+		]
+	});
+
+	$("#igmp_enable").checkbox({
+		fieldLabel: $.su.CHAR.IPTV.IGMP_PROXY,
+		labelCls: 'm',
+		tips:"",
+		items: [
+			{boxlabel: $.su.CHAR.IPTV.ENABLE, inputValue: "on", uncheckedValue: "off"}
+		]
+	});
+
+
+	$("#igmp_version").combobox({
+		fieldLabel: $.su.CHAR.IPTV.IGMP_VERSION,
+		inputCls: "m",
+		items: [
+			{"value": 2, "name": $.su.CHAR.IPTV.V2},
+			{"value": 3, "name": $.su.CHAR.IPTV.V3}
+		]
+	});
+
+
+	$("#mode").combobox({
+		fieldLabel: $.su.CHAR.IPTV.MODE,
+		items: [
+			{"value": "Bridge", "name": $.su.CHAR.IPTV.BRIDGE},
+			{"value": "Russia", "name": $.su.CHAR.IPTV.RUSSIA},
+			{"value": "ExStream", "name": $.su.CHAR.IPTV.EXSTREAM},
+		
+			{"value": "Unifi", "name": $.su.CHAR.IPTV.UNIFY},
+			{"value": "Maxis", "name": $.su.CHAR.IPTV.MAXIS},
+			{"value": "Custom", "name": $.su.CHAR.IPTV.BASIC}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+			var lan1 = $("#lan1").combobox("getValue");
+			var lan2 = $("#lan2").combobox("getValue");
+			var lan3 = $("#lan3").combobox("getValue");
+			var lan4 = $("#lan4").combobox("getValue");
+		switch(newValue[0])
+		{
+			case "Bridge":
+				$('#internet_vlan_cnt').fieldset("hide");
+				$('#ip_vlan_cnt').fieldset("hide");
+				$('#iptv_vlan_cnt').fieldset("hide");
+				$('#iptv_multi_vlan_cnt').fieldset("hide");
+
+				lan1_combo.combobox("disableItem","IP-Phone");
+				lan2_combo.combobox("disableItem","IP-Phone");
+				lan3_combo.combobox("disableItem","IP-Phone");
+				lan4_combo.combobox("disableItem","IP-Phone");
+
+				if(lan1 == "IP-Phone")
+				{
+					lan1_combo.combobox("setValue","Internet");
+				}
+				if(lan2 == "IP-Phone")
+				{
+					lan2_combo.combobox("setValue","Internet");
+				}
+				if(lan3 == "IP-Phone")
+				{
+					lan3_combo.combobox("setValue","Internet");
+				}
+				if(lan4 == "IP-Phone")
+				{
+					lan4_combo.combobox("setValue","Internet");
+				}
+				if(1)
+				{
+					if(cur_mode == "Bridge")
+					{
+						$("#igmp_version").combobox("setValue",cur_igmp_version);
+
+						lan1_combo.combobox("setValue",cur_lan1);
+						lan2_combo.combobox("setValue",cur_lan2);
+						lan3_combo.combobox("setValue",cur_lan3);
+						lan4_combo.combobox("setValue",cur_lan4);
+					}
+					else if(cur_mode != "")
+					{
+						$("#igmp_version").combobox("setValue",2);
+
+						lan1_combo.combobox("setValue","Internet");
+						lan2_combo.combobox("setValue","Internet");
+						lan3_combo.combobox("setValue","IPTV");
+						lan4_combo.combobox("setValue","IPTV");
+					}
+				}
+
+				lan1_combo.combobox("enable");
+				lan2_combo.combobox("enable");
+				lan3_combo.combobox("enable");
+				lan4_combo.combobox("enable");
+				
+				break;
+			case "Custom":
+				$('#internet_vlan_cnt').fieldset("show");
+				$('#ip_vlan_cnt').fieldset("show");
+				$('#iptv_vlan_cnt').fieldset("show");
+				$('#iptv_multi_vlan_cnt').fieldset("show");
+				var iptv_multi_vlan_enable = $("#mciptv_enable").checkbox("getValue");
+				// console.log(iptv_multi_vlan_enable);
+				if( (iptv_multi_vlan_enable.length == 0) || (iptv_multi_vlan_enable[0]=="off") )
+				{
+					// console.log(22);
+					$("#mciptv_vid").textbox("disable");
+					$("#mciptv_vprio").combobox("disable");
+				}
+				else
+				{
+					$("#mciptv_vid").textbox("enable");
+					$("#mciptv_vprio").combobox("enable");
+				}
+
+				lan1_combo.combobox("enableItem","IP-Phone");
+				lan2_combo.combobox("enableItem","IP-Phone");
+				lan3_combo.combobox("enableItem","IP-Phone");
+				lan4_combo.combobox("enableItem","IP-Phone");
+
+				if(1)
+				{
+					if(cur_mode == "Custom")
+					{
+						$("#igmp_version").combobox("setValue",cur_igmp_version);
+
+						$("#internet_vid").textbox("setValue", cur_internet_vlanid);
+						$("#internet_vprio").combobox("setValue", cur_internet_vlanpri);
+						$("#internet_tag").checkbox("setValue", cur_internet_vlancheck);
+
+						$("#ipphone_vid").textbox("setValue", cur_ipphone_vlanid);
+						$("#ipphone_vprio").combobox("setValue", cur_ipphone_vlanpri);
+						
+						$("#iptv_vid").textbox("setValue", cur_iptv_vlanid);
+						$("#iptv_vprio").combobox("setValue", cur_iptv_vlanpri);
+						
+			
+						$("#mciptv_vid").textbox("setValue", cur_iptv_multi_vlanid);
+						$("#mciptv_vprio").combobox("setValue", cur_iptv_multi_vlanpri);
+						$("#mciptv_enable").checkbox("setValue", cur_iptv_multi_vlancheck);
+
+						lan1_combo.combobox("setValue",cur_lan1);
+						lan2_combo.combobox("setValue",cur_lan2);
+						lan3_combo.combobox("setValue",cur_lan3);
+						lan4_combo.combobox("setValue",cur_lan4);
+					}
+					else if(cur_mode != "")
+					{
+						$("#igmp_version").combobox("setValue",2);
+
+						$("#internet_vid").textbox("setValue", "");
+						$("#internet_vprio").combobox("setValue", 0);
+						$("#internet_tag").checkbox("setValue", "off");
+
+						$("#ipphone_vid").textbox("setValue", "");
+						$("#ipphone_vprio").combobox("setValue", 0);
+						
+						$("#iptv_vid").textbox("setValue", "");
+						$("#iptv_vprio").combobox("setValue", 0);
+						
+			
+						$("#mciptv_vid").textbox("setValue", "");
+						$("#mciptv_vprio").combobox("setValue", 0);
+						$("#mciptv_enable").checkbox("setValue", "off");
+
+						lan1_combo.combobox("setValue","Internet");
+						lan2_combo.combobox("setValue","Internet");
+						lan3_combo.combobox("setValue","Internet");
+						lan4_combo.combobox("setValue","Internet");
+					}
+				}
+
+				lan1_combo.combobox("enable");
+				lan2_combo.combobox("enable");
+				lan3_combo.combobox("enable");
+				lan4_combo.combobox("enable");
+				break;
+			case "ExStream":
+				$('#internet_vlan_cnt').fieldset("show");
+				$('#ip_vlan_cnt').fieldset("hide");
+				$('#iptv_vlan_cnt').fieldset("show");
+				$('#iptv_multi_vlan_cnt').fieldset("hide");
+
+				$("#internet_vid").textbox("disable");
+				$("#internet_vprio").combobox("disable");
+				$("#internet_tag").checkbox("disable");
+
+				$("#iptv_vid").textbox("disable");
+				$("#iptv_vprio").combobox("disable");
+				
+
+
+				lan1_combo.combobox("disableItem","IP-Phone");
+				lan2_combo.combobox("disableItem","IP-Phone");
+				lan3_combo.combobox("disableItem","IP-Phone");
+				lan4_combo.combobox("disableItem","IP-Phone");
+
+				if(lan1 == "IP-Phone")
+				{
+					lan1_combo.combobox("setValue","Internet");
+				}
+				if(lan2 == "IP-Phone")
+				{
+					lan2_combo.combobox("setValue","Internet");
+				}
+				if(lan3 == "IP-Phone")
+				{
+					lan3_combo.combobox("setValue","Internet");
+				}
+				if(lan4 == "IP-Phone")
+				{
+					lan4_combo.combobox("setValue","Internet");
+				}
+
+				if(1)
+				{
+					if(cur_mode == "ExStream")
+					{
+						$("#igmp_version").combobox("setValue",cur_igmp_version);
+
+						$("#internet_vid").textbox("setValue", cur_internet_vlanid);
+						$("#internet_vprio").combobox("setValue", cur_internet_vlanpri);
+						$("#internet_tag").checkbox("setValue", cur_internet_vlancheck);
+
+						$("#ipphone_vid").textbox("setValue", cur_ipphone_vlanid);
+						$("#ipphone_vprio").combobox("setValue", cur_ipphone_vlanpri);
+						
+						$("#iptv_vid").textbox("setValue", cur_iptv_vlanid);
+						$("#iptv_vprio").combobox("setValue", cur_iptv_vlanpri);
+						
+			
+						$("#mciptv_vid").textbox("setValue", cur_iptv_multi_vlanid);
+						$("#mciptv_vprio").combobox("setValue", cur_iptv_multi_vlanpri);
+						$("#mciptv_enable").checkbox("setValue", cur_iptv_multi_vlancheck);
+
+						lan1_combo.combobox("setValue",cur_lan1);
+						lan2_combo.combobox("setValue",cur_lan2);
+						lan3_combo.combobox("setValue",cur_lan3);
+						lan4_combo.combobox("setValue",cur_lan4);
+					}
+					else if(cur_mode != "")
+					{
+						$("#igmp_version").combobox("setValue",2);
+
+						$("#internet_vid").textbox("setValue", 10);
+						$("#internet_vprio").combobox("setValue", 0);
+						$("#internet_tag").checkbox("setValue", "on");
+			
+						$("#iptv_vid").textbox("setValue", 20);
+						$("#iptv_vprio").combobox("setValue", 4);
+
+						lan1_combo.combobox("setValue","Internet");
+						lan2_combo.combobox("setValue","Internet");
+						lan3_combo.combobox("setValue","Internet");
+						lan4_combo.combobox("setValue","IPTV");
+					}
+				}
+				lan1_combo.combobox("disable");
+				lan2_combo.combobox("disable");
+				lan3_combo.combobox("disable");
+				lan4_combo.combobox("disable");
+				break;
+			case "Unifi":
+				$('#internet_vlan_cnt').fieldset("show");
+				$('#ip_vlan_cnt').fieldset("hide");
+				$('#iptv_vlan_cnt').fieldset("show");
+				$('#iptv_multi_vlan_cnt').fieldset("hide");
+
+				
+
+				$("#internet_vid").textbox("disable");
+				$("#internet_vprio").combobox("disable");
+				$("#internet_tag").checkbox("disable");
+
+				$("#iptv_vid").textbox("disable");
+				$("#iptv_vprio").combobox("disable");
+
+				lan1_combo.combobox("disableItem","IP-Phone");
+				lan2_combo.combobox("disableItem","IP-Phone");
+				lan3_combo.combobox("disableItem","IP-Phone");
+				lan4_combo.combobox("disableItem","IP-Phone");
+
+				if(lan1 == "IP-Phone")
+				{
+					lan1_combo.combobox("setValue","Internet");
+				}
+				if(lan2 == "IP-Phone")
+				{
+					lan2_combo.combobox("setValue","Internet");
+				}
+				if(lan3 == "IP-Phone")
+				{
+					lan3_combo.combobox("setValue","Internet");
+				}
+				if(lan4 == "IP-Phone")
+				{
+					lan4_combo.combobox("setValue","Internet");
+				}
+
+				if(1)
+				{
+					if(cur_mode == "Unifi")
+					{
+						$("#igmp_version").combobox("setValue",cur_igmp_version);
+
+						$("#internet_vid").textbox("setValue", cur_internet_vlanid);
+						$("#internet_vprio").combobox("setValue", cur_internet_vlanpri);
+						$("#internet_tag").checkbox("setValue", cur_internet_vlancheck);
+
+						$("#ipphone_vid").textbox("setValue", cur_ipphone_vlanid);
+						$("#ipphone_vprio").combobox("setValue", cur_ipphone_vlanpri);
+						
+						$("#iptv_vid").textbox("setValue", cur_iptv_vlanid);
+						$("#iptv_vprio").combobox("setValue", cur_iptv_vlanpri);
+						
+			
+						$("#mciptv_vid").textbox("setValue", cur_iptv_multi_vlanid);
+						$("#mciptv_vprio").combobox("setValue", cur_iptv_multi_vlanpri);
+						$("#mciptv_enable").checkbox("setValue", cur_iptv_multi_vlancheck);
+
+
+						lan1_combo.combobox("setValue",cur_lan1);
+						lan2_combo.combobox("setValue",cur_lan2);
+						lan3_combo.combobox("setValue",cur_lan3);
+						lan4_combo.combobox("setValue",cur_lan4);
+					}
+					else if(cur_mode != "")
+					{
+						$("#igmp_version").combobox("setValue",2);
+
+						$("#internet_vid").textbox("setValue", 500);
+						$("#internet_vprio").combobox("setValue", 0);
+						$("#internet_tag").checkbox("setValue", "on");
+
+
+						$("#iptv_vid").textbox("setValue", 600);
+						$("#iptv_vprio").combobox("setValue", 0);
+
+
+						lan1_combo.combobox("setValue","IPTV");
+						lan2_combo.combobox("setValue","Internet");
+						lan3_combo.combobox("setValue","Internet");
+						lan4_combo.combobox("setValue","Internet");
+					}
+				}
+
+				lan1_combo.combobox("disable");
+				lan2_combo.combobox("disable");
+				lan3_combo.combobox("disable");
+				lan4_combo.combobox("disable");
+
+				break;
+			case "Russia":
+				$('#internet_vlan_cnt').fieldset("show");
+				$('#ip_vlan_cnt').fieldset("show");
+				$('#iptv_vlan_cnt').fieldset("show");
+				$('#iptv_multi_vlan_cnt').fieldset("show");
+
+				$("#internet_vid").textbox("disable");
+				$("#internet_vprio").combobox("disable");
+				$("#internet_tag").checkbox("disable");
+
+				$("#ipphone_vid").textbox("disable");
+				$("#ipphone_vprio").combobox("disable");
+
+				$("#iptv_vid").textbox("disable");
+				$("#iptv_vprio").combobox("disable");
+
+				$("#mciptv_vid").textbox("disable");
+				$("#mciptv_vprio").combobox("disable");
+				$("#mciptv_enable").checkbox("enable");
+
+				lan1_combo.combobox("enableItem","IP-Phone");
+				lan2_combo.combobox("enableItem","IP-Phone");
+				lan3_combo.combobox("enableItem","IP-Phone");
+				lan4_combo.combobox("enableItem","IP-Phone");
+
+				if(1)
+				{
+					if(cur_mode == "Russia")
+					{
+						$("#igmp_version").combobox("setValue",cur_igmp_version);
+
+						$("#internet_vid").textbox("setValue", cur_internet_vlanid);
+						$("#internet_vprio").combobox("setValue", cur_internet_vlanpri);
+						$("#internet_tag").checkbox("setValue", cur_internet_vlancheck);
+
+						$("#ipphone_vid").textbox("setValue", cur_ipphone_vlanid);
+						$("#ipphone_vprio").combobox("setValue", cur_ipphone_vlanpri);
+						
+						$("#iptv_vid").textbox("setValue", cur_iptv_vlanid);
+						$("#iptv_vprio").combobox("setValue", cur_iptv_vlanpri);
+
+						$("#mciptv_vid").textbox("setValue", cur_iptv_multi_vlanid);
+						$("#mciptv_vprio").combobox("setValue", cur_iptv_multi_vlanpri);
+						$("#mciptv_enable").checkbox("setValue", cur_iptv_multi_vlancheck);
+
+						lan1_combo.combobox("setValue",cur_lan1);
+						lan2_combo.combobox("setValue",cur_lan2);
+						lan3_combo.combobox("setValue",cur_lan3);
+						lan4_combo.combobox("setValue",cur_lan4);
+					}
+					else if(cur_mode != "")
+					{
+						$("#igmp_version").combobox("setValue",2);
+
+						$("#internet_vid").textbox("setValue", 1257);
+						$("#internet_vprio").combobox("setValue", 0);
+						$("#internet_tag").checkbox("setValue", "on");
+
+						$("#ipphone_vid").textbox("setValue", 263);
+						$("#ipphone_vprio").combobox("setValue", 0);
+
+
+						$("#iptv_vid").textbox("setValue", 4000);
+						$("#iptv_vprio").combobox("setValue", 4);
+
+
+						$("#mciptv_vid").textbox("setValue", 1110);
+						$("#mciptv_vprio").combobox("setValue", 4
+							);
+						$("#mciptv_enable").checkbox("setValue", "off");
+
+
+
+						lan1_combo.combobox("setValue","IP-Phone");
+						lan2_combo.combobox("setValue","Internet");
+						lan3_combo.combobox("setValue","Internet");
+						lan4_combo.combobox("setValue","IPTV");
+					}
+				}
+
+				lan1_combo.combobox("disable");
+				lan2_combo.combobox("disable");
+				lan3_combo.combobox("disable");
+				lan4_combo.combobox("disable");
+				break;
+			case "Maxis":
+				$('#internet_vlan_cnt').fieldset("show");
+				$('#ip_vlan_cnt').fieldset("show");
+				$('#iptv_vlan_cnt').fieldset("show");
+				$('#iptv_multi_vlan_cnt').fieldset("hide");
+
+				$("#internet_vid").textbox("disable");
+				$("#internet_vprio").combobox("enable");
+				$("#internet_tag").checkbox("disable");
+
+				$("#ipphone_vid").textbox("disable");
+				$("#ipphone_vprio").combobox("enable");
+
+				$("#iptv_vid").textbox("disable");
+				$("#iptv_vprio").combobox("enable");
+
+				lan1_combo.combobox("enableItem","IPTV");
+				lan2_combo.combobox("enableItem","Internet");
+				lan3_combo.combobox("enableItem","Internet");
+				lan4_combo.combobox("enableItem","IP-Phone");
+
+				if(1)
+				{
+					if(cur_mode == "Maxis")
+					{
+						$("#igmp_version").combobox("setValue",cur_igmp_version);
+
+						$("#internet_vid").textbox("setValue", cur_internet_vlanid);
+						$("#internet_vprio").combobox("setValue", cur_internet_vlanpri);
+						$("#internet_tag").checkbox("setValue", cur_internet_vlancheck);
+
+						$("#ipphone_vid").textbox("setValue", cur_ipphone_vlanid);
+						$("#ipphone_vprio").combobox("setValue", cur_ipphone_vlanpri);
+						
+						$("#iptv_vid").textbox("setValue", cur_iptv_vlanid);
+						$("#iptv_vprio").combobox("setValue", cur_iptv_vlanpri);
+						
+			
+						$("#mciptv_vid").textbox("setValue", cur_iptv_multi_vlanid);
+						$("#mciptv_vprio").combobox("setValue", cur_iptv_multi_vlanpri);
+						$("#mciptv_enable").checkbox("setValue", cur_iptv_multi_vlancheck);
+
+						lan1_combo.combobox("setValue",cur_lan1);
+						lan2_combo.combobox("setValue",cur_lan2);
+						lan3_combo.combobox("setValue",cur_lan3);
+						lan4_combo.combobox("setValue",cur_lan4);
+					}
+					else if(cur_mode != "")
+					{
+						$("#igmp_version").combobox("setValue",2);
+
+						$("#internet_vid").textbox("setValue", 621);
+						$("#internet_vprio").combobox("setValue", 0);
+						$("#internet_tag").checkbox("setValue", "on");
+
+						$("#ipphone_vid").textbox("setValue", 821);
+						$("#ipphone_vprio").combobox("setValue", 0);
+
+
+						$("#iptv_vid").textbox("setValue", 823);
+						$("#iptv_vprio").combobox("setValue", 0);
+
+
+						lan1_combo.combobox("setValue","IPTV");
+						lan2_combo.combobox("setValue","Internet");
+						lan3_combo.combobox("setValue","Internet");
+						lan4_combo.combobox("setValue","IP-Phone");
+					}
+				}
+				lan1_combo.combobox("disable");
+				lan2_combo.combobox("disable");
+				lan3_combo.combobox("disable");
+				lan4_combo.combobox("disable");
+				break;
+		}
+
+	});
+
+
+	$("#internet_vid").textbox({
+		fieldLabel: $.su.CHAR.IPTV.INTERNET_VLAN_ID,
+	    inputCls:"xs",
+		labelCls: 'm',
+		cls:"inline-block",
+		allowBlank:false,
+		maxLength:4,
+	    vtype:{
+	    	vtype:"number",
+	    	min:2,
+	    	max:4094
+	    }
+	});
+
+
+	$("#internet_vprio").combobox({
+		fieldLabel: $.su.CHAR.IPTV.INTERNET_VLAN_PRIORITY,
+		inputCls: "xs",
+		cls:"inline-block same-line",
+		items: [
+			{"value": "0", "name": "0"},
+			{"value": "1", "name": "1"},
+			{"value": "2", "name": "2"},
+			{"value": "3", "name": "3"},
+			{"value": "4", "name": "4"},
+			{"value": "5", "name": "5"},
+			{"value": "6", "name": "6"},
+			{"value": "7", "name": "7"}
+		]
+	});
+
+
+	$('#internet_vlan_cnt').fieldset({
+		fields: [
+			{name: "internet_tag"},
+			{name: "internet_vid"},
+			{name: "internet_vprio"}
+		]
+	}).hide();
+
+	$("#internet_tag").checkbox({
+		fieldLabel: null,
+		cls:"inline-block",
+		items: [
+			{boxlabel: $.su.CHAR.IPTV.Q_TAG, inputValue: "on", uncheckedValue: "off"}
+		]
+	});
+
+	
+	$('#ip_vlan_cnt').fieldset({
+		fields: [
+			{name: "ipphone_vid"},
+			{name: "ipphone_vprio"}
+		]
+	}).hide();
+
+	$("#ipphone_vid").textbox({
+		fieldLabel: $.su.CHAR.IPTV.IP_PHONE_VLAN_ID,
+		labelCls: 'm',
+		inputCls:"xs",
+		cls:"inline-block",
+		allowBlank:false,
+		maxLength:4,
+	    vtype:{
+	    	vtype:"number",
+	    	min:2,
+	    	max:4094
+	    }
+	});
+
+	$("#ipphone_vprio").combobox({
+		fieldLabel: $.su.CHAR.IPTV.IP_PHONE_VLAN_PRIORITY,
+		inputCls: "xs",
+		cls:"inline-block same-line",
+		items: [
+			{"value": "0", "name": "0"},
+			{"value": "1", "name": "1"},
+			{"value": "2", "name": "2"},
+			{"value": "3", "name": "3"},
+			{"value": "4", "name": "4"},
+			{"value": "5", "name": "5"},
+			{"value": "6", "name": "6"},
+			{"value": "7", "name": "7"}
+		]
+	});
+
+
+	$('#iptv_vlan_cnt').fieldset({
+		fields: [
+			{name: "iptv_vid"},
+			{name: "iptv_vprio"}
+		]
+	}).hide();
+
+
+	$("#iptv_vid").textbox({
+		fieldLabel: $.su.CHAR.IPTV.IPTV_VLAN_ID,
+		labelCls: 'm',
+		inputCls:"xs",
+		cls:"inline-block",
+		allowBlank:false,
+		maxLength:4,
+	    vtype:{
+	    	vtype:"number",
+	    	min:2,
+	    	max:4094
+	    }
+	});
+
+	$("#iptv_vprio").combobox({
+		fieldLabel: $.su.CHAR.IPTV.IPTV_VLAN_PRIORITY,
+		inputCls: "xs",
+		cls:"inline-block same-line",
+		items: [
+			{"value": "0", "name": "0"},
+			{"value": "1", "name": "1"},
+			{"value": "2", "name": "2"},
+			{"value": "3", "name": "3"},
+			{"value": "4", "name": "4"},
+			{"value": "5", "name": "5"},
+			{"value": "6", "name": "6"},
+			{"value": "7", "name": "7"}
+		]
+	});
+
+	$('#iptv_multi_vlan_cnt').fieldset({
+		fields: [
+			{name: "mciptv_vid"},
+			{name: "mciptv_vprio"},
+			{name: "mciptv_enable"}
+		]
+	}).hide();
+
+
+	$("#mciptv_vid").textbox({
+		fieldLabel: $.su.CHAR.IPTV.IPTV_MULTI_VLAN_ID,
+		labelCls: 'm',
+		inputCls:"xs",
+		cls:"inline-block",
+		allowBlank:false,
+		maxLength:4,
+	    vtype:{
+	    	vtype:"number",
+	    	min:2,
+	    	max:4094
+	    }
+	});
+
+
+	$("#mciptv_vprio").combobox({
+		fieldLabel: $.su.CHAR.IPTV.IPTV_MULTI_VLAN_PRIORITY,
+		inputCls: "xs",
+		cls:"inline-block same-line",
+		items: [
+			{"value": "0", "name": "0"},
+			{"value": "1", "name": "1"},
+			{"value": "2", "name": "2"},
+			{"value": "3", "name": "3"},
+			{"value": "4", "name": "4"},
+			{"value": "5", "name": "5"},
+			{"value": "6", "name": "6"},
+			{"value": "7", "name": "7"}
+		]
+	});
+
+
+	$("#mciptv_enable").checkbox({
+		fieldLabel: null,
+		cls:"inline-block",
+		items: [
+			{boxlabel: $.su.CHAR.IPTV.ENABLE, inputValue: "on", uncheckedValue: "off"}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		if( (newValue.length == 0) || (newValue[0] == "off"))
+		{
+			$("#mciptv_vid").textbox("disable");
+			$("#mciptv_vprio").combobox("disable");
+		}
+		else
+		{
+			$("#mciptv_vid").textbox("enable");
+			$("#mciptv_vprio").combobox("enable");
+		}
+	});
+
+	var lan1_combo = $("#lan1").combobox({
+		fieldLabel: $.su.CHAR.IPTV.LAN1,
+		items: [
+			{"value": "Internet", "name": $.su.CHAR.IPTV.INTERNET},
+			{"value": "IPTV", "name": $.su.CHAR.IPTV.IPTV},
+			{"value": "IP-Phone", "name": $.su.CHAR.IPTV.IP_PHONE}
+		]
+	});
+
+	var lan2_combo = $("#lan2").combobox({
+		fieldLabel: $.su.CHAR.IPTV.LAN2,
+		items: [
+			{"value": "Internet", "name": $.su.CHAR.IPTV.INTERNET},
+			{"value": "IPTV", "name": $.su.CHAR.IPTV.IPTV},
+			{"value": "IP-Phone", "name": $.su.CHAR.IPTV.IP_PHONE}
+		]
+	});
+
+	var lan3_combo = $("#lan3").combobox({
+		fieldLabel: $.su.CHAR.IPTV.LAN3,
+		items: [
+			{"value": "Internet", "name": $.su.CHAR.IPTV.INTERNET},
+			{"value": "IPTV", "name": $.su.CHAR.IPTV.IPTV},
+			{"value": "IP-Phone", "name": $.su.CHAR.IPTV.IP_PHONE}
+		]
+	});
+
+
+	var lan4_combo = $("#lan4").combobox({
+		fieldLabel: $.su.CHAR.IPTV.LAN4,
+		items: [
+			{"value": "Internet", "name": $.su.CHAR.IPTV.INTERNET},
+			{"value": "IPTV", "name": $.su.CHAR.IPTV.IPTV},
+			{"value": "IP-Phone", "name": $.su.CHAR.IPTV.IP_PHONE}
+		]
+	});
+
+	var iptvProxy = new $.su.Proxy({
+		url: IPTV_URL_NEW,
+		autoLoad:false
+	});
+
+	var form = $("form#iptv-setting").form({
+		proxy: iptvProxy,
+		fields: [
+			{name: "enable", mapping: "enable"},
+			{name: "igmp_enable", mapping: "igmp_enable"},
+			{name: "igmp_version", mapping: "igmp_version"},
+			
+			
+			{name: "mciptv_enable", mapping: "mciptv_enable"},
+			{name: "internet_tag", mapping: "internet_tag"},
+			{name: "internet_vid", mapping: "internet_vid"},
+			
+			{name: "internet_vprio", mapping: "internet_vprio"},
+			{name: "ipphone_vid", mapping: "ipphone_vid"},
+			{name: "ipphone_vprio", mapping: "ipphone_vprio"},
+			
+			{name: "iptv_vid", mapping: "iptv_vid"},
+			{name: "iptv_vprio", mapping: "iptv_vprio"},
+			
+			{name: "mciptv_vid", mapping: "mciptv_vid"},
+			{name: "mciptv_vprio", mapping: "mciptv_vprio"},
+
+			{name: "lan1", mapping: "lan1"},
+			{name: "lan2", mapping: "lan2"},
+			{name: "lan3", mapping: "lan3"},
+			{name: "lan4", mapping: "lan4"},
+			{name: "mode", mapping: "mode"}
+		],
+		autoLoad:true,
+		showPrompt: false,
+		callback:function(result){
+			if (result.cfg_changed)
+			{
+				$("#upgrade_alert_cnt").msg("show");
+				$("#upload_loading_msg").show();
+				pro_bar.progressbar("animate", 0, 1, wait_time, function(){
+					$("#upgrade_alert_cnt").msg("close");
+					$("#upload_loading_msg").hide();
+					form.form('prompt',true);
+				});
+			}
+			else
+			{
+				form.form('prompt',true);
+			}
+		},
+		validator:function(){
+			var mode = $("#mode").combobox("getValue");
+			var vlanArr = {};
+
+			var vlan1 = $("#internet_vid").textbox("getValue");
+			var vlan2 = $("#ipphone_vid").textbox("getValue");
+			var vlan3 = $("#iptv_vid").textbox("getValue");
+			var vlan4 = $("#mciptv_vid").textbox("getValue");
+			if(mode == "Bridge")
+			{
+
+			}
+			if(mode == "Basic")
+			{
+				
+				vlanArr[vlan1] = 1;
+
+				if(vlanArr[vlan2])
+				{
+					$("#ipphone_vid").textbox("setError");
+					$("form#iptv-setting").form("setError", $.su.CHAR.ERROR["00000094"]);
+					return false;
+				}
+				else
+				{
+					vlanArr[vlan2] = 1;
+				}
+
+				if(vlanArr[vlan3])
+				{
+					$("#iptv_vid").textbox("setError");
+					$("form#iptv-setting").form("setError", $.su.CHAR.ERROR["00000094"]);
+					return false;
+				}
+				else
+				{
+					vlanArr[vlan3] = 1;
+				}
+
+				if(vlanArr[vlan4])
+				{
+					$("#mciptv_vid").textbox("setError");
+					$("form#iptv-setting").form("setError", $.su.CHAR.ERROR["00000094"]);
+					return false;
+				}
+				else
+				{
+					vlanArr[vlan4] = 1;
+				}
+
+			}
+			if(mode == "ExStream")
+			{
+				
+				if(vlan1 == vlan3)
+				{
+					$("#iptv_vid").textbox("setError");
+					$("form#iptv-setting").form("setError", $.su.CHAR.ERROR["00000094"]);
+					return false;
+				}
+			}
+			if(mode == "Unifi")
+			{
+				if(vlan1 == vlan3)
+				{
+					$("#iptv_vid").textbox("setError");
+					$("form#iptv-setting").form("setError", $.su.CHAR.ERROR["00000094"]);
+					return false;
+				}
+			}
+			if(mode == "Custom")
+			{
+
+				var iptv_multi_vlan_enable = $("#mciptv_enable").checkbox("getValue");
+				// console.log(iptv_multi_vlan_enable);
+				if( (iptv_multi_vlan_enable.length == 0) || (iptv_multi_vlan_enable[0]=="off") )
+				{
+					//if( (vlan1 == vlan2) || (vlan1 == vlan3) )
+					var vlan_error = 0;
+					if( (vlan1 == vlan2) )
+					{
+						$("#ipphone_vid").textbox("setError");
+						vlan_error = 2;
+					}
+					if( (vlan1 == vlan3) ){
+						$("#iptv_vid").textbox("setError");
+						vlan_error = vlan_error==2?2:3;
+					}
+					if( (vlan2 == vlan3) )
+					{
+						$("#iptv_vid").textbox("setError");
+						vlan_error = vlan_error==2?2:3;
+					}
+					if(vlan_error > 0){
+						if(vlan_error === 2){
+							$("input#ipphone_vid").focus();
+							$("#ipphone_vid").textbox("setError");
+						}else{
+							$("input#iptv_vid").focus();
+							$("#iptv_vid").textbox("setError");
+						}
+						$("form#iptv-setting").form("setError", $.su.CHAR.ERROR["00000094"]);
+						return false;
+					}
+				}
+				else
+				{
+					if( (vlan1 == vlan2) || (vlan1 == vlan3) || (vlan1 == vlan4) )
+					{
+						$("#internet_vid").textbox("setError");
+						$("form#iptv-setting").form("setError", $.su.CHAR.ERROR["00000094"]);
+						return false;
+					}
+					if( (vlan2 == vlan3) || (vlan2 == vlan4))
+					{
+						$("#ipphone_vid").textbox("setError");
+						$("form#iptv-setting").form("setError", $.su.CHAR.ERROR["00000094"]);
+						return false;
+					}
+					if( (vlan3 == vlan4))
+					{
+						$("#iptv_vid").textbox("setError");
+						$("form#iptv-setting").form("setError", $.su.CHAR.ERROR["00000094"]);
+						return false;
+					}
+				}
+			}
+
+			var lan1 = $("#lan1").combobox("getValue");
+			var lan2 = $("#lan2").combobox("getValue");
+			var lan3 = $("#lan3").combobox("getValue");
+			var lan4 = $("#lan4").combobox("getValue");
+
+			if( (lan1[0] != "Internet") && (lan2[0] != "Internet") && (lan3[0] != "Internet") && (lan4[0] != "Internet"))
+			{
+				$("form#iptv-setting").form("setError", $.su.CHAR.ERROR["00000095"]);
+				return false;
+			}
+			return true;
+		},
+		submitBtn: "default"
+	}).on("ev_beforeLoadData", function(e, data){
+		cur_mode = data.mode;
+		// console.log(cur_mode, "ev_loadData");
+		cur_lan1 = data.lan1;
+		cur_lan2 = data.lan2;
+		cur_lan3 = data.lan3;
+		cur_lan4 = data.lan4;
+
+		cur_igmp_version = data.igmp_version;
+
+		cur_internet_vlanid = data.internet_vid;
+		cur_internet_vlanpri = data.internet_vprio;
+		cur_internet_vlancheck = data.internet_tag;
+
+		cur_ipphone_vlanid = data.ipphone_vid;
+		cur_ipphone_vlanpri = data.ipphone_vprio;
+
+		cur_iptv_vlanid = data.iptv_vid;
+		cur_iptv_vlanpri = data.iptv_vprio;
+
+
+		cur_iptv_multi_vlanid = data.mciptv_vid;
+		cur_iptv_multi_vlanpri = data.mciptv_vprio;
+		cur_iptv_multi_vlancheck = data.mciptv_enable;
+
+		wait_time = data.wait_time?data.wait_time*1000:1*1000;
+
+	});
+
+	$("#upgrade_alert_cnt").msg({
+		cls: 'warning reboot-confirm-size',
+   	    closeBtn: false,
+		type: "window"
+	});
+
+	var pro_bar  = $('input#pro_bar').progressbar({
+		width: 326,
+	    height: 6,
+	    cls: 'reboot-loading-probar'
+	});
+
+	
+	sysNatProxy.read({}, function(data){
+		var boost_iptv_compatible = data.boost_iptv_compatible;
+		var boost_enable = data.hw_enable;
+		if(boost_enable == "on" && boost_iptv_compatible =="no")
+		{
+			$("input#enable").checkbox("disable");
+			$("input#enable").checkbox("setTips", $.su.CHAR.ERROR["00000115"]);
+		}
+		else
+		{
+			$("input#enable").checkbox("enable");
+			$("input#enable").checkbox("setTips", "");
+		}
+	})
+	
+	var helpIPTV = new $.su.Help({
+		container: "div#iptv_help",
+		content: ["IPTV"]
+	});
+});
+</script>
+</body>
+
+</html>

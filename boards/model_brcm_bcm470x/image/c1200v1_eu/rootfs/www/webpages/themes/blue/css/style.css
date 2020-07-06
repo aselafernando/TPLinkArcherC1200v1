@@ -1,0 +1,2677 @@
+@charset "utf-8";
+/* CSS Document */
+
+/**** add by cx start *********************************************************************************************/
+/** 滚动条部分样式 只兼容chrome **/
+::-webkit-scrollbar {				/*滚动条整体部分，其中的属性有width,height,background,border（就和一个块级元素一样）等。*/
+    width: 13px;
+    border: 1px solid #ffffff;
+}
+::-webkit-scrollbar-button {		/*滚动条两端的按钮。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
+    height: 3px;
+    background-color: #ffffff;
+}
+::-webkit-scrollbar-track {			/*外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
+    background-color: #ffffff;
+    width: 9px;
+}
+::-webkit-scrollbar-track-piece {	/*内层轨道，滚动条中间部分（除去）。*/
+    background-color: #ffffff;
+}
+::-webkit-scrollbar-thumb {			/*滚动条里面可以拖动的那部分*/
+    background: #9BDCEB;
+    border-radius: 35px;
+    border: 3px solid #ffffff;
+}
+::-webkit-scrollbar-thumb:hover {	/*滚动条里面可以拖动的那部分*/
+    background: #9BDCEB;
+}
+::-webkit-scrollbar-corner {		/*边角*/
+    background: #ffffff;
+}
+::-webkit-scrollbar-resizer {		/*定义右下角拖动块的样式*/
+    background: rgb(200,200,200);
+}
+
+/*index部分*/
+div.top{
+	position: relative;
+	height: 100%;
+	min-width: 980px;
+}
+div.top-bg{
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+
+	height: 100%;
+	width: 100%;
+}
+div.top-bg div.top-bg-l{
+	width: 75%;
+	height: 100%;
+	display: inline-block;
+	background-color: #f2f2f2;
+}
+div.top-bg div.top-bg-r{
+	width: 20%;
+	height: 100%;
+	display: inline-block;
+	background-color: #ffffff;
+}
+
+div.top-header{
+	/*width: 100%;*/
+	height: 90px;
+	background-color: #10abe1;
+}
+
+div.index-update-alert-cnt{
+	background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 1px 1px 8px #898989;
+    padding: 9px;
+    color: red;
+    position: relative;
+    z-index: 999;
+   
+}
+
+div.index-update-alert-cnt .close-layer
+{
+	cursor: pointer;
+	right: 0;
+	position: absolute;
+	top:5px;
+	width: 15px;
+	height: 15px;
+	background: url(../img/icons-01.png) no-repeat -148px -406px;
+        margin-right:5px;
+
+}
+
+div.top-main div.top-content,
+div.top-main div.top-footer-wrap,
+div.index-update-alert-cnt,
+div.top-header div.top-header-wrap{
+	width: 980px;
+	min-width: 980px;
+	margin: 0 auto;
+}
+div.top-header div.top-header-wrap{
+	/*padding-top: 48px;*/
+        position: relative;
+}
+div.top-header div.top-header-wrap h1,
+div.top-header div.top-header-wrap div.top-nav,
+div.top-header div.top-header-wrap div.lan-select-container,
+div.top-header div.top-header-wrap div.login-info-container,
+div.top-header div.top-header-wrap div.top-control{
+	display: inline-block;
+	vertical-align: bottom;
+}
+div.top-header div.top-header-wrap div.top-control{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+}
+div.top-header div.top-header-wrap h1{
+	background: url(../img/tp-link.png) no-repeat left center;
+	color: #ffffff;
+	width: 230px;
+
+	height: 16px;
+	padding: 62px 0 12px 10px;
+
+	padding-left: 10px;
+}
+div.top-header div.top-header-wrap div.top-nav ul li{
+	display: inline-block;
+	/*width: 125px;*/
+	height: 20px;
+	margin-bottom: 11px;
+	border-left: 1px #F4F4F4 solid;
+
+	margin-left: -1px;
+	padding-right: 1px;
+}
+
+div#login-info-container div#icon{
+	display: inline-block;
+	vertical-align: top;
+	width: 92px;
+	height: 92px;
+	position: relative;
+	margin-left: 26px;
+	background-repeat: no-repeat;
+	background-position:0px 0px;
+}
+div#login-info-container div#icon span#edit-icon-btn{
+	position: absolute;
+	background-color: #555555;
+	width: 92px;
+	bottom: 0;
+	left: 0;
+	color: #ffffff;
+	text-align: center;
+	text-decoration: underline;
+	cursor: pointer;
+}
+div#login-info-container label#cloud-icon-label{
+	width: 200px
+}
+div.top-header div.top-header-wrap div.top-nav ul li.selected,
+div.top-header div.top-header-wrap div.top-nav ul li.selected + li,
+div.top-header div.top-header-wrap div.top-nav ul li:hover,
+div.top-header div.top-header-wrap div.top-nav ul li:hover + li{
+	border-left: 1px #10abe1 solid;
+}
+
+div.top-header div.top-header-wrap div.top-nav ul li.fst{
+	border-left: none;
+	margin-left: 0;
+}
+
+div.top-header div.top-header-wrap div.top-nav ul li a.nav{
+	color: #ffffff;
+	font-size: 16px;
+
+	display: inline-block;
+	height: 42px;
+	line-height: 42px;
+	min-width: 125px;
+
+	margin-top: -11px;
+
+	text-align: center;
+
+	border-radius: 5px 5px 0 0;
+	background-color: #10abe1;
+}
+div.top-header div.top-header-wrap div.top-nav ul li a.nav:hover{
+	background-color: #4dc7ef;
+}
+div.top-header div.top-header-wrap div.top-nav ul li.selected a.nav{
+	background-color: #ffffff;
+	color: #4d4d4d;
+}
+div.top-header div.top-control div.lan-select-container{
+	/*margin-left: 83px;
+	margin-right: 21px;*/
+
+	margin-bottom: 10px;
+	width: 142px;
+}
+div.top-header div.top-control div.lan-select-container div.widget-wrap{
+	border: 1px solid #00a2aa;
+}
+div.top-header div.top-control div.lan-select-container div.widget-wrap input.combobox-text{
+	color: #10abe1;
+	padding: 0 0 0 4px;
+	width: 110px;
+}
+div.top-header div.top-control div.lan-select-container div.widget-wrap a.combobox-switch{
+	background-color: #f0f0f0;
+	width: 22px;
+	height: 20px;
+}
+div.top-header div.top-control div.lan-select-container div.widget-wrap a.combobox-switch span.icon{
+	background-position: -233px -17px;
+	width: 18px;
+	height:18px;
+	margin: 1px 2px;
+}
+div.top-header div.top-control div.lan-select-container div.widget-wrap div.combobox-list-wrap{
+	top: 27px;
+}
+div.top-header div.top-control a.top-control-btn{
+	border-radius: 4px;
+	display: inline-block;
+	width: 46px;
+	height: 46px;
+
+	margin-right: 3px;
+	margin-bottom: 10px;
+}
+div.top-header div.top-control a.top-control-btn:hover{
+	background-color: #4dc7ef;
+}
+div.top-header div.top-control a.top-control-btn span{
+	display: block;
+	margin: 0 auto;
+}
+div.top-header div.top-control a.top-control-btn span.icon{
+	height: 20px;
+	width: 20px;
+	background: url(../img/icons-01.png) no-repeat -80px -224px;
+
+	margin-top: 6px;
+	margin-bottom: 2px;
+}
+div.top-header div.top-control #top-control-led.on span.icon{
+	background: url(../img/led_on.png) no-repeat 1px 3px;
+}
+div.top-header div.top-control #top-control-led.off span.icon {
+    background: url(../img/led_off.png) no-repeat 1px 3px;
+}
+div.top-header div.top-control a.top-control-btn#top-control-logout span.icon{
+	background-position: -80px -224px;
+}
+div.top-header div.top-control a.top-control-btn#top-control-reboot span.icon{
+	background-position: -116px -224px;
+}
+div.top-header div.top-control a#top-control-update.top-control-btn span.icon {
+    background-position: -78px -431px;
+}
+div.top-header div.top-control a#top-control-update.top-control-btn {
+    position: relative;
+}
+div.top-header div.top-control a#top-control-update.top-control-btn span#upgrade-hint {
+    background: url("../img/icons-01.png") no-repeat scroll -185px -436px;
+    /*color: #10abe1;*/
+    color: #fff;
+    font-size: 10px;
+    font-weight: normal;
+    height: 15px;
+    line-height: 15px;
+    position: absolute;
+    right: 5px;
+    text-align: center;
+    top: 2px;
+    width: 15px;
+}
+div.top-header div.top-control a.top-control-btn span.text{
+	color: #ffffff;
+	font-size: 10px;
+	text-align: center;
+}
+
+div.top-main{
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	height: calc(100% - 90px);
+}
+div.top-main div.top-content{
+	position: relative;
+	min-height: 100%;
+}
+div.top-footer{
+	background-color: #e6e6e6;
+	/*clear: both;*/
+}
+div.top-footer div.top-footer-wrap{
+	padding: 26px 0;
+}
+div.top-footer div.top-footer-wrap span#hardware-version-title{
+	margin-left: 30px;
+}
+div.top-footer div.top-footer-wrap span.help-faq{
+	float: right;
+	/*margin-left: 288px;*/
+}
+div.top-footer div.top-footer-wrap a.btn-faq{
+	color: #4d4d4d;
+	text-decoration: underline;
+}
+
+div.menu-container{
+	float: left;
+}
+div.menu-container ul.menu-tree{
+	/*padding: 18px 0 8px 0;*/
+	/*padding-top: 20px;*/
+	padding-bottom: 8px;
+}
+div.menu-container ul.menu-tree li.fst{
+	margin: 8px 16px 0 0;
+}
+div.menu-container ul.menu-tree li.fst a.fst{
+	display: inline-block;
+	width: 204px;
+	height: 50px;
+	line-height: 50px;
+
+	border-left: 4px solid #ffffff;
+	background-color: #ffffff;
+}
+div.menu-container ul.menu-tree li.fst a.fst.selected{
+	border-left: 4px solid #10abe1;
+}
+div.menu-container ul.menu-tree li.fst a.fst span.text{
+	color: #4d4d4d;
+	font-size: 14px;
+}
+div.menu-container ul.menu-tree li.fst a.fst span.icon{
+	background: url(../img/icons-01.png) no-repeat -7px -7px;
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+
+	margin: 0 14px;
+}
+div.menu-container ul.menu-tree li.fst a.fst.deployed span.icon,
+div.menu-container ul.menu-tree li.fst a.fst:hover span.icon,
+div.menu-container ul.menu-tree li.fst a.fst.selected span.icon{
+	background-position: -43px -7px;
+}
+div.menu-container ul.menu-tree li.fst a.fst.deployed span.text,
+div.menu-container ul.menu-tree li.fst a.fst:hover span.text,
+div.menu-container ul.menu-tree li.fst a.fst.selected span.text{
+	color: #10abe1;
+}
+div.menu-container ul.sec{
+	margin-left: 4px;
+	padding-top: 8px;
+	background-color: #ebebeb;
+}
+div.menu-container ul.sec li.sec a.sec{
+	display: inline-block;
+	height: 42px;
+	line-height: 42px;
+	color: #4d4d4d;
+
+	width: 140px;
+	padding-left: 64px;
+}
+div.menu-container ul.sec li.sec a.sec span.text{
+	display: list-item;
+	list-style: disc;
+}
+div.menu-container ul.sec li.sec a.sec:hover{
+	color: #10abe1;
+}
+div.menu-container ul.sec li.sec a.sec.selected{
+	background-color: #54c7e2;
+	color: #ffffff;
+}
+div.function-container{
+	margin-left: 224px;
+	background-color: #ffffff;
+
+	padding: 32px 50px;
+}
+
+div.menu-container ul.menu-tree li#menu-advanced-status-li.fst a.fst span.icon{
+	background-position: -7px -7px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-status-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-status-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-status-li.fst.deployed a.fst span.icon{
+	background-position: -43px -7px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-network-li.fst a.fst span.icon{
+	background-position: -7px -43px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-network-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-network-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-network-li.fst.deployed a.fst span.icon{
+	background-position: -43px -43px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-wireless-li.fst a.fst span.icon{
+	background-position: -7px -79px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-wireless-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-wireless-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-wireless-li.fst.deployed a.fst span.icon{
+	background-position: -43px -79px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-guest-network-li.fst a.fst span.icon{
+	width: 24px;
+	background-position: -6px -115px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-guest-network-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-guest-network-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-guest-network-li.fst.deployed a.fst span.icon{
+	background-position: -42px -115px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-nat-forwarding-li.fst a.fst span.icon{
+	background-position: -7px -151px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-nat-forwarding-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-nat-forwarding-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-nat-forwarding-li.fst.deployed a.fst span.icon{
+	background-position: -43px -151px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-usb-settings-li.fst a.fst span.icon{
+	background-position: -7px -187px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-usb-settings-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-usb-settings-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-usb-settings-li.fst.deployed a.fst span.icon{
+	background-position: -43px -187px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-parental-control-li.fst a.fst span.icon{
+	width: 23px;
+	background-position: -6px -224px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-parental-control-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-parental-control-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-parental-control-li.fst.deployed a.fst span.icon{
+	background-position: -42px -224px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-qos-li.fst a.fst span.icon{
+	background-position: -7px -259px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-qos-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-qos-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-qos-li.fst.deployed a.fst span.icon{
+	background-position: -43px -259px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-streamboost-li.fst a.fst span.icon{
+	background-position: -7px -259px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-streamboost-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-streamboost-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-streamboost-li.fst.deployed a.fst span.icon{
+	background-position: -43px -259px;
+}
+
+div.menu-container ul.menu-tree li#menu-advanced-security-li.fst a.fst span.icon{
+	background-position: -7px -295px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-security-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-security-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-security-li.fst.deployed a.fst span.icon{
+	background-position: -43px -295px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-ipv6-li.fst a.fst span.icon{
+	background-position: -7px -363px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-ipv6-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-ipv6-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-ipv6-li.fst.deployed a.fst span.icon{
+	background-position: -43px -363px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-system-tools-li.fst a.fst span.icon{
+	background-position: -7px -331px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-system-tools-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-system-tools-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-system-tools-li.fst.deployed a.fst span.icon{
+	background-position: -43px -331px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-vpn-li.fst a.fst span.icon{
+	background-position: -77px -399px;
+}
+div.menu-container ul.menu-tree li#menu-advanced-vpn-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-vpn-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-advanced-vpn-li.fst.deployed a.fst span.icon{
+	background-position: -114px -399px;
+}
+
+
+/****/
+div.menu-container ul.menu-tree li#menu-basic-network-map-li.fst a.fst span.icon{
+	background-position: -7px -399px;
+}
+div.menu-container ul.menu-tree li#menu-basic-network-map-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-network-map-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-network-map-li.fst.deployed a.fst span.icon{
+	background-position: -43px -399px;
+}
+div.menu-container ul.menu-tree li#menu-basic-internet-li.fst a.fst span.icon{
+	background-position: -7px -43px;
+}
+div.menu-container ul.menu-tree li#menu-basic-internet-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-internet-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-internet-li.fst.deployed a.fst span.icon{
+	background-position: -43px -43px;
+}
+div.menu-container ul.menu-tree li#menu-basic-wireless-li.fst a.fst span.icon{
+	background-position: -7px -79px;
+}
+div.menu-container ul.menu-tree li#menu-basic-wireless-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-wireless-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-wireless-li.fst.deployed a.fst span.icon{
+	background-position: -43px -79px;
+}
+
+div.menu-container ul.menu-tree li#menu-basic-guest-network-li.fst a.fst span.icon{
+	width: 24px;
+	background-position: -6px -115px;
+}
+div.menu-container ul.menu-tree li#menu-basic-guest-network-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-guest-network-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-guest-network-li.fst.deployed a.fst span.icon{
+	background-position: -42px -115px;
+}
+div.menu-container ul.menu-tree li#menu-basic-usb-li.fst a.fst span.icon{
+	background-position: -7px -187px;
+}
+div.menu-container ul.menu-tree li#menu-basic-usb-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-usb-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-usb-li.fst.deployed a.fst span.icon{
+	background-position: -43px -187px;
+}
+div.menu-container ul.menu-tree li#menu-basic-parental-control-li.fst a.fst span.icon{
+	width: 23px;
+	background-position: -6px -224px;
+}
+div.menu-container ul.menu-tree li#menu-basic-parental-control-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-parental-control-li.fst.selected a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-parental-control-li.fst.deployed a.fst span.icon{
+	background-position: -42px -224px;
+}
+
+/*span.reboot-confirm-msg-icon{
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	background: url(../img/icons-01.png) no-repeat -219px -111px;
+}
+span.reboot-confirm-msg-text{
+	display: inline-block;
+	margin-left: 20px;
+}
+div.reboot-confirm-qa{
+	margin: 30px 0;
+}*/
+div.msg-container.reboot-confirm-size{
+	width: 400px;
+}
+div.msg-container.reboot-confirm-size div.msg-wrap{
+	/*height: 166px;*/
+}
+div.reboot-loading-msg{
+	margin: -6px 10px 64px -20px;
+	width: 390px;
+}
+div.reboot-loading-msg div.progressbar-wrap-outer{
+	margin-top: 20px;
+}
+div.reboot-loading-msg div.progressbar-text{
+}
+p.reboot-progressbar-text{
+	padding-left: 5px;
+	line-height: 20px;
+}
+
+/*div.menu-container ul.menu-tree li#menu-basic-qos-li.fst a.fst span.icon{
+	background-position: -7px -151px;
+}
+div.menu-container ul.menu-tree li#menu-basic-qos-li.fst:hover a.fst span.icon,
+div.menu-container ul.menu-tree li#menu-basic-qos-li.fst.selected a.fst span.icon{
+	background-position: -43px -151px;
+}*/
+
+/**login**/
+body#login-body{
+    position: inherit;
+    height: 100%;
+}
+body#login-body div#login-main{
+	display: none;
+}
+body#login-body div.top{
+    position: inherit;
+}
+body#login-body div.top-main div.top-content{
+	width: 420px;
+	min-width: inherit;
+}
+body#login-body div.top-footer{
+    position: absolute;
+    width: 100%;
+    min-width: 980px;
+    bottom: 0;
+}
+body#login-body div.top-footer div.top-footer-wrap{
+    text-align: right;
+}
+body#login-body div.top-footer div.top-footer-wrap span.help-faq{
+    float: none;
+}
+body#login-body form#form-login{
+	margin-top: 94px;
+}
+body#login-body form#form-login div.login-field{
+	margin: 8px 0;
+}
+body#login-body div.top-header div.top-control div.lan-select-container{
+	margin: 0 0 20px 590px;
+}
+label#login-username-label span.icon,
+label#login-password-label span.icon{
+    background: url(../img/icons-01.png) no-repeat -148px -4px;
+    display: inline-block;
+    width: 27px;
+    height: 27px;
+    margin-right: 10px;
+    margin-bottom: 2px;
+}
+label#login-username-label span.icon{
+    background-position: -148px -4px;
+}
+label#login-password-label span.icon{
+    background-position: -184px -4px;
+}
+
+body#login-body a#btn-forget-password{
+	margin-left: 4px;
+}
+
+body#login-body div#forget-password-prompt{
+	left: 180px;
+	top: 138px;
+}
+body#login-body div#forget-password-situation-1{
+	position: relative;
+}
+body#login-body div#forget-password-situation-1 p#forget-password-situation-1-info{
+	margin-bottom: 24px;
+}
+body#login-body div#forget-password-situation-1 p#forget-password-situation-1-note{
+	margin: 24px 0;
+}
+body#login-body div#forget-password-situation-1 div#send-failed-info-container{
+	margin-top: 20px;
+}
+body#login-body div#forget-password-situation-1 span#send-failed-info{
+	color: #dd4040;
+}
+
+
+body#login-body div.text-container.login-text div.widget-wrap{
+	border-radius: 5px;
+	background-color: #ffffff;
+	border-color: #b2b2b2;
+}
+body#login-body div.text-container.login-text.error div.widget-wrap{
+	border-color: #dd4040;
+}
+body#login-body div.checkbox-group-container.login-show-characters{
+	margin: 0 0 0 37px;
+}
+body#login-body div.button-container.login-btn{
+	margin-left: 41px;
+	margin-top: 10px;
+}
+body#login-body div.button-container.login-btn button.button-button{
+	width: 184px;
+}
+body#login-body div.conflict-situation{
+	display: none;
+}
+body#login-body div.conflict-situation h4{
+	margin-top: 36px;
+}
+body#login-body div.conflict-situation h4.title span{
+	display: inline-block;
+}
+body#login-body div.conflict-situation h4.title span.icon{
+	background: url(../img/icons-01.png) no-repeat -218px -110px;
+	position: absolute;
+	width: 32px;
+	height: 32px;
+}
+body#login-body div.conflict-situation h4.title span.text{
+	font-size: 21px;
+	margin-left: 48px;
+}
+body#login-body div.conflict-situation div.content{
+	margin: 18px 0 40px 48px;
+}
+body#login-body div.conflict-situation div.content span,
+body#login-body div.conflict-situation div.content a{
+	line-height: 24px;
+	vertical-align: middle;
+}
+body#login-body h4.forget-password-title{
+	font-size: 21px;
+	margin: 0 0 18px 0;
+}
+body#login-body div.forget-password-situation{
+	margin-bottom: 54px;
+}
+body#login-body div.btn-confirm.button-container{
+	text-align: left;
+}
+body#login-body button#btn-receive-code{
+	width: 106px;
+}
+body#login-body button#btn-forget-password-confirm{
+	width: 294px;
+}
+/*quicksetup*/
+div#quick-setup-wizard{
+	padding-top: 27px;
+}
+div#quick-setup-wizard span.quicksetup-language-setting{
+	margin-left: -70px;
+}
+div#quick-setup-wizard span.quicksetup-internet-connection-type{
+	margin-left: -70px;
+}
+div#quick-setup-wizard span.quicksetup-wireless-settings{
+	margin-left: -50px;
+}
+div#quick-setup-wizard span.quicksetup-summary{
+	margin-left: -22px;
+}
+div#quick-setup-wizard span.quicksetup-setup-complete{
+	margin-left: -42px;
+}
+
+div#quicksetup-form form{
+	padding: 1px;
+}
+div#quicksetup-form p.emphasize{
+	color: #191919;
+}
+div#quicksetup-form p a.summary{
+	vertical-align: inherit;
+}
+div#quicksetup-form p#p-reconnect-network-info{
+	margin: 32px 0 10px 0;
+}
+div#quicksetup-form p#p-reconnect-network-note-1{
+	margin-top: 30px;
+}
+div#quicksetup-form p#p-quicksetup-congratulations-info-0{
+	margin-top: 36px;
+	margin-bottom: 0px;
+}
+div#quicksetup-form p#p-quicksetup-congratulations-info-1{
+	margin-top: 5px;
+	margin-bottom: 36px;
+}
+div#reset-user-msg-container{
+	width: 568px;
+}
+h4.quicksetup-title,
+div#quicksetup-form h3.title,
+div#quicksetup-form h4.title,
+div#reset-user-msg-container h3.msg-title{
+	font-size: 21px;
+	color: #191919;
+}
+div#reset-user-msg-container h3.msg-title{
+	margin-bottom: 32px;
+}
+div#reset-user-msg-container div.reset-user-content{
+	margin-bottom: 28px;
+}
+div#reset-user-msg-container div.msg-content-wrap{
+	margin-bottom: 24px;
+	margin-left: 60px;
+}
+div#reset-user-msg-container div.form-submit{
+	margin-right: 20px;
+}
+h4.quicksetup-title span.icon{
+	background: url(../img/icons-03.png) no-repeat -521px -98px;
+	display: inline-block;
+	height: 52px;
+	width: 52px;
+}
+div#test-internet-success-container h4.quicksetup-title span.icon{
+	background-position: -521px -98px;
+}
+div#test-internet-failed-container h4.quicksetup-title span.icon{
+	background-position: -521px -152px;
+}
+h4.quicksetup-title span.text{
+	margin-left: 10px;
+}
+div#quicksetup-form h4.display-wireless-title{
+	color: #0094bc;
+	margin-bottom: 16px;
+}
+div#quicksetup-form div.status-reconnect-button-container{
+	text-align: right;
+}
+div#quicksetup-form div.progressbar-container{
+	height: 20px;
+}
+div#quicksetup-form div#quicksetup-summary div.display-wireless-enable-summary,
+div#quicksetup-form div#quicksetup-summary.wired h4.display-wireless-title{
+	display: none;
+}
+div#quicksetup-form div.display-wireless-container-summary{
+	margin-top: 32px;
+}
+div#quicksetup-form div#quicksetup-summary h4.display-wireless-title,
+div#quicksetup-form div#quicksetup-summary.wired div.display-wireless-enable-summary{
+	display: block;
+}
+div#quicksetup-form a.test-internet.link span.text{
+	color: #f7931e;
+	text-decoration: underline;
+}
+div#quicksetup-form a.test-internet.link span.icon{
+	background: url(../img/icons-02.png) no-repeat -318px -58px;
+	display: inline-block;
+	height: 10px;
+	width: 6px;
+}
+div.test-internet p.note{
+	margin-left: 70px;
+	margin-top: 10px;
+}
+div.auto-detect-progressbar-wrap{
+	display: inline-block;
+	margin-left: 8px;
+}
+span.auto-detect-result{
+	color: #0094bc;
+}
+
+span.scan-result{
+	font-size: 14px;
+	color: #0094bc;
+}
+div.wireless-confirm-msg span.text1{
+	display: inline-block;
+	line-height: 20px;
+
+	margin: 8px 0 0 48px;
+}
+div.wireless-confirm-msg span.text2{
+	display: inline-block;
+
+	margin: 10px 0 10px 48px;
+}
+
+/*error*/
+div#browser_low_msg{
+	margin: 100px auto 200px;
+	position: relative
+}
+
+div#browser_low_msg div.position-center-left,
+div#browser_low_msg div.position-center-right,
+div#browser_low_msg div.msg-wrap{
+	height: 190px;
+}
+div#browser_low_msg div.msg-wrap h4.title span.icon{
+	margin-right: 8px;
+}
+
+div.widget-container.time-settings div.msg-content-wrap h3.msg-title{
+	margin-top: -22px;
+	color: #0094bc;
+	font-size: 12px;
+}
+div.msg-container.time-settings div.msg-content-wrap h3.msg-title span.label{
+	margin-right: 4px;
+}
+
+/*** add by cx end **********************************************************************************************/
+/*div.advanced-block.part-seperate,
+div.basic-block.part-seperate{
+	margin-top: 15px;
+	margin-bottom: 5px;
+}*/
+div.advanced-block,
+div.basic-block{
+	padding: 5px 0;
+	cursor: pointer;
+	/*width: 100px;*/
+	margin-bottom: 12px;
+	display: inline-block;
+}
+div.advanced-block span.advanced-icon,
+div.advanced-block span.advanced-text,
+div.basic-block span.basic-icon,
+div.basic-block span.basic-text{
+	display: inline-block;
+}
+div.advanced-block span.advanced-text,
+div.basic-block span.basic-text{
+	margin-left: 5px;
+}
+div.advanced-block span.advanced-icon,
+div.basic-block span.basic-icon{
+	width: 22px;
+	height: 22px;
+	background: url(../img/icons-01.png) no-repeat -152px  -116px;
+}
+div.basic-block span.basic-icon{
+	background-position: -187px  -115px;
+}
+div.advanced-block span.advanced-icon{
+	background-position: -151px  -115px;
+}
+
+div.advanced-block:hover,
+div.basic-block:hover{
+	color: #0094bc;
+}
+div.basic-block:hover span.basic-icon{
+	background-position: -215px -262px;
+}
+div.advanced-block:hover span.advanced-icon{
+	background-position: -215px -239px;
+}
+
+
+/**** add by szz start *********************************************************************************************/
+/** internet****/
+div.mode-change{
+	position: absolute;
+	top: 3px;
+	right: 10px;
+}
+div.mode-change span.first-mode, div.mode-change span.second-mode{
+	display: inline-block;
+	cursor: pointer;
+	padding: 2px 3px;
+}
+div.mode-change span.mode-select{
+	color: #0094BC;
+}
+div.radio-content-wrap div.widget-container.custom-mac-value{
+	margin-left: 13px;
+}
+div.mode-change span.disabled{
+	cursor: default;
+	color: #b2b2b2;
+}
+
+/***  streamboost  ****/
+div.sb-network-map{
+	width: 706px;
+	min-height: 500px;
+	position: relative;
+/*	background: url(../img/streamboost_map_1.png) no-repeat left top;	*/
+}
+div.sb-network-map div.line-speed{
+	width: 215px;
+	border-top: 1px solid #d9d9d9;
+	position: absolute;
+	top: 110px;
+	left: 206px;
+}
+div.sb-network-map div.line-vertical{
+	height: 28px;
+	border-left: 1px solid #d9d9d9;
+	position: absolute;
+	top: 164px;
+	left: 472px;
+}
+div.sb-network-map div.line-content{
+	width: 385px;
+	height: 30px;
+	border: 1px solid #d9d9d9;
+	border-bottom: none;
+	position: absolute;
+	top: 192px;
+	left: 166px;	
+}
+div.sb-network-map div.line-box-left, div.sb-network-map div.line-box-right{
+	width: 340px;
+	height: 130px;
+	border: 1px solid #d9d9d9;
+	position: absolute;
+	top: 223px;
+	left: 0px;
+	border-radius: 4px;
+}
+div.sb-network-map div.line-box-right{
+	left: 370px;	
+}
+div.sb-network-map span.text{
+	position: absolute;
+	bottom: -20px;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+}
+div.sb-network-map span.num{
+	position: absolute;
+	top: -12px;
+	right: -17px;
+	display: none;
+	padding-top: 2px;
+	width: 20px;
+	height: 18px;
+	border: 1px solid #f7931e;
+	background-color: #f7931e;
+	border-radius: 20px;
+	color: #fff;
+	text-align: center;
+}
+div.sb-map-internet-up span.speed-up-icon, div.sb-map-internet-down span.speed-down-icon{
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: 5px;
+	background: url(../img/icons-02.png) no-repeat -2px -2px;
+}
+div.sb-map-internet-down span.speed-down-icon{
+	background: url(../img/icons-02.png) no-repeat -2px -20px;	
+}
+
+div.sb-map-internet, div.sb-map-internet-up, div.sb-map-internet-down, div.sb-map-router, div.sb-map-windows, div.sb-map-android, div.sb-map-ios, div.sb-map-unix, div.sb-map-linux, div.sb-map-macos, div.sb-map-otheros{
+	position: absolute;
+	height: 62px;
+	cursor: pointer;
+	top: 255px;
+}
+div.sb-map-internet-up, div.sb-map-internet-down{
+	height: 30px;
+	top: 83px;
+	left: 286px;
+}
+ div.sb-map-internet-down{
+ 	top: 116px;
+ }
+div.sb-map-internet{
+	width: 72px;
+	height: 70px;
+	top: 60px;
+	left: 120px;
+	background: url(../img/icons-03.png) no-repeat -9px -10px;
+}
+ div.sb-map-router{
+ 	top: 50px;
+ 	left: 430px;
+ 	width: 100px;
+ 	height: 81px;
+	background: url(../img/icons-03.png) no-repeat -283px -4px;
+ }
+ div.sb-map-windows{
+ 	width: 63px;
+ 	left: 25px;
+	background: url(../img/icons-03.png) no-repeat -13px -302px;
+ }
+ div.sb-map-windows.item-slt{
+	background: url(../img/icons-03.png) no-repeat -13px -374px;
+ }
+ div.sb-map-android{
+ 	width: 56px;
+ 	left: 138px;
+	background: url(../img/icons-03.png) no-repeat -89px -302px;
+ }
+ div.sb-map-android.item-slt{
+	background: url(../img/icons-03.png) no-repeat -89px -374px;
+ }
+ div.sb-map-ios{
+ 	width: 50px;
+ 	left: 243px;
+	background: url(../img/icons-03.png) no-repeat -164px -302px;
+ }
+ div.sb-map-ios.item-slt{
+	background: url(../img/icons-03.png) no-repeat -164px -374px;
+ }
+ div.sb-map-unix{
+ 	width: 62px;
+ 	left: 395px;
+	background: url(../img/icons-03.png) no-repeat -230px -302px;
+ }
+ div.sb-map-unix.item-slt{
+	background: url(../img/icons-03.png) no-repeat -230px -374px;
+ }
+ div.sb-map-linux{
+ 	width: 52px;
+ 	left: 506px;
+	background: url(../img/icons-03.png) no-repeat -307px -302px;
+ }
+ div.sb-map-linux.item-slt{
+	background: url(../img/icons-03.png) no-repeat -307px -374px;
+ }
+ div.sb-map-otheros{
+ 	width: 62px;
+ 	left: 603px;
+	background: url(../img/icons-03.png) no-repeat -374px -302px;
+ }
+ div.sb-map-otheros.item-slt{
+	background: url(../img/icons-03.png) no-repeat -374px -374px;
+ }
+ .inlineBlock{
+ 	display: inline-block;
+ }
+div.router-return-icon{
+	background: url(../img/icons-01.png) no-repeat -151px -151px;
+	width: 21px;
+	height: 18px;
+	position: absolute;
+	top: -2px;
+	left: 60px;
+	cursor: pointer;
+}
+div.device-return-icon{
+	background: url(../img/icons-01.png) no-repeat -151px -151px;
+	width: 21px;
+	height: 18px;
+	position: absolute;
+	top: -2px;
+	left: 60px;
+	cursor: pointer;
+}
+div.policy-optimal, div.policy-nominal, div.policy-best{
+ 	position: absolute;
+ 	top: 20px;
+ 	right: 8px;
+	width: 15px;
+	height: 15px;
+	border-radius: 15px;
+	margin-right: 10px;
+	border: none;
+}
+div.policy-optimal{
+	background-color: #8CBC39;
+}
+div.policy-nominal{
+	background-color: #54C7E2;
+}
+div.policy-best{
+	background-color: #F9B61E;
+}
+span.test-bandwidth{
+	text-decoration: underline;
+	color: #F9B61E;
+	cursor: pointer;
+}
+span.stick-top, span.priority-up, span.priority-down{
+	display: inline-block;
+	margin-right: 10px;
+	cursor: pointer;
+	color: #8CBC39;
+}
+span.stick-top-text, span.priority-up-text, span.priority-down-text{
+	display: none;
+}
+div.sb-device-grid div.grid-content-td-wrap, div.sb-router-grid  div.grid-content-td-wrap{
+	position: relative;
+	padding: 3px 0;
+	height: 52px;
+}
+.pro300{
+ 	width: 310px;
+ }
+div.progressbar-container.pro300 div.progressbar-content{
+ 	border: none;
+ }
+ div.progressbar-container.colorBlue div.progressbar-content div.progressbar-value{
+ 	background-color: #9EE6F2;
+ }
+.pro300 div.progressbar-value{
+ 	border-radius: 8px;
+ }
+div.h20{
+	margin: 0;
+}
+div.h20 div.widget-wrap input.text-text{
+	height: 20px;
+	padding: 0;
+	border: none;
+	color: #599E00;
+}
+div.colorBlue div.widget-wrap input.text-text{
+	color: #0094BC;
+}
+img.device-icons, img.router-icons{
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	top: 10px;
+	left: 8px;
+}
+div.router-name{
+	position: absolute;
+	top: 23px;
+	left: 53px;
+}
+
+/*by szz 公用*/
+
+div.button-context{
+	margin: 5px 0;
+}
+
+div.part-seperate, p.part-seperate{
+	margin-top: 20px;
+}
+.hidden{
+	display: none;
+}
+
+/** status ***/
+div.status-panel{
+	display: inline-block;
+	vertical-align: top;
+	width: 321px;
+	position: relative;
+	margin-bottom: 12px;
+}
+div.status-panel-main{
+	border: 1px solid #d8d8d8;
+	border-top: none;
+	background-color: #ffffff;
+	padding: 10px 0px 20px 22px;
+}
+div.status-panel h4.status{
+	margin: 0px;
+	padding: 8px 0 8px 18px;
+	font-size: 12px;
+	color: #3d3d3d;
+	background-color: #F2F2F2;
+	border: 1px solid #d8d8d8;
+	border-bottom: none;
+}
+div.status-panel h4.status span.status-icon{
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	background-image: url(../img/icons-01.png);
+	margin-right: 6px;
+}
+div.status-panel h4.status span.status-icon-internet{
+	background-position: -6px -42px;
+}
+div.status-panel h4.status span.status-icon-wireless{
+	background-position: -6px -78px;
+}
+div.status-panel h4.status span.status-icon-lan{
+	background-position: -78px -293px;
+}
+div.status-panel h4.status span.status-icon-guest{
+	background-position: -6px -114px;
+}
+div.status-panel h4.status span.status-icon-usb{
+	background-position: -6px -186px;
+}
+div.status-panel h4.status span.status-icon-performance{
+	background-position: -6px -6px;
+}
+div.status-panel h4.status span.status-icon-access-wired{
+	background-position: -78px -329px;
+}
+div.status-panel h4.status span.status-icon-access-wireless{
+	background-position: -7px -79px;
+}
+div.usb-panel div.status-panel-main{
+	padding-left: 0px;
+}
+div.usb-panel div.usb-form-usb, div.usb-panel div.usb-form-printer{
+	display: inline-block;
+	width: 155px;
+	/*height: 160px;*/
+	vertical-align: top;
+}
+div.usb-panel span.icon-usb-storage{
+	display: inline-block;
+	height: 49px;
+	width: 53px;
+	background: url("../img/icons-03.png") no-repeat -163px -21px;
+	margin: 15px 0px 5px 47px;
+}
+
+div.usb-panel span.icon-usb-storage-disconn{
+	background: url("../img/icons-03.png") no-repeat  -163px -165px;
+}
+
+span.usb-storage-label{
+	display: inline-block;
+	margin-right: 3px;
+}
+div.usb-panel p.usb-text-usb, div.usb-panel p.usb-text-printer{
+	margin-bottom: 20px;
+	padding-left: 45px;
+}
+div.usb-panel p.usb-text-printer{
+	padding-left: 50px;
+}
+div.usb-panel p.usb-form-line{
+	padding-left: 30px;
+	position: relative;
+	line-height: 25px;
+}
+div.usb-panel p.usb-form-line span.usb-storage-dot{
+	position: absolute;
+	top: 4px;
+	left: 12px;
+	width: 10px;
+	height: 10px;
+	background: url(../img/icons-02.png) no-repeat -184px -40px;
+}
+div.usb-panel p.usb-form-line span.usb-disk-dot{
+	top: 9px;
+}
+span.usb-storage-text{
+	display: inline-block;
+	line-height: 18px;
+	width: 120px;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+div.usb-panel p.usb-form-line div.widget-container{
+	margin: 0;
+}
+div.usb-panel span.icon-usb-printer{
+	display: inline-block;
+	height: 54px;
+	width: 56px;
+	background: url(../img/icons-03.png) no-repeat -376px -160px;
+	margin: 10px 0px 5px 40px;
+}
+
+div.usb-panel span.icon-usb-printer-disconn{
+	background: url(../img/icons-03.png) no-repeat -376px -224px;
+}
+/*div.usb-panel  div.status-panel-main, div.performance-panel  div.status-panel-main{
+	height: 160px;
+}*/
+p.performance-line{
+	margin-top: 30px;
+	padding-left: 3px;
+}
+
+div.access-wired-panel{
+	margin-right: 8px;
+}
+div.access-wired-panel div.status-panel-main, div.access-wireless-panel div.status-panel-main{
+	padding-top: 30px;
+}
+div.access-panel{
+	width: 652px;
+	border: 1px solid #d8d8d8;
+}
+div.access-panel h4.status{
+	border: none;
+}
+/*
+div.access-panel-left{
+	display: inline-block;
+	width: 298px;
+	border: none;
+	padding: 0;
+	margin: 30px 0 0 30px;
+	border-right: 1px solid #d8d8d8;
+	vertical-align: top;
+}
+div.access-panel-right{
+	display: inline-block;
+	width: 288px;
+	border: none;
+	padding: 0;
+	margin: 30px 0 20px 30px;
+	vertical-align: top;
+	max-height: 240px;
+}
+*/
+div.icon-access-wire, div.icon-access-wireless{
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	height: 36px;
+	margin-left: 10px;
+	background: url(../img/icons-03.png) no-repeat -459px -100px;
+}
+div.icon-access-wireless{
+	background: url(../img/icons-03.png) no-repeat -456px -171px;
+}
+span.access-wire-clients-num, span.access-wireless-clients-num{
+	font-size: 10px;
+	position: absolute;
+	top: -12px;
+	right: -18px;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	/*height: 17px;*/
+	text-align: center;
+	/*padding-top: 3px;*/
+	color: #fff;
+	background: url(../img/icons-01.png) no-repeat -152px -332px;
+}
+p.access_client_name{
+	display: inline-block;
+	vertical-align: top;
+	margin: 8px 0 0 30px;
+}
+div.progressbar-container.performance-memory-usage div.progressbar-content div.progressbar-value{
+	background-color: #54C7E2;
+}
+div.status-panel h4.status span.conn-status{
+	background: url(../img/icons-01.png) no-repeat -183px -151px;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	margin-left: 5px;
+}
+div.status-panel h4.status span.conn-status.not-secure{
+	background-position: -150px -187px; /*-185px -150px;*/
+	width: 23px;
+	height: 22px;
+}
+div.status-panel h4.status span.conn-status.not-open{
+	background-position: -186px -187px;
+	width: 23px;
+	height: 22px;
+}
+div.status-panel h4.status span.conn-status.conn-wireless-connected{
+	width: 28px;
+}
+div.status-panel h4.status span.conn-status.conn-guest-connected{
+	width: 28px;
+}
+div.status-panel h4.status span.conn-status.conn-internet-connected{
+	background: url(../img/icons-02.png) no-repeat -18px 0px;
+}
+div.status-panel h4.status span.conn-status.conn-internet-disconnected{
+	background: url(../img/icons-02.png) no-repeat -36px 0px;
+}
+div.status-panel h4.status span.conn-status.conn-internet-poor-connected{
+	background: url(../img/icons-02.png) no-repeat -162px 0px;
+}
+div.status-panel h4.status span.conn-status.hidden{
+	display: none;
+}
+p.status-textarea-read{
+	min-height: 30px;
+	line-height: 30px;
+	margin: 5px 0;
+	vertical-align: middle;
+}
+p.status-textarea-read label.xs{
+	display: inline-block;
+	width: 110px;
+	line-height: 22px;
+}
+p.status-textarea-read label.m{
+	display: inline-block;
+	width: 160px;
+	line-height: 22px;
+}
+p.status-textarea-read span{
+	display: inline-block;
+	width: 170px;
+	margin-left: 10px;
+	word-wrap: break-word;
+	line-height: 22px;
+}
+p.status-textarea-read span.input-readonly-m{
+	width: 118px;
+}
+/*********** simple version */
+div.access-client-list{
+	margin-top: 20px;
+	height: 165px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+div.access-client-list p.access-client-list-p{
+	width: 260px;
+	padding: 8px 0;
+	border-bottom: 1px solid #d9d9d9;
+	cursor: pointer;
+	position: relative;
+}
+span.access-client-list-icon{
+	position: absolute;
+	top: 13px;
+	right: 0;
+	width: 10px;
+	height: 8px;
+	background: url(../img/icons-02.png) no-repeat -240px -41px;	
+}
+div.access-client-list p.selected-list-p{
+	width: 260px;
+	padding: 8px 0 0;
+	border-bottom: 1px solid #d9d9d9;
+	cursor: pointer;
+	color: #599e00;
+	border-bottom: none;
+}
+div.access-client-list p.selected-list-p span.access-client-list-icon{
+	right: 3px;
+	background: url(../img/icons-02.png) no-repeat -328px -40px;
+}
+div.access-client-list div.access-client-detail{
+	background-color: #f2f2f2;
+	width: 260px;
+	margin: 10px 0;
+}
+p.cfg_status{
+	line-height: 26px;
+}
+label.label_status_s{
+	display: inline-block;
+	width: 115px;
+	margin-left: 10px;
+}
+div.text-container.read-only div.widget-wrap input.text-text.usb-input-blue{
+	color: #0094BC;
+	text-align: left;
+}
+.usb-input-blue{
+	color: #0094BC;
+}
+/********* end simple version */
+
+
+
+
+
+
+
+
+
+div.internet-panel, div.lan-panel, div.usb-panel{
+	margin-right: 8px;
+}
+div.status-panel div.mode-change{
+	top: 12px;
+	right: 6px;
+}
+div.lan-panel div.status-panel-main{
+	height: 172px;
+}
+div.guest-panel div.status-panel-main{
+	height: 172px;
+}
+div.internet-panel div.status-panel-main, div.wireless-panel div.status-panel-main{
+	height: 248px;
+}
+div.text-container div.widget-wrap span.text-wrap input.usb-storage-input{
+	width: 18px;
+	padding: 0px;
+	text-align: left;
+	text-indent: 0;
+}
+div.textarea-container.read-only div.widget-wrap textarea.textarea-text.printer-textarea{
+	padding: 2px 0;
+}
+
+div.wireless-panel div.status-panel-main div.widget-container div.widget-fieldlabel-wrap.xs{
+	width: 100px;
+}
+div.wireless-panel div.status-panel-main p.status-textarea-read label.xs{
+	width: 100px;
+}
+div.wireless-panel div.status-panel-main p.status-textarea-read span{
+	width: 180px;
+}
+
+div.guest-panel div.status-panel-main div.widget-container div.widget-fieldlabel-wrap.m{
+	width: 145px;
+}
+div.guest-panel div.status-panel-main p.status-textarea-read label.m{
+	width: 145px;
+}
+div.guest-panel div.status-panel-main p.status-textarea-read span.input-readonly-m{
+	width: 138px;
+}
+/**/
+
+div.map_wrap{
+	top: 0;
+	left: 0;
+	width: 715px;
+	min-height: 380px;
+	position: relative;
+}
+div.map-internet{
+	position: absolute;
+	top: 35px;
+	left: 155px;
+	width: 74px;
+	padding-top: 75px;
+	text-align: center;
+	cursor: pointer;
+}
+div.map-internet-connect{
+}
+div.map-router{
+	position: absolute;
+	top: 25px;
+	left: 420px;
+	width: 84px;
+	padding-top: 85px;
+	padding-right: 17px;
+	text-align: center;
+	cursor: pointer;
+}
+div.map-router-connect{
+}
+
+div.map-router-tip{
+	position: absolute;
+	top: 10px;
+	right: -75px;
+	height: 40px;
+	font-weight: normal;
+}
+div.map-router-tip div.map-router-wrap{
+	display: inline-block;
+	width: 45px;
+	height: 40px;
+	font-size: 10px;
+	text-align: center;
+}
+div.map-router-tip div.map-router-wrap 	div.map-router-24g-img{
+	display: inline-block;
+	width: 26px;
+	height: 16px;
+	margin-bottom: 3px;
+	background: url(../img/icons-01.png) no-repeat -185px -152px;
+}
+div.map-router-tip div.map-router-wrap 	div.map-router-24g-img.not-open{
+	background: url(../img/icons-01.png) no-repeat -188px -190px;
+}
+div.map-router-tip div.map-router-wrap 	div.map-router-24g-img.not-secure{
+	background: url(../img/icons-01.png) no-repeat -152px -190px;
+}
+
+div.map-router-tip div.map-router-bar{
+	position: absolute;
+	left: 44px;
+	top: 2px;
+	width: 1px;
+	height: 14px;
+	background-color: #ADB1A3;
+}
+
+div.map-wireless{
+	position: absolute;
+	top: 30px;
+	left: 155px;
+	width: 120px;
+	height: 20px;
+	padding-top: 60px;
+	padding-right: 17px;
+	text-align: center;
+	cursor: pointer;
+}
+div.map-wireless span.map-icon-num, div.map-wire span.map-icon-num{
+	font-size: 10px;
+}
+
+div.map-wire{
+	position: absolute;
+	top: 30px;
+	left: 15px;
+	width: 120px;
+	height: 20px;
+	padding-top: 60px;
+	padding-right: 17px;
+	text-align: center;
+	cursor: pointer;
+}
+div.map-wire-connect{
+
+}
+div.map-wire span.map-icon-num{
+	top: -10px;
+	right: -22px;
+}
+div.map-printer{
+	position: absolute;
+	top: 30px;
+	left: 15px;
+	width: 120px;
+	height: 20px;
+	padding-top: 60px;
+	text-align: center;
+	cursor: pointer;
+}
+div.map-printer-connect{
+}
+div.map-usb{
+	position: absolute;
+	top: 30px;
+	left: 150px;
+	width: 120px;
+	height: 20px;
+	padding-top: 60px;
+	text-align: center;
+	cursor: pointer;
+}
+div.map-usb-connect{
+}
+div.map-usb span.map-icon-num{
+	top: -10px;
+	right: -20px;
+}
+
+div.map-line-horizontal{
+	position: absolute;
+	top: 85px;
+	left: 240px;
+	width: 165px;
+	height: 1px;
+	border: none;
+	border-top: 1px solid #d9d9d9;
+}
+div.map-line-vertical{
+	position: absolute;
+	top: 144px;
+	left: 460px;
+	height: 20px;
+	width: 1px;
+	border: none;
+	border-left: 1px solid #d9d9d9;
+}
+div.map-line-branch{
+	position: absolute;
+	top: 164px;
+	left: 192px;
+	width: 298px;
+	height: 25px;
+	border: 1px solid #d9d9d9;
+	border-bottom: none;
+}
+div.map-wrap-left, div.map-wrap-right{
+	position: absolute;
+	border: 1px solid #d9d9d9;
+	border-radius: 5px;
+	width: 283px;
+	height: 132px;
+	top: 190px;
+	left: 40px;
+}
+div.map-wrap-right{
+	left: 360px;
+}
+
+div.map-icon-internet{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 71px;
+	height: 71px;
+	background: url(../img/icons-03.png) no-repeat -9px -9px;
+}
+div.map-icon-internet.selected{
+	background: url(../img/icons-03.png) no-repeat -9px -81px;
+}
+span.map-icon-internet-status{
+	background: url(../img/icons-03.png) no-repeat -52px -268px;
+	position: absolute;
+	width: 21px;
+	height: 21px;
+	right: 0;
+	bottom: 0;
+}
+span.map-icon-internet-conn{
+	background-position: -14px -268px;
+}
+span.map-icon-internet-disconn{
+	background-position: -52px -268px;
+}
+span.map-icon-internet-poor-conn{
+	background-position: -49px -231px;
+	width: 24px;
+}
+
+div.map-icon-router{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100px;
+	height: 80px;
+	background: url(../img/icons-03.png) no-repeat -283px -5px;
+}
+div.map-icon-router-conn{
+	background: url(../img/icons-03.png) no-repeat -427px -5px;
+}
+div.map-icon-wireless{
+	position: absolute;
+	top: 0;
+	left: 28px;
+	width: 59px;
+	height: 54px;
+	background: url(../img/icons-03.png) no-repeat -94px -17px;
+}
+div.map-icon-wireless-conn{
+	background: url(../img/icons-03.png) no-repeat -94px -91px;
+}
+div.map-icon-wire{
+	position: absolute;
+	top: 0;
+	left: 30px;
+	width: 52px;
+	height: 51px;
+	background: url(../img/icons-03.png) no-repeat -90px -164px;
+}
+div.map-icon-wire-conn{
+	background: url(../img/icons-03.png) no-repeat -90px -236px;
+}
+div.map-icon-printer{
+	position: absolute;
+	top: 0;
+	left: 30px;
+	width: 61px;
+	height: 54px;
+	background: url(../img/icons-03.png) no-repeat -230px -90px;
+}
+div.map-icon-printer-conn{
+	background: url(../img/icons-03.png) no-repeat -230px -162px;
+}
+
+div.map-icon-printer-disconn{
+	background: url(../img/icons-03.png) no-repeat -374px -224px;
+}
+div.map-icon-usb{
+	position: absolute;
+	top: 3px;
+	left: 30px;
+	width: 53px;
+	height: 49px;
+	background: url(../img/icons-03.png) no-repeat -163px -21px;
+}
+div.map-icon-usb-conn{
+	background: url(../img/icons-03.png) no-repeat -163px -93px;
+}
+div.map-icon-usb-disconn{
+	background: url(../img/icons-03.png) no-repeat -163px -165px;
+}
+span.map-icon-num{
+	position: absolute;
+	top: -10px;
+	right: -15px;
+	width: 22px;
+	/*height: 18px;*/
+	height: 22px;
+	line-height: 22px;
+	text-align: center;
+	/*padding-top: 2px;*/
+	color: #fff;
+	font-weight: normal;
+	background: url(../img/icons-01.png) no-repeat -151px -331px;
+}
+div.map-panel{
+	background-color: #FAFAFA;
+	position: relative;
+	margin-bottom: 10px;
+}
+div.map-panel h4.map-panel-title{
+	height: 35px;
+	line-height: 35px;
+	background-color: #96CC56;
+	padding-left: 15px;
+	color: #fff;
+	font-size: 14px;
+}
+div.map-panel div.map-panel-cnt{
+	min-height: 233px;
+	padding: 10px 20px 15px;
+}
+div.map-panel div.map-panel-cnt div.panel-container{
+	margin-bottom: 0;
+}
+span.map-panel-icon-internet, span.map-panel-icon-router,  span.map-panel-icon-wireless, span.map-panel-icon-wire, span.map-panel-icon-printer, span.map-panel-icon-usb{
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+	margin-right: 5px;
+	margin-bottom: 3px;
+}
+div.map-panel p.usb-form-line{
+	line-height: 30px;
+}
+span.map-panel-icon-internet{
+	background: url(../img/icons-01.png) no-repeat -79px -7px;
+}
+span.map-panel-icon-router{
+	background: url(../img/icons-01.png) no-repeat -79px -43px;
+}
+span.map-panel-icon-wireless{
+	background: url(../img/icons-01.png) no-repeat -79px -152px;
+}
+span.map-panel-icon-wire{
+	background: url(../img/icons-01.png) no-repeat -79px -115px;
+}
+span.map-panel-icon-printer{
+	background: url(../img/icons-01.png) no-repeat -79px -186px;
+}
+span.map-panel-icon-usb{
+	background: url(../img/icons-01.png) no-repeat -79px -79px;
+}
+span.map-panel-icon-text{
+	display: inline-block;
+	margin-bottom: 3px;
+}
+div.map-form-left, div.map-form-right{
+	display: inline-block;
+	width: 305px;
+	padding: 10px 0 10px 0;
+}
+h5.map-form-title{
+	color: #599E00;
+	line-height: 30px;
+}
+p.note-msg{
+	padding-left: 48px;
+}
+p.note-no-label{
+	margin: 10px 0;
+}
+span.lan-ipv4-note{
+	font-size: 14px;
+	color: #191919;
+	vertical-align: bottom;
+}
+
+div.map-panel div.text-container input.text-text.l{
+    width: 195px;
+}
+
+/**** add by szz end *********************************************************************************************/
+
+
+/**** add by ycf start *********************************************************************************************/
+div#log_filter_form{
+    margin-bottom: 10px;
+}
+div#log_list{
+   margin-bottom: 10px;
+   margin-top: 20px;
+}
+div#log_btn_cnt{
+   margin-bottom: 5px;
+}
+
+div#localGrid{
+	margin-top: 40px;
+}
+
+/*label#filter{
+	color:#3E3A39;
+}*/
+
+.time_padding{
+	padding-left: 32px;
+}
+
+.hour_padding{
+	margin-left: 10px;
+}
+
+div.week_padding{
+	margin-right: 20px;
+}
+
+div.key_pos{
+	position:absolute;
+	bottom:-60px;
+	right:120px;
+}
+
+div.key_reset{
+    position:static;
+}
+
+
+
+.form-panel div.pos{
+	left:300px;
+}
+
+div.grid-container div.grid-content-container tr.grid-content-tr a.grid-content-btn.btn-detail:hover span.icon{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 0px;
+	background: url(../img/icons-02.png) no-repeat -445px -54px;
+}
+
+div.grid-container div.grid-content-container tr.grid-content-tr a.grid-content-btn.btn-detail span.icon{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 0px;
+	background: url(../img/icons-02.png) no-repeat -424px -54px;
+}
+
+div.grid-container div.grid-content-container tr.grid-content-tr.disabled a.grid-content-btn.btn-detail span.icon {
+	background-position: -343px -36px;
+}
+
+.share_adapt{
+	position:absolute;
+	bottom:10px;
+	left:380px;
+}
+
+div.mp5{
+margin:5px 0px;
+}
+
+li.detail_app_name{
+display:inline-block;
+min-width:108px;
+height:20px;
+line-height: 20px;
+margin-bottom: 5px;
+vertical-align: top;
+}
+
+span.dot{
+display:inline-block;
+width:8px;
+height:8px;
+background: url(../img/icons-02.png) no-repeat -301px -23px;
+}
+
+span.detail_app_name{
+margin-left:7px;
+/*vertical-align: top;*/
+}
+
+div.widget-container.ml12{
+margin-right:12px;
+}
+
+.fixed-width{
+	display:inline-block;
+	width:87px;
+}
+.type_separator{
+	color: #cccccc;
+}
+.type_title{
+	/*font-weight: bolder;*/
+	color: #1a1a1a;
+	border-bottom: 1px solid #cccccc;
+	padding-bottom: 7px;
+}
+
+h4.detail_app_title{
+margin-bottom: 21px;
+margin-bottom: 18px !important;
+}
+
+.app_name_info{
+	width:130px;
+}
+
+#detail_app_list{
+	margin-bottom: 8px;
+}
+
+.detail_app_cnt{
+padding-left:8px;
+vertical-align: top;
+}
+
+div.app_info_cnt{
+	margin:6px 0px 25px 0px;
+}
+
+span.no-volumn-notice{
+	margin-left:10px;
+	color:red;
+}
+
+label.disabled{
+	color: #b2b2b2;
+}
+
+
+div.widget-container.button-container.clicked button.button-button.disabled,
+div.widget-container.button-container button.button-button.disabled,
+div.widget-container.button-container button.button-button.disabled:hover {
+background-color: #b2b2b2;
+cursor: default;
+}
+
+.save_failed{
+	color:#e00000;
+}
+
+/**** add by ycf end *********************************************************************************************/
+
+span.dhcp-link-status{
+	color: red;
+	display: inline-block;
+	margin-left: 20px;
+}
+span.pin-lock-status{
+	color: red;
+	display: block;
+	margin-top: 20px;
+}
+span.tips_red{
+	color: red;
+	display: block;
+	margin-top: 20px;
+}
+span.tips{
+	display: block;
+	margin-top: 20px;
+}
+
+div.ml5,
+div.ml5.widget-container{
+	margin-left: 5px;
+}
+div.same-line.widget-container{
+	margin-left: 42px;
+}
+div.hidden, span.hidden{
+	display: none;
+}
+
+div#list_cnt.disk-grid-list{
+	margin-top: 26px;
+}
+div#list_cnt.disk-grid-list div.disk-name input.grid-display{
+	padding-left: 0;
+	text-indent: 0;
+	font-size: 14px;
+	color: #191919;
+}
+div#setGrid.folder-sharing-set-grid{
+	margin-top: 16px;
+}
+div#pingCnt, div#traceCnt{
+	margin-bottom: 20px;
+}
+
+div#mail.system-log-mail-container{
+	margin-top: 0;
+}
+div#mail.system-log-mail-container div.panel-content{
+	padding-top: 0;
+}
+
+
+
+div.textarea-container textarea.textarea-text.fixed-height{
+	height: 200px;
+}
+
+
+.bold{
+	font-weight: bold;
+}
+span.led-time-to{
+	display: inline-block;
+	margin: 0 5px;
+}
+
+
+/** qos ***/
+div.qos-panel{
+	width: 210px;
+}
+
+label.label_status_ss {
+	display: inline-block;
+	width: 65px;
+	margin-left: 10px;
+}
+
+label.label_status_sss {
+	display: inline-block;
+	width: 30px;
+	margin-left: 10px;
+}
+
+p.access-client-list-pp{
+	width: 180px;
+	padding: 8px 0;
+	border-bottom: 1px solid #d9d9d9;
+	cursor: pointer;
+	position: relative;
+}
+
+span.list-icon-pos{
+	right:34px;
+}
+
+div.access-client-list p.selected-list-p span.list-icon-pos
+{
+	right:34px;
+}
+
+p.access-client-list-pp span.icon-del {
+	background: url(../img/icons-02.png) no-repeat -90px -36px;
+	display: inline-block;
+	float: right;
+	right:0px;
+	width: 18px;
+	height: 18px;
+	margin-top: -4px;
+	margin-right: 11px;
+}
+
+p.access-client-list-p span.icon-del {
+background: url(../img/icons-02.png) no-repeat -90px -36px;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	margin-top: -4px;
+	margin-left: 15px;
+}
+/*span.icon-del {
+	background: url(../img/icons-02.png) no-repeat -90px -36px;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	margin-top: -4px;
+	margin-right: 9px;
+}*/
+
+p.access-client-list-p span.icon-del:hover{
+	background-position: -126px -54px;
+}
+
+p.access-client-list-pp span.icon-del:hover{
+	background-position: -126px -54px;
+}
+
+div.access-client-list div.qos-item-detail
+{
+	width:180px;
+}
+
+h5.type_collapse{
+	cursor: pointer;
+}
+
+h5.type_collapse span.icon {
+	/*position: relative;
+	left:5px;
+	top:5px;*/
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin: 3px;
+	float: right;
+	cursor: pointer;
+	background: url(../img/icons-02.png) no-repeat -238px -40px;
+
+}
+h5.type_collapse span.collapsed {
+	background: url(../img/icons-02.png) no-repeat -4px -40px;
+}
+span.wps-submit-wait-loading
+{
+	background: url(../img/waiting.gif) no-repeat top left;
+	width: 20px;
+	height: 20px;
+	margin: 8px -27px 8px 0;
+	display: inline-block;
+}
+
+div.access-priority-panel{
+	margin-right: 6px;
+}
+
+span.custom-xl{
+	width: 250px;
+	margin-right: 10px;
+	display: inline-block;
+}
+
+.qos-display-name{
+	white-space:nowrap; 
+	overflow:hidden; 
+	text-overflow:ellipsis;
+	display: inline-block;
+	width:130px;
+}
+div.access-wired-panel div.status-panel-main{
+	padding-top: 30px;
+}
+div.access-wireless-panel div.status-panel-main-pad{
+	padding-top: 1px;
+}
+
+/*
+div.access-wired-panel div.status-panel-main{
+	padding-top: 2px;
+}
+*/
+
+div.right-pos{
+	margin-left: 90px;
+}
+
+div.widget-container.indent-label-m{
+	margin-left: 178px;
+}
+.indent-label-m{
+	margin-left: 178px;
+}
+.red{
+	color: red;
+}
+
+div.msg-container.lan-pro-msg{
+    width: 700px;
+}
+
+span#share-all-tips{
+	width: 380px;
+}
+span#txt-mode-tips{
+	width: 360px;
+}
+
+@media screen and (max-width: 1000px){
+	div.top-footer div.top-footer-wrap span.help-faq{
+		margin-right: 20px;
+	}
+}
+
+div.textarea-container.read-only div.widget-wrap.textarea-wrap, div.textarea-container.read-only.valid div.widget-wrap.textarea-wrap, div.textarea-container.read-only.focus div.widget-wrap.textarea-wrap, div.textarea-container.read-only div.widget-wrap.textarea-wrap:hover {
+	border: 1px dashed #b2b2b2;
+}
+
+span#wps-loading{
+	margin: 5px 0 5px 6px;
+}
+
+div.msg-btn-wrap  span.form-error-tips{
+	color: #e00000;
+	margin-right: 12px;
+	display: inline-block;
+}
+
+div.access-client-list p.qos-list-p{
+	width: 180px;
+	padding: 8px 0;
+	border-bottom: 1px solid #d9d9d9;
+	cursor: pointer;
+	position: relative;
+}
+
+div.msg-container.qos-width {
+width: 635px;
+}
+.pppoe_time{
+	margin-right: 20px;
+}
+
+div.map-panel div.map-panel-cnt p.status-textarea-read label.xxs {
+width: 78px;
+display: inline-block;
+}
+
+p.status-textarea-read-usb span {
+width: 115px;
+}
+div.widget-container div.widget-tips div.tips-content a{
+	text-decoration: underline;
+	vertical-align: text-bottom;
+	color: #0094bc;
+}
+
+div.widget-container div.widget-tips div.tips-content a:hover{
+	cursor: pointer;
+}
+
+p.note-half-margin{
+	margin-top: 10px;
+}
+
+div.status-page-panel div.widget-container label.widget-fieldlabel, div.status-page-panel div.status-panel div.status-panel-main p.status-textarea-read label.xs,
+div.status-page-panel div.status-panel div.status-panel-main p.status-textarea-read label.m,  div.status-page-panel div.status-panel div.status-panel-main p.status-textarea-read span{
+	line-height: 16px;
+}
+
+div.combobox-container div.combobox-wrap input.combobox-text.time_hour{
+	width: 62px;
+}
+div.time-to{
+	width:80px;
+}
+/*********firmware**********/
+div#online-upgrade-alert-container div.msg-content-wrap{
+	margin-bottom: 19px;
+}
+div#online-upgrade-alert-container div#online-upgrade-container{
+	max-width: 380px;
+}
+div#online-upgrade-alert-container span#online-upgrade-info{
+	display: block;
+	line-height: 21px;
+}
+div#failure-msg-container h4{
+	width: 349px;
+	min-height: 27px;
+}
+div#online-upgrade-alert-container div#failure-btn-container{
+	margin-top: 48px;
+	text-align: right;
+}
+/***************init***********************/
+body#init-body{
+	position: inherit;
+	height: 100%;
+	background-color: #f2f2f2;	
+}
+body#init-body div#init-main{
+	display: none;
+}
+body#init-body div.top{
+	position: inherit;
+}
+body#init-body div.top-header div.top-content{
+	width: 560px;
+	/*min-width: inherit;*/
+	padding-top: 120px;
+	padding-left: 170px;
+}
+body#init-body div.top-header div.top-content p.text{
+	margin-top: 10px;
+}
+body#init-body form#form-init{
+	/*text-align: center;*/
+}
+body#init-body form#form-init div.init-field{
+	margin: 40px 0 10px 0;
+}
+
+label#init-password-label span.icon{
+	background: url(../img/icons-01.png) no-repeat -148px -4px;
+	display: inline-block;
+	width: 27px;
+	height: 27px;
+	margin-right: 10px;
+	margin-bottom: 2px;
+}
+label#init-password-label span.icon{
+	background-position: -184px -4px;
+}
+label#init-confirm-label span.icon{
+	background: url(../img/icons-01.png) no-repeat -148px -4px;
+	display: inline-block;
+	width: 27px;
+	height: 27px;
+	margin-right: 10px;
+	margin-bottom: 2px;
+}
+label#init-confirm-label span.icon{
+	background-position: -184px -4px;
+}
+
+
+body#init-body div.text-container.init-text div.widget-wrap{
+	border-radius: 5px;
+	background-color: #ffffff;
+	border-color: #b2b2b2;
+}
+body#init-body div.text-container.init-text.error div.widget-wrap{
+	border-color: #dd4040;
+}
+body#init-body div.button-container.begin-btn{
+	margin-left: 41px;
+	margin-top: 10px;
+	text-align: center;
+}
+body#init-body div.button-container.begin-btn button.button-button{
+	width: 184px;
+}
+body#init-body div.conflict-situation{
+	display: none;
+}
+body#init-body div.conflict-situation h4{
+	margin-top: 36px;
+}
+body#init-body div.conflict-situation h4.title span{
+	display: inline-block;
+}
+body#init-body div.conflict-situation h4.title span.icon{
+	background: url(../img/icons-01.png) no-repeat -218px -110px;
+	position: absolute;
+	width: 32px;
+	height: 32px;
+}
+body#init-body div.conflict-situation h4.title span.text{
+	font-size: 21px;
+	margin-left: 48px;
+}
+body#init-body div.conflict-situation div.content{
+	margin: 18px 0 40px 48px;
+}
+body#init-body div.conflict-situation div.content span,
+body#init-body div.conflict-situation div.content a{
+	line-height: 24px;
+	vertical-align: middle;
+}
+/*************upgrade************/
+body#upgrade-body{
+	position: inherit;
+	height: 100%;
+	background-color: #f2f2f2;	
+}
+body#upgrade-body div.top{
+	position: inherit;
+}
+body#upgrade-body div.top-header div.top-content{
+	width: 560px;
+	min-width: inherit;
+	padding-top: 120px;
+	padding-left: 170px;
+}
+body#upgrade-body div#upgrade-main h3.title{
+	font-size: 24px;
+	color: #191919;
+}
+body#upgrade-body div#upgrade-main h3.msg-title{
+	margin-bottom: 32px;
+}
+body#upgrade-body div.top-header div.top-content div.upgrade-field.detail-field{
+	margin-top: 30px;
+	margin-bottom: 35px;
+}
+body#upgrade-body div.top-header div.top-content div.upgrade-field span{
+	/*vertical-align: text-bottom;*/
+}
+body#upgrade-body div.top-header div.top-content div.upgrade-field label.text{
+	font-size: 18px;
+	color: #191919;
+}
+body#upgrade-body div.top-header div.top-content div.detail-field span.text{
+	display: block;
+}
+/*****************wan_error*************/
+body#abnormal-body{
+	position: inherit;
+	height: 100%;
+	background-color: #f2f2f2;	
+}
+body#abnormal-body div.top{
+	position: inherit;
+}
+body#abnormal-body div.top-main div.top-content{
+	width: 560px;
+	min-width: inherit;
+	padding-top: 220px;
+}
+body#abnormal-body div#abnormal-main h3{
+	margin: 36px 0;
+}
+body#abnormal-body div#abnormal-main h3.title span{
+	display: inline-block;
+}
+body#abnormal-body div#abnormal-main h3.title span.icon{
+	background: url(../img/icons-01.png) no-repeat -218px -110px;
+	position: absolute;
+	width: 32px;
+	height: 32px;
+}
+body#abnormal-body div#abnormal-main h3.title span.text{
+	font-size: 21px;
+	margin-left: 48px;
+	line-height: 32px;
+}
+body#abnormal-body div#error-list div.grid-container div.grid-header-container,
+body#abnormal-body div#error-list div.grid-container div.grid-content-container-outer{
+	background-color: #f2f2f2;
+}
+
+div.button-container.wan-error-btn{
+	margin-left: 70px;
+}
+/**** add by pmh end *********************************************************************************************/
+
+/* add by linxingjian */
+#remote_version_detail{
+	width: 500px;
+	display: block;
+}
+#remote-firmware #check-button-container{
+	text-align: right;
+}
+#remote-firmware #check-result{
+	display: inline-block;
+	color: #ff0000;
+	margin-right: 10px;
+}
+div.custom_loading_ctn{
+	position:absolute;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-left:5px;
+}
+div.custom_loading_ctn.gap{
+	position: absolute;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-left:-30px;
+}
+div.custom_loading_ctn span.loading{
+	position: relative;
+	background: url(../img/waiting.gif) no-repeat top left;
+	width: 20px;
+	height: 20px;
+	top: 4px;
+	display: inline-block;
+}
+/********************/
+/************add for vpnServer********/
+#pin_form #btn_cnt{
+	width: 300px;
+}
+input#reset-user-new-username, input#reset-user-new-password,input#reset-user-confirm-password,
+div#reset-user-form div.password-container input.password-hidden{
+	background: #f5f5f5;
+}
+div.button-container.inline-right{
+	display: inline-block;
+	position: absolute;
+	right: 0;
+}
+span#cert_generate_status{
+	color: #ff0000;
+	margin-right: 20px;
+}
+div.cert_generate_button_ctn{
+	display: inline-block;
+	position: absolute;
+	right: 0;
+}
+.no-cert-note-container{
+	margin: 5px 0 !important;
+}
+.schedule_timepicker{
+	position: relative;
+    top: -4px;
+}
+/********************/
+span.tips_grey {
+    color: #b2b2b2;
+    display: block;
+    margin-top: 20px;
+}

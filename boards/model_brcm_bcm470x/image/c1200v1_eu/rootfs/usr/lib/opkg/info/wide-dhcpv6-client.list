@@ -1,0 +1,4 @@
+/usr/sbin/dhcp6c
+/lib/netifd/proto/dhcp6c.sh
+/lib/netifd/dhcp6c.script
+/lib/upgrade/keep.d/wide-dhcpv6-client

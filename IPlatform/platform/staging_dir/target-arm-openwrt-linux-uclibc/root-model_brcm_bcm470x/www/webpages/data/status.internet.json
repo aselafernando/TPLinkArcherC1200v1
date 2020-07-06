@@ -1,0 +1,8 @@
+{
+	"errorcode": false,
+	"success": true,
+	"data":{
+
+		"internet_status": "connected"
+	}
+}

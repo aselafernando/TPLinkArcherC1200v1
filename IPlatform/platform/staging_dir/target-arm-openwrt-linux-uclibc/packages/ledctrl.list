@@ -1,0 +1,7 @@
+./
+./usr
+./usr/lib
+./usr/lib/libledctrl.so
+./usr/include
+./usr/include/libledctrl.h
+./host

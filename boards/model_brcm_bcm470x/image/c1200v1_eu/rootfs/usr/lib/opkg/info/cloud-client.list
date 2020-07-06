@@ -1,0 +1,8 @@
+/etc/hotplug.d/iface/80-cloud-client
+/etc/cloud-client/2048_newroot.cer
+/bin/cloud-client
+/etc/config/cloud_config
+/etc/config/plugin_config
+/etc/init.d/cloud_client
+/etc/config/cloud_status
+/etc/config/plugin_status

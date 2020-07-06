@@ -1,0 +1,25 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+
+. /lib/led_night_mode/ledpm_core.sh
+
+start()
+{
+	ledpm_start
+}
+
+stop()
+{
+	ledpm_stop
+}
+
+restart()
+{
+	ledpm_restart
+}
+
+reload()
+{
+	ledpm_reload
+}

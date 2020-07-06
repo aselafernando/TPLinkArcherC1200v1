@@ -1,0 +1,18 @@
+{
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{	
+		"conntype": "pppoe",
+		
+		"ipaddr": "192.168.0.11",
+		"netmask": "255.255.255.0",
+		"gateway": "192.168.0.1",
+		"tunnel_addr": "192.168.0.100",
+		"dns_mode": "static",
+		"pri_dns": "fe80::20a:ebff:fe13:7b00",
+		"snd_dns": "fe80::20a:ebff:fe13:7b00",
+		"conn_status": "connecting"
+	}
+}

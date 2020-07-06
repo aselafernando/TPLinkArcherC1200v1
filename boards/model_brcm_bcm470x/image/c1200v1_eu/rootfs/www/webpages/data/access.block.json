@@ -1,0 +1,15 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：Security Access Control页面中block获取数据",
+	
+	"timeout": false,
+	"success": true,
+	"data": [
+			{"access_block_name":"TP-LINK-PXC", "host":"HOST", "access_block_mac":"00-11-22-33-44-55", "access_block_type":"0", "key":"001"},
+			{"access_block_name":"TP-LINK-SMB", "host":"NOT HOST", "access_block_mac":"00-11-22-33-44-55", "access_block_type":"0", "key":"002"},
+			{"access_block_name":"TP-LINK-SOHO", "host":"NOT HOST", "access_block_mac":"00-11-22-33-44-55", "access_block_type":"0", "key":"003"},
+			{"access_block_name":"TP-LINK-BA", "host":"NOT HOST","access_block_mac":"00-11-22-33-44-55", "access_block_type":"0", "key":"004"},
+			{"access_block_name":"TP-LINK-MOBILE", "host":"NOT HOST", "access_block_mac":"00-11-22-33-44-55", "access_block_type":"0", "key":"005"}
+	]
+			
+}

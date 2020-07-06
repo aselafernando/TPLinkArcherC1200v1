@@ -1,0 +1,33 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2008-2010 OpenWrt.org
+
+START=15
+
+TS_LIBDIR=/lib/time_settings
+
+TIME_SETTINGS_MOD_ID=279
+LOG_INF_SERVICE_START=504
+LOG_INF_SERVICE_STOP=505
+LOG_INF_SERVICE_RESTART=508
+
+start() {
+	$TS_LIBDIR/set_time
+	ori_time=$(uci get profile.@global[0].factory_time -c /etc/profile.d)
+	date -s "$ori_time"
+	logx -p $$ $TIME_SETTINGS_MOD_ID $LOG_INF_SERVICE_START
+}
+
+stop() {
+	echo "do nothing"
+	logx -p $$ $TIME_SETTINGS_MOD_ID $LOG_INF_SERVICE_STOP
+}
+
+restart() {
+	$TS_LIBDIR/set_time
+	logx -p $$ $TIME_SETTINGS_MOD_ID $LOG_INF_SERVICE_RESTART
+}
+
+reload() {
+	$TS_LIBDIR/set_time
+	logx -p $$ $TIME_SETTINGS_MOD_ID $LOG_INF_SERVICE_RESTART
+}

@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Parental Control</title>
+</head>
+
+<body>
+<div class="func-container">
+	 <div id="firewall">
+	 	<!--<form id="firewall-setting">-->
+	    	<input type="text"  id="enable_spi" name="enable" value="" />
+	    <!--</form>-->
+	 </div>
+	 <!--
+	  <div id="vpn">
+	 	<form id="vpn-setting">
+	    	<input type="text"  id="pptp" name="pptp" value="" />
+	    	<input type="text"  id="l2tp" name="l2tp" value="" />
+	    	<input type="text"  id="ipsec" name="ipsec" value="" />
+	    </form>
+	 </div>
+	 -->
+
+	 <div id="dos_protection">
+	 	<form id="dos_setting">
+	    	<!-- <input type="text"  id="packet" name="packet" value="" /> -->
+	    	<input type="text"  id="enable_dos" name="enable" value="" />
+	    	<span id="enable_dos_tip"></span>
+
+	    	<!--<input type="text"  id="security_dos" name="security_dos" value="" />-->
+	    	<input type="text"  id="security_icmp" name="icmp_level" value="" />
+	    	<!-- <input type="text"  id="security_icmpLevel" name="security_icmpLevel" value="" /> -->
+	    	<input type="text"  id="security_udp" name="udp_level" value="" />
+	    	<!-- <input type="text"  id="udpLevel" name="udpLevel" value="" /> -->
+	    	<input type="text"  id="security_syn" name="syn_level" value="" />
+	    	<!-- <input type="text"  id="tcpLevel" name="tcpLevel" value="" /> -->
+
+	    	<input type="text"  id="wan_ping" name="wan_ping" value="" />
+	    	<input type="text"  id="lan_ping" name="lan_ping" value="" />
+	    </form>
+	 </div>
+
+	 <div id="dos_host_list">
+	 	<div id="dosGrid">
+	 		
+	 	</div>
+
+
+	 </div>
+	<div id="help_security_setting"></div>
+</div>
+
+<script type="text/javascript">
+
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var URL_FIREWALL = $.su.url("/admin/security_settings?form=spi_enable"); //./data/security.firewall.json;
+	var URL_DOS_ENABLE = $.su.url("/admin/security_settings?form=enable");//./data/security.dos.json;
+	var URL_DOS_PROTECTION = $.su.url("/admin/security_settings?form=dos");//./data/security.set.json;
+	var URL_HOST_LIST = $.su.url("/admin/security_settings?form=list");//./data/security.grid.json;
+
+	var STATISTICS_STATUS_URL_NEW = $.su.url("/admin/traffic?form=status");
+
+	var URL_DOS_PROTECTION_COMBINE = $.su.url("/admin/security_settings?form=dos&form=ping");//./data/security.set.json;
+	
+	$("div.func-container").page({
+		title: $.su.CHAR.SECURITY_SETTING.FIREWALL,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$("div#firewall").panel({
+		title: $.su.CHAR.SECURITY_SETTING.FIREWALL,
+		collapsible: false
+	});
+
+/*
+	$("div#vpn").panel({
+		title: $.su.CHAR.SECURITY_SETTING.VPN,
+		collapsible: true
+	});
+*/
+	var firewallProxy = new $.su.Proxy({
+		url: URL_FIREWALL
+	});
+
+	$("input#enable_spi").switchbutton({
+		fieldLabel: $.su.CHAR.SECURITY_SETTING.ENABLE_SPI,
+		labelCls: 'xl',
+		cls:"form-inner",
+		proxy: firewallProxy,
+		field: {
+			"name": "enable"
+		}
+	});
+
+	$("div#dos_protection").panel({
+		title: $.su.CHAR.SECURITY_SETTING.DOS_PROTECTION,
+		collapsible: false
+	});
+
+	var dosProxy = new $.su.Proxy({
+		url: URL_DOS_ENABLE
+	});
+
+	$("input#enable_dos").switchbutton({
+		fieldLabel: $.su.CHAR.SECURITY_SETTING.ENABLE_DOS,
+		labelCls: 'xl',
+		tips:$.su.CHAR.SECURITY_SETTING.ENABLE_DOS_TIP,
+		tipsCls:"l",
+		proxy: dosProxy,
+		field: {
+			"name": "enable"
+		}
+	});
+
+	$("input#security_icmp").combobox({
+		fieldLabel: $.su.CHAR.SECURITY_SETTING.ICMP,
+		labelCls: 'xl',
+		items:[
+			{name: $.su.CHAR.SECURITY_SETTING.OFF, cls: 'l', value:'off'},
+			{name: $.su.CHAR.SECURITY_SETTING.LOW, cls: 'l', value: 'low'},
+			{name: $.su.CHAR.SECURITY_SETTING.MIDDLE, cls: 'm', value: 'middle'},
+			{name: $.su.CHAR.SECURITY_SETTING.HIGH, cls: 'm', value: 'high'}
+		]
+	});
+
+	$("input#security_udp").combobox({
+		fieldLabel: $.su.CHAR.SECURITY_SETTING.UDP,
+		labelCls: 'xl',
+		items:[
+			{name: $.su.CHAR.SECURITY_SETTING.OFF, cls: 'l', value:'off'},
+			{name: $.su.CHAR.SECURITY_SETTING.LOW, cls: 'l', value: 'low'},
+			{name: $.su.CHAR.SECURITY_SETTING.MIDDLE, cls: 'm', value: 'middle'},
+			{name: $.su.CHAR.SECURITY_SETTING.HIGH, cls: 'm', value: 'high'}
+		]
+	});
+
+	$("input#security_syn").combobox({
+		fieldLabel: $.su.CHAR.SECURITY_SETTING.TCP,
+		labelCls: 'xl',
+		items:[
+			{name: $.su.CHAR.SECURITY_SETTING.OFF, cls: 'l', value:'off'},
+			{name: $.su.CHAR.SECURITY_SETTING.LOW, cls: 'l', value: 'low'},
+			{name: $.su.CHAR.SECURITY_SETTING.MIDDLE, cls: 'm', value: 'middle'},
+			{name: $.su.CHAR.SECURITY_SETTING.HIGH, cls: 'm', value: 'high'}
+		]
+	});
+
+	$("input#wan_ping").checkbox({
+		fieldLabel: '',
+		labelCls: 'xl',
+		items: [
+			{boxlabel: $.su.CHAR.SECURITY_SETTING.IGNORE, inputValue:'off', uncheckedValue:'on'}
+		]
+	});
+
+	$("input#lan_ping").checkbox({
+		fieldLabel: '',
+		labelCls: 'xl',
+		items: [
+			{boxlabel: $.su.CHAR.SECURITY_SETTING.FORBID, inputValue:'off', uncheckedValue:'on'}
+		]
+	});
+
+
+
+
+	// $("input#security_ignore").switchbutton({
+	// 	fieldLabel: $.su.CHAR.SECURITY_SETTING.IGNORE,
+	// 	labelCls:'xl',
+	// 	cls:'l'
+	// });
+
+	// $("input#security_forbid").switchbutton({
+	// 	fieldLabel: $.su.CHAR.SECURITY_SETTING.FORBID,
+	// 	labelCls:'xl',
+	// 	cls:'l'
+	// });
+	
+	//这里多个表格调用一个proxy，proxy需要单独定义！
+	var proProxy = new $.su.Proxy({
+		url: URL_DOS_PROTECTION_COMBINE
+	});
+
+
+	// $("form#firewall-setting").form({
+	// 	proxy: {
+	// 		url: "./data/security.firewall.json"
+	// 	},
+	// 	fields: [
+	// 		{name: "security_spi", mapping: "security_spi"}
+	// 	],
+	// 	submitBtn: null
+	// });
+
+	// $("form#vpn-setting").form({
+	// 	proxy: ipv4Proxy,
+	// 	fields: [
+	// 		{name: "pptp", mapping: "pptp"},
+	// 		{name: "l2tp", mapping: "l2tp"},
+	// 		{name: "ipsec", mapping: "ipsec"}
+	// 	],
+	// 	submitBtn: "null"
+	// });
+	var sys_statistic_proxy =  new $.su.Proxy({
+		url: STATISTICS_STATUS_URL_NEW
+	});
+
+
+	$("form#dos_setting").form({
+		proxy: proProxy,
+		fields: [
+			// {name: "packet", mapping: "packet"},
+			//{name: "security_dos", mapping: "security_dos"},
+			{name: "icmp_level", mapping: "icmp_level"},
+			// {name: "security_icmpLevel", mapping: "security_icmpLevel"},
+			{name: "udp_level", mapping: "udp_level"},
+			// {name: "udpLevel", mapping: "udpLevel"},
+			{name: "syn_level", mapping: "syn_level"},
+			// {name: "tcpLevel", mapping: "tcpLevel"},
+			{name: "wan_ping", mapping: "wan_ping"},
+			{name: "lan_ping", mapping: "lan_ping"}
+		],
+		submitBtn: "default"
+	}).on("ev_loadData", function(){
+		sys_statistic_proxy.read(null, function(data){
+			if(data.enable == "on")
+			{
+				$("input#enable_dos").switchbutton("enable");
+				$("input#enable_dos").switchbutton("setTips", "");
+				// $("#enable_dos_tip").html("");
+			}
+			else
+			{
+				$("input#enable_dos").switchbutton("disable");
+				// $("#enable_dos_tip").html($.su.CHAR.SECURITY_SETTING.ENABLE_DOS_TIP);
+				$("input#enable_dos").switchbutton("setTips", $.su.CHAR.SECURITY_SETTING.ENABLE_DOS_TIP);
+			}
+		})
+	});
+
+	$("div#dos_host_list").panel({
+		title: $.su.CHAR.SECURITY_SETTING.BLOCK_DOS,
+		collapsible: false
+	});
+
+	var hostProxy = new $.su.Proxy({
+		url: URL_HOST_LIST
+	});
+
+
+	$("div#dosGrid").grid({
+		store:{
+			proxy: hostProxy,
+			fields: [
+			{name: "ipaddr"},
+	 		{name: "mac"}
+		],
+		autoLoad: true
+		},
+		minLines:0,
+		paging: {
+		},
+		columns: [
+			{
+				xtype: "checkcolumn",
+				width:40
+			},
+			{
+				text: $.su.CHAR.SECURITY_SETTING.ID, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.SECURITY_SETTING.IP_ADDRESS, 
+				width:250,
+				dataIndex: "ipaddr"
+			},
+			{
+				text: $.su.CHAR.SECURITY_SETTING.MAC_ADDRESS, 
+				dataIndex: "mac"
+			}
+
+		],
+		operation: [{
+			xtype: "totalCount",
+			cls: "left",
+			fieldLabel: $.su.CHAR.SECURITY_SETTING.HOST_NUMBER
+		},"refresh","delete"]
+	});
+
+	//console.log("inner", $.su.app.runningModule)
+	/*$.su.app.runningModule.on("ev_beforeunload", function(e){
+		//console.log("ev_beforeunload", arguments);
+		//console.log("ev_beforeunload")
+	})*/
+
+	$.su.app.runningModule.addUnloadHandler(function(){
+		//console.log("security unload!!!!")
+	});
+
+	var helpSecuritySetting = new $.su.Help({
+			container: "div#help_security_setting",
+			content: ["SECURITY_FIREWALL", "SECURITY_DOS", "SECURITY_LIST"]
+	});
+	
+
+});
+</script>
+</body>
+
+</html>

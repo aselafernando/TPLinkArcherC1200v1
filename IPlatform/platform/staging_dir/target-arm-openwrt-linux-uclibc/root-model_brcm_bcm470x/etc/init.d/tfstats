@@ -1,0 +1,33 @@
+#!/bin/sh /etc/rc.common
+
+START=77
+STOP=77
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+TFSTATS_MOD_ID=269
+LOG_INF_SERVICE_START=504
+LOG_INF_SERVICE_STOP=505
+
+start() {
+	local enable
+	config_load tfstats
+	
+	config_get enable "switch" enable
+	if [ "$enable" = "on" ]; then
+		service_start /usr/sbin/tfstats
+		#echo $! > /var/run/tfstats.pid
+		logx -p $$ $TFSTATS_MOD_ID $LOG_INF_SERVICE_START
+	fi
+	return 0
+}
+
+stop() {
+    service_stop /usr/sbin/tfstats
+	#local pid
+	#pid=$(cat /var/run/tfstats.pid)
+	#kill -9 $pid
+	logx -p $$ $TFSTATS_MOD_ID $LOG_INF_SERVICE_STOP
+	return 0
+}

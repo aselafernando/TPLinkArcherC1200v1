@@ -1,0 +1,66 @@
+##-- summary of summaries --##
+
+#Datenstruktur
+interface (index)
+    -> specified values
+        -> Robustness Variable
+        -> Query Interval
+        -> Query Response Interval
+        -> Multicast Address Listening Interval
+        -> Other Querier Present Tiemout
+        -> Startup Query Interval
+        -> Startup Query Count
+        -> Last Listener Query Interval
+        -> Last Listener Query Count 
+        -> Last Listener Query Time (not tunable)
+        -> Older Version Querier Present Timeout
+        -> Older Version Host Present Timeout
+    -> Compatible Mode variable (MLDv1, MLDv2, IGMPv1, IGMPv2, IGMPv3)
+    -> is Querier (bool) 
+    -> multicast group addr 
+        -> subscribers 
+            -> filter mode (INCLUDE, EXCLUDE) 
+            -> filter timer 
+            -> current state (counter, flag(INIT, RUNNING, RESPONSE_STATE)) 
+            -> filter source list (set<addr_storage>)
+                -> Include List/Requested List
+                    -> Source Timer
+                -> Exclude       
+                    -> Source Timer
+        -> sourcen
+            -> received source list 
+                -> current state (counter, flag (UNUSED_SRC, CACHED_SRC))
+     
+    - query werden in hohe des Listner query Counts wiederholt und das im abstand vom Last Listener Query interval 
+    - neue und anstehende Queries der selben gruppe müssen gemerged werden
+    - wie funkt das mit dem forwarden wie müssen die forwarding rules erarbeitet werden
+#Nachrichten
+Queries
+    -> General Query
+    -> Multicast Address Specific Query
+    -> Mulitcast Address and Source Specific Query
+Group Records
+    -> Current-State Record
+        -> MODE_IS_INCLUDE
+        -> MODE_IS_EXCLUDE
+    -> Filter Mode Change Record
+        -> CHANGE_TO_INCLUDE_MODE
+        -> CHANGE_TO_EXCLUDE_MODE
+    -> Source List Change Record
+        -> ALLOW_NEW_SOURCES
+        -> BLOCK_OLD_SOURCES
+
+#Stuff to Do
+MLDv2/IGMPv3-capable routers abonnieren      
+
+#Suppress Router-Side Processing
+über den Suppress mechanismus syncronisieren sich die Multicast Router (Querier und non-querier), nur so ist es möglich folgende Timer zu setzten:
+
+   Query       Action
+   -----       ------
+   Q(MA,A)     Source Timers for sources in A are lowered to LLQT
+   Q(MA)       Filter Timer is lowered to LLQT
+
+    - es werden immer 2 queries versendet. Bei dem einen ist das flag gesetzt(enthält alle sourcen mit timer größer als LLQT), bei dem anderen nicht(enthält alle sourcen mit timer kleiner gleich LLQT)  
+  
+    wie merge ich jetzt nochmal queries???

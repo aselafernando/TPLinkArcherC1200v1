@@ -1,0 +1,25 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+
+. /lib/led_night_mode/ledgeneral_core.sh
+
+start()
+{
+     ledgeneral_start
+}
+
+stop()
+{
+     ledgeneral_stop
+}
+
+restart()
+{
+     ledgeneral_restart
+}
+
+reload()
+{
+     ledgeneral_reload
+}

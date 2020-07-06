@@ -1,0 +1,103 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006 OpenWrt.org
+
+START=60
+BIN=/usr/sbin/pptpd
+DEFAULT=/etc/default/$BIN
+RUN_D=/var/run
+PID_F=$RUN_D/$BIN.pid
+CONFIG=/var/etc/pptpd.conf
+CHAP_SECRETS=/var/etc/chap-secrets
+PAP_SECRETS=/var/etc/pap-secrets
+OPTIONS_SAMPLE=/etc/ppp/options.pptpd.sample
+PUBLIC_DNS=8.8.8.8
+
+setup_login() {
+	local section="$1"
+
+	config_get username "$section" username
+	config_get password "$section" password
+	[ -n "$username" ] || return 0
+	[ -n "$password" ] || return 0
+
+	echo "$username pptp-server $password *" >> $CHAP_SECRETS
+	echo "$username pptp-server $password *" >> $PAP_SECRETS
+}
+
+setup_config() {
+	local section="$1"
+
+	config_get_bool enabled "$section" 'enabled' 0
+	[ "$enabled" -eq 0 ] && return 1
+
+	mkdir -p /var/etc
+	cp /etc/pptpd.conf $CONFIG
+
+	config_get localip "$section" localip
+	config_get remoteip "$section" remoteip
+	config_get connections "$section" connections 
+	[ -n "$localip" ] && echo "localip  $localip" >> $CONFIG
+	[ -n "$remoteip" ] && echo "remoteip  $remoteip" >> $CONFIG
+	[ -n "$connections" ] && echo "connections  $connections" >> $CONFIG
+	return 0
+}
+
+setup_options() {
+	local mppeoption="mppe required,stateless"
+
+	[ -f /etc/ppp/options.pptpd ] && rm /etc/ppp/options.pptpd
+
+	config_get unencrypted_allow "pptpd" "unencrypted_access"
+	if [ "$unencrypted_allow" == "on" ]; then
+		mppeoption="mppe no56,stateless"
+	else
+		mppeoption="mppe required,stateless"
+	fi
+	sed -e "/^mppe*/c $mppeoption" $OPTIONS_SAMPLE >/etc/ppp/options.pptpd
+	config_get localip pptpd localip
+	[ -n "$localip" ] && echo "ms-dns $localip" >> /etc/ppp/options.pptpd
+	[ -n "$PUBLIC_DNS" ] && echo "ms-dns $PUBLIC_DNS" >> /etc/ppp/options.pptpd
+}
+
+start_pptpd() {
+	[ -f $DEFAULT ] && . $DEFAULT
+	mkdir -p $RUN_D
+	for m in arc4 sha1_generic slhc crc-ccitt ppp_generic ppp_async ppp_mppe; do
+		insmod $m >/dev/null 2>&1
+	done
+	ln -sfn $CHAP_SECRETS /etc/ppp/chap-secrets
+	ln -sfn $PAP_SECRETS /etc/ppp/pap-secrets
+	service_start $BIN  -c $CONFIG
+}
+
+start() {
+	config_load pptpd
+	setup_config pptpd || return
+	: > $CHAP_SECRETS
+	: > $PAP_SECRETS
+	config_foreach setup_login login
+	setup_options
+	start_pptpd
+
+	config_get smbacc "pptpd" "samba_access"
+	fw pptp_access $smbacc
+	config_get netbios "pptpd" "netbios_pass"
+	if [ "$netbios" == "on" ]; then
+		nice -n 10 bcrelay -d -i br-lan -o pppdrv[0-9].* -p 137,138 -n
+	fi
+}
+
+stop() {
+        for pid in $(pidof bcrelay); do 
+            kill -9 $pid
+        done
+        for pid in $(pidof pppd); do 
+            cmdline=$(cat /proc/$pid/cmdline | grep pptpd) 
+            if [ "$cmdline" != "" ]; then
+                kill $pid
+            fi
+        done
+	service_stop $BIN
+	fw pptp_block
+	#echo f >/proc/net/nf_conntrack 2>/dev/null
+}

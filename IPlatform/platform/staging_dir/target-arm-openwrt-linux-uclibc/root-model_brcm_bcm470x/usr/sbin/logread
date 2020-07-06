@@ -1,0 +1,82 @@
+#!/usr/bin/lua
+--[[
+Copyright(c) 2008-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+
+File    : logread
+Details : System log reader.
+Author  : Ye Qianchuan <yeqianchuan@tp-link.net>
+Version : 1.0
+Date    : 4 Mar, 2014
+]]--
+
+local allow_all
+local lang
+local proj
+local prio
+local crlf
+
+function usage()
+    -- TODO
+end
+
+local function eol()
+    io.write(crlf and "\r\n" or "\n")
+end
+
+-- Parse args.
+local i = 1
+while i <= #arg do
+    local v = arg[i]
+    i = i + 1
+
+    if v == "-a" then
+        allow_all = true
+    elseif v == "-l" then
+        lang = arg[i]
+        i = i + 1
+    elseif v == "-m" then
+        proj = arg[i]
+        i = i + 1
+    elseif v == "-p" then
+        prio = arg[i]
+        i = i + 1
+    elseif v == "-w" then
+        crlf = true
+    else
+        usage()
+        os.exit(1)
+    end
+end
+
+local config = require "luci.sys.config"
+local hardver = config.getsysinfo("HARDVERSION")
+local softver = config.getsysinfo("SOFTVERSION")
+
+io.write(string.format("Hardware Version: %s", hardver))
+eol()
+io.write(string.format("Software Version: %s", softver))
+eol()
+
+eol()
+
+local log = require "logread"
+local log = log.open()
+local filter = {
+    lang = lang,
+    proj = proj,
+    prio = prio,
+    allow_all = allow_all
+}
+log:read(filter,
+         function(rec)
+             if rec.proj_id then
+                 io.write(string.format("%s %s[%u]: <%u> %.3u%.3u ",
+                                        rec.date, rec.name, rec.pid,
+                                        rec.prio, rec.proj_id, rec.msg_id))
+                 io.write(rec.msg)
+             else
+                 io.write(rec.msg)
+             end
+             eol()
+end)
+log:close()

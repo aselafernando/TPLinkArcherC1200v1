@@ -1,0 +1,17 @@
+libblobmsg_json.so
+libgcc_s.so.1
+libjson.so.0
+libjson.so.0.0.1
+liblog.so
+liblua.so.5.1.4
+libnetfilter_conntrack.so.3
+libnetfilter_conntrack.so.3.1.3
+libnfnetlink.so.0
+libnfnetlink.so.0.2.0
+libpthread-0.9.32.1.so
+libpthread.so.0
+librt-0.9.32.1.so
+librt.so.0
+libubox.so
+libubus.so
+libuci.so

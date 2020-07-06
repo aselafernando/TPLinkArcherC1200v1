@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+
+</head>
+
+<body>
+<div class="func-container">
+	 <div id="print">
+	 	<form id="print-setting">
+	    	<input type="text"  id="print_server_enable" name="enable" value="" />
+			<input type="text"  id="name" name="name" value="" />
+
+	    	<!-- <hr> -->
+	    	<div id="note_cnt" class="steps part-separate">
+		    	<h5 class="title" id="note_title"></h5>
+		    	<p><span class="step" id="step1"></span><span id="note1"></span></p>
+		    	<p><span class="step" id="step2"></span><span id="note2"></span></p>
+		    	<p><span class="step" id="step3"></span><span id="note3"></span></p>
+		    </div>
+	    	<!-- <p class="note" id="note4" name="note4"></p>
+	    	<p class="note" id="note5" name="note5"></p> -->
+	    </form>
+	 </div>
+
+
+
+	<div id="help_print_server"></div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var PRINT_SERVER_URL = "./data/usb.print.json";
+	var PRINT_SERVER_URL_NEW = $.su.url("/admin/print_server");
+
+	$("div.func-container").page({
+		title: $.su.CHAR.PRINT.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$("div#print").panel({
+		title: $.su.CHAR.PRINT.TITLE,
+		collapsible: false
+	});
+
+	$("input#print_server_enable").switchbutton({
+		fieldLabel: $.su.CHAR.PRINT.ENABLE_PRINT_SERVER,
+		cls:"form-inner",
+		proxy: {
+			url: PRINT_SERVER_URL_NEW
+		},
+		field: {
+			"name": "enable",
+			// "name":"name"
+		}
+	}).on("ev_loadData", function(e, data){
+		if(data.enable == "off")
+		{
+			$("input#name").textbox("setValue", $.su.CHAR.PRINT.NONE);
+		}
+		else
+		{
+			if(data.printer_count == 0)
+			{
+				$("input#name").textbox("setValue", $.su.CHAR.PRINT.NONE);
+			}
+			else
+			{
+				$("input#name").textbox("setValue", data.name);
+			}
+		}
+		
+	});
+	
+	$("input#name").textbox({
+		fieldLabel: $.su.CHAR.PRINT.NAME,
+		cls:"form-inner",
+		readOnly:true
+	});
+
+	
+	$("h5#note_title").html($.su.CHAR.PRINT.NOTE_TITLE);
+	$("#step1").html($.su.CHAR.PRINT.STEP1);
+	$("#step2").html($.su.CHAR.PRINT.STEP2);
+	$("#step3").html($.su.CHAR.PRINT.STEP3);
+
+	$("#note1").html($.su.CHAR.PRINT.NOTE1);
+	$("#note2").html($.su.CHAR.PRINT.NOTE2);
+	$("#note3").html($.su.CHAR.PRINT.NOTE3);
+	
+	var helpPrintServer = new $.su.Help({
+			container: "div#help_print_server",
+			content: "PRINT_SERVER"
+	});
+	
+
+
+});
+</script>
+</body>
+
+</html>

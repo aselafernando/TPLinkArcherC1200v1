@@ -1,0 +1,33 @@
+<%#
+LuCI - Lua Configuration Interface
+Copyright 2008 Steven Barth <steven@midlink.org>
+Copyright 2008 Jo-Philipp Wich <xm@leipzig.freifunk.net>
+Copyright 2011 Kevin Locke <klocke@digitalenginesoftware.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+$Id$
+
+-%>
+
+<div class="cbi-section">
+	<% if not self.category then %>
+		<a href="<%=self.build_conn_url(self.conname, "shared")%>">Switch to advanced configuration &#8658;</a>
+	<% else %>
+		<a href="<%=self.build_conn_url(self.conname)%>">&#8656; Switch to basic configuration</a>
+		<hr style="margin:0.5em 0" />
+		<%:Configuration category%>:
+		<% for i, catname in ipairs(self.categories) do %>
+			<% if catname[1] == self.category then %>
+				<strong><%=catname[2]%></strong>
+			<% else %>
+				<a href="<%=self.build_conn_url(self.conname, catname[1])%>"><%=catname[2]%></a>
+			<% end %>
+			<% if next(self.categories, i) then %>|<% end %>
+		<% end %>
+	<% end %>
+</div>

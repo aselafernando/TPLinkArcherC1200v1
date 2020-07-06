@@ -1,0 +1,15 @@
+Package: libpolarssl
+Version: 1.2.12-1
+Depends: 
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/opensource/polarssl
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 149676
+Description:  The aim of the PolarSSL project is to provide a quality, open-source
+ cryptographic library written in C and targeted at embedded systems.
+ This package contains the PolarSSL library.

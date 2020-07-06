@@ -1,0 +1,39 @@
+config global 'settings'
+    option enable        'on'
+    option up_band   	 '1000'
+    option down_band     '4000'
+    option priority_high '60'
+    option priority_mid  '30'
+    option priority_low  '10'
+    option percent       '92'
+
+config rule
+	option enable		 'on'
+	option name 		 'huluyao'
+	option type          'app custom mac ip phy'
+	option proto 	     'tcp udp'
+	option port          '99-999,12,13,14,15'
+	option mac 			 '00:11:22:33:AA:BB'
+	option ipaddr 		 '192.168.1.3'
+	option phy           'port4'
+	option priority      'high'
+	list   app           'qq wow lol'
+
+config app 'qq'
+	option tcp_port 	 '788'
+	option udp_port      '999'
+
+config app 'wow'
+	option tcp_port 	 '233'
+	option udp_port      '244'
+
+config app 'lol'
+	option tcp_port 	 '344'
+	option udp_port      '355'
+
+
+
+
+
+
+

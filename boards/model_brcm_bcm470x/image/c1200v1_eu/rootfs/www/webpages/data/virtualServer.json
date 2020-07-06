@@ -1,0 +1,22 @@
+{
+	"timeout": false,
+	"success": true,
+	"data":[ {
+		"name": "",
+		"external_port": "2770",
+		"ipaddr": "192.168.1.1",
+		"internal_port": "21",
+		"protocol": "TCP",
+		"enable": "on"
+	},
+	{
+		"name": "FTP Service",
+		"external_port": "21-45",
+		"ipaddr": "192.168.1.1",
+		"internal_port": "21",
+		"protocol": "UDP",
+		"enable": "off"
+	}
+	]
+
+}	

@@ -1,0 +1,77 @@
+#!/usr/bin/lua
+--[[
+Copyright(c) 2008-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+
+File    : tsched_conf
+Details : CLI wrap for tsched_conf.lua
+Author  : Ye Qianchuan <yeqianchuan@tp-link.net>
+Version : 1.0
+Date    : 4 Mar, 2014
+]]--
+
+local tsched_conf = require "tsched_conf"
+local cmd, config, entry_arg, ranges
+
+local function usage()
+    print("Usage:", arg[0] .. " -adDu MODULE_NAME [ENTRY_ARG] [RANGES]")
+    print("CLI interface for tsched configuration.")
+    print("\t-a MODULE_NAME ENTRY_ARG RANGES\t\tAdd an entry to MODULE_NAME")
+    print("\t-d MODULE_NAME ENTRY_ARG RANGES\t\tDelete an entry from MODULE_NAME")
+    print("\t-D MODULE_NAME\t\t\t\tDelete all entries from MODULE_NAME")
+    print("\t-u MODULE_NAME\t\t\t\tUpdate MODULE_NAME")
+    os.exit(1)
+end
+
+local function check(ret)
+    if not ret then
+        print("Error occured")
+        os.exit(1)
+    end
+end
+
+local function check_args(...)
+    for i = 1, select('#', ...) do
+        if not select(i, ...) then
+            usage()
+        end
+    end
+end
+
+cmd = arg[1]
+config = arg[2]
+entry_arg = arg[3]
+ranges = arg[4]
+
+check_args(cmd, config)
+
+tc = tsched_conf.TschedConf(config)
+
+if cmd == "-D" then
+    check(tc:del_all())
+    check(tc:save(true))
+elseif cmd == "-a" then
+    check_args(entry_arg, ranges)
+    check(tc:add_entry(entry_arg, ranges))
+    check(tc:save())
+elseif cmd == "-d" then
+    check_args(entry_arg, ranges)
+    check(tc:del_entry(entry_arg, ranges))
+    check(tc:save())
+elseif cmd == "-u" then
+    check(tc:update())
+elseif cmd == "-s" then
+    -- DEBUG ONLY
+    check(tc:show())
+elseif cmd == "-c" then
+    -- DEBUG ONLY
+    local cal = arg[2]
+    check_args(cal)
+    ranges = tsched_conf.convert_calendar(cal)
+    check(ranges)
+    print(cal)
+    print("->")
+    print(ranges)
+else
+    usage()
+    os.exit(1)
+end

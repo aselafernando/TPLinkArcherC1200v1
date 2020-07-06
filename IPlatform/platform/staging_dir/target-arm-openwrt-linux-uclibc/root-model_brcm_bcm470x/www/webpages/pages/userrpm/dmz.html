@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>DMZ</title>
+</head>
+
+<body>
+	<div class="func-container">
+		<div id="dmz_setting">
+			<form id="dmz_enable_setting" class="natSeries">
+				<!--<p id="note" class="note"></p>-->
+				<input type="text"  id="dmz_enable" name="enable" value="" />
+				<input type="text"  id="dmz_ipaddr" name="ipaddr" value="" />
+				<br/>
+				<span id="nat_notice" class="hidden"></span>
+			</form>
+		</div>
+		<div id="dmz_help"></div>
+	</div>
+	
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+
+	var URL_DMZ = $.su.url("/admin/nat?form=dmz"); //data/nat.dmz.json
+
+	$("div.func-container").page({
+		title: $.su.CHAR.DMZ.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$('div#dmz_setting').panel({
+		title: $.su.CHAR.DMZ.TITLE,
+		collapsible: false
+	});
+	$("span#nat_notice").html($.su.CHAR.DMZ.NAT_ENABLE_NOTICE);
+	
+	$("input#dmz_enable").checkbox({
+		fieldLabel: $.su.CHAR.DMZ.TITLE,
+		//labelCls: 'l',
+		//cls: "inline",
+		items: [
+			{boxlabel: $.su.CHAR.DMZ.ENABLE_DMZ, inputValue: "on", uncheckedValue: "off"}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		var val = (newValue[0]=="enable"||newValue[0]=="on") ? "on" : "off";
+		switch(val)
+		{
+			case "on":
+				$("input#dmz_ipaddr").textbox("enable");
+				break;
+			case "off":
+				$("input#dmz_ipaddr").textbox("disable");
+				break;
+		}
+	});
+
+	$("input#dmz_ipaddr").textbox({
+		fieldLabel: $.su.CHAR.DMZ.HARDWARESTATUS,
+		vtype:"ip",
+		textFormat: $.su.format.ip,
+		allowBlank:false,
+		vtypeText: $.su.CHAR.DMZ.IPERROR
+	});
+
+	var lanIP = 0;
+	var lanMask = 0;
+
+	var lanProxy = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=lan_ipv4')
+	});
+
+	lanProxy.read({}, function(data){
+		lanIP = data.ipaddr;
+		lanMask = data.mask_type.toUpperCase()=='CUSTOM'?data.custom_value:data.mask_type;
+	});
+
+
+	var dmzProxy = new $.su.Proxy({
+		url: URL_DMZ
+	});
+
+	$("form#dmz_enable_setting").form({
+		proxy: dmzProxy,
+		fields: [
+			{name: "enable", mapping: "enable"},
+			{name: "ipaddr", mapping: "ipaddr"}
+		],
+		validator:function(){
+			if($("input#dmz_enable").checkbox("getValue")[0] == "enable")
+			{
+				if( !$.su.func.isSameNet( $("#dmz_ipaddr").textbox('getValue'), lanIP, lanMask) ){
+					$("#dmz_ipaddr").textbox("setError");
+					$("form#dmz_enable_setting").form('setError',  $.su.CHAR.ERROR['00000110']);
+					return false;
+				}
+				if( $("#dmz_ipaddr").textbox('getValue') == $.su.func.getLimitIp(lanIP,lanMask,"min") ){
+					$("#dmz_ipaddr").textbox("setError");
+					$("form#dmz_enable_setting").form('setError',  $.su.CHAR.ERROR['00000133']);
+					return false;
+				}
+				if( $("#dmz_ipaddr").textbox('getValue') == $.su.func.getLimitIp(lanIP,lanMask,"max") ){
+					$("#dmz_ipaddr").textbox("setError");
+					$("form#dmz_enable_setting").form('setError',  $.su.CHAR.ERROR['00000133']);
+					return false;
+				}
+
+				if( $("#dmz_ipaddr").textbox('getValue') == lanIP){
+					$("#dmz_ipaddr").textbox("setError");
+					$("form#dmz_enable_setting").form('setError',  $.su.CHAR.ERROR['00000077']);
+					return false;
+				}
+			}
+			return true;
+		},
+		submitBtn: "default"
+	});
+	
+	var natProxy = new $.su.Proxy({
+		url: $.su.url('/admin/nat?form=setting')
+	});
+
+	natProxy.read({}, function(data){
+		if(data.enable == 'off'){
+			$("span#nat_notice").show();
+		}
+		else{
+			$("span#nat_notice").hide();
+		}
+	});
+
+	var helpDMZ = new $.su.Help({
+		container: "div#dmz_help",
+		content: "DMZ"
+	});
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+/usr/sbin/pppd
+/lib/netifd/ppp-dhcp6c.script
+/etc/ppp/filter
+/lib/netifd/proto/pppv6.sh
+/lib/netifd/ppp-up
+/lib/netifd/pppv6-up
+/etc/ppp/options
+/etc/ppp/chap-secrets
+/lib/netifd/ppp-down
+/lib/netifd/proto/ppp.sh
+/etc/ppp/resolv.conf

@@ -1,0 +1,41 @@
+#!/usr/bin/lua
+--[[
+Copyright(c) 2008-2014 Shenzhen TP-LINK Technologies Co.Ltd.
+
+File    :  ifmac
+Details :  mac address handler for interface
+Author  :  Zhu xianfeng <zhuxianfeng@tp-link.net>
+Version :  1.0.0
+Date    :  11 Sep, 2014
+]]--
+
+local sys   = require "luci.sys"
+local uci   = require "luci.model.uci"
+local uci_r = uci.cursor()
+
+function set_iface_mac(iface)
+    local ifname  = uci_r:get("network", iface, "ifname")
+    local new_mac = nil
+
+    uci_r:foreach("network", "interface",
+    function(section)
+        local name    = section["ifname"]
+        local macaddr = section["macaddr"]
+
+        if not new_mac and name == ifname and macaddr then
+            new_mac = macaddr
+        end
+    end)
+
+    if new_mac then
+	sys.fork_call("ifconfig " .. ifname .. " down")
+        sys.fork_call("ifconfig " .. ifname .. " hw ether " .. new_mac)
+	sys.fork_call("ifconfig " .. ifname .. " up")
+    end
+end
+
+function main()
+    set_iface_mac("wan")
+end
+
+main()

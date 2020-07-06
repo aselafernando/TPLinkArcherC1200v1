@@ -1,0 +1,13 @@
+Package: pppd
+Version: 2.4.3-8
+Depends: kmod-ppp, kmod-pptp, kmod-pppoe, resolveip
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/opensource/pppd
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 125563
+Description:  This package contains the PPP (Point-to-Point Protocol) daemon for PPPoE, L2TP and PPTP.

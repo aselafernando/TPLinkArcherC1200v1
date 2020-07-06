@@ -1,0 +1,9 @@
+/lib/basic_security/config.sh
+/lib/upgrade/keep.d/basic-security
+/lib/basic_security/core_global.sh
+/etc/hotplug.d/iface/21-basic_security
+/etc/init.d/basic_security
+/lib/basic_security/core.sh
+/lib/basic_security/core_log.sh
+/etc/hotplug.d/firewall/20-basic_security
+/etc/config/basic_security

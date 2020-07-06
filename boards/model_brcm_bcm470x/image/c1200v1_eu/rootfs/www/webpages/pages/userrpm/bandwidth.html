@@ -1,0 +1,395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+<style type="text/css">
+	div.container.widget-container.text-container.offset{
+		position: absolute;
+		top:200px;
+		left:540px;
+	}
+</style>
+
+</head>
+
+<body>
+<div class="func-container">
+
+	 <div id="bandwidth-panel">
+
+	 	<form id="bandwidth_setting">
+	    	<input id="enable_streamboost" name="enable_streamboost" />
+
+	    	<input type="text"  id="up_limitation_mbps" name="uplimit" />
+	    	<input type="text"  id="down_limitation_mbps" name="downlimit"/>
+
+	    	<input id="enable_auto" name="enable_auto" />
+	    	<span id="manual_test" class="test-bandwidth inlineBlock"></span>
+	    	<input id="manual_testing" name="" />
+	    	<input id="manual_failed" name="" />
+	    	<input id="manual_success" name="" />
+
+	    	<input id="auto_update" name="auto_update" />
+
+	    	<button id="save_setting_btn" type="button"></button>
+	    </form>
+	 </div>
+
+	 <div id="bandwidth_help"></div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var manualInterval = 0;
+	var autoInterval = 0;
+
+	$("div.func-container").page({
+		title: 'Bandwidth',
+		help: ""
+	});
+
+	$('span#manual_test').html($.su.CHAR.BANDWIDTH.TEST_BANDWIDTH);
+
+	var autoTestFlag = false;
+
+	//ipv4
+	$("div#bandwidth-panel").panel({
+		title: $.su.CHAR.BANDWIDTH.BANDWIDTH,
+		collapsible: false
+	});
+
+	$("input#enable_streamboost").checkbox({
+		fieldLabel: $.su.CHAR.BANDWIDTH.STREAMBOOST,
+		labelCls: 'l',
+		items: [
+			{boxlabel: $.su.CHAR.BANDWIDTH.ENABLE_STREAMBOOST, inputValue: 1, uncheckedValue:0}
+		]
+	});
+
+
+	$("input#up_limitation_mbps").textbox({
+		fieldLabel: $.su.CHAR.BANDWIDTH.UP_LIMITATION,
+		labelCls: 'l'
+	});
+
+
+	$("input#down_limitation_mbps").textbox({
+		fieldLabel: $.su.CHAR.BANDWIDTH.DOWN_LIMITATION,
+		labelCls: 'l'
+	});
+
+
+	$("input#manual_testing").textbox({
+		fieldLabel: $.su.CHAR.BANDWIDTH.RUN_BANDWIDTH_TEST,
+		labelCls: 'l',
+		cls: 'hidden',
+		readOnly: true,
+		value: $.su.CHAR.BANDWIDTH.TESTING
+	});
+
+	$("input#manual_failed").textbox({
+		fieldLabel: $.su.CHAR.BANDWIDTH.RUN_BANDWIDTH_TEST,
+		labelCls: 'l',
+		cls: 'hidden',
+		readOnly: true,
+		value: $.su.CHAR.BANDWIDTH.TEST_FAILED
+	});
+
+
+	$("input#manual_success").textbox({
+		fieldLabel: $.su.CHAR.BANDWIDTH.RUN_BANDWIDTH_TEST,
+		labelCls: 'l',
+		cls: 'hidden',
+		readOnly: true,
+		value: $.su.CHAR.BANDWIDTH.TEST_SUCCEED
+	});
+
+
+
+	$("input#enable_auto").checkbox({
+		fieldLabel: $.su.CHAR.BANDWIDTH.RUN_BANDWIDTH_TEST,
+		cls: 'inlineBlock',
+		labelCls: 'l',
+		items: [
+			{boxlabel: $.su.CHAR.BANDWIDTH.ENABLE_AUTOMATIC_TEST, inputValue:1, uncheckedValue:0, checked:false}
+		]
+	}).on('ev_change',function(e, oldValue, newValue){
+		if( (newValue.length==0 || newValue[0]==0) && !autoTestFlag){
+			$('span#manual_test').show();
+		}else{
+			$('span#manual_test').hide();
+		}
+	});
+
+        var url_aperture = $.su.ozkerurl("/api/aperture")
+	var aperturePutProxy = new $.su.Proxy({
+		url: url_aperture,
+		preventErrorDefault: true,
+		reader: {
+			root: "data",
+			type: 'PUT'
+		},
+		writer: {
+			root: "data",
+			type: 'PUT'
+		}
+	});
+
+
+	$('span#manual_test').click(function(){
+		$("input#enable_auto").checkbox('hide');
+		$("input#manual_testing").textbox('show');
+		$(this).hide();
+
+		aperturePutProxy.read({}, function(pdata, status, xhr){
+
+			if(!pdata.measuring && (pdata.last.retcode==0 || pdata.last.retcode==-99)){
+				$("input#manual_testing").textbox('hide');
+				$("input#manual_success").textbox('show');
+
+				var o = setTimeout(function(){
+					$("input#enable_auto").checkbox('show');
+					$('span#manual_test').show();
+					$("input#manual_success").textbox('hide');
+
+					$(this).show();
+
+					$('input#up_limitation_mbps').textbox('setValue', pdata.last.up*8/1000000);
+					$('input#down_limitation_mbps').textbox('setValue', pdata.last.down*8/1000000);
+				},1000);
+
+			}else if( !pdata.measuring && pdata.last.retcode!=0 && pdata.last.retcode!=-99 ){
+				$("input#manual_testing").textbox('hide');
+				$("input#manual_failed").textbox('show');
+				
+				$(this).show();
+
+				var o = setTimeout(function(){
+					$("input#enable_auto").checkbox('show');
+					$('span#manual_test').show();
+					$("input#manual_failed").textbox('hide');
+					
+				},1000);
+			}else{
+				manualInterval = setInterval(function(){
+						apertureProxy.read({}, function(data, status, xhr){
+							if(!data.measuring && (data.last.retcode==0 || data.last.retcode==-99)){
+								$("input#manual_testing").textbox('hide');
+								$("input#manual_success").textbox('show');
+								clearInterval(manualInterval);
+
+								var o = setTimeout(function(){
+									$("input#enable_auto").checkbox('show');
+									$('span#manual_test').show();
+									$("input#manual_success").textbox('hide');
+
+									$(this).show();
+
+									$('input#up_limitation_mbps').textbox('setValue', data.last.up*8/1000000);
+									$('input#down_limitation_mbps').textbox('setValue', data.last.down*8/1000000);
+								},1000);
+
+							}else if( !data.measuring && data.last.retcode!=0 && data.last.retcode!=-99 ){
+								$("input#manual_testing").textbox('hide');
+								$("input#manual_failed").textbox('show');
+								clearInterval(manualInterval);
+								
+								$(this).show();
+
+								var o = setTimeout(function(){
+									$("input#enable_auto").checkbox('show');
+									$('span#manual_test').show();
+									$("input#manual_failed").textbox('hide');
+									
+								},1000);
+							}
+						})
+					}, 1000);
+
+			}
+
+		});
+
+	});
+
+	$("input#auto_update").checkbox({
+		fieldLabel: $.su.CHAR.BANDWIDTH.KEEP_UP_TO_DATE,
+		labelCls: 'l',
+		items: [
+			{boxlabel: $.su.CHAR.BANDWIDTH.ENABLE_AUTOMATIC_UPDATE, inputValue: 1, uncheckedValue:0}
+		]
+	});
+
+
+	$("button#save_setting_btn").button({
+		fieldLabel: null,
+		text: 'Save',
+		cls: 'submit',
+		handler: function(){
+			clearInterval(manualInterval);
+			clearInterval(autoInterval);
+
+			var formData = $("form#bandwidth_setting").form('serialize');
+			formData.uplimit = formData.uplimit*1000000/8;
+			formData.downlimit = formData.downlimit*1000000/8;
+		//	$("form#bandwidth_setting").form('submit', formData);
+
+			appflowProxy.write(formData, function(wdata, status, xhr){
+				wdata.uplimit = wdata.uplimit*8/1000000;
+				wdata.downlimit = wdata.downlimit*8/1000000;
+
+				$("form#bandwidth_setting").form('loadData', wdata);
+
+				var a = setTimeout(function(){apertureProxy.read({}, function(rdata, status, xhr){
+						testLoop(rdata);
+					})
+				},10000)
+			});
+		}
+	});
+	
+
+        var url_appflow = $.su.url("/admin/streamboost")
+	var appflowProxy = new $.su.Proxy({
+		url: url_appflow,
+		preventErrorDefault: true
+	});
+
+
+	$("form#bandwidth_setting").form({
+		proxy: null,
+		preventErrorDefault: true,
+		fields: [
+			{name: "enable_streamboost", mapping: "enable_streamboost"},
+			{name: "uplimit", mapping: "uplimit"},
+			{name: "downlimit", mapping: "downlimit"},
+			{name: "enable_auto", mapping: "enable_auto"},
+			{name: "auto_update", mapping: "auto_update"}
+		],
+		autoLoad: false,
+		submitBtn: false
+	});
+
+	appflowProxy.read({}, function(rdata, status, xhr){
+		rdata.uplimit = rdata.uplimit*8/1000000;
+		rdata.downlimit = rdata.downlimit*8/1000000;
+		$("form#bandwidth_setting").form('loadData', rdata);
+	});
+
+        var url_aperture = $.su.ozkerurl("/api/aperture")
+	var apertureProxy = new $.su.Proxy({
+		url: url_aperture,
+		reader: {
+			root: "data",
+			type: 'GET'
+		},
+		writer: {
+			root: "data",
+			type: 'GET'
+		}
+	});
+
+        var url_bwconfig = $.su.ozkerurl("/api/bw_config")
+	var bwConfigProxy = new $.su.Proxy({
+		url: url_bwconfig,
+		preventErrorDefault: true,
+		reader: {
+			root: "data",
+			type: 'GET'
+		},
+		writer: {
+			root: "data",
+			type: 'GET'
+		}
+	});
+
+	function testLoop(rdata){
+
+		if(!rdata.running && !rdata.measuring){
+			autoTestFlag = false;
+			return;
+		}else if(!rdata.running && rdata.measuring){		//manual testing: running-false, measuring-true
+			autoTestFlag = false;
+
+			$("input#enable_auto").checkbox('hide');
+			$('span#manual_test').hide();
+			$("input#manual_testing").textbox('show');
+
+			manualInterval = setInterval(function(){
+					apertureProxy.read({}, function(data, status, xhr){
+						if(!data.measuring && (data.last.retcode==0 || data.last.retcode==-99)){
+							$("input#manual_testing").textbox('hide');
+							$("input#manual_success").textbox('show');
+							clearInterval(manualInterval);
+
+							var o = setTimeout(function(){
+								$("input#enable_auto").checkbox('show');
+								$('span#manual_test').show();
+								$("input#manual_success").textbox('hide');
+
+								$('input#up_limitation_mbps').textbox('setValue', data.last.up*8/1000000);
+								$('input#down_limitation_mbps').textbox('setValue', data.last.down*8/1000000);
+							},1000);
+
+
+						}else if( !data.measuring && data.last.retcode!=0 && data.last.retcode!=-99 ){
+							$("input#manual_testing").textbox('hide');
+							$("input#manual_failed").textbox('show');
+							clearInterval(manualInterval);
+
+							var o = setTimeout(function(){
+								$("input#enable_auto").checkbox('show');
+								$('span#manual_test').show();
+								$("input#manual_failed").textbox('hide');
+								
+							},1000);
+						}
+					})
+				}, 1000);
+
+		}else if(rdata.running){			//auto testing: running-true
+
+			autoTestFlag = true;
+
+			autoInterval = setInterval(function(){
+				if(!autoTestFlag){
+					clearInterval(autoInterval);
+					return;
+				}
+				bwConfigProxy.read({}, function(data, status, xhr){
+					$('input#up_limitation_mbps').textbox('setValue', data.bw_config.up_limit*8/1000000);
+					$('input#down_limitation_mbps').textbox('setValue', data.bw_config.down_limit*8/1000000);
+				})
+			}, 1000);
+		}
+	}
+
+
+	apertureProxy.read({}, function(rdata, status, xhr){
+		testLoop(rdata);
+	});
+
+
+	$.su.app.runningModule.addUnloadHandler(function(){
+		clearInterval(manualInterval);
+		clearInterval(autoInterval);
+	});
+
+	var helpBandwidth = new $.su.Help({
+		container: "div#bandwidth_help",
+		content: "STREAM_BOOST_BANDWIDTH"
+	});
+
+
+});
+</script>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+#!/bin/sh
+. /lib/functions.sh
+. /lib/netifd/netifd-proto.sh
+
+
+
+IFNAME=$ifname
+INTERFACE=$interface
+STATE=$new_dhcpc_state
+
+
+[ -z "$INTERFACE" ] && exit 1
+[ -z "$IFNAME" ] && exit 1
+
+deconfig_interface() {
+       proto_init_update "$IFNAME" 0
+       proto_send_update "$INTERFACE"
+}
+
+setup_interface () {
+
+	prefix="::"
+	proto_init_update "$IFNAME" 1
+	
+	config_load /etc/config/network
+	config_get ip_config wanv6 ip_config
+
+	#mbit=`cat /proc/sys/net/ipv6/conf/$IFNAME/ndisc_mbit`
+	#[ $mbit -eq 0 ] && {
+		
+	[ "$ip_config" == "slaac" ] && {
+		while read line
+		do
+			[ $IFNAME != ${line##* } ] && continue
+			[ "fe80" = ${line:0:4} ] && continue
+			
+			element=${line:0:32}
+
+					   ip6addr=${element:0:4}:${element:4:4}:${element:8:4}:${element:12:4}
+					   ip6addr=$ip6addr:${element:16:4}:${element:20:4}:${element:24:4}:${element:28:4}
+
+					   new_ip6addr=$ip6addr
+
+			   done </proc/net/if_inet6
+
+		[ -z "$new_ip6addr" ] && {
+			proto_notify_error "$INTERFACE" "NO ADDRESS"
+			sleep 3 
+			proto_setup_failed "$INTERFACE"
+			return
+		}
+	}
+
+	if [ -n "$new_ip6addr" ]; then
+                proto_add_ipv6_address "$new_ip6addr" "64"
+        elif [ -z "$new_ip6prefix" ]; then
+                deconfig_interface
+                return
+        fi
+
+
+	[ -n "$new_domain_name_servers" ] && {
+		DNS2=${new_domain_name_servers##*[, ]}
+		DNS1=${new_domain_name_servers%%[, ]*}
+		[ -n "$DNS1" ] && proto_add_dns_server "$DNS1"
+		[ -n "$DNS1" -a -n "$DNS2" -a "$DNS1" != "$DNS2" ] && proto_add_dns_server "$DNS2"
+	}
+
+	[ -n "$new_ip6prefix" ] && prefix="$new_ip6prefix"	
+	echo "$prefix" > /tmp/dhcp6c/prefix.info
+	
+	proto_send_update "$INTERFACE"
+
+	sleep 3
+	local gw_route=`ip -6 route|grep default`
+	[ -z ${gw_route} ] && {
+		local gateway=`cat /proc/sys/net/ipv6/conf/$IFNAME/default_gateway`
+		[ ${#gateway} -ne 0 ] && ip -6 route add "::/0" via "$gateway" dev "$IFNAME"
+	}
+
+}
+
+# code=0 is equal to [ -n "$new_ip6addr" -o -n "$new_ip6prefix" ]
+case "$STATE" in
+	"3")
+		#if [ -n "$code" -a "$code" == "0" ]; then
+			 setup_interface
+		#else
+		#	deconfig_interface
+		#fi
+	;;
+
+	"6")
+		deconfig_interface
+	;;
+esac
+
+exit 0

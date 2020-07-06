@@ -1,0 +1,13 @@
+diff -Nur libbsd-0.3.0/src/progname.c libbsd-0.3.0_new/src/progname.c
+--- libbsd-0.3.0/src/progname.c	2011-05-14 19:43:49.000000000 +0800
++++ libbsd-0.3.0_new/src/progname.c	2014-11-06 19:21:55.761157963 +0800
+@@ -38,7 +38,8 @@
+ const char *
+ getprogname(void)
+ {
+-#ifdef __GLIBC__
++#if 0
++//#ifdef __GLIBC__
+ 	if (__progname == NULL)
+ 		__progname = program_invocation_short_name;
+ #endif

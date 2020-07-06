@@ -1,0 +1,37 @@
+#!/bin/sh /etc/rc.common
+# Copyright(c) 2011-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+# file     usbshare.init
+# brief    
+# author   Zhu Xianfeng<zhuxianfeng@tp-link.net>
+# version  1.0.0
+# date     27Mar14
+# history  arg 1.0.0, 27Mar14, Zhu Xianfeng, Create the file. 
+
+START=70
+
+debug() {
+    echo $1 >/dev/console 2>&1
+}
+
+boot() {
+    debug "usbshare boot start"
+    config_load usbshare
+    config_get username account username
+    config_get password account password
+
+    usbuser $username $password
+    debug "usbshare boot end"
+}
+
+start() {
+    return 0
+}
+
+stop() {
+    return 0
+}
+
+reload() {
+    return 0
+}
+

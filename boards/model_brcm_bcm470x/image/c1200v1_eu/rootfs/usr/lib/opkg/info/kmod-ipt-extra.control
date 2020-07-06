@@ -1,0 +1,18 @@
+Package: kmod-ipt-extra
+Version: -
+Depends: kernel (=--unknown), kmod-ipt-core
+Provides: 
+Source: package/kernel
+Section: kernel
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 2536
+Description:  Other Netfilter (IPv4) kernel modules
+ Includes:
+ - owner
+ - physdev (if bridge support was enabled in kernel)
+ - pkttype
+ - quota

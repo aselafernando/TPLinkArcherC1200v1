@@ -1,0 +1,157 @@
+#!/bin/sh
+# Copyright (C) 2009-2012 OpenWrt.org
+# Copyright (C) 2010 Vertical Communications
+# This is free software, licensed under the GNU General Public License v2.
+# See /LICENSE for more information.
+#
+
+. /lib/functions/block.sh
+
+usbshare_svr_restart() {
+    /etc/init.d/samba restart
+    /etc/init.d/proftpd restart
+    /etc/init.d/minidlna restart
+}
+
+usbshare_svr_stop() {
+    /etc/init.d/samba stop
+    /etc/init.d/proftpd stop
+    /etc/init.d/minidlna stop
+}
+
+blkdev=`dirname $DEVPATH`
+
+if [ `basename ${blkdev%/*}` != "block" ]; then
+    blkid -s UUID -o value /dev/$(basename $DEVPATH) 1>/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        blkdev=$DEVPATH
+    fi
+fi
+
+if [ `basename $blkdev` != "block" ]; then
+
+	# for led control
+	local portnum=`echo $DEVPATH | cut -d "-" -f 2 | cut -d ":" -f 1 | cut -d "/" -f 1`
+	local usb
+	case "$portnum" in
+		1)
+			usb="USB3"
+			;;
+		2)
+			usb="USB1"
+			;;
+	esac
+
+    device=`basename $DEVPATH`
+    mountpoint=`sed -ne "s|^[^ ]*/$device ||; T; s/ .*//p" /proc/self/mounts`
+
+    case "$ACTION" in
+	add)
+
+		local from_fstab
+		local anon_mount
+		local anon_swap
+		local anon_fsck
+		local mds_mount_target
+		local mds_mount_device
+		local mds_mount_fstype
+		local sds_swap_device
+		local use_device
+		local do_fsck=0
+		local fsck_type
+		
+		local autoswap_from_fstab
+		local automount_from_fstab
+
+	    mount_dev_section_cb() {
+    		mds_mount_target="$2"
+			mds_mount_device="$3"
+			mds_mount_fstype="$4"
+			mds_mount_enabled="$6"
+	    }
+
+	    swap_dev_section_cb() { 
+			sds_swap_device="$2"
+			return 0
+	    }
+
+		config_get_automount
+		automount_from_fstab="$from_fstab"
+		[ "$automount_from_fstab" -eq 1 ] && {
+			config_get_mount_section_by_device "/dev/$device"
+			use_device="$mds_mount_device"
+			[ "$mds_mount_enabled" -eq 1 ] && {
+				if [ -n "$mds_mount_target" ]; then
+					grep -q "/dev/$device" /proc/swaps || grep -q "/dev/$device" /proc/mounts || {
+						( mkdir -p "$mds_mount_target" && mount "$mds_mount_target" ) 2>&1 | tee /proc/self/fd/2 | logger -t 'fstab'
+					}
+				else
+					logger -t 'fstab' "Mount enabled for $mds_mount_device but it doesn't have a defined mountpoint (target)"
+				fi
+			}
+		}
+
+		[ -z "$use_device" ] && {
+			config_get_autoswap
+			autoswap_from_fstab="$from_fstab"
+		
+			[ "$autoswap_from_fstab" -eq 1 ] && {
+				config_get_swap_section_by_device "/dev/$device"
+				use_device="$sds_swap_device"
+			}
+		}
+		
+		grep -q "/dev/$device" /proc/swaps || grep -q "/dev/$device" /proc/mounts || {
+			# [ "$anon_mount" -eq 1 -a -z "$use_device" ] && {
+			[ "$anon_mount" -eq 1 ] && {
+				case "$device" in
+					mtdblock*) ;;
+					*)
+						# check /dev/$device whether a valid mountable partition
+						blkid -s UUID -o value /dev/$device 1>/dev/null 2>&1
+						if [ $? -eq 0 ]; then
+							# ( mkdir -p /mnt/$device && mount -o umask=0,force,rw /dev/$device /mnt/$device ) 2>&1 | tee /proc/self/fd/2 | logger -t 'fstab'
+							mkdir -p -m 777 /mnt/$device 
+							mount -t tntfs -o umask=0000,rw /dev/$device /mnt/$device 1>/dev/null 2>&1
+							if [ $? -ne 0 ]; then
+								mount -t tfat -o umask=0000,rw /dev/$device /mnt/$device 1>/dev/null 2>&1
+							fi
+							if [ $? -ne 0 ]; then
+								mount -t texfat -o umask=0000,rw /dev/$device /mnt/$device 1>/dev/null 2>&1
+							fi
+							if [ $? -ne 0 ]; then
+								mount -t thfsplus -o umask=0000,rw /dev/$device /mnt/$device 1>/dev/null 2>&1 && chmod 777 /mnt/$device
+							fi
+							if [ $? -ne 0 ]; then
+								mount -t ntfs-3g -o umask=0000,utf8,force,rw /dev/$device /mnt/$device 1>/dev/null 2>&1
+							fi
+							if [ $? -ne 0 ]; then
+								mount -t vfat -o umask=0000,utf8,rw /dev/$device /mnt/$device 1>/dev/null 2>&1
+							fi
+							if [ $? -ne 0 ]; then
+								mount -t hfsplus -o umask=0000,force,rw /dev/$device /mnt/$device 1>/dev/null 2>&1
+							fi
+						fi
+					;;
+				esac
+			}
+		}
+		reset_dev_section_cb
+		usbshare_svr_restart
+
+		uci set ledctrl.$usb.ledon='1'
+		ledcli $usb
+		;;
+	remove)
+		usbshare_svr_stop
+		umount $mountpoint
+		umount /dev/$device
+		usbshare_svr_restart
+
+		uci set ledctrl.$usb.ledon='0'
+		ledcli $usb
+		;;
+    esac	
+
+fi
+

@@ -1,0 +1,9 @@
+{
+	"timeout": false,
+	"success": true,
+	"data":
+	[
+		{"target":"192.168.1.0", "netmask": "255.255.255.0", "gateway": "192.168.1.1", "interface":"LAN", "name":"static route1", "enable": "on"},
+		{"target":"192.168.1.1", "netmask": "255.255.0.0", "gateway": "172.85.29.0", "interface":"WAN", "name":"static route2", "enable": "off"}
+	]
+}	

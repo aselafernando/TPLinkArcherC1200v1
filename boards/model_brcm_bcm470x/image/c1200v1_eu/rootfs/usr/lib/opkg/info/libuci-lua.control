@@ -1,0 +1,13 @@
+Package: libuci-lua
+Version: 2013-01-04.1-1
+Depends: libuci, liblua
+Provides: 
+Source: ibase/uci
+Section: libs
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 5912
+Description:  Lua plugin for UCI

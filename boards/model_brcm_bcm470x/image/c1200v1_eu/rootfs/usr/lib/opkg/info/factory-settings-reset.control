@@ -1,0 +1,13 @@
+Package: factory-settings-reset
+Version: 1.0
+Depends: libuci, libpthread, luasocket, liblog
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/factory-settings-reset
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 3275
+Description:  Reset to Factory Settings(Press reset button more than 10s)

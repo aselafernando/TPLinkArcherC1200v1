@@ -1,0 +1,2 @@
+/etc/modules.d/90-domain-libs
+/lib/modules/iplatform/domain_libs.ko

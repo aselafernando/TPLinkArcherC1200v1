@@ -1,0 +1,14 @@
+Package: libpcap
+Version: 1.1.1-2
+Depends: 
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/opensource/libpcap
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 90273
+Description:  This package contains a system-independent library for user-level network packet
+ capture.

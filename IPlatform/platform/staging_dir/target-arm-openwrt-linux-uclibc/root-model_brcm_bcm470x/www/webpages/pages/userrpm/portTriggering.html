@@ -1,0 +1,493 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>portTriggering</title>
+
+</head>
+
+<body>
+	<div class="func-container">
+		<div id="port-trigger">
+			<div id="PORTTRIGGERINGGrid" class="natSeries">
+			</div>
+		</div>
+
+		<div id="own_editor">
+		<input id="trigger_name" name="name">
+		<button   type="button"  id="trigger_view"></button>
+		<input id="trigger_port" name="trigger_port">
+		<input id="trigger_protocol" name="trigger_protocol">
+		<input id="external_port" name="external_port">
+		<input id="external_protocol" name="external_protocol">
+		<input id="trigger_enable" name="enable">
+		</div>
+
+
+	 	<div id="trigger_survey">
+	 	<!-- <p id="trigger_title"></p> -->
+	
+	 	<div id="trigger_result">
+	     		
+		</div>
+		<button id="ok"></button>
+		<button id="cancle"></button>
+	 	</div>
+
+		<span id="nat_notice" class="hidden"></span>
+	 	<div id="port_trigger_help"></div>
+	</div>
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var URL_PORT = $.su.url("/admin/nat?form=pt"); //data/portTriggering.json
+
+	$("span#nat_notice").html($.su.CHAR.PORT_TRIGGERING.NAT_ENABLE_NOTICE);
+
+	function is_portcharacter(port_string,ch)
+	{
+		var c;
+		for (var i = 0; i < port_string.length; i++)
+		{
+			c = port_string.charAt(i);
+			if (ch.indexOf(c) == -1)
+				return false;
+		}
+		return true;
+	}
+	
+	function portverify(port_string)
+	{
+
+		if(!is_portcharacter(port_string,"0123456789"))
+		{
+			return false;
+		}
+		if (parseInt(port_string,10) <= 0 || parseInt(port_string,10) > 65535)
+		{
+			return false;
+		}
+		return true;
+	}
+
+
+	function is_port(port_string)
+	{
+		if (!portverify(port_string))
+		{
+			return false;
+		}
+		return true;
+	}
+
+	function sub_is_port(port_string)
+	{
+		
+
+		if (!is_portcharacter(port_string,ch=",-0123456789"))
+		{
+			return false;
+		}
+		var sub_port_array;
+		var single_port_array;
+		var re;
+		var sub_re;
+
+		re = new RegExp(",");
+		sub_re = new RegExp("-");
+		sub_port_array = port_string.split(re);
+
+		if (sub_port_array.length > 5 || sub_port_array.length < 1 )
+		{
+			return false;
+		}
+
+		for (var i = 0; i < sub_port_array.length; i++)
+		{
+			if (sub_port_array[i] == "" )
+			{
+				return false;
+			}
+			for (var k = i+1; k < sub_port_array.length; k++) {
+				if (sub_port_array[i] == sub_port_array[k]){
+					return false;
+				}
+			}
+
+			single_port_array = sub_port_array[i].split(sub_re);
+
+			if (single_port_array.length != 1 && single_port_array.length != 2)
+			{
+
+				return false;
+			}
+
+
+			for (var j = 0;j < single_port_array.length; ++j )
+			{
+				if (single_port_array[j] == "" )
+				{
+
+					return false;
+				}
+
+				if (!is_port(single_port_array[j]))
+				{
+					return false;
+				}
+			}			
+		}
+		return true;
+	}
+
+
+
+	$("div.func-container").page({
+		title: $.su.CHAR.PORT_TRIGGERING.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$('div#port-trigger').panel({
+		title: $.su.CHAR.PORT_TRIGGERING.TITLE,
+		collapsible: false
+	});
+
+
+	$("input#trigger_name").textbox({
+		fieldLabel: $.su.CHAR.PORT_TRIGGERING.APPLICATION,
+		vtype:"string_visible_allow_blank",
+		maxLength:32,
+		cls: 'inline'
+	});
+	$("input#trigger_port").textbox({
+		fieldLabel: $.su.CHAR.PORT_TRIGGERING.TRIGGER_PORT,
+		textFormat: $.su.format.number,
+        vtype: {
+            vtype: "number",
+            max: 65535,
+            min: 1
+        },
+		maxLength:5,
+		tipsCls:"xs",
+		allowBlank:false,
+		tips: $.su.CHAR.PORT_TRIGGERING.TRIGGER_TIPS, 
+		validateIcon: true
+	});
+	$("input#trigger_protocol").combobox({
+		fieldLabel: $.su.CHAR.PORT_TRIGGERING.TRIGGER_PROTOCOL,
+		inputCls: "l",
+		allowBlank: false,
+		items: [
+			{"value": "ALL", "name": $.su.CHAR.PORT_TRIGGERING.PROTOCAL_ALL, selected:"selected"},
+			{"value": "TCP", "name": $.su.CHAR.PORT_TRIGGERING.PROTOCAL_TCP},
+			{"value": "UDP", "name": $.su.CHAR.PORT_TRIGGERING.PROTOCAL_UDP}
+		]
+	});
+
+	$("input#external_port").textbox({
+		fieldLabel: $.su.CHAR.PORT_TRIGGERING.EXTERNAL_PORTS,
+		// cls: 'inline',
+		textFormat:function(value){
+			var formatVal = "";
+			var groupArr = value.split(",");
+			var groupLen =  groupArr.length;
+			var resultArr = [];
+			if(groupLen > 5)
+			{
+				return value;
+			}
+			for (var i = 0; i < groupLen; i++) {
+				var arr = groupArr[i].split("-");
+				if(arr.length == 1)
+				{
+					
+					if(!isNaN(parseInt(arr[0],10)))
+					{
+						resultArr.push(parseInt(arr[0], 10));
+					}
+				}
+				else if(arr.length == 2)
+				{
+					if( (!isNaN(parseInt(arr[0],10))) && (!isNaN(parseInt(arr[1],10))))
+					{
+						resultArr.push(parseInt(arr[0], 10) + "-" + parseInt(arr[1], 10));
+					}
+				}
+			};
+			
+			// console.log(formatVal);
+			return resultArr.join(",");
+		},
+		validator: function(value)
+		{
+			return sub_is_port(value);
+		},
+		tipsCls:"s",
+		maxLength:59,
+		allowBlank:false,
+		tips: $.su.CHAR.PORT_TRIGGERING.EXTERNAL_TIPS, 
+		validateIcon: true
+	});
+
+	$("input#external_protocol").combobox({
+		fieldLabel: $.su.CHAR.PORT_TRIGGERING.EXTERNAL_PROTOCOL,
+		inputCls: "l",
+		allowBlank: false,
+		items: [
+			{"value": "ALL", "name": $.su.CHAR.PORT_TRIGGERING.PROTOCAL_ALL, selected:"selected"},
+			{"value": "TCP", "name": $.su.CHAR.PORT_TRIGGERING.PROTOCAL_TCP},
+			{"value": "UDP", "name": $.su.CHAR.PORT_TRIGGERING.PROTOCAL_UDP}
+		]
+	});
+
+	$("input#trigger_enable").checkbox({
+		fieldLabel:"",
+		defaultValue:["on"],
+		items: [
+			{boxlabel: $.su.CHAR.PORT_TRIGGERING.ENABLE_THIS_ENTRY, uncheckedValue:"off", inputValue: "on", id: "chk_enable", checked:true}
+		]
+	});
+
+	$("#trigger_view").button({
+		text: $.su.CHAR.PORT_TRIGGERING.BTN_VIEW,
+		// cls: 'button-pop',
+		cls: 'inline-block  ml5',
+		handler:function(){
+			// $("div#result").grid("getStore").load();
+			$("div#trigger_survey").msg("show");
+			result_store.loadData(portTriggering);
+		}
+	});
+
+	var existingApp = $("div#trigger_survey").msg({
+		title:$.su.CHAR.PORT_TRIGGERING.EXSITTING_APPLICATION,
+		autoshow:false,
+		type: "window"
+	});
+
+	// $("div#trigger_survey").css("top", ($(window).height()-$("div#trigger_survey").height()-76)/2);
+	// $("div#trigger_survey").css("left", ($(window).width()-$("div#trigger_survey").width()-100)/2 );
+
+	// $("#trigger_title").html($.su.CHAR.PORT_TRIGGERING.EXSITTING_APPLICATION);
+
+	 var result_store = new $.su.Store({
+	// 	proxy: {
+	// 		url: "./data/portTriggering.result.json"
+	// 	},
+		fields: [
+			{name: "name"}
+		],
+		autoLoad: false
+	});
+
+
+	var portTriggering = [
+		{"name": "Battle.net", "trigger_port": "6112", "external_port": "6112"},
+		{"name": "Dialpad", "trigger_port": "7175", "external_port": "51200-51201,51210"},
+		{"name": "ICU II", "trigger_port": "2019", "external_port": "2000-2038,2050-2051,2069,2085,3010-3030"},
+		{"name": "MSN Gaming Zone", "trigger_port": "47624", "external_port": "2300-2400,28800-29000"},
+		{"name": "PC-to-Phone", "trigger_port": "12053", "external_port": "12120,12122,24150-24220"},
+		{"name": "Quick Time 4", "trigger_port": "554", "external_port": "6970-6999"},
+		{ "name": "AOE II Client", "trigger_port": "47624", "external_port": "2300-2400,28800-29000"},
+		{"name": "Sudden Strike", "trigger_port": "47624", "external_port": "2300-2400"},
+		{"name": "Baldurs Gate II", "trigger_port": "47624", "external_port": "2300-2400"}
+	]
+
+
+
+	var result_grid = $("div#trigger_result").grid({
+		store:result_store,
+		// paging: {},
+		maxLines:5,
+		columns: [
+					{
+						text: $.su.CHAR.PORT_TRIGGERING.ID, 
+						xtype: "rownumberer",
+						width:80
+					},
+					{
+						text: $.su.CHAR.PORT_TRIGGERING.APPLICATION_NAME, 
+						width:380,
+						dataIndex: "name"
+					},
+					{
+						text: $.su.CHAR.GRID.OPERATION, 
+						renderer:function(data, index){
+							return "<a href=\"javascript:void(0);\" data-index=\""+index+"\" class=\"choose\">"+$.su.CHAR.OPERATION.CHOOSE+"</a>"
+						}
+					}
+				]
+	});
+
+		$(result_grid).delegate("a.choose", "click", function(e){
+		e.preventDefault();
+		var store = result_grid.grid("getStore"),
+			index = $(this).attr("data-index"),
+			data = store.data[index] || undefined;
+
+		if (data){
+			/*var editor = o.grid("getEditor");
+			$(editor).form("loadData", data);*/
+			$("input#trigger_name").textbox("setValue", data["name"]);
+			$("input#trigger_port").textbox("setValue", data["trigger_port"]);
+			$("input#external_port").textbox("setValue", data["external_port"]);
+
+			$("input#trigger_protocol").combobox("setValue", "ALL");
+			$("input#external_protocol").combobox("setValue", "ALL");
+			//console.log([data["protocol"]]);
+		};
+		
+		existingApp.msg("close");
+	});
+
+	var portProxy = new $.su.Proxy({
+		url: URL_PORT
+	});
+
+	//console.log(o.grid("getStore").data);
+
+	var o = $("div#PORTTRIGGERINGGrid").grid({
+		store:{
+			proxy: portProxy,
+			fields: [
+			{name: "name"},
+			{name: "trigger_port"},
+	 		{name: "trigger_protocol"},
+	 		{name: "external_port"},
+	 		{name: "external_protocol"},
+	 		{name: "enable"}
+			],
+			autoLoad: true
+		},
+		editor: {
+			validator:function(){
+				var port = $("input#trigger_port").textbox("getValue");
+				var proto = $("input#trigger_protocol").combobox("getValue")[0];
+				var store = o.grid("getStore");
+					keyProperty = store.keyProperty;
+					grid_array = store.data;
+				var editor = $(o.grid("getEditor"));
+					editingId = editor.editor("getEditingId");
+
+				if ($.isArray(grid_array) && grid_array.length > 0) {
+					for(var k = 0; k < grid_array.length; k++){
+						var data = grid_array[k];
+						if (data[keyProperty] == editingId) {
+							continue;
+						}
+						else{
+						//console.log("data", data)
+						//console.log(data["trigger_port"], port, data["trigger_protocol"], proto)
+							if (data["trigger_port"] == port && data["trigger_protocol"] == proto){
+								//console.log(22);
+									// return $.su.CHAR.ERROR["00000076"];
+									$($("#PORTTRIGGERINGGrid").grid("getEditor")).form('setError',  $.su.CHAR.ERROR['00000076']);
+									return false;
+							}
+						}
+
+					}
+				}
+				return true;
+			},
+			content: "#own_editor",
+			fields: [
+			{name: "name"},
+			{name: "trigger_port"},
+	 		{name: "trigger_protocol"},
+	 		{name: "external_port"},
+	 		{name: "external_protocol"},
+	 		{name: "enable"}
+			]
+			
+		},
+
+		paging: {},
+		columns: [
+			{
+				xtype: "checkcolumn",
+				width: 32
+			},
+			{
+				text: $.su.CHAR.PORT_TRIGGERING.ID, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.PORT_TRIGGERING.APPLICATION, 
+				width:100,
+				dataIndex: "name"				
+			},
+			{
+				text: $.su.CHAR.PORT_TRIGGERING.TRIGGER_PORT, 
+				width:80,
+				dataIndex: "trigger_port"
+			},
+			{
+				text: $.su.CHAR.PORT_TRIGGERING.TRIGGER_PROTOCOL, 
+				width:100,
+				dataIndex: "trigger_protocol"
+			},
+			{
+				text: $.su.CHAR.PORT_TRIGGERING.EXTERNAL_PORTS, 
+				width:80,
+				dataIndex: "external_port"
+			},
+			{
+				text: $.su.CHAR.PORT_TRIGGERING.EXTERNAL_PROTOCOL, 
+				width:80,
+				dataIndex: "external_protocol"
+			},
+			{
+				text: $.su.CHAR.PORT_TRIGGERING.ENABLE, 
+				width: 70,
+				dataIndex: "enable",
+				xtype: "statuscolumn"
+			},
+			{
+				xtype: "settings"
+			}
+		],
+		operation: "prompt|add|delete"
+	});
+
+
+	var editor = $("div#PORTTRIGGERINGGrid").grid("getEditor");
+	$(editor).on("ev_startEdit", function(e, index, key){
+		if(index == "add")
+		{
+			$("#trigger_protocol").combobox("setValue", "ALL");
+			$("#external_protocol").combobox("setValue", "ALL");
+		}
+	});
+
+	var natProxy = new $.su.Proxy({
+		url: $.su.url('/admin/nat?form=setting')
+	});
+
+	natProxy.read({}, function(data){
+		if(data.enable == 'off'){
+			$("span#nat_notice").show();
+		}
+		else{
+			$("span#nat_notice").hide();
+		}
+	});
+	
+	
+	var helpPortTrigger = new $.su.Help({
+		container: "div#port_trigger_help",
+		content: "PORT_TRIGGERING"
+	});
+
+});
+
+</script>
+</body>
+</html>

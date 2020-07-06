@@ -1,0 +1,22 @@
+#!/bin/sh
+
+. /lib/functions.sh
+
+if [ "$INTERFACE" != "wan" -a "$INTERFACE" != "internet" ]; then
+    exit 0
+fi
+
+if [ "$ACTION" = "ifup" ]; then
+    config_load usbshare
+    config_get ftp global ftp
+    config_get ftpex global ftpex
+    config_get ftpex_port global ftpex_port
+    if [ "$ftp" = "on" -a "$ftpex" = "on" ]; then
+        ftpex add $ftpex_port
+    fi
+
+elif [ "$ACTION" = "down" ]; then 
+    config_load usbshare
+    config_get ftpex_port global ftpex_port
+    ftpex del $ftpex_port
+fi

@@ -1,0 +1,12 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：disk setting页面中获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data": 
+	[
+		{"disk_name":"Kingston", "disk_volumn": "Volumn1","disk_capicity":"16GB", "disk_status":"1", "disk_usbSpace": "16GB", "disk_freeSpace": "10GB", "disk_usage":"30%","key": "0001"}
+	]	
+
+}

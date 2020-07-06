@@ -1,0 +1,12 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：print server页面中获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":
+	{
+		"enable":"on",
+		"name":"\\\\TP_LINK_WR4658"
+	}
+}

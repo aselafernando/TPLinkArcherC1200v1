@@ -1,0 +1,22 @@
+diff -Nur alsa-lib-1.0.24.1/src/ucm/Makefile.am alsa-lib-1.0.24.1_new/src/ucm/Makefile.am
+--- alsa-lib-1.0.24.1/src/ucm/Makefile.am	2011-01-31 22:18:50.000000000 +0800
++++ alsa-lib-1.0.24.1_new/src/ucm/Makefile.am	2014-11-03 15:18:43.000000000 +0800
+@@ -4,6 +4,7 @@
+ 
+ noinst_HEADERS = ucm_local.h
+ 
++LDFLAGS = @LDFLAGS@ $(USELIBVERSIONSORT)
+ all: libucm.la
+ 
+ 
+diff -Nur alsa-lib-1.0.24.1/src/ucm/parser.c alsa-lib-1.0.24.1_new/src/ucm/parser.c
+--- alsa-lib-1.0.24.1/src/ucm/parser.c	2011-01-31 22:18:50.000000000 +0800
++++ alsa-lib-1.0.24.1_new/src/ucm/parser.c	2014-11-03 16:45:15.000000000 +0800
+@@ -40,6 +40,7 @@
+ 			  struct list_head *base,
+ 			  snd_config_t *cfg);
+ 
++extern int versionsort(const struct dirent **, const struct dirent **);
+ /*
+  * Parse string
+  */

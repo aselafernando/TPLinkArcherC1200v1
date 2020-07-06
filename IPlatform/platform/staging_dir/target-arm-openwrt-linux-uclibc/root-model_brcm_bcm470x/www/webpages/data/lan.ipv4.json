@@ -1,0 +1,12 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": {
+		"macaddr": "00-0A-EB-13-7B-00",
+		"ipaddr": "192.168.0.1",
+		"mask_type": "255.255.255.0",
+		"custom_value": "255.255.255.0",
+		"new_ipaddr": "192.168.0.2",
+		"igmp": "off"
+	}
+}

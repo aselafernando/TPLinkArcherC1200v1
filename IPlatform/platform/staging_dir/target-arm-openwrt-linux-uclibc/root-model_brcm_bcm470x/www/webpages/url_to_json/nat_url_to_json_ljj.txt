@@ -1,0 +1,47 @@
+/cgi-bin/luci/;stok=12345/admin/nat?form=setting nat.nat.json
+/cgi-bin/luci/;stok=12345/admin/nat?form=alg nat.alg.json
+/cgi-bin/luci/;stok=12345/admin/nat?form=dmz nat.dmz.json
+/cgi-bin/luci/;stok=12345/admin/upnp?form=enable upnp.rule.json
+/cgi-bin/luci/;stok=12345/admin/upnp?form=service upnp.json
+/cgi-bin/luci/;stok=12345/admin/nat?form=vs virtualServer.json
+/cgi-bin/luci/;stok=12345/admin/nat?form=pt portTriggering.json
+
+/cgi-bin/luci/;stok=12345/admin/upnp?form=service upnp.json
+/cgi-bin/luci/;stok=12345/admin/nat?form=vs virtualServer.json
+/cgi-bin/luci/;stok=12345/admin/nat?form=pt portTriggering.json
+
+
+/cgi-bin/luci/;stok=12345/admin/access_control?form=enable access.enable.json
+/cgi-bin/luci/;stok=12345/admin/access_control?form=mode access.set.json
+/cgi-bin/luci/;stok=12345/admin/access_control?form=black_devices access.blackOnline.json
+/cgi-bin/luci/;stok=12345/admin/access_control?form=black_list access.black.json
+/cgi-bin/luci/;stok=12345/admin/access_control?form=white_devices access.whiteOnline.json
+/cgi-bin/luci/;stok=12345/admin/access_control?form=white_list access.white.json
+
+/cgi-bin/luci/;stok=12345/admin/imb?form=setting ipmac.enable.json
+/cgi-bin/luci/;stok=12345/admin/imb?form=arp_list ipmac.arp.json
+/cgi-bin/luci/;stok=12345/admin/imb?form=bind_list ipmac.bind.json
+
+/cgi-bin/luci/;stok=12345/admin/parental_control?form=enable parental.set.json
+/cgi-bin/luci/;stok=12345/admin/parental_control?form=device parental.grid.json
+/cgi-bin/luci/;stok=12345/admin/parental_control?form=mode parental.mode.json
+
+
+/cgi-bin/luci/;stok=12345/admin/network?form=routes_static advanceRouting.staticRoute.json
+/cgi-bin/luci/;stok=12345/admin/network?form=routes_system advanceRouting.systemRoute.json
+
+/cgi-bin/luci/;stok=12345/admin/ddns?form=provider ddns.json
+/cgi-bin/luci/;stok=12345/admin/ddns?form=dyndns ddns.dyndns.json
+/cgi-bin/luci/;stok=12345/admin/ddns?form=noip ddns.noip.json
+
+/cgi-bin/luci/;stok=12345/admin/security_settings?form=spi_enable security.firewall.json
+/cgi-bin/luci/;stok=12345/admin/security_settings?form=enable security.dos.json
+/cgi-bin/luci/;stok=12345/admin/security_settings?form=dos security.set.json
+/cgi-bin/luci/;stok=12345/admin/security_settings?form=list security.grid.json
+
+
+
+
+
+
+

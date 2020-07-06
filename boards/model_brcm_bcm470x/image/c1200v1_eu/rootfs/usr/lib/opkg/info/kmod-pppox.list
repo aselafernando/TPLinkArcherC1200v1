@@ -1,0 +1,2 @@
+/etc/modules.d/40-pppox
+/lib/modules/iplatform/pppox.ko

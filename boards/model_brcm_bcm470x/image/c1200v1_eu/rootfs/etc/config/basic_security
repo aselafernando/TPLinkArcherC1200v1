@@ -1,0 +1,8 @@
+config global 'settings'
+    option spi_enable        	'on'
+    option wan_ping   		 	'off'
+    option lan_ping          	'on'
+    option remote_access_brlan 	'off'
+    option lan_ip_limit			'on'
+
+

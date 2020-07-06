@@ -1,0 +1,10 @@
+{
+	"errCode": false,
+	"success": true,
+	"data":
+	{
+		"brand": "kingston",
+		"total": "16",
+		"available": "9"
+	}
+}	

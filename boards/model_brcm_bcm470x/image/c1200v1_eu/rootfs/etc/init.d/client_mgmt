@@ -1,0 +1,19 @@
+#!/bin/sh /etc/rc.common
+
+SERVICE_DAEMONIZE=1
+#SERVICE_WRITE_PID=1
+
+START=70
+STOP=70
+
+start()
+{
+	service_start /usr/bin/client_mgmt
+	return 0
+}
+
+stop()
+{
+	service_stop /usr/bin/client_mgmt
+	return 0
+}

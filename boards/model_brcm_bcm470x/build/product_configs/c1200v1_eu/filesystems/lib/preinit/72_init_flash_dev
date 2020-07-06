@@ -1,0 +1,4 @@
+#!/bin/sh
+
+#create our flash chrdev
+mknod /dev/flash_chrdev c 239 0

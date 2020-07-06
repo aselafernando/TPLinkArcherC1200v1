@@ -1,0 +1,8 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": [
+				{"name": "xunlei", "trigger_port": "9568", "trigger_protocol": "TCP", "external_port": "2121", "external_protocol": "TCP", "enable": "on"},
+				{"name": "FTP Service", "trigger_port": "21", "trigger_protocol": "TCP", "external_port": "21", "external_protocol": "TCP", "enable": "off"}
+			]
+}

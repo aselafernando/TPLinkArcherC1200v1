@@ -1,0 +1,2928 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+</head>
+
+<body>
+<div class="func-container">
+
+    
+    <div id="internet">
+	
+		<div id="internet_ipv4">
+		
+			<div id="ip-setting">
+				<input class="inet4_conntype" id="radio_inet4_conntype" name="conntype"/>
+			</div>
+			
+			<div id="dynamic-config" class="conn-type-party hidden">
+				<!-- <div id="host_name_confirm">
+					<p id="host_name_confirm_p"></p>
+				</div> -->
+
+                <div id="host_name_confirm" class="wireless-confirm-msg warning">
+                     <h4 class="title">
+                        <span class="icon"></span>
+                        <span class="text text1" id="host_name_confirm_p"></span>
+                    </h4>
+                </div>
+
+				<div id="dynamic-setting">
+					<input class="ip-address" id="inet4_dyn_ip_address_address" name="ipaddr" />
+					<input class="subnet-mask" id="inet4_dyn_submask" name="netmask" />
+					<input class="default-gateway" id="inet4_dyn_dft_gateway" name="gateway" />
+
+					<input class="primary-dns" id="dynamic-primary-dns" name="pri_dns" />
+					<input class="second-dns" id="dynamic-second-dns" name="snd_dns" />
+
+					<div class="part-seperate button-context hidden" id="ipve_dynamic_btn_container">
+						<button class="renew" id="ipv4_dynamic_renew" name="dynamic-renew-btn" type="button"></button>
+						<button class="release" id="ipv4_dynamic_release" name="dynamic-release-btn" type="button"></button>
+						<span id="dhcp_link_status" class="dhcp-link-status hidden"></span>
+					</div>
+					
+					<div id="dynamic_adv_btn" class="advanced-block part-seperate" type="button">
+						<span class="advanced-icon"></span>
+						<span class="advanced-text"></span>
+					</div>
+					<div id="dynamic_basic_btn" class="basic-block part-seperate hidden" type="button">
+						<span class="basic-icon"></span>
+						<span class="basic-text"></span>
+					</div>
+					
+					<div id="dynamic-adv" class="hidden">
+						<input class="dns-mode" id="inet4_dyn_dns_mode" name="dns_mode" />
+						<div id="inet4_dyn_dns_dyn_part">
+							<input class="" id="inet4_dyn_dyn_pridns" name="dyn_pridns" />
+							<input class="" id="inet4_dyn_dyn_snddns" name="dyn_snddns" />
+						</div>
+						<div id="inet4_dyn_dns_manual_part">
+							<input class="" id="inet4_dyn_manual_pridns" name="manual_pridns" />
+							<input class="" id="inet4_dyn_manual_snddns" name="manual_snddns" />
+						</div>
+						
+						<input class="mtu-size" id="inet4_dyn_mtu_size" name="mtu" />
+						<input class="host-name" id="inet4_dyn_hostname" name="hostname" />
+						<input class="get-ip-with-unicast-dhcp" id="inet4_dyn_unicast_dhcp" name="unicast" />
+					</div>
+				</div>
+			</div>
+			
+			<div id="static-ip-config" class="conn-type-party hidden">
+				<div id="static-setting">
+					<input class="ip-address" id="inet4_static_ip_address" name="ipaddr" />
+					<input class="subnet-mask" id="inet4_static_submask" name="netmask" />
+					<input class="default-gateway" id="inet4_static_dft_gateway" name="gateway" />
+					
+					<input class="primary-dns" id="inet4_static_pridns" name="pri_dns" />
+					<input class="second-dns" id="inet4_static_snddns" name="snd_dns" />
+
+					<button id="static-ip-adv-btn" class="advanced" type="button"></button>
+					<button id="static-ip-basic-btn" class="basic hidden" type="button"></button>
+					
+					<input class="mtu-size" id="inet4_static_mtu_size" name="mtu" />
+				</div>
+			</div>
+			
+			<div id="pppoe-config" class="conn-type-party hidden">
+				<div id="pppoe-setting">
+					<input id="inet4_pppoe_username" name="username" type="text"/>
+					<input id="inet4_pppoe_password" name="password" type="text"/>
+					<input id="inet4_pppoe_inet_ip" name="inet_ip" type="text"/>
+					<input id="inet4_pppoe_inet_pridns" name="inet_pridns" type="text"/>
+					<input id="inet4_pppoe_inet_snddns" name="inet_snddns" type="text"/>
+				
+					<div id="pppoe_adv_btn" class="advanced-block part-seperate" type="button">
+						<span class="advanced-icon"></span>
+						<span class="advanced-text"></span>
+					</div>
+					<div id="pppoe_basic_btn" class="basic-block part-seperate hidden" type="button">
+						<span class="basic-icon"></span>
+						<span class="basic-text"></span>
+					</div>
+					
+					<div id="pppoe-adv" class="hidden">
+						<input class="sec-conn" id="inet4_pppoe_sec_conn" name="snd_conn"/>
+					
+						<div id="pppoe_dyn_part" class="pppoe-dynamic">
+							<input id="inet4_pppoe_dyn_ip" name="dyn_ip"/>
+							<input id="inet4_pppoe_dyn_submask" name="dyn_netmask"/>
+							<div class="part-seperate button-context">	
+								<button id="pppoe_renew_btn" name="pppoe_renew_btn" type="button"></button>
+								<button id="pppoe_release_btn" name="pppoe_release_btn" type="button"></button>
+							</div>
+						</div>
+						
+						<div id="pppoe_static_part" class="pppoe-static hidden">
+							<input id="inet4_pppoe_static_ip" name="static_ip" class=""/>
+							<input id="inet4_pppoe_static_submask" name="static_netmask" class=""/>
+						</div>
+						
+						<input id="inet4_pppoe_mtu_size" name="mtu" class="mtu-size"/>
+						
+						<input id="inet4_pppoe_svr_name" name="server" class=""/>
+						<input id="inet4_pppoe_access_name" name="access" class=""/>
+						<input id="inet4_pppoe_interval" name="interval" class=""/>
+						
+						
+						<input id="inet4_pppoe_ip_mode" name="ip_mode" class="" />
+						<input id="inet4_pppoe_specific_ip" name="specific_ip" class=""/>
+						<input id="inet4_pppoe_specific_ip_read" name="" class=""/>
+						
+						<input id="inet4_pppoe_dns_mode" name="dns_mode" class="inet4_pppoe_dns_mode" />
+						<div id="inet4_pppoe_dns_dyn_part">
+							<input id="inet4_pppoe_dyn_pridns" name="dyn_pridns" class=""  />
+							<input id="inet4_pppoe_dyn_snddns" name="dyn_snddns" class="" />
+						</div>
+						<div id="inet4_pppoe_dns_static_part">
+							<input id="inet4_pppoe_static_pridns" name="static_pridns" class=""  />
+							<input id="inet4_pppoe_static_snddns" name="static_snddns" class="" />
+						</div>
+						
+						<input id="inet4_pppoe_conn_mode" name="conn_mode" class="" />
+						
+						<div id="pppoe-demand-part">
+							<input id="inet4_pppoe_demand_idle" name="demand_idle" class="" />
+						</div>
+						<div id="pppoe-time-part" class="hidden">
+							<div class="mt5">
+								<input id="inet4_pppoe_time_start" name="time_start" class="" />
+								<span class="inline to"></span>
+								<div id="hour_cnt" class="mp5">
+									<input id="inet4_pppoe_time_end" name="time_end" class="" />
+								</div>
+							</div>
+						</div>
+						<div id="pppoe-manually-part" class="hidden">
+							<input id="inet4_pppoe_manual_idle" name="manual_idle" class="" />
+						</div>
+					</div>
+						
+					<div class="part-seperate button-context hidden" id="pppoe_conn_btn_container">
+						<button id="pppoe_conn_btn" type="button"></button>
+						<button id="pppoe_disconn_btn" type="button"></button>
+						<input id="inet4_pppoe_status"/>
+					</div>
+
+					<button id="pppoe_total_save" type="button"></button>
+				</div>
+			</div>
+			
+			
+			<div id="bigpond-config" class="conn-type-party hidden">
+				<div id="bigpond-setting">
+					<input id="inet4_bp_username" name="username" type="text"/>
+					<input id="inet4_bp_password" name="password" type="text"/>
+					<input id="inet4_bp_auth_server" name="server" type="text"/>
+					<input id="inet4_bp_auth_domain" name="domain" type="text"/>
+														
+					<input id="inet4_bp_mtu_size" name="mtu" class="mtu-size"/>
+					
+					<input id="inet4_bp_conn_mode" name="conn_mode" class="" />
+					
+					<div id="bigpond_demand_part" class="hidden">
+						<input id="inet4_bp_demand_idle" name="demand_idle" class="" />
+					</div>
+
+					<div id="bigpond_manually_part" class="hidden">
+						<input id="inet4_bp_manual_idle" name="manual_idle" class="" />
+					</div>
+						
+					<div class="part-seperate button-context hidden" id="bigpond_conn_btn_container">
+						<button id="bigpond_conn_btn" type="button"></button>
+						<button id="bigpond_disconn_btn" type="button"></button>
+						<input id="inet4_bp_status"/>
+					</div>
+
+				</div>
+			</div>
+			
+			<div id="l2tp-config" class="conn-type-party hidden">
+				<div id="l2tp-setting">
+					<input id="inet4_l2tp_username" name="username" type="text"/>
+					<input id="inet4_l2tp_password" name="password" type="text"/>
+					<input id="inet4_l2tp_inet_ip" name="inet_ip" type="text"/>
+					<input id="inet4_l2tp_pri_dns" name="inet_pridns" type="text"/>
+					<input id="inet4_l2tp_snd_dns" name="inet_snddns" type="text"/>
+				
+					<input class="sec-conn" id="inet4_l2tp_snd_conn" name="snd_conn"/>
+				
+					<div id="l2tp_dynamic" class="l2tp-dynamic">
+						<input id="inet4_l2tp_dyn_svr_ip" name="dyn_server"/>
+						<input id="inet4_l2tp_dyn_ip" name="dyn_ip"/>
+						<input id="inet4_l2tp_dyn_submask" name="dyn_netmask"/>
+						<input id="inet4_l2tp_dyn_gateway" name="dyn_gateway"/>
+						<input id="inet4_l2tp_dyn_pri_dns" name="dyn_pridns"/>
+						<input id="inet4_l2tp_dyn_snd_dns" name="dyn_snddns"/>
+					</div>
+					
+					<div id="l2tp_static" class="l2tp-static hidden">
+						<input id="inet4_l2tp_static_svr_ip" name="static_server"/>
+						<input id="inet4_l2tp_static_ip" name="static_ip" class=""/>
+						<input id="inet4_l2tp_static_submask" name="static_netmask" class=""/>
+						<input id="inet4_l2tp_static_gateway" name="static_gateway"/>
+						<input id="inet4_l2tp_static_pri_dns" name="static_pridns"/>
+						<input id="inet4_l2tp_static_snd_dns" name="static_snddns"/>
+					</div>
+					
+					<input id="inet4_l2tp_mtu_size" name="mtu" class="mtu-size"/>
+					
+					<input id="inet4_l2tp_conn_mode" name="conn_mode" class="" />
+					
+					<div id="l2tp_demand_part">
+						<input id="inet4_l2tp_demand_idle" name="demand_idle" class="" />
+					</div>
+
+					<div id="l2tp_manually_part" class="hidden">
+						<input id="inet4_l2tp_manual_idle" name="manual_idle" class="" />
+					</div>
+
+					<div class="part-seperate button-context hidden" id="l2tp_conn_btn_container">
+						<button id="l2tp_conn_btn" type="button"></button>
+						<button id="l2tp_disconn_btn" type="button"></button>
+						<input id="inet4_l2tp_status"/>
+					</div>
+
+					<button id="l2tp_total_save" type="button"></button>
+				</div>
+			</div>
+			
+			
+			<div id="pptp-config" class="conn-type-party hidden">
+				<div id="pptp-setting">
+					<input id="inet4_pptp_username" name="username" type="text"/>
+					<input id="inet4_pptp_password" name="password" type="text"/>
+					<input id="inet4_pptp_inet_ip" name="inet_ip" type="text"/>
+					<input id="inet4_pptp_pri_dns" name="inet_pridns" type="text"/>
+					<input id="inet4_pptp_snd_dns" name="inet_snddns" type="text"/>
+				
+					<input class="sec-conn" id="inet4_pptp_snd_conn" name="snd_conn"/>
+				
+					<div id="pptp_dynamic" class="pptp-dynamic">
+						<input id="inet4_pptp_dyn_svr_ip" name="dyn_server"/>
+						<input id="inet4_pptp_dyn_ip" name="dyn_ip"/>
+						<input id="inet4_pptp_dyn_submask" name="dyn_netmask"/>
+						<input id="inet4_pptp_dyn_gateway" name="dyn_gateway"/>
+						<input id="inet4_pptp_dyn_pri_dns" name="dyn_pridns"/>
+						<input id="inet4_pptp_dyn_snd_dns" name="dyn_snddns"/>
+					</div>
+					
+					<div id="pptp_static" class="pptp-static hidden">
+						<input id="inet4_pptp_static_svr_ip" name="static_server"/>
+						<input id="inet4_pptp_static_ip" name="static_ip" class=""/>
+						<input id="inet4_pptp_static_submask" name="static_netmask" class=""/>
+						<input id="inet4_pptp_static_gateway" name="static_gateway"/>
+						<input id="inet4_pptp_static_pri_dns" name="static_pridns"/>
+						<input id="inet4_pptp_static_snd_dns" name="static_snddns"/>
+					</div>
+					
+					
+					<input id="inet4_pptp_mtu_size" name="mtu" class="mtu-size"/>
+					
+					<input id="inet4_pptp_conn_mode" name="conn_mode" class="" />
+					
+					<div id="pptp_demand_part">
+						<input id="inet4_pptp_demand_idle" name="demand_idle" class="" />
+					</div>
+
+					<div id="pptp_manually_part" class="hidden">
+						<input id="inet4_pptp_manual_idle" name="manual_idle" class="" />
+					</div>
+						
+					<div class="part-seperate button-context hidden" id="pptp_conn_btn_container">
+						<button id="pptp_conn_btn" type="button"></button>
+						<button id="pptp_disconn_btn" type="button"></button>
+						<input id="inet4_pptp_status"/>
+					</div>
+
+					<button id="pptp_total_save" type="button"></button>
+				</div>
+			</div>
+
+		</div>
+
+    </div>
+
+
+
+	
+    <div id="internet-mac">
+    	<form id="internet_mac_form">
+			<input id="mac-clone" name="mac_clone_type" type="radio"/>
+			<input id="custom-mac-des" name="mac_custom" type="text"/>
+			<input id="custom-mac-des2" name="mac_custom2" type="text"/> 
+			
+		</form>
+	</div>
+	
+	
+	<div id="internet_help"></div>
+
+	<div id="empty_confirm_msg"  class="hidden warning">
+		<h4 class="title">
+			<span class="icon"></span>
+			<span class="text" id="empty_confirm_msg_text"></span>
+		</h4>   
+	</div>
+
+
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	$("div.func-container").page({
+		title: $.su.CHAR.INTERNET.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	var lanIP = 0;
+	var lanMask = 0;
+	var wanIP = 0;
+	var wanMask = 0;
+	var wanSndIP = 0;
+	var wanSndMask = 0;
+
+	var form_select = "";
+
+	var field_data = {};
+
+	var lanProxy = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=status_ipv4')
+	});
+
+	lanProxy.read({}, function(data){
+		lanIP = data.lan_ipv4_ipaddr;
+		lanMask = data.lan_ipv4_netmask;
+		wanIP = data.wan_ipv4_ipaddr;
+		wanMask = data.wan_ipv4_netmask;
+		data.wan_ipv4_snd_ipaddr?wanSndIP=data.wan_ipv4_snd_ipaddr:1;
+		data.wan_ipv4_snd_netmask?wanSndMask=data.wan_ipv4_snd_netmask:1;	
+	});
+
+
+	var emptyConfirmMsg = $("div#empty_confirm_msg").msg({
+		type: "confirm",
+		closeBtn: false,
+		cls: "l",
+		// yesText: $.su.CHAR.OPERATION.SAVE,
+		// noText: $.su.CHAR.OPERATION.CANCEL,
+		okHandler: function(e){
+			switch(form_select){
+				case "l2tp": {
+					l2tp_setting_form.form("submit");
+					break;
+				}
+				case "pppoe": {
+					pppoe_setting_form.form("submit");
+					break;
+				}
+				case "pptp": {
+					pptp_setting_form.form("submit");
+					break;
+				}
+				default : {}
+			}
+		},
+		noHandler: function(){
+			emptyConfirmMsg.msg('close');
+		}
+	});
+	$("span#empty_confirm_msg_text").html($.su.CHAR.ERROR["00000122"]);
+
+/////////////////// mac clone
+	
+	$('input#mac-clone').radio({
+		fieldLabel: null,
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.USE_DEFAULT_MAC, inputValue: 'default', id:'default-mac', name:'mac_clone_type'},
+			{boxlabel: $.su.CHAR.INTERNET.USE_COMPUTER_MAC, inputValue: 'computer', id:'computer-mac', name:'mac_clone_type'},
+			{boxlabel: $.su.CHAR.INTERNET.USE_CUSTOM_MAC, inputValue: 'custom', id:'custom-mac', name:'mac_clone_type', content:'#custom-mac-des', contentCls:'inline-block'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){	
+		if(newValue=='custom'){
+			$("input#custom-mac-des").textbox('enable');
+		}
+		else{
+			$("input#custom-mac-des").textbox('disable');
+			$("input#custom-mac-des").textbox('setNormal');
+		}
+	});
+			
+	$("input#custom-mac-des").textbox({
+		fieldLabel: null,
+		vtype: 'mac',
+		cls: "custom-mac-value",
+		maxLength: 17
+	});
+
+	$("input#custom-mac-des2").textbox({
+		fieldLabel: null,
+		allowBlank:true,
+		cls: "hidden",
+		maxLength: 17
+	});
+
+	
+
+	
+	
+	
+	var macProxy = new $.su.Proxy({
+	//	url: "./data/internet.mac.json"
+		url: $.su.url('/admin/network?form=mac_clone_advanced')
+	});
+
+	$("#internet_mac_form").form({
+		proxy: macProxy,
+		fields: [
+			{name: "mac_clone_type", mapping: "mac_clone_type"},
+			{name: "mac_default", mapping: "mac_default"},
+			{name: "mac_computer", mapping: "mac_computer"},
+			{name: "mac_custom", mapping: "mac_custom"}
+		],
+		submitBtn: "default",
+		validator: function(){
+			if($("input#mac-clone").radio("getValue")==="custom"){
+				if($("input#custom-mac-des").textbox("getValue")===""){
+					$("input#custom-mac-des").textbox("setError", $.su.CHAR.ERROR["00000062"])
+					return false;
+				}
+				if($("input#custom-mac-des").textbox("validate")===false){
+					$("input#custom-mac-des").textbox("setError", $.su.CHAR.ERROR["00000021"])
+					return false;
+				}
+			}
+			return true;
+		}
+	});
+
+	$("div#internet-mac").panel({
+		title: $.su.CHAR.INTERNET.MAC_CLONE,
+		collapsible: false
+	});
+////////////////////////////////////////////////////////////////////////////
+	var intervalModeIpv4;
+	var presentMode;
+
+
+	var refreshIpv4Action;
+
+////////////////////////////////////////////////////////////////////////////////// ipv4
+	$("div#internet").panel({
+		title: $.su.CHAR.INTERNET.IPV4,
+		collapsible: false
+	});
+
+
+	//这里多个表格调用一个proxy，proxy需要单独定义！
+	var ipv4Proxy = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=wan_ipv4_status')
+	});
+
+	var ipv4ProxyDynamic = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=wan_ipv4_dynamic')
+	});
+
+
+
+	var ipv4ProxyStatic = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=wan_ipv4_staticip')
+	});
+
+	var ipv4ProxyPppoe = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=wan_ipv4_pppoe')
+	});
+
+	var ipv4ProxyPptp = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=wan_ipv4_pptp')
+	});
+
+	var ipv4ProxyL2tp = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=wan_ipv4_l2tp')
+	});
+
+	var ipv4ProxyBigpond = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=wan_ipv4_bigpond')
+	});
+
+	$("div#ip-setting").form({
+		proxy: ipv4Proxy,
+		fields: [
+	     	{name: "conntype", mapping: "conntype"}
+		 ],
+		submitBtn: false,
+		autoLoad: false
+	});
+
+
+	$("div#dynamic-setting").form({
+		proxy: ipv4ProxyDynamic,
+		fields: [
+			 	{name: "ipaddr", mapping: "ipaddr"},
+		 		{name: "netmask", mapping: "netmask"},
+		 		{name: "gateway", mapping: "gateway"},
+		 		{name: "link_status", mapping: "link_status"},
+		 		{name: "pri_dns", mapping: "pri_dns"},
+		 		{name: "snd_dns", mapping: "snd_dns"},
+		 		{name: "dns_mode", mapping: "dns_mode"},
+			 	{name: "dyn_pridns", mapping: "dyn_pridns"},
+			 	{name: "dyn_snddns", mapping: "dyn_snddns"},
+		 		{name: "manual_pridns", mapping: "manual_pridns"},
+		 		{name: "manual_snddns", mapping: "manual_snddns"},
+		 		{name: "mtu", mapping: "mtu"},
+		 		{name: "hostname", mapping: "hostname"},
+		 		{name: "unicast", mapping: "unicast"}
+		],
+		submitBtn: 'default',
+		autoLoad: false,
+		validator: function(){
+
+			if( $('div#dynamic-adv').css('display') !='none' ){
+
+				var string = $('input#inet4_dyn_hostname').textbox('getValue');
+
+				var pattern_username = /[\~\!\@\#\$\%\^\&\*\(\)\+\=\|\\\{\}\[\]\:\"\;\'\<\>\?\,\.\/]+/;
+
+				if( pattern_username.test(string) ){
+					charConfirmMsg.msg('show');
+					return false;
+				};
+
+			}
+
+			return true;
+		}
+	});
+	
+
+
+	$("div#static-setting").form({
+		proxy: ipv4ProxyStatic,
+		fields:[
+				{name: "ipaddr", mapping: "ipaddr"},
+			 	{name: "netmask", mapping: "netmask"},
+			 	{name: "gateway", mapping: "gateway"},
+			 	{name: "pri_dns", mapping: "pri_dns"},
+			 	{name: "snd_dns", mapping: "snd_dns"},
+			 	{name: "mtu", mapping: "mtu"}
+		],
+		submitBtn: 'default',
+		autoLoad: false,
+		validator: function(){
+			var ipVal = $('input#inet4_static_ip_address').textbox('getValue');
+			var maskVal = $('input#inet4_static_submask').textbox('getValue');
+			var gatewayVal = $('input#inet4_static_dft_gateway').textbox('getValue');
+			var primaryDnsVal = $('input#inet4_static_pridns').textbox('getValue');
+			var secondaryDnsVal = $('input#inet4_static_snddns').textbox('getValue');
+
+		/*	if(ipVal==gatewayVal ){
+				$("div#static-setting").form('setError',  $.su.CHAR.ERROR['00000083']);
+				$('input#inet4_static_dft_gateway').textbox('setError');
+				return false;
+
+			}else if( ipVal==primaryDnsVal ){
+				$("div#static-setting").form('setError',  $.su.CHAR.ERROR['00000084']);
+				$('input#inet4_static_pridns').textbox('setError');
+				return false;
+
+			}else if( ipVal==secondaryDnsVal ){
+				$("div#static-setting").form('setError',  $.su.CHAR.ERROR['00000085']);
+				$('input#inet4_static_snddns').textbox('setError');
+				return false;
+			}
+			if( primaryDnsVal==secondaryDnsVal ){
+				$("div#static-setting").form('setError',  $.su.CHAR.ERROR['00000086']);
+				$('input#inet4_static_pridns').textbox('setError');
+				$('input#inet4_static_snddns').textbox('setError');
+				return false;
+			}
+*/
+
+			if( !$.su.func.isNetIpLegal(ipVal, maskVal) ){
+				$("div#static-setting").form('setError',  $.su.CHAR.ERROR['00000059']);
+				$('input#inet4_static_ip_address').textbox('setError');
+				$('input#inet4_static_submask').textbox('setError');
+				return false;
+			}
+
+			if( $.su.func.isNetIp(ipVal, maskVal) ||  $.su.func.isBroadCastIp(ipVal, maskVal) ){
+				$("div#static-setting").form('setError',  $.su.CHAR.ERROR['00000059']);
+				$('input#inet4_static_ip_address').textbox('setError');
+				$('input#inet4_static_submask').textbox('setError');
+				return false;
+			}
+
+			if( $.su.func.isSameNet( lanIP, ipVal, maskVal) ||  $.su.func.isSameNet( ipVal, lanIP, lanMask)  ){
+				$("div#static-setting").form('setError',  $.su.CHAR.ERROR['00000060']);
+				$('input#inet4_static_ip_address').textbox('setError');
+				$('input#inet4_static_submask').textbox('setError');
+				return false;
+			}
+
+			return true;
+		}
+	});
+
+
+	var pppoe_setting_form = $("div#pppoe-setting").form({
+		proxy: ipv4ProxyPppoe,
+		fields:[
+		 	{name: "username", mapping: "username"},
+		 	{name: "password", mapping: "password"},
+		 	{name: "inet_ip", mapping: "inet_ip"},
+		 	{name: "inet_pridns", mapping: "inet_pridns"},
+		 	{name: "inet_snddns", mapping: "inet_snddns"},
+		 	{name: "snd_conn", mapping: "snd_conn"},
+		 	{name: "dyn_ip", mapping: "dyn_ip"},
+		 	{name: "dyn_netmask", mapping: "dyn_netmask"},
+		 	{name: "static_ip", mapping: "static_ip"},
+		 	{name: "static_netmask", mapping: "static_netmask"},
+		 	{name: "mtu", mapping: "mtu"},
+		 	{name: "server", mapping: "server"},
+		 	{name: "access", mapping: "access"},
+		 	{name: "interval", mapping: "interval"},
+		 	{name: "ip_mode", mapping: "ip_mode"},
+		 	{name: "specific_ip", mapping: "specific_ip"},
+		 	{name: "dns_mode", mapping: "dns_mode"},
+		 	{name: "dyn_pridns", mapping: "dyn_pridns"},
+		 	{name: "dyn_snddns", mapping: "dyn_snddns"},
+		 	{name: "static_pridns", mapping: "static_pridns"},
+		 	{name: "static_snddns", mapping: "static_snddns"},
+		 	{name: "conn_mode", mapping: "conn_mode"},
+		 	{name: "demand_idle", mapping: "demand_idle"},
+			{name: "time_start", mapping: "time_start"},
+		 	{name: "time_end", mapping: "time_end"},
+		 	{name: "manual_idle", mapping: "manual_idle"}
+		],
+		submitBtn: '#pppoe_total_save',
+		autoLoad: false,
+		validator: function(){
+			if( $('input#inet4_pppoe_sec_conn').radio('getValue') == 'static' ){
+
+				var ipVal = $('input#inet4_pppoe_static_ip').textbox('getValue');
+				var maskVal = $('input#inet4_pppoe_static_submask').textbox('getValue');
+
+				if( !$.su.func.isNetIpLegal(ipVal, maskVal) ){
+					$("div#pppoe-setting").form('setError',  $.su.CHAR.ERROR['00000059']);
+					$('input#inet4_pppoe_static_ip').textbox('setError');
+					$('input#inet4_pppoe_static_submask').textbox('setError');
+					return false;
+				}
+
+				if( $.su.func.isNetIp(ipVal, maskVal) ||  $.su.func.isBroadCastIp(ipVal, maskVal) ){
+					$("div#pppoe-setting").form('setError',  $.su.CHAR.ERROR['00000059']);
+					$('input#inet4_pppoe_static_ip').textbox('setError');
+					$('input#inet4_pppoe_static_submask').textbox('setError');
+					return false;
+				}
+
+				if( $.su.func.isSameNet( lanIP, ipVal, maskVal) ||  $.su.func.isSameNet( ipVal, lanIP, lanMask)  ){
+					$("div#pppoe-setting").form('setError',  $.su.CHAR.ERROR['00000060']);
+					$('input#inet4_pppoe_static_ip').textbox('setError');
+					$('input#inet4_pppoe_static_submask').textbox('setError');
+					return false;
+				}
+			}
+
+		// time based
+
+			var timeStart = parseInt( $('input#inet4_pppoe_time_start').time('getValue').split(':')[0]+$('input#inet4_pppoe_time_start').time('getValue').split(':')[1],10);
+			
+
+			var timeEnd = parseInt( $('input#inet4_pppoe_time_end').time('getValue').split(':')[0]+$('input#inet4_pppoe_time_end').time('getValue').split(':')[1],10 );
+		
+
+			if( timeStart >= timeEnd){
+				$("div#pppoe-setting").form('setError',  $.su.CHAR.ERROR['00000061']);
+				$('input#inet4_pppoe_time_end').time('setError');
+				return false;
+			}
+
+			return true;
+		}
+	}).on('ev_loadData', function(item, data){
+		if(data.specific_ip == "0.0.0.0")
+		{
+			$('input#inet4_pppoe_specific_ip').textbox('setValue', "");
+		}
+		else
+		{
+			$('input#inet4_pppoe_specific_ip').textbox('setValue', data.specific_ip);
+		}
+		$('input#inet4_pppoe_specific_ip_read').textbox('setValue', data.specific_ip);
+	});
+
+	$("button#pppoe_total_save").button({
+		text: $.su.CHAR.OPERATION.SAVE,
+		cls: "submit",
+		handler: function(){
+			if(pppoe_setting_form.form('validate')){
+				var username = $("input#inet4_pppoe_username").textbox("getValue");
+				var password = $("input#inet4_pppoe_password").password("getValue");
+				if(username == '' && password == ''){
+					form_select = "pppoe";
+					$("span#empty_confirm_msg_text").html($.su.CHAR.ERROR["00000122"]);
+					emptyConfirmMsg.msg("show");
+				}else if(username == ""){
+					form_select = "pppoe";
+					$("span#empty_confirm_msg_text").html($.su.CHAR.ERROR["00000137"]);
+					emptyConfirmMsg.msg("show");
+				}else if(password == ""){
+					form_select = "pppoe";
+					$("span#empty_confirm_msg_text").html($.su.CHAR.ERROR["00000138"]);
+					emptyConfirmMsg.msg("show");
+				}else{
+					pppoe_setting_form.form("submit");
+				}
+			}
+		}
+	});
+
+	var l2tp_setting_form = $("div#l2tp-setting").form({
+		proxy: ipv4ProxyL2tp,
+		fields:[
+			{name: "username", mapping: "username"},
+		 	{name: "password", mapping: "password"},
+		 	{name: "inet_ip", mapping: "inet_ip"},
+		 	{name: "inet_pridns", mapping: "inet_pridns"},
+		 	{name: "inet_snddns", mapping: "inet_snddns"},
+		 	{name: "snd_conn", mapping: "snd_conn"},
+		 	{name: "dyn_server", mapping: "dyn_server"},
+		 	{name: "dyn_ip", mapping: "dyn_ip"},
+		 	{name: "dyn_netmask", mapping: "dyn_netmask"},
+		 	{name: "dyn_gateway", mapping: "dyn_gateway"},
+		 	{name: "dyn_pridns", mapping: "dyn_pridns"},
+		 	{name: "dyn_snddns", mapping: "dyn_snddns"},
+		 	{name: "static_pridns", mapping: "static_pridns"},
+		 	{name: "static_snddns", mapping: "static_snddns"},
+		 	{name: "static_server", mapping: "static_server"},
+		 	{name: "static_ip", mapping: "static_ip"},
+		 	{name: "static_netmask", mapping: "static_netmask"},
+		 	{name: "static_gateway", mapping: "static_gateway"},
+		 	{name: "static_pridns", mapping: "static_pridns"},
+		 	{name: "static_snddns", mapping: "static_snddns"},
+		 	{name: "mtu", mapping: "mtu"},
+		 	{name: "conn_mode", mapping: "conn_mode"},
+		 	{name: "demand_idle", mapping: "demand_idle"},
+		 	{name: "manual_idle", mapping: "manual_idle"}
+		],
+		submitBtn: '#l2tp_total_save',
+		autoLoad: false,
+		validator: function(){
+			if( $('input#inet4_l2tp_snd_conn').radio('getValue') == 'dynamic' ){
+				return true;
+			}
+
+			var ipVal = $('input#inet4_l2tp_static_ip').textbox('getValue');
+			var maskVal = $('input#inet4_l2tp_static_submask').textbox('getValue');
+			var serverVal = $('input#inet4_l2tp_static_svr_ip').textbox('getValue');
+
+			var validateIp = new $.su.vtype('ip');
+			var validateDomain = new $.su.vtype('domain');
+
+			if(  serverVal!='' &&  validateIp.validate(serverVal)==true && !$.su.func.isSameNet( serverVal, ipVal, maskVal) ){
+				if( $('input#inet4_l2tp_static_gateway').textbox('getValue') == '' ){
+					$('input#inet4_l2tp_static_gateway').textbox('setError', $.su.CHAR.ERROR['00000062'] );
+					return false;
+				}
+			}
+
+			if( serverVal!='' &&  validateIp.validate(serverVal)!=true ){
+
+				if( !$.su.func.isSameNet( $('input#inet4_l2tp_static_pri_dns').textbox('getValue'), ipVal, maskVal) &&  $('input#inet4_l2tp_static_gateway').textbox('getValue') == ''){
+					$('input#inet4_l2tp_static_gateway').textbox('setError',  $.su.CHAR.ERROR['00000063'] );
+					return false;
+				}
+
+				if( $('input#inet4_l2tp_static_pri_dns').textbox('getValue') == '' ){
+					$('input#inet4_l2tp_static_pri_dns').textbox('setError', $.su.CHAR.ERROR['00000063'] );
+					return false;
+				}
+			}
+
+			if( !$.su.func.isNetIpLegal(ipVal, maskVal) ){
+				$("div#l2tp-setting").form('setError',  $.su.CHAR.ERROR['00000059']);
+				$('input#inet4_l2tp_static_ip').textbox('setError');
+				$('input#inet4_l2tp_static_submask').textbox('setError');
+				return false;
+			}
+
+			if( $.su.func.isNetIp(ipVal, maskVal) ||  $.su.func.isBroadCastIp(ipVal, maskVal) ){
+				$("div#l2tp-setting").form('setError',  $.su.CHAR.ERROR['00000059']);
+				$('input#inet4_l2tp_static_ip').textbox('setError');
+				$('input#inet4_l2tp_static_submask').textbox('setError');
+				return false;
+			}
+
+			if( $.su.func.isSameNet( lanIP, ipVal, maskVal) ||  $.su.func.isSameNet( ipVal, lanIP, lanMask)  ){
+				$("div#l2tp-setting").form('setError',  $.su.CHAR.ERROR['00000060']);
+				$('input#inet4_l2tp_static_ip').textbox('setError');
+				$('input#inet4_l2tp_static_submask').textbox('setError');
+				return false;
+			}
+
+			return true;
+		}
+	});
+
+	$("button#l2tp_total_save").button({
+		text: $.su.CHAR.OPERATION.SAVE,
+		cls: "submit",
+		handler: function(){
+			if(l2tp_setting_form.form('validate')){
+				var username = $("input#inet4_l2tp_username").textbox("getValue");
+				var password = $("input#inet4_l2tp_password").password("getValue");
+				if(username == '' && password == ''){
+					form_select = "l2tp";
+					$("span#empty_confirm_msg_text").html($.su.CHAR.ERROR["00000122"]);
+					emptyConfirmMsg.msg("show");
+				}else if(username == ""){
+					form_select = "l2tp";
+					$("span#empty_confirm_msg_text").html($.su.CHAR.ERROR["00000137"]);
+					emptyConfirmMsg.msg("show");
+				}else if(password == ""){
+					form_select = "l2tp";
+					$("span#empty_confirm_msg_text").html($.su.CHAR.ERROR["00000138"]);
+					emptyConfirmMsg.msg("show");
+				}else{
+					l2tp_setting_form.form("submit");
+				}
+			}
+		}
+	});
+
+
+	var pptp_setting_form = $("div#pptp-setting").form({
+		proxy: ipv4ProxyPptp,
+		fields:[
+			{name: "username", mapping: "username"},
+		 	{name: "password", mapping: "password"},
+		 	{name: "inet_ip", mapping: "inet_ip"},
+		 	{name: "inet_pridns", mapping: "inet_pridns"},
+		 	{name: "inet_snddns", mapping: "inet_snddns"},
+		 	{name: "snd_conn", mapping: "snd_conn"},
+		 	{name: "dyn_server", mapping: "dyn_server"},
+		 	{name: "dyn_ip", mapping: "dyn_ip"},
+		 	{name: "dyn_netmask", mapping: "dyn_netmask"},
+		 	{name: "dyn_gateway", mapping: "dyn_gateway"},
+		 	{name: "dyn_pridns", mapping: "dyn_pridns"},
+		 	{name: "dyn_snddns", mapping: "dyn_snddns"},
+		 	{name: "static_pridns", mapping: "static_pridns"},
+		 	{name: "static_snddns", mapping: "static_snddns"},
+		 	{name: "static_server", mapping: "static_server"},
+		 	{name: "static_ip", mapping: "static_ip"},
+		 	{name: "static_netmask", mapping: "static_netmask"},
+			{name: "static_gateway", mapping: "static_gateway"},
+		 	{name: "static_pridns", mapping: "static_pridns"},
+		 	{name: "static_snddns", mapping: "static_snddns"},
+		 	{name: "mtu", mapping: "mtu"},
+		 	{name: "conn_mode", mapping: "conn_mode"},
+		 	{name: "demand_idle", mapping: "demand_idle"},
+		 	{name: "manual_idle", mapping: "manual_idle"}
+
+		],
+		submitBtn: '#pptp_total_save',
+		autoLoad: false,
+		validator: function(){
+			if( $('input#inet4_pptp_snd_conn').radio('getValue') == 'dynamic' ){
+				return true;
+			}
+
+			var ipVal = $('input#inet4_pptp_static_ip').textbox('getValue');
+			var maskVal = $('input#inet4_pptp_static_submask').textbox('getValue');
+			var serverVal = $('input#inet4_pptp_static_svr_ip').textbox('getValue');
+
+			var validateIp = new $.su.vtype('ip');
+			var validateDomain = new $.su.vtype('domain');
+
+			if(  serverVal!='' &&  validateIp.validate(serverVal)==true && !$.su.func.isSameNet( serverVal, ipVal, maskVal) ){
+				if( $('input#inet4_pptp_static_gateway').textbox('getValue') == '' ){
+					$('input#inet4_pptp_static_gateway').textbox('setError',  $.su.CHAR.ERROR['00000062'] );
+					return false;
+				}
+			}
+
+			if( serverVal!='' &&  validateIp.validate(serverVal)!=true ){
+
+				if( !$.su.func.isSameNet( $('input#inet4_pptp_static_pri_dns').textbox('getValue'), ipVal, maskVal) &&  $('input#inet4_pptp_static_gateway').textbox('getValue') == ''){
+					$('input#inet4_pptp_static_gateway').textbox('setError',  $.su.CHAR.ERROR['00000063'] );
+					return false;
+				}
+
+				if( $('input#inet4_pptp_static_pri_dns').textbox('getValue') == '' ){
+					$('input#inet4_pptp_static_pri_dns').textbox('setError',  $.su.CHAR.ERROR['00000063'] );
+					return false;
+				}
+			}
+
+			if( !$.su.func.isNetIpLegal(ipVal, maskVal) ){
+				$("div#pptp-setting").form('setError',  $.su.CHAR.ERROR['00000059']);
+				$('input#inet4_pptp_static_ip').textbox('setError');
+				$('input#inet4_pptp_static_submask').textbox('setError');
+				return false;
+			}
+
+			if( $.su.func.isNetIp(ipVal, maskVal) ||  $.su.func.isBroadCastIp(ipVal, maskVal) ){
+				$("div#pptp-setting").form('setError',  $.su.CHAR.ERROR['00000059']);
+				$('input#inet4_pptp_static_ip').textbox('setError');
+				$('input#inet4_pptp_static_submask').textbox('setError');
+				return false;
+			}
+
+			if( $.su.func.isSameNet( lanIP, ipVal, maskVal) ||  $.su.func.isSameNet( ipVal, lanIP, lanMask)  ){
+				$("div#pptp-setting").form('setError',  $.su.CHAR.ERROR['00000060']);
+				$('input#inet4_pptp_static_ip').textbox('setError');
+				$('input#inet4_pptp_static_submask').textbox('setError');
+				return false;
+			}
+
+			return true;
+		}
+	});
+
+	$("button#pptp_total_save").button({
+		text: $.su.CHAR.OPERATION.SAVE,
+		cls: "submit",
+		handler: function(){
+			if(pptp_setting_form.form('validate')){
+				var username = $("input#inet4_pptp_username").textbox("getValue");
+				var password = $("input#inet4_pptp_password").password("getValue");
+				if(username == '' && password == ''){
+					form_select = "pptp";
+					$("span#empty_confirm_msg_text").html($.su.CHAR.ERROR["00000122"]);
+					emptyConfirmMsg.msg("show");
+				}else if(username == ""){
+					form_select = "pptp";
+					$("span#empty_confirm_msg_text").html($.su.CHAR.ERROR["00000137"]);
+					emptyConfirmMsg.msg("show");
+				}else if(password == ""){
+					form_select = "pptp";
+					$("span#empty_confirm_msg_text").html($.su.CHAR.ERROR["00000138"]);
+					emptyConfirmMsg.msg("show");
+				}else{
+					pptp_setting_form.form("submit");
+				}
+			}
+		}
+	});
+
+
+	$("div#bigpond-setting").form({
+		proxy: ipv4ProxyBigpond,
+		fields:[
+			{name: "username", mapping: "username"},
+		 	{name: "password", mapping: "password"},
+		 	{name: "server", mapping: "server"},
+		 	{name: "domain", mapping: "domain"},
+		 	{name: "mtu", mapping: "mtu"},
+		 	{name: "conn_mode", mapping: "conn_mode"},
+		 	{name: "demand_idle", mapping: "demand_idle"},
+		 	{name: "manual_idle", mapping: "manual_idle"}
+		],
+		submitBtn: 'default',
+		autoLoad: false
+	});
+	
+	
+	$("input#txt-internet-mac-address").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.INTERNET_MAC_ADDRESS,
+		labelCls: "s",
+		cls: "inline",
+		vtype: 'mac'
+	});
+	$("button.restore-factory-mac").button({
+		text: $.su.CHAR.INTERNET.RESTORE_FACTORY_MAC,
+		cls: "inline"
+	});
+	$("button.clone-your-pc-mac").button({
+		text: $.su.CHAR.INTERNET.CLONE_YOUR_PC_MAC,
+		cls: "inline"
+	});
+
+	var connectionCombo =  $("input#radio_inet4_conntype").combobox({
+		fieldLabel: $.su.CHAR.INTERNET.CONNECTION_TYPE,
+		labelCls: 'l',
+		items:[
+		]
+	})
+////////////////////////////////////////////////////////////////
+
+	var connectionItem = [];
+	// regionItem = $.su.loadComboData.load("./data/region.json", {}, [
+	connectionItem = $.su.loadComboData($.su.url("/admin/network?form=wan_ipv4_protos"), {advanced:true}, [
+		{
+			srcKey:"name", 
+			dstKey:"name"
+		},
+		{srcKey:"value", dstKey:"value"}
+	]);
+	$("#radio_inet4_conntype").combobox("loadData",connectionItem);
+	connectionCombo.combobox('getContainer').delegate('label', 'click', function(){
+
+		clearInterval(refreshIpv4Action);
+		
+		$('.conn-type-party').css("display", "none");
+		presentMode = $(this).find('input').val();
+		$('div.advanced-block').show();
+		$('div.basic-block').hide();
+		switch( $(this).find('input').val() ){
+			case 'dhcp': 
+				ipv4ProxyDynamic.read({}, function(){
+					var o = setTimeout( function(){
+						$("#dynamic-adv").fieldset('hide');
+					}, 200);
+				});				
+				$('div#dynamic-config').fadeIn(200);
+				break;
+			case 'static': 
+				$('div#static-ip-config').fadeIn(200);
+				ipv4ProxyStatic.read();
+				break;
+			case 'pppoe': 
+				ipv4ProxyPppoe.read({}, function(){
+					var o = setTimeout(function(){
+						$("#pppoe-adv").fieldset('hide');
+					}, 200);
+				});				
+				$('div#pppoe-config').fadeIn(200);
+				break;
+			case 'bigpond': 
+				$('div#bigpond-config').fadeIn(200);
+				ipv4ProxyBigpond.read();
+				break;
+			case 'l2tp': 
+				$('div#l2tp-config').fadeIn(200);
+				ipv4ProxyL2tp.read({},function(data){
+					//options状态
+					var validateIp = new $.su.vtype('ip');
+					var validateDomain = new $.su.vtype('domain');
+					if(data.static_server){
+						if(  validateIp.validate( data.static_server )==true  ){
+							$("input#inet4_l2tp_static_pri_dns").textbox('setTips', $.su.CHAR.INTERNET.OPTIONAL);
+						}
+						else{
+							$("input#inet4_l2tp_static_pri_dns").textbox('setTips', '');
+						}
+					}
+				});
+				break;
+			case 'pptp': 
+				$('div#pptp-config').fadeIn(200);
+				ipv4ProxyPptp.read({},function(data){
+					//options状态
+					var validateIp = new $.su.vtype('ip');
+					var validateDomain = new $.su.vtype('domain');
+					if(data.static_server){
+						if(  validateIp.validate( data.static_server )==true  ){
+							$("input#inet4_pptp_static_pri_dns").textbox('setTips', $.su.CHAR.INTERNET.OPTIONAL);
+						}
+						else{
+							$("input#inet4_pptp_static_pri_dns").textbox('setTips', '');
+						}
+					}
+				});
+				break;
+		}
+
+	});
+
+	ipv4Proxy.read({}, function(data){
+		presentMode = data.conntype;
+
+		switch( data.conntype ){
+			case 'dhcp': 
+				ipv4ProxyDynamic.read({}, function(){
+					var o = setTimeout( function(){
+						$("#dynamic-adv").fieldset('hide');
+					}, 200);
+				});				
+				$('div#dynamic-config').fadeIn(200);
+				break;
+			case 'static': 
+				$('div#static-ip-config').fadeIn(200);
+				ipv4ProxyStatic.read();
+				break;
+			case 'pppoe': 
+				ipv4ProxyPppoe.read({}, function(){
+					var o = setTimeout(function(){
+						$("#pppoe-adv").fieldset('hide');
+					}, 200);
+				});				
+				$('div#pppoe-config').fadeIn(200);
+				break;
+			case 'bigpond': 
+				$('div#bigpond-config').fadeIn(200);
+				ipv4ProxyBigpond.read();
+				break;
+			case 'l2tp': 
+				$('div#l2tp-config').fadeIn(200);
+				ipv4ProxyL2tp.read({},function(data){
+					//options状态
+					var validateIp = new $.su.vtype('ip');
+					var validateDomain = new $.su.vtype('domain');
+					if(data.static_server){
+						if(  validateIp.validate( data.static_server )==true  ){
+							$("input#inet4_l2tp_static_pri_dns").textbox('setTips', $.su.CHAR.INTERNET.OPTIONAL);
+						}
+						else{
+							$("input#inet4_l2tp_static_pri_dns").textbox('setTips', '');
+						}
+					}
+				});
+				break;
+			case 'pptp': 
+				$('div#pptp-config').fadeIn(200);
+				ipv4ProxyPptp.read({},function(data){
+					//options状态
+					var validateIp = new $.su.vtype('ip');
+					var validateDomain = new $.su.vtype('domain');
+					if(data.static_server){
+						if(  validateIp.validate( data.static_server )==true  ){
+							$("input#inet4_pptp_static_pri_dns").textbox('setTips', $.su.CHAR.INTERNET.OPTIONAL);
+						}
+						else{
+							$("input#inet4_pptp_static_pri_dns").textbox('setTips', '');
+						}
+					}
+				});
+				break;
+		}
+	});
+
+////////////////////////////////////////////// dynamic  dynamic  dynamic  dynamic  dynamic  
+
+	$('#host_name_confirm_p').html($.su.CHAR.INTERNET.HOST_NAME_CONFIRM);
+
+	var charConfirmMsg = $("div#host_name_confirm").msg({
+	    type: "confirm",
+	    closeBtn: false,
+	    cls: 'l',
+	    okHandler: function(){
+	    	$("div#dynamic-setting").form('doSubmit');
+	    }
+	});
+
+	$("input#inet4_dyn_ip_address_address").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDRESS,
+		readOnly: true,
+		labelCls: 'l',
+		cls: 'part-seperate'
+	});
+
+	$("input#inet4_dyn_submask").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SUBNET_MASK,
+		readOnly: true,
+		labelCls: 'l'
+	});
+
+	$("input#inet4_dyn_dft_gateway").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.DEFAULT_GATEWAY,
+		readOnly: true,
+		labelCls: 'l'
+	});
+
+
+	$("input#dynamic-primary-dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		readOnly: true,
+		labelCls: 'l',
+		cls: 'part-seperate'
+	});
+
+	$("input#dynamic-second-dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		readOnly: true,
+		labelCls: 'l'
+	});
+	
+	
+	$("button#ipv4_dynamic_renew").button({
+		fieldLabel: null,
+		text: $.su.CHAR.INTERNET.RENEW,
+		cls: 'inline-block part-seperate gap',
+		labelCls: 'l',
+		handler: function(){
+			ipv4ProxyDynamic.read({operation: 'renew'});
+		}
+	});
+	
+	$("button#ipv4_dynamic_release").button({
+		text: $.su.CHAR.INTERNET.RELEASE,
+		cls: 'inline-block part-seperate',
+		labelCls: 'l',
+		handler: function(){
+	//		$.post($.su.url("/admin/network?form=wan_ipv4_dynamic"), {operation: 'release'}, function(result){})	
+			ipv4ProxyDynamic.read({operation: 'release'});
+		}
+	});
+
+	$('span#dhcp_link_status').html($.su.CHAR.INTERNET.DHCP_LINK_UNPLUGGED);
+	
+	$("span.advanced-text").html($.su.CHAR.INTERNET.ADVANCED);
+	$("span.basic-text").html($.su.CHAR.INTERNET.ADVANCED);
+	
+	$("#dynamic-adv").fieldset({
+		fields: [
+			{name: "dns_mode"},
+			{name: "dyn_pridns"},
+			{name: "dyn_snddns"},
+			{name: "manual_pridns"},
+			{name: "manual_snddns"},
+			{name: "mtu"},
+			{name: "hostname"},
+			{name: "unicast"}
+		]
+	});
+
+	$("div#dynamic_adv_btn").on('click',function(){
+		$('#dynamic-adv').fieldset('show');
+		$(this).hide();
+		$('#dynamic_basic_btn').css('display', 'inline-block');
+
+		if($("input#inet4_dyn_dns_mode").radio('getValue')=='dynamic'){
+			$("#inet4_dyn_dns_manual_part").fieldset('hide');
+			$("#inet4_dyn_dns_dyn_part").fieldset('show');
+		}
+		else if($("input#inet4_dyn_dns_mode").radio('getValue')=='static'){
+			$("#inet4_dyn_dns_dyn_part").fieldset('hide');
+			$("#inet4_dyn_dns_manual_part").fieldset('show');
+		}
+	});
+	$("div#dynamic_basic_btn").on('click',function(){
+		$('#dynamic-adv').fieldset('hide');
+		$(this).hide();
+		$('#dynamic_adv_btn').css('display', 'inline-block');
+	});
+
+	$("#inet4_dyn_dns_dyn_part").fieldset({
+		fields: [
+			{name: "dyn_pridns"},
+			{name: "dyn_snddns"}
+		]
+	});
+
+	$("#inet4_dyn_dns_manual_part").fieldset({
+		fields: [
+			{name: "manual_pridns"},
+			{name: "manual_snddns"}
+		]
+	});
+
+	
+	
+	$("input#inet4_dyn_dns_mode").radio({
+		fieldLabel: $.su.CHAR.INTERNET.DNS_ADDR_MODE,
+		labelCls: 'l',
+		columns: 1,
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.GET_DYNAMICALLY_FROM_ISP, name:'dns_mode', inputValue:'dynamic'},
+			{boxlabel: $.su.CHAR.INTERNET.USE_FOLLOW_DNS_ADDR, name:'dns_mode', inputValue: 'static'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){
+		if(newValue=='dynamic'){
+			$("#inet4_dyn_dns_manual_part").fieldset('hide');
+			$("#inet4_dyn_dns_dyn_part").fieldset('show');
+		}
+		else if(newValue=='static'){
+			$("#inet4_dyn_dns_dyn_part").fieldset('hide');
+			$("#inet4_dyn_dns_manual_part").fieldset('show');
+		}
+		
+	});
+
+	$("input#inet4_dyn_dyn_pridns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		labelCls: 'l',
+		readOnly: true
+	});
+
+	$("input#inet4_dyn_dyn_snddns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		labelCls: 'l',
+		readOnly: true
+	});
+	
+	$("input#inet4_dyn_manual_pridns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		labelCls: 'l',
+		allowBlank: false,
+		textFormat: $.su.format.ip,
+		vtype: 'ip'
+	});
+
+	$("input#inet4_dyn_manual_snddns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		labelCls: 'l',
+		textFormat: $.su.format.ip,
+		vtype: 'ip'
+	});
+	
+	
+
+	$("input#inet4_dyn_mtu_size").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MTU_SIZE,
+		tips: $.su.CHAR.INTERNET.MTU_1500,
+		tipsCls: "xl",
+		inputCls: "s",
+		labelCls: 'l',
+		cls: 'part-seperate',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		maxLength: 4,
+        vtype: {
+            vtype: "number",
+            max: 1500,
+            min: 576
+        }
+	});
+
+	$("input#inet4_dyn_hostname").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.HOST_NAME,
+		labelCls: 'l',
+		cls: '',
+		maxLength: 63,
+		vtype: 'string_visible'
+	});
+
+	$("input#inet4_dyn_unicast_dhcp").checkbox({
+		fieldLabel: "",
+		labelCls: 'l',
+		cls: '',
+		items: [
+			{boxlabel: $.su.CHAR.INTERNET.GET_IP_WITH_UNICAST_DHCP, inputValue: "on", uncheckedValue: "off", id: "inet4_dyn_unicast_dhcp-checked", }
+		]
+	});
+
+
+///////////////////////////  static ip 
+	
+	$("input#inet4_static_ip_address").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDRESS,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		allowBlank: false,
+		vtype:"ip",
+		textFormat: $.su.format.ip
+	});
+
+	$("input#inet4_static_submask").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SUBNET_MASK,
+		labelCls: 'l',
+		allowBlank: false,
+		vtype:"netmask"
+	});
+
+	$("input#inet4_static_dft_gateway").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.DEFAULT_GATEWAY,
+		labelCls: 'l',
+		allowBlank: false,
+		vtype:"ip",
+		textFormat: $.su.format.ip
+	});
+
+
+	$("input#inet4_static_pridns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		allowBlank: false,
+		vtype:"ip",
+		textFormat: $.su.format.ip
+	});
+
+	$("input#inet4_static_snddns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		labelCls: 'l',
+		tips: $.su.CHAR.INTERNET.OPTIONAL,
+		vtype:"ip",
+		textFormat: $.su.format.ip
+	});
+	
+	$("input#inet4_static_mtu_size").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MTU_SIZE,
+		tips: $.su.CHAR.INTERNET.MTU_1500,
+		labelCls: 'l',
+		tipsCls: "xl",
+		inputCls: "s",
+		cls: 'part-seperate',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		maxLength: 4,
+        vtype: {
+            vtype: "number",
+            max: 1500,
+            min: 576
+        }
+	});
+
+
+////////////////////////////  PPPOE 
+	$("input#inet4_pppoe_username").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.USER_NAME,
+		labelCls: 'l',
+		cls: 'part-seperate',
+        vtype: "string_visible_allow_blank",
+        maxLength: 118,
+        minLength: 0,
+        autoTrim:false
+	});
+	
+	$("input#inet4_pppoe_password").password({
+		fieldLabel: $.su.CHAR.INTERNET.PASSWORD,
+		labelCls: 'l',
+		encrypt: null,
+		showLevel: false,
+        vtype: 'password',
+        maxLength: 118,
+        minLength: 0
+	});
+	
+	$("input#inet4_pppoe_inet_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDR,
+		readOnly: true,
+		labelCls: 'l',
+		cls: 'part-seperate'
+	});
+	
+	$("input#inet4_pppoe_inet_pridns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		readOnly: true,
+		labelCls: 'l'
+	});
+
+	
+	$("input#inet4_pppoe_inet_snddns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		readOnly: true,
+		labelCls: 'l'
+	});
+
+
+	$("#pppoe-adv").fieldset({
+		fields: [
+			{name: "snd_conn"},
+			{name: "dyn_ip"},
+			{name: "dyn_netmask"},
+			{name: "pppoe_renew_btn"},
+			{name: "pppoe_release_btn"},
+			{name: "static_ip"},
+			{name: "static_netmask"},
+			{name: "mtu"},
+			{name: "server"},
+			{name: "access"},
+			{name: "interval"},
+			{name: "ip_mode"},
+			{name: "specific_ip"},
+			{name: "dns_mode"},
+			{name: "dyn_pridns"},
+			{name: "dyn_snddns"},
+			{name: "static_pridns"},
+			{name: "static_snddns"},
+			{name: "conn_mode"},
+			{name: "demand_idle"},
+			{name: "time_start"},
+			{name: "time_end"},
+			{name: "manual_idle"}
+		]
+	});
+
+	$("div#pppoe_adv_btn").on('click',function(){
+		$('#pppoe-adv').fieldset('show');
+		$(this).hide();
+		$('#pppoe_basic_btn').css('display', 'inline-block');
+
+		if($("input#inet4_pppoe_sec_conn").radio('getValue')=='none'){
+			$("#pppoe_dyn_part").fieldset('hide');
+			$("#pppoe_static_part").fieldset('hide');
+		}
+		else if($("input#inet4_pppoe_sec_conn").radio('getValue')=='dynamic'){
+			$("#pppoe_dyn_part").fieldset('show');
+			$("#pppoe_static_part").fieldset('hide');
+		}
+		else if($("input#inet4_pppoe_sec_conn").radio('getValue')=='static'){
+			$("#pppoe_dyn_part").fieldset('hide');
+			$("#pppoe_static_part").fieldset('show');
+		}
+		changeBtnStatus(field_data.conn_status, ['pppoe_renew_btn','pppoe_release_btn'], ['pppoe_conn_btn', 'pppoe_disconn_btn'], 'pppoe-config');
+
+		if($("input#inet4_pppoe_ip_mode").radio('getValue')=='dynamic'){
+			$('input#inet4_pppoe_specific_ip').textbox('disable');
+		}
+		else if($("input#inet4_pppoe_ip_mode").radio('getValue')=='static'){
+			$('input#inet4_pppoe_specific_ip').textbox('enable');
+		}
+
+		if($("input#inet4_pppoe_dns_mode").radio('getValue')=='dynamic'){
+			$("#inet4_pppoe_dns_static_part").fieldset('hide');
+			$("#inet4_pppoe_dns_dyn_part").fieldset('show');
+		}
+		else if($("input#inet4_pppoe_dns_mode").radio('getValue')=='static'){
+			$("#inet4_pppoe_dns_dyn_part").fieldset('hide');
+			$("#inet4_pppoe_dns_static_part").fieldset('show');
+		}
+
+		switch($("input#inet4_pppoe_conn_mode").radio('getValue'))
+		{
+			case 'auto': 
+				$('input#inet4_pppoe_demand_idle').textbox('disable');
+				$('input#inet4_pppoe_manual_idle').textbox('disable');
+				break;
+			case 'demand': 
+				$('#pppoe-demand-part').fadeIn(150);
+				$('input#inet4_pppoe_demand_idle').textbox('enable');
+				$('input#inet4_pppoe_manual_idle').textbox('disable');
+				break;
+			case 'time_based': 
+				$('#pppoe-time-part').fadeIn(150);
+				$('input#inet4_pppoe_demand_idle').textbox('disable');
+				$('input#inet4_pppoe_manual_idle').textbox('disable');
+				break;
+			case 'manually': 
+				$('#pppoe-manually-part').fadeIn(150);
+				$('input#inet4_pppoe_demand_idle').textbox('disable');
+				$('input#inet4_pppoe_manual_idle').textbox('enable');
+				break;
+		}
+	});
+	$("div#pppoe_basic_btn").on('click',function(){
+		$('#pppoe-adv').fieldset('hide');
+		$(this).hide();
+		$('#pppoe_adv_btn').css('display', 'inline-block');
+	});
+
+	$("#pppoe_dyn_part").fieldset({
+		fields: [
+			{name: "dyn_ip"},
+			{name: "dyn_netmask"}
+		]
+	});
+	
+	$("#pppoe_static_part").fieldset({
+		fields: [
+			{name: "static_ip"},
+			{name: "static_netmask"}
+		]
+	});
+	
+	
+	$("input#inet4_pppoe_sec_conn").radio({
+		fieldLabel: $.su.CHAR.INTERNET.SECONDARY_CONN,
+		labelCls: 'l',
+		columns: 3,
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.NONE, name:'snd_conn', inputValue:'none'},
+			{boxlabel: $.su.CHAR.INTERNET.DYNAMIC_IP, name:'snd_conn', inputValue:'dynamic'},
+			{boxlabel: $.su.CHAR.INTERNET.STATIC_IP, name:'snd_conn', inputValue: 'static'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){
+		if(newValue=='none'){
+			$("#pppoe_dyn_part").fieldset('hide');
+			$("#pppoe_static_part").fieldset('hide');
+		}
+		else if(newValue=='dynamic'){
+			$("#pppoe_dyn_part").fieldset('show');
+			$("#pppoe_static_part").fieldset('hide');
+		}
+		else if(newValue=='static'){
+			$("#pppoe_dyn_part").fieldset('hide');
+			$("#pppoe_static_part").fieldset('show');
+		}
+		changeBtnStatus(field_data.conn_status, ['pppoe_renew_btn','pppoe_release_btn'], ['pppoe_conn_btn', 'pppoe_disconn_btn'], 'pppoe-config');
+	});
+	
+	
+	$("input#inet4_pppoe_dyn_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDRESS,
+		readOnly: true,
+		labelCls: 'l'
+	});
+
+	$("input#inet4_pppoe_dyn_submask").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SUBNET_MASK,
+		readOnly: true,
+		labelCls: 'l'
+	});
+
+	$("button#pppoe_renew_btn").button({
+		fieldLabel: '',
+		text: $.su.CHAR.INTERNET.RENEW,
+		cls: 'inline-block part-seperate gap',
+		labelCls: 'l',
+		handler: function(){
+			ipv4ProxyPppoe.read({operation: 'renew'});
+		}
+	});
+	
+	$("button#pppoe_release_btn").button({
+		text: $.su.CHAR.INTERNET.RELEASE,
+		cls: 'inline-block part-seperate',
+		labelCls: 'l',
+		handler: function(){
+			ipv4ProxyPppoe.read({operation: 'release'});
+		}
+	});	
+	
+	$("input#inet4_pppoe_static_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDRESS,
+		labelCls: 'l',
+		vtype: "ip",
+		textFormat: $.su.format.ip
+	});
+
+	$("input#inet4_pppoe_static_submask").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SUBNET_MASK,
+		labelCls: 'l',
+		vtype: "netmask"
+	});
+	
+	$("input#inet4_pppoe_mtu_size").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MTU_SIZE,
+		tips: $.su.CHAR.INTERNET.MTU_1480,
+		tipsCls: "xl",
+		inputCls: "s",
+		labelCls: 'l',
+		cls: 'part-seperate',
+		textFormat: $.su.format.number,
+		maxLength: 4,
+        vtype: {
+            vtype: "number",
+            max: 1492,
+            min: 576
+        }
+	});
+
+	$("input#inet4_pppoe_svr_name").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SERVICE_NAME,
+		labelCls: 'l',
+		cls: 'part-seperate',
+        maxLength: 31,
+        minLength: 0,
+		vtype: 'string_visible_allow_blank',
+		autoTrim: false
+	});
+
+	$("input#inet4_pppoe_access_name").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.ACCESS_CONCENTRATOR_NAME,
+		labelCls: 'l',
+        vtype: 'string_visible_allow_blank',
+        maxLength: 31,
+        minLength: 0,
+        autoTrim: false
+	});
+
+	$("input#inet4_pppoe_interval").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.DETECT_ONLINE_INTERVAL,
+		tips: $.su.CHAR.INTERNET.INTERVAL_TIPS,
+		labelCls: 'l',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+        vtype: {
+            vtype: "number",
+            max: 120,
+            min: 0
+        }
+	});
+	
+	$("input#inet4_pppoe_ip_mode").radio({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDR_MODE,
+		labelCls: 'l',
+		columns: 1,
+		cls: 'part-seperate',
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.GET_DYNAMICALLY_FROM_ISP, name:'ip_mode', inputValue:'dynamic'},
+			{boxlabel: $.su.CHAR.INTERNET.USE_FOLLOW_IP_ADDR, name:'ip_mode', inputValue: 'static'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){
+		if(newValue=='dynamic'){
+			$('input#inet4_pppoe_specific_ip').textbox('hide');
+			$('input#inet4_pppoe_specific_ip').textbox('disable');
+			$('input#inet4_pppoe_specific_ip_read').textbox('show');
+		}
+		else if(newValue=='static'){
+			$('input#inet4_pppoe_specific_ip').textbox('show');
+			$('input#inet4_pppoe_specific_ip').textbox('enable');
+			$('input#inet4_pppoe_specific_ip_read').textbox('hide');
+		}
+		
+	});
+	
+
+	$("input#inet4_pppoe_specific_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDRESS,
+		labelCls: 'l',
+		allowBlank:false,
+		vtype: "ip",
+		textFormat: $.su.format.ip
+	});
+
+	$("input#inet4_pppoe_specific_ip_read").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDRESS,
+		labelCls: 'l',
+		readOnly: true,
+		vtype: "ip"
+	});
+
+	$("#inet4_pppoe_dns_dyn_part").fieldset({
+		fields: [
+			{name: "dyn_pridns"},
+			{name: "dyn_snddns"}
+		]
+	});
+
+	$("#inet4_pppoe_dns_static_part").fieldset({
+		fields: [
+			{name: "static_pridns"},
+			{name: "static_snddns"}
+		]
+	});
+
+	$("input#inet4_pppoe_dns_mode").radio({
+		fieldLabel: $.su.CHAR.INTERNET.DNS_ADDR_MODE,
+		labelCls: 'l',
+		columns: 1,
+		cls: 'part-seperate',
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.GET_DYNAMICALLY_FROM_ISP, name:'dns_mode', inputValue:'dynamic'},
+			{boxlabel: $.su.CHAR.INTERNET.USE_FOLLOW_DNS_ADDR, name:'dns_mode', inputValue: 'static'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){
+		if(newValue=='dynamic'){
+			$("#inet4_pppoe_dns_static_part").fieldset('hide');
+			$("#inet4_pppoe_dns_dyn_part").fieldset('show');
+		}
+		else if(newValue=='static'){
+			$("#inet4_pppoe_dns_dyn_part").fieldset('hide');
+			$("#inet4_pppoe_dns_static_part").fieldset('show');
+		}
+		
+	});
+
+
+	$("input#inet4_pppoe_dyn_pridns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		labelCls: 'l',
+		readOnly: true
+	});
+
+	$("input#inet4_pppoe_dyn_snddns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		labelCls: 'l',
+		readOnly: true
+	});
+	
+
+	$("input#inet4_pppoe_static_pridns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		labelCls: 'l',
+		allowBlank: false,
+		vtype: "ip",
+		textFormat: $.su.format.ip
+	});
+
+	$("input#inet4_pppoe_static_snddns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		labelCls: 'l',
+		vtype: "ip",
+		textFormat: $.su.format.ip
+	});
+	
+	
+	$("input#inet4_pppoe_conn_mode").radio({
+		fieldLabel: $.su.CHAR.INTERNET.CONN_MODE,
+		labelCls: 'l',
+		columns: 4,
+		cls: 'part-seperate',
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.AUTO, name: 'conn_mode', inputValue:'auto'},
+			{boxlabel: $.su.CHAR.INTERNET.ON_DEMAND, name: 'conn_mode', inputValue: 'demand'},
+			{boxlabel: $.su.CHAR.INTERNET.TIME_BASED, name: 'conn_mode', inputValue: 'time_based'},
+			{boxlabel: $.su.CHAR.INTERNET.MANUALLY, name: 'conn_mode', inputValue: 'manually'}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		switch(newValue)
+		{
+			case 'auto': 
+				$('#pppoe-demand-part').css("display", "none");
+				$('#pppoe-time-part').css("display", "none");
+				$('#pppoe-manually-part').css("display", "none");
+				$('input#inet4_pppoe_demand_idle').textbox('disable');
+				$('input#inet4_pppoe_manual_idle').textbox('disable');
+				break;
+			case 'demand': 
+				$('#pppoe-demand-part').fadeIn(150);
+				$('#pppoe-time-part').css("display", "none");
+				$('#pppoe-manually-part').css("display", "none");
+				$('input#inet4_pppoe_demand_idle').textbox('enable');
+				$('input#inet4_pppoe_manual_idle').textbox('disable');
+				break;
+			case 'time_based': 
+				$('#pppoe-demand-part').css("display", "none");
+				$('#pppoe-time-part').fadeIn(150);
+				$('#pppoe-manually-part').css("display", "none");
+				$('input#inet4_pppoe_demand_idle').textbox('disable');
+				$('input#inet4_pppoe_manual_idle').textbox('disable');
+				break;
+			case 'manually': 
+				$('#pppoe-demand-part').css("display", "none");
+				$('#pppoe-time-part').css("display", "none");
+				$('#pppoe-manually-part').fadeIn(150);
+				$('input#inet4_pppoe_demand_idle').textbox('disable');
+				$('input#inet4_pppoe_manual_idle').textbox('enable');
+				break;
+		}
+	});
+	
+	
+	$("input#inet4_pppoe_demand_idle").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MAX_IDLE_TIME,
+		labelCls: 'l',
+		inputCls: 's',
+		tips: $.su.CHAR.INTERNET.MAX_IDLE_TIME_TIPS,
+		tipsCls: 'l',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		maxLength: 2,
+        vtype: {
+            vtype: "number",
+            max: 99,
+            min: 0
+        }
+	});
+	
+	$("input#inet4_pppoe_time_start").time({
+		fieldLabel: $.su.CHAR.INTERNET.PERIOD_OF_TIME,
+		tips: $.su.CHAR.INTERNET.TIME_TIPS,
+		labelCls: 'l',
+		tipsCls:"time-to",
+		cls: 'inline m',
+		format: 'h:m'
+	}).time('setValue', '0:0');
+	
+	$("input#inet4_pppoe_time_end").time({
+		fieldLabel: "",
+		tips: $.su.CHAR.INTERNET.TIME_TIPS,
+		labelCls: 'l',
+		cls: 'inline',
+		format: 'h:m'
+	}).time('setValue', '0:0');
+	
+	$("input#inet4_pppoe_manual_idle").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MAX_IDLE_TIME,
+		labelCls: 'l',
+		inputCls: 's',
+		tips: $.su.CHAR.INTERNET.MAX_IDLE_TIME_TIPS,
+		tipsCls: 'l',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		maxLength: 2,
+        vtype: {
+            vtype: "number",
+            max: 99,
+            min: 0
+        }
+	});
+
+
+	var pppoeInet4Status = $("#inet4_pppoe_status").status({
+		proxy: {
+			url: $.su.url('/admin/network?form=wan_ipv4_pppoe')
+		},
+		cls: 'inline-block'
+	});
+	
+	$("button#pppoe_conn_btn").button({
+		fieldLabel: null,
+		labelCls: 'l',
+		cls: 'inline-block part-seperate gap',
+		text: $.su.CHAR.INTERNET.CONNECT,
+		handler: function(){
+			$("div#pppoe-setting").form('submit', {operation:'connect'}, null, null, null, false);
+		}
+	});
+	
+	$("button#pppoe_disconn_btn").button({
+		fieldLabel: null,
+		labelCls: 'l',
+		cls: 'inline-block',
+		text: $.su.CHAR.INTERNET.DISCONNECT,
+		handler: function(){
+			$("div#pppoe-setting").form('submit', {operation:'disconnect'}, null, null, null, false);
+		}
+	});
+
+
+
+
+
+/////////////////////////////////////////////  big pond
+	$("input#inet4_bp_username").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.USER_NAME,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		maxLength: 118,
+		minLength: 0,
+		vtype: "string_visible_allow_blank"
+	});
+	
+	$("input#inet4_bp_password").password({
+		fieldLabel: $.su.CHAR.INTERNET.PASSWORD,
+		labelCls: 'l',
+		encrypt: null,
+		showLevel: false,
+		maxLength: 118,
+		minLength: 0,
+		vtype: 'password'
+	});
+	
+	$("input#inet4_bp_auth_server").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.AUTH_SERVER,
+		labelCls: 'l',
+		maxLength: 31,
+		minLength: 0,
+		vtype: 'string_visible'
+	});
+	
+	$("input#inet4_bp_auth_domain").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.AUTH_DOMAIN,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		maxLength: 31,
+		minLength: 0,
+		vtype: 'string_visible'
+	});
+	
+	$("input#inet4_bp_mtu_size").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MTU_SIZE,
+		tips: $.su.CHAR.INTERNET.MTU_1500,
+		tipsCls: "xl",
+		inputCls: "s",
+		labelCls: 'l',
+		cls: 'part-seperate',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		maxLength: 4,
+        vtype: {
+            vtype: "number",
+            max: 1500,
+            min: 576
+        }
+	});
+
+
+	$("#bigpond_demand_part").fieldset({
+		fields: [
+			{name: "demand_idle"}
+		]
+	});
+	
+	$("#bigpond_manually_part").fieldset({
+		fields: [
+			{name: "manual_idle"}
+		]
+	});
+
+	$("input#inet4_bp_conn_mode").radio({
+		fieldLabel: $.su.CHAR.INTERNET.CONN_MODE,
+		labelCls: 'l',
+		columns: 3,
+		cls: 'part-seperate',
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.AUTO, name:'conn_mode', inputValue:'auto'},
+			{boxlabel: $.su.CHAR.INTERNET.ON_DEMAND, name:'conn_mode', inputValue:'demand'},
+			{boxlabel: $.su.CHAR.INTERNET.MANUALLY, name:'conn_mode', inputValue: 'manually'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){
+		if(newValue=='auto'){
+			$("#bigpond_demand_part").fieldset('hide');
+			$("#bigpond_manually_part").fieldset('hide');
+		}
+		else if(newValue=='demand'){
+			$("#bigpond_demand_part").fieldset('show');
+			$("#bigpond_manually_part").fieldset('hide');
+		}
+		else if(newValue=='manually'){
+			$("#bigpond_demand_part").fieldset('hide');
+			$("#bigpond_manually_part").fieldset('show');
+		}
+		
+	});
+
+	$("input#inet4_bp_demand_idle").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MAX_IDLE_TIME,
+		labelCls: 'l',
+		inputCls: 's',
+		tips: $.su.CHAR.INTERNET.MAX_IDLE_TIME_TIPS,
+		tipsCls: 'l',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+        vtype: {
+            vtype: "number",
+            max: 99,
+            min: 0
+        }
+	});
+	
+	$("input#inet4_bp_manual_idle").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MAX_IDLE_TIME,
+		labelCls: 'l',
+		inputCls: 's',
+		tips: $.su.CHAR.INTERNET.MAX_IDLE_TIME_TIPS,
+		tipsCls: 'l',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+        vtype: {
+            vtype: "number",
+            max: 99,
+            min: 0
+        }
+	});
+
+
+
+	var bpInet4Status = $("#inet4_bp_status").status({
+		proxy: {
+			url: $.su.url('/admin/network?form=wan_ipv4_bigpond')
+		},
+		cls: 'inline-block'
+	});
+
+	$("button#bigpond_conn_btn").button({
+		fieldLabel: null,
+		labelCls: 'l',
+		cls: 'inline-block part-seperate gap',
+		text: $.su.CHAR.INTERNET.CONNECT,
+		handler: function(){
+			$("div#bigpond-setting").form('submit', {operation:'connect'}, null, null, null, false);
+		}
+	});
+	
+	$("button#bigpond_disconn_btn").button({
+		fieldLabel: null,
+		labelCls: 'l',
+		cls: 'inline-block part-seperate',
+		text: $.su.CHAR.INTERNET.DISCONNECT,
+		handler: function(){
+			$("div#bigpond-setting").form('submit', {operation:'disconnect'}, null, null, null, false);
+		}
+	});
+
+////////////////////////////  L2TP 	
+	$("input#inet4_l2tp_username").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.USER_NAME,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		maxLength: 118,
+		minLength: 0,
+		vtype: "string_visible_allow_blank",
+		autoTrim: false
+	});
+	
+	$("input#inet4_l2tp_password").password({
+		fieldLabel: $.su.CHAR.INTERNET.PASSWORD,
+		labelCls: 'l',
+		encrypt: null,
+		showLevel: false,
+		maxLength: 118,
+		minLength: 0,
+		vtype: 'password',
+		autoTrim: false
+	});
+	
+	$("input#inet4_l2tp_inet_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.INTERNET_IP_ADDR,
+		readOnly: true,
+		labelCls: 'l',
+		cls: 'part-seperate'
+	});
+	
+	$("input#inet4_l2tp_pri_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.INTERNET_PRIMARY_DNS,
+		readOnly: true,
+		labelCls: 'l'
+	});
+	
+	$("input#inet4_l2tp_snd_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.INTERNET_SECONDARY_DNS,
+		readOnly: true,
+		labelCls: 'l'
+	});
+
+	$("#l2tp_dynamic").fieldset({
+		fields: [
+			{name: "dyn_server"},
+			{name: "dyn_ip"},
+			{name: "dyn_netmask"},
+			{name: "dyn_gateway"},
+			{name: "dyn_pridns"},
+			{name: "dyn_snddns"}
+		]
+	});
+	
+	$("#l2tp_static").fieldset({
+		fields: [
+			{name: "static_server"},
+			{name: "static_ip"},
+			{name: "static_netmask"},
+			{name: "static_gateway"},
+			{name: "static_pridns"},
+			{name: "static_snddns"}
+		]
+	});
+	
+
+	
+	$("input#inet4_l2tp_snd_conn").radio({
+		fieldLabel: $.su.CHAR.INTERNET.SECONDARY_CONN,
+		labelCls: 'l',
+		columns: 2,
+		cls: 'part-seperate',
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.DYNAMIC_IP, name:'snd_conn', inputValue:'dynamic'},
+			{boxlabel: $.su.CHAR.INTERNET.STATIC_IP, name:'snd_conn', inputValue: 'static'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){
+		if(newValue=='dynamic'){
+			$("#l2tp_dynamic").fieldset('show');
+			$("#l2tp_static").fieldset('hide');
+		}
+		else if(newValue=='static'){
+			$("#l2tp_dynamic").fieldset('hide');
+			$("#l2tp_static").fieldset('show');
+		}
+		
+	});
+
+	
+	$("input#inet4_l2tp_dyn_svr_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SERVER_IP_ADDR_NAME,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		allowBlank: false,
+		maxLength: 63,
+		minLength: 0,
+		vtype: 'string_ip_domain'
+	});
+
+	$("input#inet4_l2tp_dyn_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDRESS,
+		readOnly: true,
+		labelCls: 'l',
+		cls: 'part-seperate'
+	});
+
+	$("input#inet4_l2tp_dyn_submask").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SUBNET_MASK,
+		readOnly: true,
+		labelCls: 'l'
+	});
+		
+	$("input#inet4_l2tp_dyn_gateway").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.GATEWAY,
+		readOnly: true,
+		labelCls: 'l'
+	});
+	
+	$("input#inet4_l2tp_dyn_pri_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		readOnly: true,
+		labelCls: 'l',
+		cls: 'part-seperate'
+	});
+	
+	$("input#inet4_l2tp_dyn_snd_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		readOnly: true,
+		labelCls: 'l'
+	});
+		
+	$("input#inet4_l2tp_static_svr_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SERVER_IP_ADDR_NAME,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		allowBlank: false,
+		maxLength: 63,
+		minLength: 0,
+		vtype: 'string_ip_domain'
+	}).on('ev_validatechange', function(item, data){
+
+		var dataStr = $("input#inet4_l2tp_static_svr_ip").textbox('getValue');
+
+		var validateIp = new $.su.vtype('ip');
+		var validateDomain = new $.su.vtype('domain');
+		if(data){
+			if( validateIp.validate( dataStr )==true  ){
+				$("input#inet4_l2tp_static_pri_dns").textbox('setTips', $.su.CHAR.INTERNET.OPTIONAL);
+			}else{
+				$("input#inet4_l2tp_static_pri_dns").textbox('setTips', '');
+			}
+			return true;
+		}
+	});
+
+	$("input#inet4_l2tp_static_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDRESS,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		allowBlank: false,
+		textFormat: $.su.format.ip,
+		vtype: 'ip'
+	});
+
+	$("input#inet4_l2tp_static_submask").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SUBNET_MASK,
+		labelCls: 'l',
+		allowBlank: false,
+		vtype: 'netmask'
+	});
+	
+	$("input#inet4_l2tp_static_gateway").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.GATEWAY,
+		labelCls: 'l',
+		textFormat: $.su.format.ip,
+		vtype: 'ip'
+	});
+	
+	$("input#inet4_l2tp_static_pri_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		textFormat: $.su.format.ip,
+		vtype: 'ip'
+	});
+	
+	$("input#inet4_l2tp_static_snd_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		labelCls: 'l',
+		textFormat: $.su.format.ip,
+		tips: $.su.CHAR.INTERNET.OPTIONAL,
+		vtype: 'ip'
+	});
+	
+	$("input#inet4_l2tp_mtu_size").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MTU_SIZE,
+		tips: $.su.CHAR.INTERNET.MTU_1460,
+		tipsCls: "xl",
+		inputCls: "s",
+		labelCls: 'l',
+		cls: 'part-seperate',
+		textFormat: $.su.format.number,
+		maxLength: 4,
+        vtype: {
+            vtype: "number",
+            max: 1460,
+            min: 576
+        }
+	});
+
+	$("#l2tp_demand_part").fieldset({
+		fields: [
+			{name: "demand_idle"}
+		]
+	});
+	
+	$("#l2tp_manually_part").fieldset({
+		fields: [
+			{name: "manual_idle"}
+		]
+	});
+	
+
+	$("input#inet4_l2tp_conn_mode").radio({
+		fieldLabel: $.su.CHAR.INTERNET.CONN_MODE,
+		labelCls: 'l',
+		columns: 3,
+		cls: 'part-seperate',
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.AUTO, name:'conn_mode', inputValue:'auto'},
+			{boxlabel: $.su.CHAR.INTERNET.ON_DEMAND, name:'conn_mode', inputValue:'demand', checked: 'checked'},
+			{boxlabel: $.su.CHAR.INTERNET.MANUALLY, name:'conn_mode', inputValue: 'manually'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){
+		if(newValue=='auto'){
+			$("#l2tp_demand_part").fieldset('hide');
+			$("#l2tp_manually_part").fieldset('hide');
+		}
+		else if(newValue=='demand'){
+			$("#l2tp_demand_part").fieldset('show');
+			$("#l2tp_manually_part").fieldset('hide');
+		}
+		else if(newValue=='manually'){
+			$("#l2tp_demand_part").fieldset('hide');
+			$("#l2tp_manually_part").fieldset('show');
+		}
+		
+	});
+	
+
+	$("input#inet4_l2tp_demand_idle").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MAX_IDLE_TIME,
+		labelCls: 'l',
+		inputCls: 's',
+		tips: $.su.CHAR.INTERNET.MAX_IDLE_TIME_TIPS,
+		tipsCls: 'l',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		maxLength: 2,
+        vtype: {
+            vtype: "number",
+            max: 99,
+            min: 0
+        }
+	});
+	
+	$("input#inet4_l2tp_manual_idle").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MAX_IDLE_TIME,
+		labelCls: 'l',
+		inputCls: 's',
+		tips: $.su.CHAR.INTERNET.MAX_IDLE_TIME_TIPS,
+		tipsCls: 'l',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		maxLength: 2,
+        vtype: {
+            vtype: "number",
+            max: 99,
+            min: 0
+        }
+	});
+	
+	var l2tpInet4Status = $("#inet4_l2tp_status").status({
+		proxy: {
+			url: $.su.url('/admin/network?form=wan_ipv4_l2tp')
+		},
+		cls: 'inline-block'
+	});
+
+	$("button#l2tp_conn_btn").button({
+		fieldLabel: null,
+		labelCls: 'l',
+		cls: 'inline-block part-seperate gap',
+		text: $.su.CHAR.INTERNET.CONNECT,
+		handler: function(){
+			$("div#l2tp-setting").form('submit', {operation:'connect'}, null, null, null, false);
+
+		}
+	});
+	
+	$("button#l2tp_disconn_btn").button({
+		fieldLabel: null,
+		labelCls: 'l',
+		cls: 'inline-block part-seperate',
+		text: $.su.CHAR.INTERNET.DISCONNECT,
+		handler: function(){
+			$("div#l2tp-setting").form('submit', {operation:'disconnect'}, null, null, null, false);
+
+		}
+	});
+
+////////////////////////////  PPTP 
+	$("input#inet4_pptp_username").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.USER_NAME,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		maxLength: 118,
+		minLength: 0,
+		vtype: "string_visible_allow_blank",
+		autoTrim: false
+	});
+	
+	$("input#inet4_pptp_password").password({
+		fieldLabel: $.su.CHAR.INTERNET.PASSWORD,
+		labelCls: 'l',
+		encrypt: null,
+		showLevel: false,
+		maxLength: 118,
+		minLength: 0,
+		vtype: 'password'
+	});
+	
+	$("input#inet4_pptp_inet_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.INTERNET_IP_ADDR,
+		readOnly: true,
+		labelCls: 'l',
+		cls: 'part-seperate'
+	});
+	
+	$("input#inet4_pptp_pri_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.INTERNET_PRIMARY_DNS,
+		readOnly: true,
+		labelCls: 'l'
+	});
+	
+	$("input#inet4_pptp_snd_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.INTERNET_SECONDARY_DNS,
+		readOnly: true,
+		labelCls: 'l'
+	});
+
+	$("#pptp_dynamic").fieldset({
+		fields: [
+			{name: "dyn_server"},
+			{name: "dyn_ip"},
+			{name: "dyn_netmask"},
+			{name: "dyn_gateway"},
+			{name: "dyn_pridns"},
+			{name: "dyn_snddns"}
+		]
+	});
+	
+	$("#pptp_static").fieldset({
+		fields: [
+			{name: "static_server"},
+			{name: "static_ip"},
+			{name: "static_netmask"},
+			{name: "static_gateway"},
+			{name: "static_pridns"},
+			{name: "static_snddns"}
+		]
+	});
+	
+	$("input#inet4_pptp_snd_conn").radio({
+		fieldLabel: $.su.CHAR.INTERNET.SECONDARY_CONN,
+		labelCls: 'l',
+		columns: 2,
+		cls: 'part-seperate',
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.DYNAMIC_IP, name:'snd_conn', inputValue:'dynamic'},
+			{boxlabel: $.su.CHAR.INTERNET.STATIC_IP, name:'snd_conn', inputValue: 'static'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){
+		if(newValue=='dynamic'){
+			$("#pptp_dynamic").fieldset('show');
+			$("#pptp_static").fieldset('hide');
+		}
+		else if(newValue=='static'){
+			$("#pptp_dynamic").fieldset('hide');
+			$("#pptp_static").fieldset('show');
+		}
+		
+	});
+
+	
+	$("input#inet4_pptp_dyn_svr_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SERVER_IP_ADDR_NAME,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		allowBlank: false,
+		maxLength: 63,
+		minLength: 0,
+		vtype: "string_ip_domain"
+	});
+
+	$("input#inet4_pptp_dyn_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDRESS,
+		readOnly: true,
+		labelCls: 'l',
+		cls: 'part-seperate'
+	});
+
+	$("input#inet4_pptp_dyn_submask").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SUBNET_MASK,
+		readOnly: true,
+		labelCls: 'l'
+	});
+		
+	$("input#inet4_pptp_dyn_gateway").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.GATEWAY,
+		readOnly: true,
+		labelCls: 'l'
+	});
+	
+	$("input#inet4_pptp_dyn_pri_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		readOnly: true,
+		labelCls: 'l',
+		cls: 'part-seperate'
+	});
+	
+	$("input#inet4_pptp_dyn_snd_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		readOnly: true,
+		labelCls: 'l'
+	});
+		
+	$("input#inet4_pptp_static_svr_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SERVER_IP_ADDR_NAME,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		allowBlank: false,
+		maxLength: 63,
+		minLength: 0,
+		vtype: "string_ip_domain"
+	}).on('ev_validatechange', function(item, data){
+
+		var dataStr = $("input#inet4_pptp_static_svr_ip").textbox('getValue');
+
+		var validateIp = new $.su.vtype('ip');
+		var validateDomain = new $.su.vtype('domain');
+
+		if(data){
+			if(  validateIp.validate( dataStr )==true  ){
+				$("input#inet4_pptp_static_pri_dns").textbox('setTips', $.su.CHAR.INTERNET.OPTIONAL);
+			}else{
+				$("input#inet4_pptp_static_pri_dns").textbox('setTips', '');
+			}
+			return true;
+		}
+
+	});
+
+	$("input#inet4_pptp_static_ip").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.IP_ADDRESS,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		allowBlank: false,
+		textFormat: $.su.format.ip,
+		vtype: 'ip'
+	});
+
+	$("input#inet4_pptp_static_submask").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SUBNET_MASK,
+		labelCls: 'l',
+		allowBlank: false,
+		vtype: 'netmask'
+	});
+	
+	$("input#inet4_pptp_static_gateway").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.GATEWAY,
+		labelCls: 'l',
+		textFormat: $.su.format.ip,
+		vtype: 'ip'
+	});
+	
+	$("input#inet4_pptp_static_pri_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.PRIMARY_DNS,
+		labelCls: 'l',
+		cls: 'part-seperate',
+		textFormat: $.su.format.ip,
+		vtype: 'ip'
+	});
+	
+	$("input#inet4_pptp_static_snd_dns").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.SECOND_DNS,
+		labelCls: 'l',
+		textFormat: $.su.format.ip,
+		tips: $.su.CHAR.INTERNET.OPTIONAL,
+		vtype: 'ip'
+	});
+	
+	$("input#inet4_pptp_mtu_size").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MTU_SIZE,
+		tips: $.su.CHAR.INTERNET.MTU_1420,
+		tipsCls: "xl",
+		inputCls: "s",
+		labelCls: 'l',
+		cls: 'part-seperate',
+		textFormat: $.su.format.number,
+		maxLength: 4,
+        vtype: {
+            vtype: "number",
+            max: 1420,
+            min: 576
+        }
+	});
+	
+	$("#pptp_demand_part").fieldset({
+		fields: [
+			{name: "demand_idle"}
+		]
+	});
+	
+	$("#pptp_manually_part").fieldset({
+		fields: [
+			{name: "manual_idle"}
+		]
+	});
+	
+
+	$("input#inet4_pptp_conn_mode").radio({
+		fieldLabel: $.su.CHAR.INTERNET.CONN_MODE,
+		labelCls: 'l',
+		columns: 3,
+		cls: 'part-seperate',
+		items:[
+			{boxlabel: $.su.CHAR.INTERNET.AUTO, name:'conn_mode', inputValue:'auto'},
+			{boxlabel: $.su.CHAR.INTERNET.ON_DEMAND, name:'conn_mode', inputValue:'demand'},
+			{boxlabel: $.su.CHAR.INTERNET.MANUALLY, name:'conn_mode', inputValue: 'manually'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){
+		if(newValue=='auto'){
+			$("#pptp_demand_part").fieldset('hide');
+			$("#pptp_manually_part").fieldset('hide');
+		}
+		else if(newValue=='demand'){
+			$("#pptp_demand_part").fieldset('show');
+			$("#pptp_manually_part").fieldset('hide');
+		}
+		else if(newValue=='manually'){
+			$("#pptp_demand_part").fieldset('hide');
+			$("#pptp_manually_part").fieldset('show');
+		}
+		
+	});
+
+	$("input#inet4_pptp_demand_idle").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MAX_IDLE_TIME,
+		labelCls: 'l',
+		inputCls: 's',
+		tips: $.su.CHAR.INTERNET.MAX_IDLE_TIME_TIPS,
+		tipsCls: 'l',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		maxLength: 2,
+        vtype: {
+            vtype: "number",
+            max: 99,
+            min: 0
+        }
+	});
+	
+	$("input#inet4_pptp_time_start").time({
+		fieldLabel: $.su.CHAR.INTERNET.PERIOD_OF_TIME,
+		tips: $.su.CHAR.INTERNET.TIME_TIPS,
+		labelCls: 'l',
+		cls: 'inline',
+		format: 'm:s'
+	});
+	
+	$("input#inet4_pptp_time_end").time({
+		fieldLabel: null,
+		tips: $.su.CHAR.INTERNET.TIME_TIPS,
+		labelCls: 'l',
+		cls: 'inline',
+		format: 'm:s'
+	});
+	
+	$("input#inet4_pptp_manual_idle").textbox({
+		fieldLabel: $.su.CHAR.INTERNET.MAX_IDLE_TIME,
+		labelCls: 'l',
+		inputCls: 's',
+		tips: $.su.CHAR.INTERNET.MAX_IDLE_TIME_TIPS,
+		tipsCls: 'l',
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		maxLength: 2,
+        vtype: {
+            vtype: "number",
+            max: 99,
+            min: 0
+        }
+	});
+	
+	var pptpInet4Status = $("#inet4_pptp_status").status({
+		proxy: {
+			url: $.su.url('/admin/network?form=wan_ipv4_pptp')
+		},
+		cls: 'inline-block'
+	});
+
+	$("button#pptp_conn_btn").button({
+		fieldLabel: null,
+		labelCls: 'l',
+		cls: 'inline-block part-seperate gap',
+		text: $.su.CHAR.INTERNET.CONNECT,
+		handler: function(){
+			$("div#pptp-setting").form('submit', {operation:'connect'}, null, null, null, false);
+
+		}
+	});
+	
+	$("button#pptp_disconn_btn").button({
+		fieldLabel: null,
+		labelCls: 'l',
+		cls: 'inline-block part-seperate',
+		text: $.su.CHAR.INTERNET.DISCONNECT,
+		handler: function(){
+			$("div#pptp-setting").form('submit', {operation:'disconnect'}, null, null, null, false);
+
+		}
+	});
+	
+	$('span.to').html($.su.CHAR.INTERNET.TO);
+
+
+//////////////////////////////// interval refresh
+
+	function changeBtnStatus(status, reArray, connArray, formId){
+		if( status.toUpperCase() == 'CONNECTED'){
+			reArray.length>0?$('button#'+reArray[0]).button('disable'):1;
+			reArray.length>0?$('button#'+reArray[1]).button('enable'):1;
+			connArray.length>0?$('button#'+connArray[0]).button('disable'):1;
+			connArray.length>0?$('button#'+connArray[1]).button('enable'):1;
+			//$('#'+formId).find('.form-submit').removeClass("disabled");
+			//$('#'+formId).find("button.button-button").prop("disabled", false);
+
+		}else if( status.toUpperCase() == 'DISCONNECTED'){
+			reArray.length>0?$('button#'+reArray[0]).button('enable'):1;
+			reArray.length>0?$('button#'+reArray[1]).button('disable'):1;
+			connArray.length>0?$('button#'+connArray[0]).button('enable'):1;
+			connArray.length>0?$('button#'+connArray[1]).button('disable'):1;
+
+			//$('#'+formId).find('.form-submit').removeClass("disabled");
+			//$('#'+formId).find("button.button-button").attr("disabled", false);
+
+		}else if( status.toUpperCase() == 'CONNECTING'){
+			reArray.length>0?$('button#'+reArray[0]).button('enable'):1;
+			reArray.length>0?$('button#'+reArray[1]).button('enable'):1;
+			connArray.length>0?$('button#'+connArray[0]).button('enable'):1;
+			connArray.length>0?$('button#'+connArray[1]).button('enable'):1;
+
+			//$('#'+formId).find('.form-submit').removeClass("disabled");
+			//$('#'+formId).find("button.button-button").attr("disabled", false);
+		}else if( status.toUpperCase() == 'DISCONNECTING' ){
+			reArray.length>0?$('button#'+reArray[0]).button('enable'):1;
+			reArray.length>0?$('button#'+reArray[1]).button('enable'):1;
+			connArray.length>0?$('button#'+connArray[0]).button('enable'):1;
+			connArray.length>0?$('button#'+connArray[1]).button('enable'):1;
+		}
+	}
+
+	$("div#dynamic-setting, div#static-ip-config, div#bigpond-config, div#pppoe-setting, div#l2tp-setting, div#pptp-setting").on('ev_beforeLoadData', function(e, data){
+		field_data = data;
+	});
+
+	$("div#dynamic-setting, div#static-ip-config, div#bigpond-config, div#pppoe-setting, div#l2tp-setting, div#pptp-setting").on('ev_loadData', function(e, data){
+		var refreshProxy;
+		clearInterval(refreshIpv4Action);
+		intervalModeIpv4 = data.conntype;
+
+		switch($("input#radio_inet4_conntype").combobox('getValue')[0])
+		{
+			case 'dhcp':
+				changeBtnStatus(data.conn_status, ['ipv4_dynamic_renew','ipv4_dynamic_release'], [], 'dynamic-config');
+				if(data.link_status == 'unplugged'){
+					$('span#dhcp_link_status').show();
+				}else{
+					$('span#dhcp_link_status').hide();
+				}
+				$("div#ipve_dynamic_btn_container").show();
+				break;
+
+			case 'pppoe':
+				changeBtnStatus(data.conn_status, ['pppoe_renew_btn','pppoe_release_btn'], ['pppoe_conn_btn', 'pppoe_disconn_btn'], 'pppoe-config');
+				if(data.dyn_ip=='' || data.dyn_ip =='0.0.0.0'){
+					$('button#pppoe_renew_btn').button('enable');
+					$('button#pppoe_release_btn').button('disable');
+				}else{
+					$('button#pppoe_renew_btn').button('disable');
+					$('button#pppoe_release_btn').button('enable');
+				}
+				$("div#pppoe_conn_btn_container").show();
+				break;
+
+			case 'bigpond':
+				changeBtnStatus(data.conn_status, [], ['bigpond_conn_btn', 'bigpond_disconn_btn'], 'bigpond-config');
+				$("div#bigpond_conn_btn_container").show();
+				break;
+
+			case 'l2tp':
+				changeBtnStatus(data.conn_status, [], ['l2tp_conn_btn', 'l2tp_disconn_btn'], 'l2tp-config');
+				$("div#l2tp_conn_btn_container").show();
+				break;
+
+			case 'pptp':
+				changeBtnStatus(data.conn_status, [], ['pptp_conn_btn', 'pptp_disconn_btn'], 'pptp-config');
+				$("div#pptp_conn_btn_container").show();
+				break;
+		}
+
+		if(intervalModeIpv4==presentMode){
+			switch(intervalModeIpv4)
+			{
+				case 'dhcp':
+					refreshProxy = ipv4ProxyDynamic;
+					break;
+
+				case 'static':
+					refreshProxy = 'none';
+					break;
+
+				case 'pppoe':
+					refreshProxy = ipv4ProxyPppoe;
+					break;
+
+				case 'bigpond':
+					refreshProxy = ipv4ProxyBigpond;
+					break;
+
+				case 'l2tp':
+					refreshProxy = ipv4ProxyL2tp;
+					break;
+
+				case 'pptp':
+					refreshProxy = ipv4ProxyPptp;
+					break;
+			}
+		}else{
+			refreshProxy = 'none';
+		}
+
+		if( refreshProxy == 'none' ){
+			clearInterval(refreshIpv4Action);
+		}else{
+			clearInterval(refreshIpv4Action);
+			refreshIpv4Action = setInterval(function(){
+				
+				refreshProxy.read({}, function(data){
+
+					switch(data.conntype)
+					{
+						case 'dhcp':
+							$('input#inet4_dyn_ip_address_address').textbox('setValue',data.ipaddr);
+							$('input#inet4_dyn_submask').textbox('setValue',data.netmask);
+							$('input#inet4_dyn_dft_gateway').textbox('setValue',data.gateway);
+							$('input#dynamic-primary-dns').textbox('setValue',data.pri_dns);
+							$('input#dynamic-second-dns').textbox('setValue',data.snd_dns);
+							$('input#inet4_dyn_dyn_pridns').textbox('setValue',data.dyn_pridns);
+							$('input#inet4_dyn_dyn_snddns').textbox('setValue',data.dyn_snddns);
+							changeBtnStatus(data.conn_status, ['ipv4_dynamic_renew','ipv4_dynamic_release'], [], 'dynamic-config');
+							if(data.link_status == 'unplugged'){
+								$('span#dhcp_link_status').show();
+							}else{
+								$('span#dhcp_link_status').hide();
+							}
+							break;
+
+						case 'pppoe':
+							$('input#inet4_pppoe_inet_ip').textbox('setValue',data.inet_ip);
+							$('input#inet4_pppoe_inet_pridns').textbox('setValue',data.inet_pridns);
+							$('input#inet4_pppoe_inet_snddns').textbox('setValue',data.inet_snddns);
+							$('input#inet4_pppoe_dyn_ip').textbox('setValue',data.dyn_ip);
+							$('input#inet4_pppoe_dyn_submask').textbox('setValue',data.dyn_netmask);
+							$('input#inet4_pppoe_dyn_pridns').textbox('setValue',data.dyn_pridns);
+							$('input#inet4_pppoe_dyn_snddns').textbox('setValue',data.dyn_snddns);
+							changeBtnStatus(data.conn_status, ['pppoe_renew_btn','pppoe_release_btn'], ['pppoe_conn_btn', 'pppoe_disconn_btn'], 'pppoe-config');
+							if(data.dyn_ip=='' || data.dyn_ip =='0.0.0.0'){
+								$('button#pppoe_renew_btn').button('enable');
+								$('button#pppoe_release_btn').button('disable');
+							}else{
+								$('button#pppoe_renew_btn').button('disable');
+								$('button#pppoe_release_btn').button('enable');
+							}
+							break;
+
+						case 'bigpond':
+							changeBtnStatus(data.conn_status, [], ['bigpond_conn_btn', 'bigpond_disconn_btn'], 'bigpond-config');
+							break;
+
+						case 'l2tp':
+							$('input#inet4_l2tp_inet_ip').textbox('setValue',data.inet_ip);
+							$('input#inet4_l2tp_pri_dns').textbox('setValue',data.inet_pridns);
+							$('input#inet4_l2tp_snd_dns').textbox('setValue',data.inet_snddns);
+							$('input#inet4_l2tp_dyn_ip').textbox('setValue',data.dyn_ip);
+							$('input#inet4_l2tp_dyn_submask').textbox('setValue',data.dyn_netmask);
+							$('input#inet4_l2tp_dyn_gateway').textbox('setValue',data.dyn_gateway);
+							$('input#inet4_l2tp_dyn_pri_dns').textbox('setValue',data.dyn_pridns);
+							$('input#inet4_l2tp_dyn_snd_dns').textbox('setValue',data.dyn_snddns);
+							changeBtnStatus(data.conn_status, [], ['l2tp_conn_btn', 'l2tp_disconn_btn'], 'l2tp-config');
+							break;
+
+						case 'pptp':
+							$('input#inet4_pptp_inet_ip').textbox('setValue',data.inet_ip);
+							$('input#inet4_pptp_pri_dns').textbox('setValue',data.inet_pridns);
+							$('input#inet4_pptp_snd_dns').textbox('setValue',data.inet_snddns);
+							$('input#inet4_pptp_dyn_ip').textbox('setValue',data.dyn_ip);
+							$('input#inet4_pptp_dyn_submask').textbox('setValue',data.dyn_netmask);
+							$('input#inet4_pptp_dyn_gateway').textbox('setValue',data.dyn_gateway);
+							$('input#inet4_pptp_dyn_pri_dns').textbox('setValue',data.dyn_pridns);
+							$('input#inet4_pptp_dyn_snd_dns').textbox('setValue',data.dyn_snddns);
+							changeBtnStatus(data.conn_status, [], ['pptp_conn_btn', 'pptp_disconn_btn'], 'pptp-config');
+							break;
+					}
+
+				}, null, null, false);
+
+			}, 1000);
+
+		}
+
+	});
+
+
+
+	$.su.app.runningModule.addUnloadHandler(function(){
+		clearInterval(refreshIpv4Action);
+	});
+
+	var helpInternet = new $.su.Help({
+		container: "div#internet_help",
+		content: ["INTERNET_INTERNET", "INTERNET_MAC"]
+	});
+
+	
+	
+});
+//]]>
+</script>
+
+</body>
+</html>

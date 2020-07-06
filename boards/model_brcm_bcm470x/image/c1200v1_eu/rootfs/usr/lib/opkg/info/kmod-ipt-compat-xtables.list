@@ -1,0 +1,2 @@
+/lib/modules/iplatform/compat_xtables.ko
+/etc/modules.d/45-ipt-compat-xtables

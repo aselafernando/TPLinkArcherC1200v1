@@ -1,0 +1,117 @@
+#!/bin/sh
+# Copyright (C) 2011-2014 TP-LINK
+# Author Jason Guo<guodongxian@tp-link.com.cn>
+# Date   20Oct14
+
+LEDPM_RUN_PATH=/var/run
+LEDPM_LIB=/lib/led_night_mode
+
+lock /var/run/ledpm.lock
+
+. ${LEDPM_LIB}/ledpm_function.sh
+
+config_load ledpm
+
+config_get_bool en "leds" "enable" 0
+config_get tm_start "leds" "time_start"
+config_get tm_end "leds" "time_end"
+
+if [ -e "${LEDPM_RUN_PATH}/ledpm.pid" ]
+then
+    local pid match
+    pid=$(cat ${LEDPM_RUN_PATH}/ledpm.pid)
+    match=$(ps | grep "^[\t ]*$pid")
+
+    if [ -n "$match" ]
+    then
+	    kill $pid
+    fi
+    rm -f ${LEDPM_RUN_PATH}/ledpm.pid
+fi
+
+lock -u /var/run/ledpm.lock 
+
+# When nigth mode disabled, it have to call ledctrl
+[ "$en" = 0 ] && {
+	config_load ledctrl
+	ledpm_set_ledctrl_config "enable" "off"
+	uci commit "ledctrl"
+
+    ledpm_cli "NIGHT"
+    #ledpm_wifi
+    echo "0" > /tmp/ledpm_period
+    [ -f /sbin/wps_led_set ] && wps_led_set
+    exit 0
+}
+
+# Save the pid
+echo $$ > /var/run/ledpm.pid
+
+while true
+do
+    [ -f /tmp/ledpm_enable ] && break
+    sleep 2
+done
+
+config_get interval "leds" "interval"
+
+local old_en
+while [ true ]
+do
+	config_load ledctrl
+	
+    local dt dt_h dt_m tm_s_h tm_e_h tm_s_m tm_e_m
+    local save
+    
+    dt=$(ledpm_date)
+
+    dt_h=$(ledpm_hour "$dt")
+    dt_m=$(ledpm_mintue "$dt")  
+
+    tm_s_h=${tm_start%%:*}
+    tm_s_m=${tm_start##*:}    
+    tm_e_h=${tm_end%%:*}
+    tm_e_m=${tm_end##*:}
+    # Invalid date
+    [ -z "$dt_h" -o -z "$dt_m" -o -z "$tm_s_h" -o -z "$tm_s_m" -o -z "$tm_e_h" -o -z "$tm_e_m" ] && break 
+    local dt_min tm_s_min tm_e_min
+    tm_s_min=$(ledpm_date_to_min $tm_s_h $tm_s_m)
+    tm_e_min=$(ledpm_date_to_min $tm_e_h $tm_e_m)
+
+    local new_en="off"
+    [ -z "$old_en" ] && old_en="none"
+    
+    dt_min=$(ledpm_date_to_min $dt_h $dt_m)
+    if [ $tm_s_min -le $tm_e_min ]
+    then
+        [ $dt_min -ge $tm_s_min -a $dt_min -lt $tm_e_min ] && new_en="on"  
+        [ $tm_s_min -eq $tm_e_min ] && new_en="off"  
+    else
+        local whole_day=$(ledpm_date_to_min 23 59)
+        [ $dt_min -ge $tm_s_min -a $dt_min -le $whole_day ] && new_en="on"
+        # Another day calculate
+        [ $dt_min -lt $tm_e_min ] && new_en="on"
+    fi  
+    
+    [ "$new_en" != "$old_en" ] && {    
+    	ledpm_set_ledctrl_config "enable" "$new_en"
+        ledpm_set_ledctrl_config "ledname" "NIGHT"
+        ledpm_set_ledctrl_config "map" "0"
+    
+        uci commit "ledctrl"
+        # Call ledctrl process to make led work at night
+        ledpm_cli "NIGHT"
+        # Call wifi control led
+        # ledpm_wifi
+        if [ "$new_en" = "off" ]; then
+            echo "0" > /tmp/ledpm_period
+        elif [ "$new_en" = "on" ]; then
+            echo "1" > /tmp/ledpm_period
+        fi
+        [ -f /sbin/wps_led_set ] && wps_led_set
+
+        old_en=$new_en
+    }
+
+    sleep ${interval:-1}
+done

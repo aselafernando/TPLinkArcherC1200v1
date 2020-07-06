@@ -1,0 +1,149 @@
+#!/bin/sh
+# Copyright(c) 2011-2014 Shenzhen TP-LINK Technologies Co.Ltd.
+# file     build-ovpn-crt
+# brief    build OpenVPN certificate for server/client
+# author   Zhu Xianfeng<zhuxianfeng@tp-link.net>
+# version  1.0.0
+# date     02Dec14
+# history  arg 1.0.0, 02Dec14, Zhu Xianfeng, Create the file. 
+
+action=$1
+
+. /etc/easy-rsa/vars
+OPENVPN_DIR="/etc/openvpn"
+TMP_OPENVPN_DIR="/tmp/etc/openvpn"
+export RANDFILE="/etc/.rnd"
+
+rebuild_crt()
+{
+	# 0. Initialize
+	clean-all
+
+	# 1. Build a root certificate
+	if [ ! -f "$KEY_DIR/ca.crt" ]; then
+		pkitool --initca
+	fi
+
+	# 2. Build Diffie-Hellman parameters
+	if [ ! -f "$KEY_DIR/dh${KEY_SIZE}.pem" ]; then
+		build-dh
+	fi
+
+	# 3. Initial database
+	: >$KEY_DIR/index.txt
+	echo "01" > $KEY_DIR/serial
+
+	if [ ! -d $TMP_OPENVPN_DIR ]; then
+		mkdir $TMP_OPENVPN_DIR
+	fi
+
+	# 4. Build server certificate/private key pair
+	pkitool --server server
+	cp $KEY_DIR/ca.crt $TMP_OPENVPN_DIR/
+	cp $KEY_DIR/dh${KEY_SIZE}.pem $TMP_OPENVPN_DIR/
+	cp $KEY_DIR/server.crt $TMP_OPENVPN_DIR/
+	cp $KEY_DIR/server.key $TMP_OPENVPN_DIR/
+
+	# 5. Build client certificate/private key pair, and config
+	pkitool client
+	cp $KEY_DIR/client.key $TMP_OPENVPN_DIR/
+	cp $KEY_DIR/client.crt $TMP_OPENVPN_DIR/
+}
+
+if [ "$action" = "rebuild" ]; then
+	rebuild_crt
+	echo "success" >> /tmp/cert_generate.status
+fi
+
+. /lib/functions.sh
+
+append_param()
+{
+	local cfg=$1
+	local val=$2
+	echo $val >> $cfg
+}
+
+client_config()
+{
+	local clnt_conf="$OPENVPN_DIR"/client.conf
+	local secname="server"
+	local dev="tun"
+	local proto="udp"
+	local port="1194"
+	local cipher="AES-128-CBC"
+	local persist_key=
+	local persist_tun=
+	local auth_user_pass=""
+	local wanip=
+
+	config_load openvpn
+	config_get dev "$secname" dev
+	config_get proto "$secname" proto 
+	config_get port "$secname" port
+	config_get cipher "$secname" cipher
+	config_get persist_key "$secname" persist_key
+	config_get persist_tun "$secname" persist_tun
+	config_get auth_user_pass "$secname" auth_user_pass_verify
+
+	: > $clnt_conf
+	append_param "$clnt_conf" "client"
+	append_param "$clnt_conf" "dev $dev"
+	append_param "$clnt_conf" "proto $proto"
+	append_param "$clnt_conf" "float"
+	append_param "$clnt_conf" "nobind"
+	append_param "$clnt_conf" "cipher $cipher"
+	append_param "$clnt_conf" "comp-lzo adaptive"
+	append_param "$clnt_conf" "resolv-retry infinite"
+	if [[ "$persist_key" = "1" ]]; then
+		append_param "$clnt_conf" "persist-key"
+	fi
+	if [[ "$persist_tun" == "1" ]]; then 
+		append_param "$clnt_conf" "persist-tun"
+	fi
+	if [[ "$auth_user_pass" != "" ]]; then 
+		append_param "$clnt_conf" "auth-user-pass"
+	fi
+
+	# TODO: DDNS
+        local domain=
+        if [ $(/usr/sbin/ddns logined noip) -eq 1 ]; then
+            config_load ddns
+            config_get domain noip domain
+        fi
+         
+        if [ $(/usr/sbin/ddns logined dyndns) -eq 1 ]; then
+            config_load ddns
+            config_get domain dyndns domain
+        fi
+
+            
+        if [ -n "$domain" ]; then
+            append_param "$clnt_conf" "remote $domain $port"
+        else
+	    . /lib/functions/network.sh
+	    ubus call network.interface.internet status 1>/dev/null 2>&1
+	    if [ $? -eq 0 ]; then
+		    network_get_ipaddr wanip "internet"
+	    else
+		    network_get_ipaddr wanip "wan"
+	    fi
+	    append_param "$clnt_conf" "remote $wanip $port"
+        fi
+
+	# root certificate
+	echo "<ca>" >> $clnt_conf
+	cat $OPENVPN_DIR/ca.crt >> $clnt_conf
+	echo "</ca>" >> $clnt_conf
+	# client certificate 
+	echo "<cert>" >> $clnt_conf
+	sed -f $OPENVPN_DIR/crt.sed $OPENVPN_DIR/client.crt >> $clnt_conf
+	echo "</cert>" >> $clnt_conf
+	# client private key
+	echo "<key>" >> $clnt_conf
+	cat $OPENVPN_DIR/client.key >> $clnt_conf
+	echo "</key>" >> $clnt_conf
+}
+
+client_config
+

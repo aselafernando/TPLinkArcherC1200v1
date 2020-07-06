@@ -1,0 +1,13 @@
+#!/bin/sh
+
+#inc_mac(){
+#        echo $1 | awk 'BEGIN{FS=":";add=1}{for(i=6;i>0;i--){j="0x"$i;\
+#        if(i>3){if(j+add>255){j=j+add-256;add=1;}else{j=j+add;add=0;}}printf("%02x",j);printf ":"}}' \
+#        | awk 'BEGIN{FS=":"}{for(i=6;i>0;i--){printf $i;if(i>1){printf ":"}}}'
+#}
+
+# $1 is MAC, set it to nvram data
+#nvram set et0macaddr=$1
+#nvram set et1macaddr=$(inc_mac $1)
+#echo "tddp_hook_setmac "$1
+# $2 is PIN

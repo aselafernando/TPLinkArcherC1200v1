@@ -1,0 +1,13 @@
+Package: kmod-pptp
+Version: -
+Depends: kernel (=--unknown), kmod-ppp, kmod-gre, kmod-pppox
+Provides: 
+Source: package/kernel
+Section: kernel
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 5751
+Description:  PPtP support

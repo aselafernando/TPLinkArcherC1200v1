@@ -1,0 +1,20 @@
+{
+
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：internet页面中当前拨号类型是Static IP时，则请求该数据",
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{	
+		"conntype": "pppoe",
+		
+		"ipaddr": "1.1.1.2",
+		"netmask": "255.255.255.0",
+		"gateway": "2.2.2.2",
+		"pri_dns": "3.3.3.3",
+		"snd_dns": "4.4.4.4",
+		"mtu": "1260",
+		"conn_status": "connected"
+	}
+}

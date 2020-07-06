@@ -1,0 +1,23 @@
+{
+	"success": "true",
+	"data":{
+		"model": "ac2500",
+		"page": "basic",
+		"menu":[
+			{ "name": "network-map" },
+			{ "name": "internet" },
+			{ "name": "wireless" },
+			{
+		"name":"usb",
+				"children": [
+					{ "name": "folder-share" },
+					{ "name": "print-server" }
+				]
+			},
+			{ "name":"parental-control" },
+			{ "name":"guest-network" }
+]
+
+	}		
+
+}

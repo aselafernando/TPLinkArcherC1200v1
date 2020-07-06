@@ -1,0 +1,76 @@
+#!/usr/bin/lua
+local uci   = require "luci.model.uci"
+local fs    = require "luci.fs"
+local dbg   = require "luci.tools.debug"
+local uci_r = uci.cursor()
+
+local WEEK_TBL = {['1st']=1, ['2nd']=2, ['3rd']=3, ['4th']=4, ['5th']=5}
+local DAY_TBL  = {Mon=1, Tues=2, Wed=3, Thur=4, Fri=5, Sat=6, Sun=0}
+local MON_TBL  = {Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6, Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12}
+
+local function ts_parse_hours(hour)
+    local h, s = hour:match("(%d+)(%S+)")
+
+    if tonumber(h) > 12 or s ~= "am" and s ~= "pm" then
+        return false
+    end
+
+    if s == "pm" then
+        local h = h + 12
+        if h > 24 then h = 0 end
+        return tostring(h)
+    else
+        return h
+    end
+end
+
+--- Load time settings
+-- @param N/A
+-- @return data return settings
+function ts_load_all_settings()
+
+    -- get current system timezone
+    local sname = uci_r:get_first("system", "system", nil, nil)
+    local timezone = uci_r:get("system", sname, "timezone")
+
+
+    -- get current dst
+    local dst_enable = uci_r:get("system", "dst", "dst_enable")
+    
+    -- get tz cmd
+    local tz = timezone
+    tz = tz:find("+") and tz:gsub("+", "-") or tz:gsub("-", "+")
+
+    if dst_enable == "on" then
+        local start_month = uci_r:get("system", "dst", "start_month")
+        local start_week = uci_r:get("system", "dst", "start_week")
+        local start_day = uci_r:get("system", "dst", "start_day")
+        local start_hour = uci_r:get("system", "dst", "start_hour")
+        local end_month = uci_r:get("system", "dst", "end_month")
+        local end_week = uci_r:get("system", "dst", "end_week")
+        local end_day = uci_r:get("system", "dst", "end_day")
+        local end_hour = uci_r:get("system", "dst", "end_hour")
+
+        local shour = ts_parse_hours(start_hour)
+        local ehour = ts_parse_hours(end_hour)
+        if not shour or not ehour then
+            return false, "start or end hour is invalid"
+        end
+
+        local dst_start = "M" .. MON_TBL[start_month] ..".".. WEEK_TBL[start_week] ..".".. DAY_TBL[start_day] .."/".. shour
+        local dst_end   = "M" .. MON_TBL[end_month] ..".".. WEEK_TBL[end_week] ..".".. DAY_TBL[end_day] .."/".. ehour
+
+        -- if dst start time is equal to end time, then return error
+        if dst_start == dst_end then
+            return false, "start time cannot be the same as end time"
+        end
+
+        tz  = tz .. "TMG," .. dst_start .. "," .. dst_end
+    end
+
+    dbg.printf(tz)
+    fs.writefile("/etc/TZ", tz .. "\n")
+    return true
+end
+
+ts_load_all_settings()

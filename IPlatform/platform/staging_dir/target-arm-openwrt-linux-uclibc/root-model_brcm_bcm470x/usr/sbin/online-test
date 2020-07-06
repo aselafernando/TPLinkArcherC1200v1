@@ -1,0 +1,56 @@
+#!/bin/sh
+# Copyright(c) 2008-2014 Shenzhen TP-LINK Technologies Co.Ltd.
+#
+# Details : Test internet connectivity.
+# Author  : Ye Qianchuan <yeqianchuan@tp-link.net>
+# Version : 1.0
+# Date    : 11 Apr, 2014
+
+. /lib/functions/network.sh
+
+usage() {
+    cat <<EOF
+online-test [url [timeout]]
+EOF
+    exit 0
+}
+
+CHECK_URL=tp-link.com
+TIMEOUT=2
+
+[ "$1" = "-h" ] && usage
+
+[ -n "$1" ] && CHECK_URL="$1"
+[ -n "$2" ] && TIMEOUT="$2"
+
+IFC=wan
+ubus list | grep -q network.interface.internet && IFC=internet
+
+network_get_dnsserver DNS_SERVER "$IFC"
+# We only need the primary one.
+#DNS_SERVER=${DNS_SERVER%% *}
+
+FIRST_DNS=`echo $DNS_SERVER|awk '{print $1}'`
+SECOND_DNS=`echo $DNS_SERVER|awk '{print $2}'`
+
+# If DNS servers contain local IP, don't check the internet status.
+check_internet=1
+if [ -n "$FIRST_DNS" ]; then
+    # FIXME: Ugly and unreliable.
+    ifconfig | grep "inet6* addr" | grep -wq "$FIRST_DNS" || \
+        check_internet=0
+fi
+
+# Check the internet status.
+[ $check_internet -eq 0 ] && \
+    dnslookup -t $TIMEOUT "$CHECK_URL" $FIRST_DNS >/dev/null
+    if [ $? -ne 0 ]; then
+        if [ -n "$SECOND_DNS" ]; then
+            dnslookup -t $TIMEOUT "$CHECK_URL" $SECOND_DNS >/dev/null
+        else
+            return 1
+        fi
+    else
+        return 0
+    fi
+    

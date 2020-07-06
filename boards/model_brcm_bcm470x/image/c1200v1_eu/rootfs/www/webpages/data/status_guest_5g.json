@@ -1,0 +1,10 @@
+{
+	"errCode": false,
+	"success": true,
+	"data":{
+		"guest_5g_ssid": "wireless 2.4g",
+		"guest_5g_hidden": "On",
+		"guest_5g_enable": "ssid", 
+		"guest_isolate": "On"
+	}
+}

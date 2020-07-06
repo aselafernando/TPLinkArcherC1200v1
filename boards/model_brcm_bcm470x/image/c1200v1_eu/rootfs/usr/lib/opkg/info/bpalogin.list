@@ -1,0 +1,3 @@
+/lib/netifd/bpa.script
+/lib/netifd/proto/bpa.sh
+/usr/sbin/bpalogin

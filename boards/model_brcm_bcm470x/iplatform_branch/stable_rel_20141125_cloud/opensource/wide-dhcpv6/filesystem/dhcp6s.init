@@ -1,0 +1,83 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2010-2012 OpenWrt.org
+
+SERVICE_USE_PID=1
+pid_file=/var/run/dhcp6s.pid
+
+start() {
+	[ ! -e /etc/dhcp6sctlkey ] && `dd if=/dev/urandom count=1 2> /dev/null | md5sum | cut -d" " -f1 > /etc/dhcp6sctlkey`
+
+	[ -e $pid_file ] && return 0
+
+	. /lib/functions/network.sh
+
+	local enabled
+    local proto
+    local interface
+    local ifname
+    local startip
+    local endip
+    local dns1
+    local dns2
+    local leasetime
+	local config_file
+
+	logger starting dhcp6s
+
+	config_load "dhcp6s"
+	config_get_bool enabled basic enabled 0
+    config_get proto basic proto 'dhcp6s'
+    config_get interface basic interface
+    config_get ifname basic ifname
+    config_get startip basic startip
+    config_get endip basic endip
+    config_get dns1 basic primary_dns
+    config_get dns2 basic secondary_dns
+    config_get leasetime basic leasetime
+	config_get config_file basic config_file
+
+	[ $enabled -eq 0 ] && return 0
+
+	[ ! -e $config_file ] && touch $config_file
+
+    if [ -z "$ifname" ]; then
+        network_get_device ifname "$interface" || return 1
+    fi
+
+    cat /dev/null >$config_file
+    if [ -n "$dns1" -a "$dns1" != "none" ]; then
+        echo -e "option domain-name-servers $dns1;\n" >>$config_file
+    fi
+    if [ -n "$dns2" -a "$dns2" != "none" ]; then
+        echo -e "option domain-name-servers $dns2;\n" >>$config_file
+    fi
+
+    case $proto in
+        dhcp6s)
+            echo -e "pool pool1 {" >>$config_file
+            echo -e "    range $startip to $endip ;" >>$config_file
+            echo -e "};\n" >>$config_file
+            echo -e "interface $ifname {" >>$config_file
+            echo -e "    address-pool pool1 $leasetime;" >>$config_file
+            echo -e "};" >>$config_file
+            ;;
+
+        slaac)
+            # slaac
+            ;;
+
+        *)
+            # Invalid proto
+            return 1
+    esac
+
+	/usr/sbin/dhcp6s -c $config_file -P $pid_file $ifname
+}
+
+stop() {
+	logger stopping dhcp6s
+	service_stop /usr/sbin/dhcp6s
+
+    [ -e $pid_file ] && kill -15 `cat "$pid_file"`
+}
+

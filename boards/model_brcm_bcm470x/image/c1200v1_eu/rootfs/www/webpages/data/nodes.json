@@ -1,0 +1,75 @@
+{
+    "errCode": false,
+    "success": true,
+    "data": {
+        "nodes": [
+        {
+            "Pipeline": {
+                "mac_addr": "50:e5:49:1e:7c:b2",
+                "name": "Macbook",
+                "up": 475633,
+                "ip_addr_list": ["192.168.1.2"],
+                "wireless": true,
+                "RSSI": 20,
+                "connected": true,
+                "uid": "50:e5:49:1e:7c:b2",
+                "epoch": 10,
+                "ip_addr": "192.168.1.2",
+                "type": "Linux",
+                "connections": "/cgi-bin/ozker/api/flows?mac=50:e5:49:1e:7c:b2",
+                "epoch_last_change": 10,
+                "down_limit": 1875000,
+                "up_limit": 187500,
+                "down": 7350399
+            },
+            "UI": {
+                "priority": 2
+            }
+        },
+        {
+            "Pipeline": {
+                "mac_addr": "2c:41:38:09:3e:a2",
+                "up": 8709651,
+                "ip_addr_list": ["192.168.1.200"],
+                "wireless": false,
+                "RSSI": 0,
+                "connected": false,
+                "uid": "2c:41:38:09:3e:a2",
+                "epoch": 1394501065,
+                "ip_addr": "192.168.1.200",
+                "type": "Windows",
+                "down": 46892015,
+                "name": "MOC",
+                "connections": "/cgi-bin/ozker/api/flows?mac=2c:41:38:09:3e:a2",
+                "epoch_last_change": 1394501065,
+                "down_limit": 1875000,
+                "up_limit": 187500
+            },
+            "UI": {}
+        },
+        {
+            "Pipeline": {
+                "mac_addr": "6c:62:6d:f7:2e:66",
+                "up": 449788,
+                "ip_addr_list": ["192.168.1.150"],
+                "wireless": false,
+                "RSSI": 0,
+                "connected": true,
+                "uid": "6c:62:6d:f7:2e:66",
+                "epoch": 10,
+                "ip_addr": "192.168.1.150",
+                "type": "Windows",
+                "connections": "/cgi-bin/ozker/api/flows?mac=6c:62:6d:f7:2e:66",
+                "epoch_last_change": 10,
+                "down_limit": 1875000,
+                "up_limit": 187500,
+                "down": 5704906
+            },
+            "UI": {
+                "priority": 1
+            }
+        }
+        ]
+    }
+
+}

@@ -1,0 +1,171 @@
+#!/bin/sh
+. /lib/functions.sh
+. /lib/wifi/brcmwifi.sh
+
+STDOUT="/dev/null"
+DEV_2G="3"
+DEV_5G="2"
+VAP_2G="1"
+VAP_5G="0"
+VAP_NUM=3
+
+# define for brcm
+DEV=eth
+VAP=wl
+
+wifi_firm_info(){
+	local mac=""
+	local cfgmac=""
+	local specialId=""
+	local country=""
+	local cfgCountry=""
+	local change_flag=""
+	local wps_pin=""
+	local ssid=""
+	for i in "$DEV_2G" "$DEV_5G"; do
+		cfgCountry="`uci get wireless.${DEV}$(($i)).country`"
+		if [ -z ${cfgCountry} ]; then
+			specialId=$(getfirm "SPECIAL_ID")
+			if [ ${specialId} = "00000000" -o ${specialId} = "55530000" ]; then
+				country="US"
+			elif [ ${specialId} = "45550000" ]; then
+				country="DE"
+			else
+				:
+			fi
+
+			uci set wireless.${DEV}$(($i)).country="$country"
+			change_flag="1"
+		fi
+
+		cfgmac="`uci get wireless.${DEV}$(($i)).macaddr`"
+		if [ "$i" = "$DEV_2G" ]; then
+			mac=$(network_get_firm "wireless_2.4")
+		else
+			mac=$(network_get_firm "wireless_5")
+		fi
+		mac="`echo $mac | tr '[a-f]' '[A-F]'`"
+		cfgmac="`echo $cfgmac | tr '[a-f]' '[A-F]'`"
+		if [ -z ${cfgmac} ]; then
+			uci set wireless.${DEV}$(($i)).macaddr="$mac"
+			change_flag="1"
+		elif [ "${mac}" != "${cfgmac}" ]; then
+			uci set wireless.${DEV}$(($i)).macaddr="$mac"
+			change_flag="1"
+		else
+			: 
+		fi
+
+		if [ -z "$(config_get ${DEV}$(($i)) hwmode)" ]; then
+			if [ "$i" = "$DEV_2G" ]; then
+				hwmode="bgn"
+			else
+				hwmode="anac_5"
+			fi
+			uci set wireless.${DEV}$(($i)).hwmode="$hwmode"
+			change_flag="1"
+		fi
+
+		if [ -z "$(config_get ${DEV}$(($i)) band)" ]; then
+			if [ "$i" = "$DEV_2G" ]; then
+				band="2g"
+			else
+				band="5g"
+			fi
+			uci set wireless.${DEV}$(($i)).band="$band"
+			change_flag="1"
+		fi
+		
+		if [ "$i" = "$DEV_2G" ];then 
+			m="$VAP_2G"
+		else
+			m="$VAP_5G"
+		fi
+
+		for j in $(seq $VAP_NUM); do
+			 # WARNING: fix HOME VAP index, we have special eth index!
+			if [ $m = "$VAP_2G" -a "$j" = "1" ]; then
+				k=2
+			elif [ $m = "$VAP_5G" -a "$j" = "1" ]; then
+				k=1
+			else
+				k=$m
+			fi
+
+			#set default pin for vap
+			if [ ! -z "$(config_get ${VAP}$(($k))$(($j)) wps_label)" -a \
+				-z "$(config_get ${VAP}$(($k))$(($j)) wps_pin)" ]; then
+				if [ -z "$wps_pin" ]; then
+				wps_pin="$(getfirm PIN)"
+				fi
+				uci set wireless.${VAP}$(($k))$(($j)).wps_pin="${wps_pin}"
+				change_flag="1"
+			fi
+
+			#set default ssid and security for home network
+			if [ -z "$(config_get ${VAP}$(($k))$(($j)) guest)" -a \
+				"$(config_get ${VAP}$(($k))$(($j)) mode)" = "ap" ]; then
+				if [ -z "$(config_get ${VAP}$(($k))$(($j)) ssid)" ]; then
+					if [ -z "$ssid" ]; then
+						ssid="$(getfirm SSID)"
+					fi 
+					local suffix
+					#suffix=$(uci get wireless.${DEV}$(($i)).macaddr|awk -F '-' '{printf $5$6}'|tr 'a-f' 'A-F')
+					suffix=$(network_get_firm "lan"|awk -F '-' '{printf $5$6}'|tr 'a-f' 'A-F')
+					[ "$band" = "5g" ] && suffix="${suffix}_${band//g/G}"
+					uci set wireless.${VAP}$(($k))$(($j)).ssid="${ssid}_${suffix}"
+					change_flag="1"
+				fi
+
+				if [ -z "$(config_get ${VAP}$(($k))$(($j)) encryption)" ]; then
+					if [ -z "$wps_pin" ]; then
+						wps_pin="$(getfirm PIN)"
+					fi
+					uci set wireless.${VAP}$(($k))$(($j)).encryption="psk"
+					uci set wireless.${VAP}$(($k))$(($j)).psk_key="${wps_pin}"
+					change_flag="1"
+				fi
+			fi
+
+			#default security of guest network is none.
+			if [ "$(config_get ${VAP}$(($k))$(($j)) guest)" = "on" ]; then
+				if [ -z "$(config_get ${VAP}$(($k))$(($j)) ssid)" ]; then
+					if [ -z "$ssid" ]; then
+						ssid="$(getfirm SSID)"
+					fi 
+					local suffix
+					#suffix=$(uci get wireless.${DEV}$(($i)).macaddr|awk -F '-' '{printf $5$6}'|tr 'a-f' 'A-F')
+					suffix=$(network_get_firm "lan"|awk -F '-' '{printf $5$6}'|tr 'a-f' 'A-F')
+					[ "$band" = "5g" ] && suffix="${suffix}_${band//g/G}"
+					uci set wireless.${VAP}$(($k))$(($j)).ssid="${ssid}_Guest_${suffix}"
+					change_flag="1"
+				fi
+
+				if [ -z "$(config_get ${VAP}$(($k))$(($j)) encryption)" ]; then
+					uci set wireless.${VAP}$(($k))$(($j)).encryption="none"
+					change_flag="1"
+				fi
+			fi
+		done
+	done
+
+	if [ -z "$(config_get wps model_name)" ]; then
+		local model="$(getfirm MODEL)"
+		uci set wireless.wps.model_name="${model}"
+		change_flag="1"
+	fi
+
+	if [ -z "$(config_get wps wps_manufacturer)" -o -z "$(config_get wps wps_manufacturer_url)" ]; then
+		local firm="$(getfirm FIRM)"
+		local website="$(getfirm WEBSITE)"
+		uci set wireless.wps.wps_manufacturer="${firm}"
+		uci set wireless.wps.wps_manufacturer_url="${website}"
+		change_flag="1"
+	fi
+	if [ "$change_flag" = "1" ]; then
+		wifi_commit
+	fi
+}
+
+config_load wireless
+wifi_firm_info

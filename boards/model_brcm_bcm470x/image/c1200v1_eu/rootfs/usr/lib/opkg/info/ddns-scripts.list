@@ -1,0 +1,10 @@
+/etc/hotplug.d/iface/25-ddns
+/usr/sbin/ddns
+/usr/lib/ddns/url_escape.sed
+/usr/lib/ddns/dynamic_dns_updater.sh
+/usr/lib/ddns/services
+/usr/lib/ddns/dynamic_dns_log.sh
+/etc/config/ddns
+/usr/lib/ddns/dynamic_dns_functions.sh
+/usr/lib/ddns/dynamic_dns_noip.sh
+/usr/lib/ddns/dynamic_dns_dyndns.sh

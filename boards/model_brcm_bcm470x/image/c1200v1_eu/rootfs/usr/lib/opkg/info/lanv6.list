@@ -1,0 +1,2 @@
+/lib/netifd/proto/lanv6.sh
+/etc/hotplug.d/iface/03-lanv6

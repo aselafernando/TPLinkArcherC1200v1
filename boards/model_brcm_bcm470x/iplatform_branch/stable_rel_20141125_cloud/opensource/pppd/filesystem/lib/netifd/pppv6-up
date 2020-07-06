@@ -1,0 +1,195 @@
+#!/bin/sh
+. /lib/functions.sh
+. /lib/netifd/netifd-proto.sh
+
+PPP_IPPARAM="$6"
+
+dhcp6cdir="/tmp/dhcp6c"
+conffile="$dhcp6cdir/dhcp6c.conf"
+dhcp6cpid="$dhcp6cdir/dhcp6c.pid"
+dhcp6cscript="/lib/netifd/ppp-dhcp6c.script"
+proto_dhcp6c_create_conffile(){
+	local ip_mode="$1"
+	local dns_mode="$2"
+	local ifname="$3"
+	local lanif="$4"
+	local ip_config="$5"
+	local id=`date +%s`
+
+	id=`expr $id % 1000000`
+
+	local id2=`expr $id + 1`
+
+	rm -rf ${dhcp6cdir}
+	mkdir -p ${dhcp6cdir}
+
+	if [ "$ip_config" == "specified" ]; then
+		echo "interface $ifname {" > "${conffile}" 
+
+		[ "$dns_mode" == "dynamic" ] && echo -e "\trequest domain-name-servers;" >> "${conffile}"
+		echo -e "\tscript \"$dhcp6cscript\";" >> "${conffile}"
+
+		echo "};" >>  "${conffile}"
+	else
+		[ "$ip_mode" == "prefix" ] && {
+			echo "interface $ifname {" > "${conffile}" 
+			[ "$ip_config" == "dhcpv6" ] && echo -e "\tsend ia-na $id;" >> "${conffile}"
+			echo -e "\tsend ia-pd $id2;" >> "${conffile}"
+
+			[ "$dns_mode" == "dynamic" ] && echo -e "\trequest domain-name-servers;" >> "${conffile}"
+			echo -e "\tscript \"$dhcp6cscript\";" >> "${conffile}"
+			echo -e "};\n" >>  "${conffile}"			
+			echo -e "id-assoc na $id {};\n" >> "${conffile}"
+			echo "id-assoc pd $id2 {" >> "${conffile}"
+			echo -e "\tprefix-interface $lanif {" >> "${conffile}"
+			echo -e "\t\tsla-id 1;" >> "${conffile}"
+			echo -e "\t};" >>  "${conffile}"
+			echo "};" >>  "${conffile}"
+		}
+		[ "$ip_mode" == "non_temp" ] && {
+			echo "interface $ifname {" > "${conffile}" 
+			[ "$ip_config" == "dhcpv6" ] && echo -e "\tsend ia-na $id;" >> "${conffile}"
+			
+			[ "$dns_mode" == "dynamic" ] && echo -e "\trequest domain-name-servers;" >> "${conffile}"
+			echo -e "\tscript \"$dhcp6cscript\";" >> "${conffile}"
+			
+			echo "};" >>  "${conffile}"
+			
+			echo "id-assoc na $id {};" >> "${conffile}"
+		}
+	fi
+}
+
+dhcp6c_write_duid() {
+	local client_device="$2"
+	local mac="${1:-$(ifconfig "$client_device" | sed -ne 's/[[:space:]]*$//; s/.*HWaddr //p')}"
+	local pat="[0-9A-F][0-9A-F]"
+	case "$mac" in
+		# exactly 6 octets -> assume type 3 (DUID-LL - RFC3315, 9.4)
+		$pat:$pat:$pat:$pat:$pat:$pat)
+			local oIFS="$IFS"; IFS=":"; set -- $mac; IFS="$oIFS"
+
+			# low endian
+			if [ "$(printf \\1 | hexdump -n1 -ve '8/2 "" "%04x" ""')" = "0001" ]; then
+				printf \\x0a\\x00
+
+			# big endian
+			else
+				printf \\x00\\x0a
+			fi
+
+			printf \\x00\\x03\\x00\\x06\\x$1\\x$2\\x$3\\x$4\\x$5\\x$6
+			logger -t dhcp6c "Using MAC address DUID 00:03:00:06:$1:$2:$3:$4:$5:$6"
+		;;
+		# at least 7 octets -> could be type 1 or type 2
+		$pat:$pat:$pat:$pat:$pat:$pat:*)
+			local len_id=":$(echo "$mac" | sed -e 's/[^:]//g')"
+			local len_hi=$(printf "%02x" $((${#len_id} / 0xFF)) )
+			local len_lo=$(printf "%02x" $((${#len_id} % 0xFF)) )
+
+			# low endian
+			if [ "$(printf \\1 | hexdump -n1 -ve '8/2 "" "%04x" ""')" = "0001" ]; then
+				printf \\x$len_lo\\x$len_hi
+
+			# big endian
+			else
+				printf \\x$len_hi\\x$len_lo
+			fi
+
+			printf $(echo "$mac" | sed -e 's/^/\\x/; s/:/\\x/g')
+			logger -t dhcp6c "Using user provided DUID $mac"
+		;;
+		*)
+			logger -t dhcp6c "Unable to derive DUID from interface '$client_device' and no valid user DUID given"
+		;;
+	esac
+}
+
+config_load /etc/config/network
+config_get ip_config wanv6 ip_config
+config_get ip_mode wanv6 ip_mode
+config_get dns_mode wanv6 dns_mode
+config_get ip6addr wanv6 ip6addr
+config_get lanif wanv6 lanif
+config_get ipv4 wanv6 ipv4
+config_get dhcp_ifname wanv6 ifname
+config_get user_duid basic duid
+
+ppp_up="/tmp/pppv6/ppp_up"
+#rm -rf /tmp/pppv6
+
+
+[ -n "$IPREMOTE" ] || exit 1
+[ -n "$LLREMOTE" ] || exit 1
+
+if [ "$ip_config" == "specified" ]; then
+
+	[ -n "$LLREMOTE" ] && {
+		proto_init_update "$IFNAME" 1 1
+		proto_set_keep 1
+
+		[ -n "$PPP_IPPARAM" ] && {
+			[ -n "$IPLOCAL" -a "$ipv4" == "1" ] && proto_add_ipv4_address "$IPLOCAL" 32
+			[ -n "$IPREMOTE" -a "$ipv4" == "1" ] && proto_add_ipv4_route 0.0.0.0 0 "$IPREMOTE"
+			[ -n "$LLLOCAL" ] && proto_add_ipv6_address "$LLLOCAL" 64
+			[ -n "$ip6addr" ] && {
+				ip -6 addr add "$ip6addr/64" dev "$IFNAME"
+				proto_add_ipv6_address "$ip6addr" 64
+			}
+			[ -n "$LLREMOTE" ] && proto_add_ipv6_route "::" 0 "$LLREMOTE"
+			[ -n "$DNS1" -a "$ipv4" == "1" ] && proto_add_dns_server "$DNS1"
+			[ -n "$DNS2" -a "$DNS1" != "$DNS2" -a "$ipv4" == "1" ] && proto_add_dns_server "$DNS2"
+		}
+		proto_send_update "$PPP_IPPARAM"
+	}
+
+else
+
+	[ -n "$PPP_IPPARAM" -a -n "$LLREMOTE" ] && {
+		mkdir -p /tmp/pppv6
+		[ -n "$IPLOCAL" -a "$ipv4" == "1" ] && echo "$IPLOCAL" > "$ppp_up" || echo "none" > "$ppp_up"
+		[ -n "$IPREMOTE" -a "$ipv4" == "1" ] && echo "$IPREMOTE" >> "$ppp_up" || echo "none" >> "$ppp_up"
+		[ -n "$LLLOCAL" ] && echo "$LLLOCAL" >> "$ppp_up" || echo "none" >> "$ppp_up"
+		[ -n "$LLREMOTE" ] && echo "$LLREMOTE" >> "$ppp_up" || echo "none" >> "$ppp_up"
+		[ -n "$DNS1" -a "$ipv4" == "1" ] && echo "$DNS1" >> "$ppp_up" || echo "none" >> "$ppp_up"
+		[ -n "$DNS2" -a "$DNS1" != "$DNS2" -a "$ipv4" == "1" ] && echo "$DNS2" >> "$ppp_up" ||  echo "none" >> "$ppp_up"
+	}
+fi
+
+[ -n "$LLREMOTE" ] && {
+	local mbit=1
+	local count=15
+
+		
+	echo "2"  > /proc/sys/net/ipv6/conf/$IFNAME/accept_ra
+	[ "$ip_config" == "slaac" ] && {
+		#echo '-1' > /proc/sys/net/ipv6/conf/$IFNAME/ndisc_mbit   # reset the mbit value to -1
+
+		# wait for RA
+		
+		mbit=`cat /proc/sys/net/ipv6/conf/$IFNAME/ndisc_mbit`
+		while [ $count -ne 0 -a $mbit -eq -1 ]; do
+			sleep 1
+			mbit=`cat /proc/sys/net/ipv6/conf/$IFNAME/ndisc_mbit`
+			let "count=count - 1"
+		done
+		# if timeout or mbit != 0, restart
+		[ $mbit -nq 0 ] && {
+			sleep 3
+			proto_setup_failed "$PPP_IPPARAM"
+			return
+		}
+	}
+	proto_dhcp6c_create_conffile "$ip_mode" "$dns_mode" "$IFNAME" "$lanif" "$ip_config"
+	local duid_file="/var/dhcp6c_duid"
+	dhcp6c_write_duid "$user_duid" "$dhcp_ifname" > $duid_file
+
+	/usr/sbin/dhcp6c -f -p "$dhcp6cpid" -c "$conffile" -I "$dhcp_ifname" -t "$PPP_IPPARAM" "$IFNAME" &
+}
+
+[ -d /etc/ppp/ip-up.d  -a -n "$LLREMOTE" ] && {
+	for SCRIPT in /etc/ppp/ip-up.d/*
+	do
+		[ -x "$SCRIPT" ] && "$SCRIPT" "$@"
+	done
+}

@@ -1,0 +1,13 @@
+Package: ip6tables-extra
+Version: 1.4.21-1
+Depends: ip6tables, kmod-ip6tables-extra
+Provides: 
+Source: package/iptables
+Section: net
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 159
+Description:  IPv6 header matching modules

@@ -1,0 +1,12 @@
+{
+	"timeout": false,
+	"success": true,
+	"data":{
+		"username": "username2333",
+		"password": "12235",
+		"domain": "[\"keyword 1\", \"keyword 2\", \"keyword 3\", \"keyword 4\", \"keyword 5\"]",
+		"update_time":"1h",
+		"status": " DDNS not launching!"
+		
+	}
+}

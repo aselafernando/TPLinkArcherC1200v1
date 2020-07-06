@@ -1,0 +1,13 @@
+Package: kmod-input-core
+Version: -
+Depends: kernel (=--unknown)
+Provides: 
+Source: package/kernel
+Section: kernel
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 13091
+Description:  Kernel modules for support of input device

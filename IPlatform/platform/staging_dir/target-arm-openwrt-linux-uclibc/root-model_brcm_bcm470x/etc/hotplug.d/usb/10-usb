@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Copyright (C) 2009 OpenWrt.org
+
+# echo ACTION=$ACTION, DEVPATH=$DEVPATH, SUBSYSTEM=$SUBSYSTEM, BUSNUM=$BUSNUM >/dev/console
+
+case "$BUSNUM" in
+    001)
+        USB="USB1"
+        ;;
+    003)
+        USB="USB3"
+        ;;
+    *)
+        exit 0
+        ;;
+esac
+
+case "$ACTION" in
+	add)
+		# update LEDs
+        uci set ledctrl.$USB.ledon='1'
+        ledcli $USB
+		;;
+	remove)
+		# update LEDs
+        uci set ledctrl.$USB.ledon='0'
+        ledcli $USB
+		;;
+esac	
+		

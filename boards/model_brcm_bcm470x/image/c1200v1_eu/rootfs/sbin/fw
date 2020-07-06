@@ -1,0 +1,104 @@
+#!/bin/sh
+FW_LIBDIR=/lib/firewall
+
+. /lib/functions.sh
+. ${FW_LIBDIR}/fw.sh
+
+case "$(type fw)" in
+    *function) ;;
+    *) exit 255;;
+esac
+
+usage() {
+    echo $0 "<command>" "<family>" "<table>" "<chain>" "<target>" "{" "<rules>" "}"
+    exit 0
+}
+
+cmd=$1
+shift
+case "$cmd" in
+    --help|help) usage ;;
+    start|stop|reload|restart)
+        . ${FW_LIBDIR}/core.sh
+        fw_$cmd 
+        exit $?
+    ;;
+esac
+
+# interface for webserver access control
+case "$cmd" in
+    block_rt_access|unblock_rt_access|ftp_access|ftp_block)
+        . ${FW_LIBDIR}/tpcmd.sh
+        fw_$cmd "$@"
+        exit $?
+    ;;
+esac
+
+# interface for add and del with checking exist
+case "$cmd" in
+    check|s_add|s_del)
+        . ${FW_LIBDIR}/tpcmd.sh
+        fw_$cmd "$@"
+        exit $?
+    ;;
+esac
+
+# interface for local mgnt
+case "$cmd" in
+    load_local_mgnt|unload_local_mgnt|add_local_mgnt|del_local_mgnt)
+        . ${FW_LIBDIR}/tpcmd.sh
+        fw_$cmd "$@"
+        exit $?
+    ;;
+esac
+
+# interface for remote mgnt
+case "$cmd" in
+    add_remote_mgnt|del_remote_mgnt)
+        . ${FW_LIBDIR}/tpcmd.sh
+        fw_$cmd "$@"
+        exit $?
+    ;;
+esac
+
+# interface for mss fix
+case "$cmd" in
+    setmss|unsetmss)
+        . ${FW_LIBDIR}/tpcmd.sh
+        fw_$cmd "$@"
+        exit $?
+    ;;
+esac
+
+    #interface for vpn
+case "$cmd" in
+    openvpn_access|openvpn_block|pptp_access|pptp_block)
+    . ${FW_LIBDIR}/tpcmd.sh
+        fw_$cmd "$@"
+        exit $?
+    ;;
+esac
+    
+
+fam=$1
+shift
+case "$fam" in
+    ip)
+        fam=i
+        if [ $# -gt 2 ]; then
+            for p in $(seq 2 $(($# - 1))); do
+                if eval "[ \$$p == '}' ]"; then
+                    fam=I
+                    break
+                fi
+            done
+        fi ;;
+    ip4) fam=4 ;;
+    ip6) fam=6 ;;
+    arp) fam=a ;;
+    eth) fam=e ;;
+    -*) exec $0 $cmd ${fam##*-} "$@" ;;
+esac
+
+fw "$cmd" "$fam" "$@"
+exit $?

@@ -1,0 +1,12 @@
+{
+	"timeout": false,
+	"success": true,
+	"data":{
+		"number": "3",
+		"list":[
+			{"name":"Kingston 100GB", "serial":"123456789"},
+			{"name":"Kingston 102GB", "serial":"123456781"},
+			{"name":"Kingston 101GB", "serial":"123456780"}
+		]
+	}
+}

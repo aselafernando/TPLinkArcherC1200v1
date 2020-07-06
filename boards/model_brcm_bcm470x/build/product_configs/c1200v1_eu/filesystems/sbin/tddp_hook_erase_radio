@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# copy the radio and radio_bk block to the temp files
+nvrammanager -r /tmp/radio -p radio
+nvrammanager -r /tmp/radio -p radio_bk
+# get the file size of /tmp/radio
+size=$(ls -l /tmp/radio | awk '{print $5}')
+# create the empty content file, the size is the same with the radio block 
+dd if=/dev/zero of=/tmp/zero bs=1 count=$size
+# erase the radio block
+nvrammanager -w /tmp/zero -p radio
+# erase the radio_bk block
+nvrammanager -w /tmp/zero -p radio_bk
+
+
+

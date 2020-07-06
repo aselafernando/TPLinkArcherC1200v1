@@ -1,0 +1,12 @@
+{
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{	
+		"conntype": "staticipv6",
+		
+		"type": "pass",
+		"conn_status": "connected"
+	}
+}

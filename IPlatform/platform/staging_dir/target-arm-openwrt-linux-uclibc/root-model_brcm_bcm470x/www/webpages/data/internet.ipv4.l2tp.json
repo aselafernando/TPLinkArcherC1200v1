@@ -1,0 +1,39 @@
+{
+
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：internet ipv4页面中当前拨号类型是L2TP时，则请求该数据",
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{		
+		"conntype": "pppoe",
+		
+		"username": "username",
+		"password": "password",
+		"inet_ip": "1.1.1.1",
+		"inet_pridns": "1.1.1.1",
+		"inet_snddns": "11.11.11.11",
+		"snd_conn": "static",
+		"dyn_server": "3.3.3.3",
+		"dyn_ip": "",
+		"dyn_netmask": "255.0.0.0",
+		"dyn_gateway": "1.1.1.1",
+		"dyn_pridns": "2.2.2.2",
+		"dyn_snddns": "2.2.2.2",
+
+		"static_pridns": "3.3.3.3",
+		"static_snddns": "3.3.3.3",
+		"static_server": "3.3.3.33",
+		"static_ip": "",
+		"static_netmask": "255.0.0.0",
+		"static_gateway": "4.4.4.4",
+		"static_pridns": "2.2.2.2",
+		"static_snddns": "1.1.1.1",
+		"mtu": "1300",
+		"conn_mode": "manually",
+		"demand_idle": "44",
+		"manual_idle": "22",
+		"conn_status": "connected"
+	}
+}

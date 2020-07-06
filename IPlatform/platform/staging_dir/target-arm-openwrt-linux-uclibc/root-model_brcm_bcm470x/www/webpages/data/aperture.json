@@ -1,0 +1,16 @@
+{
+	"success":true,
+	"error":"",
+	"data":{
+	    "history": [],
+	    "entries": 0,
+	    "running": false,
+	    "outliers": 0,
+	    "measuring": false,
+	    "last": {
+	        "up": 120000,
+	        "down": 15000,
+	        "retcode": 0
+	    }
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：log页面中acc获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":{
+		"from": "pxc@tp-link.com", 
+		"to":"log@tp-link.com", 
+		"auth":"on",
+		"smtp_server":"smtp@tp-link.com",
+		"user":"admin",
+		"password":"admin",
+		"auto_mail":"on",
+		"loop_type":"day_time",
+		"every_day_time":"12:34",
+		"every_hours": 4
+	}
+}

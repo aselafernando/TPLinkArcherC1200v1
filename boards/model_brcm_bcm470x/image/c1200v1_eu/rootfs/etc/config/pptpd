@@ -1,0 +1,8 @@
+config service 'pptpd'
+	option 'enabled' 'off'
+	option 'localip' '10.0.0.1'
+	option 'remoteip' '10.0.0.11-20'
+
+config login 'account'
+	option 'username' 'admin'
+	option 'password' 'admin'

@@ -1,0 +1,13 @@
+Package: kmod-crypto-sha1
+Version: -
+Depends: kernel (=--unknown), kmod-crypto-hash, kmod-crypto-core
+Provides: 
+Source: package/kernel
+Section: kernel
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 1765
+Description:  SHA1 digest CryptoAPI module

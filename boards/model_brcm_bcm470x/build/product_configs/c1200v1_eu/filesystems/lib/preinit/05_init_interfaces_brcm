@@ -1,0 +1,75 @@
+#!/bin/sh
+
+. /lib/switch/core_phy.sh
+
+have_module () {
+	grep "^$1" /proc/modules
+	return $?
+}
+
+check_module () {
+  module="$1"; shift; params="$*"
+
+  insmod "$module" "$params"
+  # optimize startup time
+  #sleep 1
+  grep "^$module" /proc/modules
+  return $?
+}
+
+vlan_untag () {
+	echo "$(nvram get vlan$1ports)" | grep "u" -q
+	return $?
+}
+
+init_eth () {
+	check_module et && {
+		# default to link down all 5 phy ports.
+		# they will be link up when all apps is ready!
+		link_down_all_ports
+		# et driver will setup some default vlans based on nvram settings.
+		clear_all_vlans
+
+		vconfig set_name_type DEV_PLUS_VID_NO_PAD
+		vconfig add eth0 1
+	}
+}
+
+init_dpsta () {
+	check_module dpsta
+}
+
+init_ctf () {
+	#nvram set ctf_disable=0
+	#nvram set nga_enable=1
+
+	# ppp_generic depends on slhc
+	check_module slhc
+	
+	# ctf depends on ppp_generic
+	[ $? -eq 0 ] && check_module ppp_generic
+
+	[ $? -eq 0 ] && {
+		[ "x$(nvram get ctf_disable)" = "x0" ] && check_module ctf
+		# OR
+		[ "x$(nvram get ctf_disable)" = "x" ] && check_module ctf
+	}
+}
+
+init_emf () {
+	have_module et && check_module emf && check_module igs
+}
+
+#init_br () {
+#	brctl addbr br0
+#	brctl setfd br0 0
+#	brctl stp br0 off
+#	brctl addif br0 eth0.1
+#	#wireless iface to br0
+#}
+
+boot_hook_add preinit_main init_ctf
+boot_hook_add preinit_main init_eth
+boot_hook_add preinit_main init_emf
+boot_hook_add preinit_main init_dpsta
+#boot_hook_add preinit_main init_br

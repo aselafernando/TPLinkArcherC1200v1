@@ -1,0 +1,41 @@
+{
+
+
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：internet ipv4页面中当前拨号类型是PPPoE时，以及点击Connect/Disconnect则请求该数据",
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{
+		"conntype": "pppoe",
+		
+		"username": "ppeus3",
+		"password": "ppps45345",
+		"inet_ip": "1.1.1.2",
+		"inet_pridns": "1.1.1.1",
+		"inet_snddns": "11.11.11.11",
+		"snd_conn": "dynamic",
+		"dyn_ip": "2.2.2.2",
+		"dyn_netmask": "3.3.3.3",
+		"static_ip": "5.5.5.5",
+		"static_netmask": "6.6.6.6",
+		"mtu": "1260",
+		"server": "www.baiud.com",
+		"access": "eerqerwerwq",
+		"interval": "22",
+		"ip_mode": "static",
+		"specific_ip": "1.1.1.9",
+		"dns_mode": "dynamic",
+		"dyn_pridns": "2.2.2.2",
+		"dyn_snddns": "2.2.2.2",
+		"static_pridns": "3.3.3.3",
+		"static_snddns": "3.3.3.3",
+		"conn_mode": "manually",
+		"demand_idle": "10",
+		"time_start": "12:12",
+		"time_end": "23:25",
+		"manual_idle": "10",
+		"conn_status": "connecting"
+	}
+}

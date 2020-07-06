@@ -1,0 +1,13 @@
+Package: luci-proto-core
+Version: 0.11.1-1
+Depends: 
+Provides: 
+Source: ibase/luci
+Section: luci
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: LuCI Development Team <luci@lists.subsignal.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 1821
+Description:  Support for static/dhcp/none

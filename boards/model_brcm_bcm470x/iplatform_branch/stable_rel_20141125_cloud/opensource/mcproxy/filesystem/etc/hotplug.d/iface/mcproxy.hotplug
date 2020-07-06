@@ -1,0 +1,19 @@
+#!/bin/sh
+# Copyright (c) 2014 The Linux Foundation. All rights reserved.
+
+. /lib/functions.sh
+
+/etc/init.d/mcproxy enabled && [ "$ACTION" = "ifup" ] && {
+	local upstream_ready=0
+
+	option_cb(){
+		[ "$1" != "upstream" ] && return
+		[ "$2" != "$IFNAMES" ] && return
+		upstream_ready=1
+	}
+
+	IFNAMES=`/sbin/uci -q get network.${INTERFACE}.ifname`
+	config_load mcproxy
+	[ $upstream_ready != "0" ] && /etc/init.d/mcproxy restart
+}
+

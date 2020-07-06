@@ -1,0 +1,18 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：web页面中recover获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":{
+		"type": "0",
+		"ipaddr": "192.168.1.111",
+		"count": "30",
+		"pktsize": "4",
+		"timeout": "800",
+		"ttl":20,
+		"result": "The Router is ready.\r\nThe Router is ready.\r\nThe Router is ready.\r\n",
+		"finish":0
+	}
+}
+

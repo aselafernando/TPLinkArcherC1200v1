@@ -1,0 +1,203 @@
+# Copyright (c) 2013 The Linux Foundation. All rights reserved.
+# Copyright (C) 2006-2010 OpenWrt.org
+#
+# This is free software, licensed under the GNU General Public License v2.
+# See /LICENSE for more information.
+#
+
+mainmenu "OpenWrt Configuration"
+
+config HAVE_DOT_CONFIG
+	bool
+	default y
+
+menu "Global build settings" 
+	config BUILD_NLS
+		default n
+		bool "Compile with full language support"
+		help
+		  When this option is enabled, packages are built with the full versions of iconv and GNU gettext
+	  	  instead of the default OpenWrt stubs. If uClibc is used, it is also built with locale support. 
+
+        config BUILD_PATENTED
+                default y
+                bool "Compile with support for patented functionality"
+                help
+                  When this option is disabled, software which provides patented functionality will not be built.
+                  In case software provides optional support for patented functionality,
+                  this optional support will get disabled for this package.
+
+        config AUDIO_SUPPORT
+                default y
+                bool
+
+	config AUTOREBUILD
+		bool "Automatic rebuild of packages" if DEVEL
+		default y
+		help
+		  Automatically rebuild packages when their files change
+
+endmenu
+
+menuconfig DEVEL
+	bool "Advanced configuration options (for developers)"
+	default n
+
+menuconfig KERNEL_OPTIONS
+	bool "Kernel Options"  if DEVEL
+
+	config LINUX_KERNEL_PATH
+		string "Linux kernel path" if KERNEL_OPTIONS
+		default ""
+		help
+		  setting the linux kernel path for your tp_platform
+   	
+
+	config LINUX_KARCH
+		string "Kernel ARCH" if KERNEL_OPTIONS
+		default ""
+		help
+		  setting the kernel arch
+
+	config TARGET_OPTIMIZATION
+		string "Target Optimizations" if KERNEL_OPTIONS
+		default ""
+		help
+		  Optimizations to use when building for the target host.
+
+menuconfig EXTERNAL_TOOLCHAIN
+	bool
+	prompt "Use external toolchain"  if DEVEL
+	help
+	  If enabled, OpenWrt will compile using an existing toolchain instead of compiling one
+
+	config TOOLCHAIN_PREFIX
+		string
+		prompt "Toolchain prefix"  if DEVEL
+		depends EXTERNAL_TOOLCHAIN && !NATIVE_TOOLCHAIN
+		default "arm-unknown-linux-gnu-"      if arm
+		default "armeb-unknown-linux-gnu-"    if armeb
+		default "i486-unknown-linux-gnu-"     if i386
+		default "mips-unknown-linux-gnu-"     if mips
+		default "mipsel-unknown-linux-gnu-"   if mipsel
+		default "powerpc-unknown-linux-gnu-"  if powerpc
+		default "x86_64-unknown-linux-gnu-"   if x86_64
+
+	config TOOLCHAIN_ROOT
+		string
+		prompt "Toolchain root"  if DEVEL
+		depends EXTERNAL_TOOLCHAIN && !NATIVE_TOOLCHAIN
+		default "/opt/cross/arm-unknown-linux-gnu"      if arm
+		default "/opt/cross/armeb-unknown-linux-gnu"    if armeb
+		default "/opt/cross/i486-unknown-linux-gnu"     if i386
+		default "/opt/cross/mips-unknown-linux-gnu"     if mips
+		default "/opt/cross/mipsel-unknown-linux-gnu"   if mipsel
+		default "/opt/cross/powerpc-unknown-linux-gnu"  if powerpc
+		default "/opt/cross/x86_64-unknown-linux-gnu"   if x86_64
+
+	config TOOLCHAIN_BIN_PATH
+		string
+		prompt "Toolchain program path"  if DEVEL
+		depends EXTERNAL_TOOLCHAIN && !NATIVE_TOOLCHAIN
+		default "./usr/bin ./bin"
+		help
+		  Specify additional directories searched for toolchain binaries (override PATH)
+		  Use ./DIR for directories relative to the root above
+
+	config TOOLCHAIN_INC_PATH
+		string
+		prompt "Toolchain include path"  if DEVEL
+		depends EXTERNAL_TOOLCHAIN && !NATIVE_TOOLCHAIN
+		default "./usr/include ./include"
+		help
+		  Specify additional directories searched for header files (override CPPFLAGS)
+		  Use ./DIR for directories relative to the root above
+	
+	config NEED_TOOLCHAIN_LIB
+		bool
+		prompt "Does toolchain bin need x86 dynamic link lib?" if DEVEL
+                depends EXTERNAL_TOOLCHAIN && !NATIVE_TOOLCHAIN
+		default n
+		help
+			if your toolchain need x86 dynamic link lib, we are going to set LD_LIBRARY_PATH.
+
+	config TOOLCHAIN_LIB_PATH
+		string
+		prompt "Toolchain library path"  if DEVEL
+		depends EXTERNAL_TOOLCHAIN
+		default "./usr/lib ./lib"
+		help
+		  Specify additional directories searched for libraries (override LDFLAGS)
+		  Use ./DIR for directories relative to the root above
+
+	config INSTALL_LIBSTDCPP
+		bool
+		prompt "Does external toolchain have working C++ compiler?" if DEVEL
+		depends EXTERNAL_TOOLCHAIN
+		default y
+		help
+		    Build/install c++ compiler and libstdc++?
+
+menuconfig TARGET_OPTIONS
+	bool "Target Options" if DEVEL
+
+	config TARGET_BOARD
+	string
+	prompt "Target board set" if TARGET_OPTIONS
+	default "model_brcm_bcm470x"
+	help
+		Enter one of these board set [model_brcm_bcm470x, model_qca_ipq806x, model_qca_qca953x, model_qca_qca955x]
+
+	config TARGET_NAME
+	string
+	prompt "Target name" if TARGET_OPTIONS
+	default "arm-openwrt-linux-uclibc"
+
+	config ROOTFS_PATH
+	string
+	prompt "Rootfs Path" if TARGET_OPTIONS
+	default ""
+	help
+		set the rootfs path for your packages install
+        
+    	choice
+		prompt "Binary stripping method" if TARGET_OPTIONS
+		default USE_STRIP   if EXTERNAL_TOOLCHAIN
+		default USE_STRIP   if USE_GLIBC || USE_EGLIBC
+		default USE_SSTRIP
+		help
+		  Select the binary stripping method you wish to use.
+
+		config NO_STRIP
+			bool "none"
+			help
+			  This will install unstripped binaries (useful for native compiling/debugging)
+
+		config USE_STRIP
+			bool "strip"
+			help
+			  This will install binaries stripped using strip from binutils
+
+
+		config USE_SSTRIP
+			bool "sstrip"
+			depends !DEBUG
+			depends !USE_GLIBC
+			depends !USE_EGLIBC
+			help
+			  This will install binaries stripped using sstrip
+	endchoice
+
+        config STRIP_ARGS
+		string
+		prompt "Strip arguments" if TARGET_OPTIONS
+		depends USE_STRIP
+		default "--strip-unneeded --remove-section=.comment --remove-section=.note" if DEBUG
+		default "--strip-all"
+		help
+		  Specifies arguments passed to the strip command when stripping binaries        
+
+
+source ".config-extern-libs.in"
+
+source "tmp/.config-package.in"

@@ -1,0 +1,40 @@
+#!/bin/sh /etc/rc.common
+
+START=99zz
+STOP=90
+
+ipv6_enable() {
+    config_load network
+    config_get ifname wan ifname
+
+    config_load protocol
+    config_get enable wanv6 enable
+
+    case "$enable" in 
+        on)   
+            ubus call network.interface.lanv6 disconnect                  
+            # enable wan ipv6
+            echo "0" > /proc/sys/net/ipv6/conf/$ifname/disable_ipv6                       
+            ubus call network.interface.lanv6 connect
+            ;;
+        off)
+            # disable wan ipv6       
+            echo "1" > /proc/sys/net/ipv6/conf/$ifname/disable_ipv6
+            ;;
+        *) 
+            ;;
+    esac
+}
+
+
+boot() {
+    ipv6_enable
+}
+
+start() {
+    return 0
+}
+
+stop() {
+    return 0
+}

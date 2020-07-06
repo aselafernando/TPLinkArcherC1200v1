@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+</head>
+
+<body>
+<div class="func-container">
+	 <div id="disk">
+	 	<div id="diskGrid">
+	     		
+		</div>
+	 </div>
+
+
+	 <div id="users">
+	 	<div id="usersGrid">
+	     		
+		</div>
+	 </div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	$("div.func-container").page({
+		title: $.su.CHAR.USBBASIC.TITLE,
+		help: ""
+	});
+
+	$("div#disk").panel({
+		title: $.su.CHAR.USBBASIC.DISKS,
+		collapsible: true
+	});
+
+
+	$("div#diskGrid").grid({
+		store:{
+			proxy: {
+			url: "./data/usb.disk.json"
+			},
+			fields: [
+				{name: "name"},
+				{name: "volumn"},
+				{name: "capicity"},
+				{name: "usbSpace"},
+				{name: "freeSpace"},
+				{name: "usage"}
+			],
+			autoLoad: true
+		},
+		minLines:0,
+		columns: [
+			{
+				xtype: "checkcolumn",
+				width:86
+			},
+			{
+				text: "ID", 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.USBBASIC.DEVICENAME, 
+				width:100,
+				dataIndex: "name"
+			},
+			{
+				text: $.su.CHAR.USBBASIC.VOLUMN, 
+				width:80,
+				dataIndex: "volumn"
+			},
+			{
+				text: $.su.CHAR.USBBASIC.CAPACITY, 
+				width:80,
+				dataIndex: "capicity"
+			},
+			{
+				text: $.su.CHAR.USBBASIC.USBSPACE, 
+				width:100,
+				dataIndex: "usbSpace"
+			},
+			{
+				text: $.su.CHAR.USBBASIC.FREESPACE, 
+				width:80,
+				dataIndex: "freeSpace"
+			},
+			{
+				text: $.su.CHAR.USBBASIC.USAGE, 
+				width:80,
+				dataIndex: "usage"
+			},
+			{
+				text: $.su.CHAR.USBBASIC.OPERATION, 
+				width:80,
+				xtype: "button"
+			}
+		],
+		operation: [{xtype: "button", text: $.su.CHAR.USBBASIC.SCAN},{xtype: "button", text: $.su.CHAR.USBBASIC.ENJECT},"search"]
+	});
+
+	$("div#users").panel({
+		title: $.su.CHAR.USBBASIC.USERS,
+		collapsible: true
+	});
+
+
+	$("div#usersGrid").grid({
+		store:{
+			proxy: {
+				url: "./data/usb.user.json"
+			},
+			fields: [
+				{name: "username"},
+				{name: "password"},
+				{name: "auth"}
+			],
+			autoLoad: true
+		},
+		minLines:0,
+		columns: [
+			{
+				text: "ID", 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.USBBASIC.USERNAME, 
+				width:100,
+				dataIndex: "username"
+			},
+			{
+				text: $.su.CHAR.USBBASIC.PASSWORD, 
+				width:160,
+				dataIndex: "password"
+			},
+			{
+				text: $.su.CHAR.USBBASIC.AUTH, 
+				width:100,
+				dataIndex: "auth"
+			},
+			{
+				xtype: "settings"
+			}
+		],
+		operation: [{xtype: "button", text: $.su.CHAR.USBBASIC.ADD_USER},"search"]
+	});
+
+
+
+
+});
+</script>
+</body>
+
+</html>

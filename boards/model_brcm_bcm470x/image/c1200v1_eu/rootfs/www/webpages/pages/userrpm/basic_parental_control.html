@@ -1,0 +1,501 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Parental Control</title>
+
+</head>
+
+<body>
+<div class="func-container">
+	 <div id="parental">
+	 	<!--<form id="parental-setting">-->
+	    	<input type="text"  id="enable_parental" name="enable" value="" />
+	    <!--</form>-->
+	 </div>
+	 
+	 <div id="under_parental">
+ 		<div id="parentalGrid">
+     		
+		</div>
+	 </div>
+
+ 	<div id="own_editor">
+		<input id="device_name" name="name">
+		<button id="device_view"></button>
+		<input id="mac_addr" name="mac">
+		<input id="access_calendar" name="calendar">
+		<input id="device_description" name="note">
+		<input id="entry_enable" name="enable">
+	</div>
+
+	<div id="device_survey">
+ 		<p id="device_title"></p>
+
+ 		<div id="device_result">
+     		
+		</div>
+		<button id="ok"></button>
+		<button id="cancle"></button>
+ 	</div>	 
+	<div id="help_basic_parental_control"></div> 
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var URL_PARENTAL = $.su.url("/admin/parental_control?form=enable"); //nat.nat.json
+	var URL_PARENTAL_GRID = $.su.url("/admin/parental_control?form=device"); 
+	var URL_PARENTAL_MODE = $.su.url("/admin/parental_control?form=mode");
+	var URL_ONLINE_BLACK = $.su.url("/admin/access_control?form=black_devices");
+	var URL_TIME_SETTING = $.su.url("/admin/time?form=settings");
+
+	var host_mac = "";
+
+	$("div.func-container").page({
+		title: $.su.CHAR.BASIC_PARENTAL_CTR.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$("div#parental").panel({
+		title: $.su.CHAR.BASIC_PARENTAL_CTR.TITLE,
+		collapsible: false
+	});
+	
+	// $("div#content").panel({
+	// 	title: $.su.CHAR.BASIC_PARENTAL_CTR.RESTR,
+	// 	collapsible: false
+	// });
+
+
+	$("input#device_name").textbox({
+		fieldLabel: $.su.CHAR.PARENTAL_CTR.DEVICE,
+		vtype:"string_visible_allow_blank",
+		minLength:0,
+		maxLength:32,
+		tipsCls:"after-button xl",
+		allowBlank:false,
+		cls: 'inline-block '
+	});
+
+	$("input#mac_addr").textbox({
+		fieldLabel: $.su.CHAR.BASIC_PARENTAL_CTR.MAC_ADDRESS,
+		//cls: 'inline',
+        vtype:"mac",
+        maxLength:17,
+		allowBlank:false,
+		vtype:"mac"
+	});
+
+	var timeSettingProxy = new $.su.Proxy({
+		url: URL_TIME_SETTING,
+		autoLoad: false
+	});
+
+	var timeZoneObj = {
+		"0": 'GMT-12:00',
+	    "60": 'GMT-11:00',
+	    "120": 'GMT-10:00',
+	    "180": 'GMT-09:00',
+	    "240": 'GMT-08:00',
+	    "300": 'GMT-07:00',
+	    "360": 'GMT-06:00',
+	    "420": 'GMT-05:00',
+	    "450": 'GMT-04:30',
+	    "480": 'GMT-04:00',
+	    "510": 'GMT-03:30',
+	    "540": 'GMT-03:00',
+	    "600": 'GMT-02:00',
+	    "660": 'GMT-01:00',
+	    "720": 'GMT'      ,
+	    "780": 'GMT+01:00',
+	    "840": 'GMT+02:00',
+	    "900": 'GMT+03:00',
+	    "930": 'GMT+03:30',
+	    "960": 'GMT+04:00',
+	    "990": 'GMT+04:30',
+	    "1020": 'GMT+05:00',
+	    "1050": 'GMT+05:30',
+	    "1065": 'GMT+05:45',
+	    "1080": 'GMT+06:00',
+	    "1110": 'GMT+06:30',
+	    "1140": 'GMT+07:00',
+	    "1200": 'GMT+08:00',
+	    "1260": 'GMT+09:00',
+	    "1290": 'GMT+09:30',
+	    "1320": 'GMT+10:00',
+	    "1380": 'GMT+11:00',
+	    "1440": 'GMT+12:00',
+	    "1500": 'GMT+13:00'
+	};
+
+	var dayObj = {
+		"1": $.su.CHAR.ORDER["1ST_"],
+		"2": $.su.CHAR.ORDER["2ND"],
+		"3": $.su.CHAR.ORDER["3RD"]
+	};
+
+	var weekObj = {
+		"mon": $.su.CHAR.DATE.MON,
+		"tue": $.su.CHAR.DATE.TUES,
+		"wed": $.su.CHAR.DATE.WED,
+		"thu": $.su.CHAR.DATE.THUR,
+		"fri": $.su.CHAR.DATE.FRI,
+		"sat": $.su.CHAR.DATE.SAT,
+		"sun": $.su.CHAR.DATE.SUN
+	};
+
+	var monthObj = {
+		"1": $.su.CHAR.DATE.JAN,
+		"2": $.su.CHAR.DATE.FEB,
+		"3": $.su.CHAR.DATE.MAR,
+		"4": $.su.CHAR.DATE.APR,
+		"5": $.su.CHAR.DATE.MAY,
+		"6": $.su.CHAR.DATE.JUN,
+		"7": $.su.CHAR.DATE.JUL,
+		"8": $.su.CHAR.DATE.AUG,
+		"9": $.su.CHAR.DATE.SEP,
+		"10": $.su.CHAR.DATE.OCT,
+		"11": $.su.CHAR.DATE.NOV,
+		"12": $.su.CHAR.DATE.DEC
+	};
+
+	var timeSystem = 0;
+	var showSysTime = function(e, input, msg){
+		clearInterval(timeSystem);
+		var timeFormat = function(date){
+			var d = "";
+			var dd = date.date.split("/");
+			var m = parseInt(dd[0], 10);
+			var dt = parseInt(dd[1], 10);
+			var y = dd[2];
+
+			d += weekObj[date.day.toLowerCase()] + " ";
+			d += (dayObj[dt] || dt + $.su.CHAR.ORDER.TH) + " ";
+			d += monthObj[m] + " ";
+			d += y + " ";
+			d += date.time + " ";
+			d += timeZoneObj[date.timezone];
+
+
+			var inHTML = 	"<span class=\"label\">"+$.su.CHAR.PARENTAL_CTR.SYSTEM_TIME+":"+"</span>";
+				inHTML +=	"<span>";
+				inHTML += 	d;
+				inHTML += 	"</span>";
+			return inHTML;
+		};
+
+		timeSettingProxy.read({}, function(data){
+			if (data){
+				var d = {
+					date: data.date,
+					day: data.day,
+					time: data.time,
+					timezone: data.timezone
+				};
+
+				var t = timeFormat(d);
+				msg.msg("setTitle", t);
+
+				timeSystem = setInterval(function(){
+					var t = d.time.split(":");
+					d.time = t[0] + ":" + t[1] + ":" + (parseInt(t[2], 10) + 1);
+					var t = timeFormat(d);
+					msg.msg("setTitle", t);
+				}, 1*1000);
+			};
+		});
+	};
+
+	var stopSysTime = function(){
+		clearInterval(timeSystem);
+	};
+
+	$("input#access_calendar").timepicker({
+		fieldLabel: $.su.CHAR.BASIC_PARENTAL_CTR.TIME,
+		cls: 'time-settings'
+	}).on("ev_beforeshow", showSysTime).on("ev_close", stopSysTime);
+
+	$("input#device_description").textbox({
+		fieldLabel: $.su.CHAR.BASIC_PARENTAL_CTR.DESCRIPTION,
+		//cls: 'inline',
+        vtype:"string_visible_allow_blank",
+        maxLength:32,
+		allowBlank:true,
+		tipsCls:"s",
+		tips:$.su.CHAR.BASIC_PARENTAL_CTR.OPTIONAL
+	});
+
+	$("input#entry_enable").checkbox({
+		fieldLabel:"",
+		defaultValue:"on",
+		items: [
+			{boxlabel: $.su.CHAR.BASIC_PARENTAL_CTR.ENABLE, uncheckedValue:"off", inputValue: "on", id: "chk_enable", checked:true}
+		]
+	});
+
+	$("#device_view").button({
+		text: $.su.CHAR.BASIC_PARENTAL_CTR.BTN_VIEW,
+		// cls: 'button-pop ml5',
+		cls: 'inline-block ml5',
+		handler:function(){
+			//$("div#device_result").grid("getStore").load();
+			$("div#device_survey").msg("show");
+			//result_store.loadData(virtualServer);
+			result_store.load();
+		}
+	});
+
+	var existingService = $("div#device_survey").msg({
+		autoshow:false,
+		title:$.su.CHAR.BASIC_PARENTAL_CTR.ACCESS_DEVICES_LIST,
+		type: "window"
+	});
+
+	
+
+	// $("div#device_survey").css("top", ($(window).height()-$("div#device_survey").height()-76)/2);
+	// $("div#device_survey").css("left", ($(window).width()-$("div#device_survey").width()-100)/2 );
+
+	// $("#device_title").html($.su.CHAR.PARENTAL_CTR.ACCESS_DEVICES_LIST);
+
+	var blackOnlineProxy = new $.su.Proxy({
+		url: URL_ONLINE_BLACK
+	});
+
+	var result_store = new $.su.Store({
+		proxy: blackOnlineProxy,//ACCESS_CTR的json文件；
+		fields: [
+			{name: "name"},
+		 	{name: "ipaddr"},
+		 	{name: "mac"}
+		],
+		autoLoad: false
+	});
+
+	var result_grid = $("div#device_result").grid({
+		store: result_store,
+		maxLines:5,
+		paging: {},
+		columns: [
+					{
+						text: $.su.CHAR.ACCESS_CTR.ID, 
+						xtype: "rownumberer",
+						width:40
+					},
+					{
+						text: $.su.CHAR.ACCESS_CTR.NAME, 
+						width:150,
+						dataIndex: "name"
+					},
+					{
+						text: $.su.CHAR.ACCESS_CTR.IP_ADDRESS, 
+						width:150,
+						dataIndex: "ipaddr"
+					},
+					{
+						text: $.su.CHAR.ACCESS_CTR.MAC_ADDRESS, 
+						width:170,
+						dataIndex: "mac"
+					},
+					{
+						text: $.su.CHAR.GRID.OPERATION, 
+						//width:100,
+						renderer:function(data, index){
+							//console.log(arguments);
+							return "<a href=\"javascript:void(0);\" data-index=\""+index+"\" class=\"choose-existing-service choose\" >"+$.su.CHAR.OPERATION.CHOOSE+"</a>"
+						}
+					}
+				]
+	});
+
+	$(result_grid).delegate("a.choose-existing-service", "click", function(e){
+		e.preventDefault();
+		var store = result_grid.grid("getStore"),
+			index = $(this).attr("data-index"),
+			data = store.data[index] || undefined;
+
+		if (data){
+			/*var editor = o.grid("getEditor");
+			$(editor).form("loadData", data);*/
+			$("input#device_name").textbox("setValue", data["name"]);
+			$("input#mac_addr").textbox("setValue", data["mac"]);
+			//console.log([data["protocol"]]);
+		};
+	
+		existingService.msg("close");
+    });
+	
+	
+	var parentalProxy = new $.su.Proxy({
+		url: URL_PARENTAL
+	});
+
+	$("input#enable_parental").switchbutton({
+		fieldLabel: $.su.CHAR.BASIC_PARENTAL_CTR.STATUS,
+		proxy: parentalProxy,
+		labelCls: 'l',
+		cls:"form-inner",
+		field: {
+			"name": "enable"
+		}
+	}).on("ev_loadData", function(e, data){
+		host_mac = data.host_mac; 
+		
+	});
+
+
+	$("div#under_parental").panel({
+		title: $.su.CHAR.BASIC_PARENTAL_CTR.DEVICE_CTR,
+		collapsible: false
+	});
+
+
+	var parentalGridProxy = new $.su.Proxy({
+		url: URL_PARENTAL_GRID
+	});
+
+	var storeTest = new $.su.Store({
+		proxy: parentalGridProxy,
+		fields: [
+			{name: "name"},
+			{name: "mac"},
+			{name: "calendar"},
+			{name: "note"},
+			{name: "enable"}
+		],
+		autoLoad: true
+	});
+
+
+	var parentalGrid =  $("div#parentalGrid").grid({
+		store:storeTest,
+		minLines:0,
+		paging: {},
+		editor: {
+			content: "#own_editor",
+			validator:function(){
+				var store = parentalGrid.grid("getStore");
+					keyProperty = store.keyProperty;
+					grid_array = store.data;
+				var editor = $(parentalGrid.grid("getEditor"));
+				var edit_mac = editor.find("input[name=mac]").val();
+				if(host_mac.toUpperCase() == edit_mac.toUpperCase())
+				{
+					$(parentalGrid.grid("getEditor")).form("setError",$.su.CHAR.ERROR["00000064"]);
+					return false;
+				}
+				var len = grid_array.length;
+				if ($.isArray(grid_array) && len > 0) {
+					for(var k = 0; k < len; k++){
+
+						
+						if(editor[0].editing)
+						{
+							
+							if(grid_array[k].key == editor[0].editingId)
+						    {
+								continue;
+							}
+						}
+						var data = grid_array[k];
+						if (data["mac"].toUpperCase() == edit_mac.toUpperCase()) {
+							// $("input#personal-password-2g").textbox("setError",$.su.CHAR.WIRELESS.PSK_KEY_INVALID_TEXT);
+							$(parentalGrid.grid("getEditor")).form("setError",$.su.CHAR.ERROR["00000007"]);
+							//editor.find("input[name=mac]").textbox("setError",$.su.CHAR.ERROR["00000007"]);
+							return false;
+						}
+
+					}
+				}
+				return true;
+			},
+			fields: [
+				{name: "name"},
+				{name: "mac"},
+				{name: "calendar"},
+				{name: "note"},
+				{name: "enable"}
+			]
+		},
+		columns: [
+			{
+				xtype: "checkcolumn",
+				width: 32
+			},
+			{
+				text: $.su.CHAR.BASIC_PARENTAL_CTR.ID, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.BASIC_PARENTAL_CTR.DEVICE, 
+				width:100,
+				dataIndex: "name"
+			},
+
+			{
+				text: $.su.CHAR.BASIC_PARENTAL_CTR.MAC_ADDRESS, 
+				width:130,
+				dataIndex: "mac"
+			},
+			{
+				text: $.su.CHAR.BASIC_PARENTAL_CTR.TIME, 
+				width:100,
+				dataIndex: "calendar",
+				xtype: "actioncolumn",
+				items: [
+					{
+						xtype: "timepicker",
+						cls: "time-settings",
+						inputCls: "time-settings",
+						fieldLabel: null,
+						viewOnly: true
+					}
+				]
+			},
+			{
+				text: $.su.CHAR.BASIC_PARENTAL_CTR.DESCRIPTION, 
+				width:110,
+				dataIndex: "note",
+				renderer:function(val,index,data){
+					if(data["note"] == undefined)
+					{
+						return "";
+					}
+					else
+					{
+						return $.su.func.escapeHtml(val);
+					}
+				}
+			},
+			{
+				text: $.su.CHAR.BASIC_PARENTAL_CTR.STATUS, 
+				width:70,
+				dataIndex: "enable",
+				xtype:"statuscolumn"
+
+			},
+			{
+				xtype: "settings"
+			}
+		],
+		operation: "prompt|add|delete"
+	}).delegate("input.time-settings", "ev_beforeshow", showSysTime).delegate("input.time-settings", "ev_close", stopSysTime);;
+
+
+	var helpBasicParentalControl = new $.su.Help({
+			container: "div#help_basic_parental_control",
+			content: ["BASIC_PARENTAL_CONTROL", "BASIC_PARENTAL_DEVICE"]
+	});
+	
+});
+</script>
+</body>
+
+</html>

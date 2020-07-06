@@ -1,0 +1,13 @@
+Package: iwinfo
+Version: 36
+Depends: libiwinfo
+Provides: 
+Source: package/iwinfo
+Section: utils
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Jo-Philipp Wich <xm@subsignal.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 9082
+Description:  Command line frontend for the wireless information library.

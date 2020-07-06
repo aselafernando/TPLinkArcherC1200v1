@@ -1,0 +1,16 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：folder share页面中获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data": 
+	[
+			{ "port": "---", "key": 1, "edit": false, "enable": "on", "protocol": "Network Neighborhood", "link": "\u005c\u005cAkronite-Share" }, 
+{ "port": 21, "key": 2, "edit": false, "enable": "on", "protocol": "Ftp", "link": "ftp://192.168.1.3:21" }, 
+{ "port": "21", "key": 3, "edit": true, "enable": "off", "protocol": "Ftp (via Internet)", "link": "ftp://0.0.0.0:21" }
+	]	
+	
+}
+
+

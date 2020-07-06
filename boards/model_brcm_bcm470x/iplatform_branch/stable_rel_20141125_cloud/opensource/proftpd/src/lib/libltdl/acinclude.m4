@@ -1,0 +1,7 @@
+sinclude(m4/argz.m4)
+sinclude(m4/libtool.m4)
+sinclude(m4/ltversion.m4)
+sinclude(m4/ltsugar.m4)
+sinclude(m4/ltoptions.m4)
+sinclude(m4/ltdl.m4)
+sinclude(m4/lt~obsolete.m4)

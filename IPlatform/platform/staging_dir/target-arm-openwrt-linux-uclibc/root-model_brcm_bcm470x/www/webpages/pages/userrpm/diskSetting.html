@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+<style type="text/css">
+	a.act{
+		color: #78AF19;
+		margin-right: 10px;
+		text-decoration: underline;
+	}
+</style>
+</head>
+
+<body>
+<div class="func-container">
+	
+	<div id="disk">
+		<button id="scan_btn"></button><span id="scan_result"></span>
+		<div id="list_cnt" class="disk-grid-list">
+			
+		</div>
+	    <!-- <span id="k1_span" style="margin-right:30px;font-weight: bold;"></span>
+	    <button id="k1_btn" class="remove"></button>
+	 	<div id="disk1Grid">
+	     		
+		</div>
+		 <span id="k2_span" style="margin-right:30px;font-weight: bold;"></span>
+	    <button id="k2_btn" class="remove"></button>
+		<div id="disk2Grid">
+	     		
+		</div> -->
+		<!-- <span id="k2_span"></span>
+		<div id="disk2Grid">
+	     		
+		</div> -->
+	</div> 
+	<div id="help_disk_setting"></div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var cur_disk_num = 0;
+	var last_disk_num = -1;
+	
+	//var DISK_QUERY_URL_NEW = "./data/disk.query.json";
+	//var DISK_LIST_URL_NEW = "./data/disk.scan.json";
+	//var DISK_REMOVE_URL_NEW = "./data/disk.list.json";
+	//var DISK_SCAN_URL_NEW = "./data/disk.remove.json";
+	
+	
+
+
+	var DISK_QUERY_URL_NEW = $.su.url("/admin/disk_setting?form=metadata");
+	var DISK_LIST_URL_NEW = $.su.url("/admin/disk_setting?form=contents");
+	var DISK_REMOVE_URL_NEW = $.su.url("/admin/disk_setting?form=remove");
+	var DISK_SCAN_URL_NEW = $.su.url("/admin/disk_setting?form=scan");
+	$("div.func-container").page({
+		title: $.su.CHAR.DISK_SETTING.DISK_SET,
+		help: ""
+	});
+
+	$("div#disk").panel({
+		title: $.su.CHAR.DISK_SETTING.DISK_SET,
+		collapsible: false
+	});
+
+	// $("input#mode-2g").button({
+	// 	fieldLabel: $.su.CHAR.WIRELESS.MODE,
+	// 	text: $.su.CHAR.WIRELESS.UNITED_STATES,
+	// 	cls: 'button-pop',
+	// 	labelCls: "l"
+	// });
+	// var noipdnsStatus = $("input#no-ip-status").status({
+	// 	cls: "inline-block",
+	// 	proxy: {
+	// 		url: URL_NOIP
+	// 	}
+	// });
+
+	$("#scan_result").status({
+		cls: "inline-block",
+		textCls:"scan-result"
+	}).hide();
+
+	$("#scan_btn").button({
+		fieldLabel: null,
+		text: $.su.CHAR.DISK_SETTING.SCAN,
+		cls:"inline-block",
+		handler:function(){
+			// $("#scan_result").html($.su.CHAR.DISK_SETTING.SCANING);
+			$("#scan_result").status("setLoading",$.su.CHAR.DISK_SETTING.SCANING); 
+			$.ajax({
+					url:DISK_SCAN_URL_NEW, 
+					dataType:"json",
+					error:function(){
+						// console.log("error");
+						$("#scan_result").status("setFailed",$.su.CHAR.DISK_SETTING.NOT_FOUND); 
+						// console.log("1111");
+					},
+					success:function(data){
+						// console.dir(arguments);
+						if(typeof data.data == "undefined")
+						{
+							return;
+						}
+						cur_disk_num = data.data.number;
+						// if(data.data.number == 0)
+						// {
+						// 	$("#scan_result").status("setFailed",$.su.CHAR.DISK_SETTING.NOT_FOUND); 
+						// 	return;
+						// }
+						var result_str = $.su.CHAR.DISK_SETTING.SCAN_RESULT.replace("%n", cur_disk_num);
+						// //console.log(result_str);
+						$("#scan_result").status("setSuccess",result_str); 
+						// $("#scan_result").html(result_str);
+						render_list(data);
+					}
+			});
+			
+		}
+		// cls: 'button-pop'
+	});
+
+	function render_list(data)
+	{
+		if(typeof data.data == "undefined")
+		{
+			return;
+		}
+		var disk_info = [];
+		cur_disk_num = data.data.number;
+		var ret_disk_info  = data.data.list;
+		var len = ret_disk_info.length;
+		for (var i = 0; i < len; i++) {
+			disk_info.push(ret_disk_info[i]);
+		};
+		var span_id = "";
+		var span_str = "";
+		var grid_id = "";
+		var grid_str = "";
+		var unit_str = "";
+		var unit_id = "";
+		$("#list_cnt").html("");
+		if(last_disk_num == -1)
+		{
+			// //console.log(cur_disk_num);
+			for (var i = 0; i < cur_disk_num; i++) 
+			{
+				unit_id = "unit_cnt_" + i;
+				unit_str += "<div id="+unit_id+">";
+
+				span_id = "disk_title_" + i;
+				unit_str +=  "<span id="+span_id+"></span>";
+
+				grid_id = "disk_grid_" + i;
+				unit_str +=  "<div id="+grid_id+"></div>";
+
+				unit_str +=  "</div>";
+			}
+			$("#list_cnt").append(unit_str);
+
+			for (var i = 0; i < cur_disk_num; i++) 
+			{
+				span_id = "#disk_title_" + i;
+				// $(span_id).html(disk_info[i].name);
+				grid_id = "#disk_grid_" + i;
+				j = i;
+
+				var url = DISK_LIST_URL_NEW + "&" + "serial="  + disk_info[i].serial;
+				$(grid_id).grid({
+					store:{
+						proxy: {
+							url: url,
+							timeout: 12*1000
+						},
+						fields: [
+							{name: "volumn"},
+							{name: "capacity"},
+							{name: "free"},
+							{name: "enable"},
+							{name: "uuid"}
+						],
+						autoLoad: true
+					},
+					minLines:0,
+					columns: [
+						
+						{
+							text: "ID", 
+							xtype: "rownumberer",
+							width:80
+						},
+						{
+							text: $.su.CHAR.DISK_SETTING.VOLUMN, 
+							width:150,
+							dataIndex: "volumn"
+						},
+						{
+							text: $.su.CHAR.DISK_SETTING.CAPACITY, 
+							width:150,
+							dataIndex: "capacity"
+						},
+						{
+							text: $.su.CHAR.DISK_SETTING.FREESPACE, 
+							width:150,
+							dataIndex: "free"
+						},
+						{
+							text: $.su.CHAR.DISK_SETTING.ACTIVE, 
+							dataIndex: "enable",
+							name:"enable",
+							xtype: "statuscolumn"
+						}
+						
+					],
+					operation: [{xtype:"display", cls:"left disk-name", inputCls: "xxxl grid-display"},{xtype: "button", iconCls:"btn-safely-remove", serial:disk_info[i].serial, index: i, text: $.su.CHAR.DISK_SETTING.SELFLY_REMOVE, handler:function(){
+						var btn_obj = this;
+						$.post(DISK_REMOVE_URL_NEW, {"serial":this.serial}, function(data){
+							// //console.dir(btn_obj);
+							// //console.dir(data);
+							// //console.log(data.result);
+							if(data.result)
+							{
+								var index = btn_obj.index;
+								// //console.log(index);
+								unit_id = "#unit_cnt_" + index;
+								//$(unit_id).remove();
+								$.post(DISK_QUERY_URL_NEW, function(data){
+										render_list(data);
+								});
+								// $("#list_cnt").remove(unit_id);
+							}
+							else
+							{
+
+								var grid_id = "#disk_grid_" + btn_obj.index;
+								// //console.log(grid_id);
+								//$(grid_id).grid("getStore").load();
+								$.post(DISK_QUERY_URL_NEW, function(data){
+										render_list(data);
+								});
+							}
+							
+						});
+					}}]
+				});
+
+				var displayObj =  $(grid_id).grid("getDisplay");
+				if(displayObj)
+				{
+					displayObj.textbox("setValue",disk_info[i].name);
+				}
+				else
+				{
+					//console.log("error");
+				}
+				
+			}
+
+
+		}
+	}
+
+	$.post(DISK_QUERY_URL_NEW, function(data){
+		render_list(data);
+		// cur_disk_num = data.data.number;
+		// //console.log(cur_disk_num);
+		// var ret_disk_info  = data.data.list;
+		// var len = ret_disk_info.length;
+		// for (var i = 0; i < len; i++) {
+		// 	disk_info.push(ret_disk_info[i]);
+		// };
+		// var span_id = "";
+		// var span_str = "";
+		// var grid_id = "";
+		// var grid_str = "";
+		// var unit_str = "";
+		// var unit_id = "";
+		// $("#list_cnt").html("");
+		// if(last_disk_num == -1)
+		// {
+		// 	//console.log(cur_disk_num);
+		// 	for (var i = 0; i < cur_disk_num; i++) 
+		// 	{
+		// 		unit_id = "unit_cnt_" + i;
+		// 		unit_str += "<div id="+unit_id+">";
+
+		// 		span_id = "disk_title_" + i;
+		// 		unit_str +=  "<span id="+span_id+"></span>";
+
+		// 		grid_id = "disk_grid_" + i;
+		// 		unit_str +=  "<grid id="+grid_id+"></grid>";
+
+		// 		unit_str +=  "</div>";
+		// 	}
+		// 	$("#list_cnt").append(unit_str);
+
+		// 	for (var i = 0; i < cur_disk_num; i++) 
+		// 	{
+		// 		span_id = "#disk_title_" + i;
+		// 		$(span_id).html(disk_info[i].name);
+		// 		grid_id = "#disk_grid_" + i;
+		// 		j = i;
+
+		// 		var url = DISK_LIST_URL + "?" + "serial:"  + disk_info[i].serial;
+		// 		$(grid_id).grid({
+		// 			store:{
+		// 				proxy: {
+		// 					url: url
+		// 				},
+		// 				fields: [
+		// 					{name: "volumn"},
+		// 					{name: "capacity"},
+		// 					{name: "free"},
+		// 					{name: "enable"},
+		// 					// {name: "uuid"}
+		// 				],
+		// 				autoLoad: true
+		// 			},
+		// 			minLines:0,
+		// 			columns: [
+						
+		// 				{
+		// 					text: "ID", 
+		// 					xtype: "rownumberer",
+		// 					width:60
+		// 				},
+		// 				{
+		// 					text: $.su.CHAR.DISK_SETTING.VOLUMN, 
+		// 					width:120,
+		// 					dataIndex: "volumn"
+		// 				},
+		// 				{
+		// 					text: $.su.CHAR.DISK_SETTING.CAPACITY, 
+		// 					width:120,
+		// 					dataIndex: "capacity"
+		// 				},
+		// 				{
+		// 					text: $.su.CHAR.DISK_SETTING.FREESPACE, 
+		// 					width:120,
+		// 					dataIndex: "free"
+		// 				},
+		// 				{
+		// 					text: $.su.CHAR.DISK_SETTING.STATUS, 
+		// 					dataIndex: "enable",
+		// 					name:"enable",
+		// 					xtype: "statuscolumn"
+		// 				}
+						
+		// 			],
+		// 			operation: [{xtype: "button",  serial:disk_info[i].serial, text: $.su.CHAR.DISK_SETTING.SELFLY_REMOVE, handler:function(){
+		// 				$.post(DISK_LIST_URL, {"serial":this.serial}, function(data){});
+		// 			}}]
+		// 		});
+		// 	}
+
+
+
+		// }
+		var helpDiskSetting = new $.su.Help({
+			container: "div#help_disk_setting",
+			content: "DISK_SETTING"
+		});
+			
+	});
+   
+});
+</script>
+</body>
+
+</html>

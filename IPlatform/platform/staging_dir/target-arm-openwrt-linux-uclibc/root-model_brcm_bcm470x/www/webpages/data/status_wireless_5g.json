@@ -1,0 +1,12 @@
+{
+	"errCode": false,
+	"success": true,
+	"data":{
+		"wireless_5g_ssid": "wireless 2.4g",
+		"wireless_5g_enable": "On",
+		"wireless_5g_hwmode": "11bgn mixed", 
+		"wireless_5g_htmode": "Automatic",
+		"wireless_5g_channel": "Automatic",
+		"wireless_5g_macaddr": "00-11-22-33-44-55"
+	}
+}

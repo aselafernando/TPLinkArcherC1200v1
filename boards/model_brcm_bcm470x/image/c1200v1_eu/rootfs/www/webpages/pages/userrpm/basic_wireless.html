@@ -1,0 +1,1051 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Wireless</title>
+</head>
+
+<body>
+<div class="func_container">
+	<div id="wire_setting">
+    	<form id="wireless_setting">
+	    	<input type="text"  id="status_2g" name="wireless_2g_enable" value="" />
+	    	<input type="text"  id="network_name_2g" name="wireless_2g_ssid" value="" />
+	    	<input type="checkbox"  id="enable_ssid_2g" name="wireless_2g_hidden" value="" />
+	    	<input type="text" id="encry_password_2g" name="wireless_2g_encry_password" />
+
+	    	<input type="hidden" name="wireless_2g_psk_key" id="basic_wire_psk_key_2g" disabled="disabled" />
+
+	    	<input type="hidden" name="wireless_2g_wpa_key" id="basic_wire_wpa_key_2g" disabled="disabled" />
+
+	    	<input type="hidden" name="wireless_2g_encryption" id="wireless_2g_encryption" disabled="disabled"  />
+	    	<input type="hidden" name="wireless_2g_psk_version" id="wireless_2g_psk_version" disabled="disabled"  />
+	    	<input type="hidden" name="wireless_2g_psk_cipher" id="wireless_2g_psk_cipher" disabled="disabled"   />
+
+	    	<input type="hidden" id="wep_key1_2g" name="wireless_2g_wep_key1" disabled="disabled" />
+	    	<input type="hidden" id="wep_key2_2g" name="wireless_2g_wep_key2" disabled="disabled" />
+	    	<input type="hidden" id="wep_key3_2g" name="wireless_2g_wep_key3" disabled="disabled" />
+	    	<input type="hidden" id="wep_key4_2g" name="wireless_2g_wep_key4" disabled="disabled" />
+
+	   <!--  </form> -->
+
+		<!-- <form id="wireless_setting"> -->
+	    	<input type="text"  id="status_5g" name="wireless_5g_enable" value="" />
+	    	<input type="text"  id="network_name_5g" name="wireless_5g_ssid" value="" />
+	    	<input type="checkbox"  id="enable_ssid_5g" name="wireless_5g_hidden" value="" />
+	    	<input type="text" id="encry_password_5g" name="wireless_5g_encry_password"/>
+
+	    	<input type="hidden" name="wireless_5g_psk_key" id="basic_wire_psk_key_5g" disabled="disabled" />
+	    	<input type="hidden" name="wireless_5g_wpa_key" id="basic_wire_wpa_key_5g" disabled="disabled" />
+
+	    	<input type="hidden" name="wireless_5g_encryption" id="wireless_5g_encryption" disabled="disabled"  />
+	    	<input type="hidden" name="wireless_5g_psk_version" id="wireless_5g_psk_version" disabled="disabled"  />
+	    	<input type="hidden" name="wireless_5g_psk_cipher" id="wireless_5g_psk_cipher" disabled="disabled"   />
+
+	    	<input type="hidden" name="wireless_5g_wpa_key" id="basic_wire_wpa_key_5g" disabled="disabled" />
+
+	    	<input type="hidden" name="wireless_5g_encryption" id="wireless_5g_encryption" disabled="disabled"  />
+	    	<input type="hidden" name="wireless_5g_psk_version" id="wireless_5g_psk_version" disabled="disabled"  />
+	    	<input type="hidden" name="wireless_5g_psk_cipher" id="wireless_5g_psk_cipher" disabled="disabled"   />
+
+	    	<input type="hidden" id="wep_key1_5g" name="wireless_5g_wep_key1" disabled="disabled" />
+	    	<input type="hidden" id="wep_key2_5g" name="wireless_5g_wep_key2" disabled="disabled" />
+	    	<input type="hidden" id="wep_key3_5g" name="wireless_5g_wep_key3" disabled="disabled" />
+	    	<input type="hidden" id="wep_key4_5g" name="wireless_5g_wep_key4" disabled="disabled" />
+
+	    	<input type="hidden"  id="wireless_2g_disabled_all" name="wireless_2g_disabled_all" value="on"/>
+	    	<input type="hidden"  id="wireless_5g_disabled_all" name="wireless_5g_disabled_all" value="on"/>
+
+			<p class="note hidden">
+		    	<span class="title note-title"></span>
+		    	<span class="text" id="note_title_text"></span>
+		    </p>
+	    </form>
+
+	    <button id="total_save" type="button"></button> 
+		<p id="note" class="note"></p>
+
+		<div id="notice" class="wireless-confirm-msg">
+			<h4 class="title">
+				<span class="icon" ></span>
+				<span class="text text1" id="encryption_2g_notice"></span>
+				<span class="text text2" id="encryption_5g_notice"></span>
+				<span class="text text3" id="encryption_sure"></span>
+			</h4>
+		</div>
+	</div>
+
+	<div id="help_basic_wireless"></div>
+</div>
+
+<script type="text/javascript">
+
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var URL_WIRELESS_2G = "./data/wireless.24g.json";
+	var URL_WIRELESS_5G = "./data/wireless.5g.json";
+
+	var URL_WIRELESS_2G_5G = "./data/wireless.2g.5g.json";
+
+	var URL_REGION_NEW = $.su.url("/admin/wireless?form=region");
+	var regionProxy = new $.su.Proxy({
+		url: URL_REGION_NEW
+	});
+
+	var URL_WIRELESS_2G_NEW = $.su.url("/admin/wireless?form=wireless_2g");
+	var URL_WIRELESS_5G_NEW = $.su.url("/admin/wireless?form=wireless_5g");
+
+	var URL_WIRELESS_2G_5G_NEW = $.su.url("/admin/wireless?form=wireless_2g&form=wireless_5g");
+
+	var encryption_2g = "";
+	var encryption_5g = "";
+	var ssid_2g = "";
+	var ssid_5g = "";
+	var wep_select_2g    =  "";
+	var wep_select_5g    =  "";
+
+	var wep_format_2g    =  "";
+	var wep_format_5g    =  "";
+
+	var wep_type_2g    =  "";
+	var wep_type_5g    =  "";
+
+	var new_encryption_2g = "";
+	var new_encryption_5g = "";
+
+	var form2g5g_data = {};
+
+	var wireless_2g_disabled = "off";
+	var wireless_2g_disabled_all = "off";
+
+	var wireless_5g_disabled = "off";
+	var wireless_5g_disabled_all = "off";
+
+	var URL_WIRELESS_2G_NEW = $.su.url("/admin/wireless?form=wireless_2g");
+	var URL_WIRELESS_5G_NEW = $.su.url("/admin/wireless?form=wireless_5g");
+
+	$("span.note-title").text($.su.CHAR.OPERATION.NOTE);
+
+	$("div#wire_setting").panel({
+		title: $.su.CHAR.BASIC_WIRELESS.TITLE
+	});
+
+	$("input#status_2g").checkbox({
+		fieldLabel: $.su.CHAR.BASIC_WIRELESS.MODE_2G,
+		tips:"",
+		tipsCls:"s",
+		labelCls: "l",
+		items: [
+			{boxlabel: $.su.CHAR.BASIC_WIRELESS.ENABLE_WIRELESS, uncheckedValue:"off", inputValue: "on", id: "chk_enable_wireless_24g"}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		if(newValue.length == 0)
+		{
+			$("#wireless_2g_disabled_all").val("on");
+		}
+		else
+		{
+			$("#wireless_2g_disabled_all").val("off");
+		}
+	});
+
+	$("input#network_name_2g").textbox({
+		fieldLabel: $.su.CHAR.BASIC_WIRELESS.WIRELESS_NETWORK_NAME,
+		labelCls: "l",
+		vtype:"string_visible_allow_blank",
+		maxLength:32,
+		allowBlank:false,
+		autoTrim: false,
+		tipsCls:"after-checkbox l",
+		cls: 'inline'
+	});
+
+	$("input#enable_ssid_2g").checkbox({
+		fieldLabel: null,
+		cls: "inline-block",
+		items: [
+			{boxlabel: $.su.CHAR.BASIC_WIRELESS.HIDE_SSID,  uncheckedValue:"off", inputValue: "on", id: "chk_enable_ssid_broadcast_2g"}
+		]
+	});
+
+	$("input#encry_password_2g").textbox({
+		fieldLabel: $.su.CHAR.BASIC_WIRELESS.WIRELESS_PASSWORD,
+		labelCls: "l",
+		autoTrim:false,
+		maxLength:64
+	});
+
+	$("input#status_5g").checkbox({
+		fieldLabel: $.su.CHAR.BASIC_WIRELESS.MODE_5G,
+		labelCls: "l",
+		tips:"",
+		tipsCls:"s",
+		cls:"part-separate",
+		items: [
+			{boxlabel: $.su.CHAR.BASIC_WIRELESS.ENABLE_WIRELESS, uncheckedValue:"off", inputValue: "on", id: "chk_enable_wireless_24g"}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		if(newValue.length == 0)
+		{
+			$("#wireless_5g_disabled_all").val("on");
+		}
+		else
+		{
+			$("#wireless_5g_disabled_all").val("off");
+		}
+	});
+
+	$("input#network_name_5g").textbox({
+		fieldLabel: $.su.CHAR.BASIC_WIRELESS.WIRELESS_NETWORK_NAME,
+		labelCls: "l",
+		vtype:"string_visible_allow_blank",
+		maxLength:32,
+		allowBlank:false,
+		autoTrim:false,
+		tipsCls:"after-checkbox l",
+		cls: 'inline'
+	});
+
+	$("input#enable_ssid_5g").checkbox({
+		fieldLabel: null,
+		cls: "inline-block",
+		items: [
+			{boxlabel: $.su.CHAR.BASIC_WIRELESS.HIDE_SSID,  uncheckedValue:"off", inputValue: "on", id: "chk_enable_ssid_broadcast_5g"}
+		]
+	});
+
+	$("input#encry_password_5g").textbox({
+		fieldLabel: $.su.CHAR.BASIC_WIRELESS.WIRELESS_PASSWORD,
+		labelCls: "l",
+		autoTrim:false,
+		maxLength: 64
+	});
+
+// form 
+	var validator_fun = function(){
+		var val = $("input#encry_password_2g").textbox("getValue");
+			if(val == "")
+			{
+				$("#basic_wire_psk_key_2g").prop("disabled",true);
+				$("#basic_wire_wpa_key_2g").prop("disabled",true);
+
+				$("#wireless_2g_psk_version").prop("disabled",true);
+				$("#wireless_2g_psk_cipher").prop("disabled",true);
+
+				$("#wep_key1_2g").prop("disabled",true);
+				$("#wep_key2_2g").prop("disabled",true);
+				$("#wep_key3_2g").prop("disabled",true);
+				$("#wep_key4_2g").prop("disabled",true);
+
+				$("#wireless_2g_encryption").prop("disabled",false);
+				$("#wireless_2g_encryption").val("none");
+				new_encryption_2g = "none";
+			}
+			else
+			{
+				var encryption = encryption_2g;
+				if( encryption == "none")
+				{
+					var val = $("input#encry_password_2g").textbox("getValue");
+					if(val == "")
+					{
+						$("#wireless_2g_encryption").val("");
+						$("#wireless_2g_psk_version").val("");
+						$("#wireless_2g_psk_cipher").val("");
+						$("#basic_wire_psk_key_2g").val("");
+
+						$("#wireless_2g_encryption").prop("disabled",true);
+						$("#wireless_2g_psk_version").prop("disabled",true);
+						$("#wireless_2g_psk_cipher").prop("disabled",true);
+						$("#basic_wire_psk_key_2g").prop("disabled",true);
+						new_encryption_2g = "none";
+					}
+					else
+					{
+						var reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{8,63}|[0-9a-fA-F]{8,64})$/;
+						if(reg.test(val))
+						{
+							//return true;
+						}
+						else
+						{
+							$("input#encry_password_2g").textbox("setError",$.su.CHAR.ERROR["00000066"]);
+							return false;
+						}
+
+						$("#wireless_2g_encryption").val("psk");
+						$("#wireless_2g_psk_version").val("rsn");
+						$("#wireless_2g_psk_cipher").val("aes");
+						$("#basic_wire_psk_key_2g").val(val);
+
+						$("#wireless_2g_encryption").prop("disabled",false);
+						$("#wireless_2g_psk_version").prop("disabled",false);
+						$("#wireless_2g_psk_cipher").prop("disabled",false);
+						$("#basic_wire_psk_key_2g").prop("disabled",false);
+						new_encryption_2g = "psk";
+					}
+				}
+				if( encryption == "wpa" )
+				{
+					var val = $("input#encry_password_2g").textbox("getValue");
+					var reg = /^[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{1,64}$/;
+					if(reg.test(val))
+					{
+						//return true;
+					}
+					else
+					{
+						$("input#encry_password_2g").textbox("setError",$.su.CHAR.ERROR["00000073"]);
+						return false;
+					}
+
+					$("#basic_wire_wpa_key_2g").val(val);
+					new_encryption_2g = "wpa";
+				}
+				if(encryption == "psk")
+				{
+					
+					var val = $("input#encry_password_2g").textbox("getValue");
+					var reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{8,63}|[0-9a-fA-F]{8,64})$/;
+					if(reg.test(val))
+					{
+						//return true;
+					}
+					else
+					{
+						$("input#encry_password_2g").textbox("setError",$.su.CHAR.ERROR["00000066"]);
+						return false;
+					}
+					new_encryption_2g = "psk";
+				}
+				if(encryption == "wep")
+				{
+					var keyIndex = wep_select_2g;
+					var format = wep_format_2g;
+					var type = wep_type_2g;
+					var key = $("input#encry_password_2g").textbox("getValue");
+				
+					var asc_64_reg = /^[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{5}$/;
+					var asc_128_reg = /^[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{13}$/;
+					var asc_152_reg = /^[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{16}$/;
+
+					var hex_64_reg = /^[0-9a-fA-F]{10}$/;
+					var hex_128_reg = /^[0-9a-fA-F]{26}$/;
+					var hex_152_reg = /^[0-9a-fA-F]{32}$/;
+
+					if(format == "asic")
+					{
+						if(type == 64)
+						{
+							if(asc_64_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_2g").textbox("setError",$.su.CHAR.ERROR["00000068"]);
+								return false;
+							}
+						}
+						else if(type == 128)
+						{
+							if(asc_128_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_2g").textbox("setError",$.su.CHAR.ERROR["00000070"]);
+								return false;
+							}
+						}
+						else
+						{
+							if(asc_152_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_2g").textbox("setError",$.su.CHAR.ERROR["00000072"]);
+								return false;
+							}
+						}
+					}
+					else
+					{
+						if(type == 64)
+						{
+							if(hex_64_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_2g").textbox("setError",$.su.CHAR.ERROR["00000067"]);
+								return false;
+							}
+						}
+						else if(type == 128)
+						{
+							if(hex_128_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_2g").textbox("setError",$.su.CHAR.ERROR["00000069"]);
+								return false;
+							}
+						}
+						else
+						{
+							if(hex_152_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_2g").textbox("setError",$.su.CHAR.ERROR["00000071"]);
+								return false;
+							}
+						}
+					}
+					new_encryption_2g = "wep";
+				}
+			}
+
+			var val = $("input#encry_password_5g").textbox("getValue");
+			if(val == "")
+			{
+				$("#basic_wire_psk_key_5g").prop("disabled",true);
+				$("#basic_wire_wpa_key_5g").prop("disabled",true);
+
+				$("#wireless_5g_psk_version").prop("disabled",true);
+				$("#wireless_5g_psk_cipher").prop("disabled",true);
+
+				$("#wep_key1_5g").prop("disabled",true);
+				$("#wep_key2_5g").prop("disabled",true);
+				$("#wep_key3_5g").prop("disabled",true);
+				$("#wep_key4_5g").prop("disabled",true);
+
+				$("#wireless_5g_encryption").prop("disabled",false);
+				$("#wireless_5g_encryption").val("none");
+				new_encryption_5g = "none";
+			}
+			else
+			{
+				var encryption = encryption_5g;
+				if( encryption == "none")
+				{
+					var val = $("input#encry_password_5g").textbox("getValue");
+					if(val == "")
+					{
+						$("#wireless_5g_encryption").val("");
+						$("#wireless_5g_psk_version").val("");
+						$("#wireless_5g_psk_cipher").val("");
+						$("#wireless_5g_psk_key").val("");
+
+						$("#wireless_5g_encryption").prop("disabled",true);
+						$("#wireless_5g_psk_version").prop("disabled",true);
+						$("#wireless_5g_psk_cipher").prop("disabled",true);
+						$("#basic_wire_psk_key_5g").prop("disabled",true);
+
+						new_encryption_5g = "none";
+					}
+					else
+					{
+						var reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{8,63}|[0-9a-fA-F]{8,64})$/;
+						if(reg.test(val))
+						{
+							//return true;
+						}
+						else
+						{
+							$("input#encry_password_5g").textbox("setError",$.su.CHAR.ERROR["00000066"]);
+							return false;
+						}
+
+						$("#wireless_5g_encryption").val("psk");
+						$("#wireless_5g_psk_version").val("rsn");
+						$("#wireless_5g_psk_cipher").val("aes");
+						$("#basic_wire_psk_key_5g").val(val);
+
+						$("#wireless_5g_encryption").prop("disabled",false);
+						$("#wireless_5g_psk_version").prop("disabled",false);
+						$("#wireless_5g_psk_cipher").prop("disabled",false);
+						$("#basic_wire_psk_key_5g").prop("disabled",false);
+						new_encryption_5g = "psk";
+					}
+				}
+				if( encryption == "wpa")
+				{
+					var val = $("input#encry_password_5g").textbox("getValue");
+					var reg = /^[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{1,64}$/;
+					if(reg.test(val))
+					{
+						// return true;
+					}
+					else
+					{
+						$("input#encry_password_5g").textbox("setError",$.su.CHAR.ERROR["00000073"]);
+						return false;
+					}
+
+					$("#basic_wire_wpa_key_5g").val(val);
+					new_encryption_5g = "wpa";
+				}
+				if(encryption == "psk")
+				{
+					var val = $("input#encry_password_5g").textbox("getValue");
+					var reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{8,63}|[0-9a-fA-F]{8,64})$/;
+					if(reg.test(val))
+					{
+						// return true;
+					}
+					else
+					{
+						$("input#encry_password_5g").textbox("setError",$.su.CHAR.ERROR["00000066"]);
+						return false;
+					}
+					new_encryption_5g = "psk";
+				}
+				if(encryption == "wep")
+				{
+					var keyIndex = wep_select_5g;
+					var format = wep_format_5g;
+					var type = wep_type_5g;
+					var key = $("input#encry_password_5g").textbox("getValue");
+				
+					var asc_64_reg = /^[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{5}$/;
+					var asc_128_reg = /^[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{13}$/;
+					var asc_152_reg = /^[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{16}$/;
+					
+
+					var hex_64_reg = /^[0-9a-fA-F]{10}$/;
+					var hex_128_reg = /^[0-9a-fA-F]{26}$/;
+					var hex_152_reg = /^[0-9a-fA-F]{32}$/;
+
+					if(format == "asic")
+					{
+						if(type == 64)
+						{
+							if(asc_64_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_5g").textbox("setError",$.su.CHAR.ERROR["00000068"]);
+								return false;
+							}
+						}
+						else if(type == 128)
+						{
+							if(asc_128_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_5g").textbox("setError",$.su.CHAR.ERROR["00000070"]);
+								return false;
+							}
+						}
+						else
+						{
+							if(asc_152_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_5g").textbox("setError",$.su.CHAR.ERROR["00000072"]);
+								return false;
+							}
+						}
+					}
+					else
+					{
+						if(type == 64)
+						{
+							if(hex_64_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_5g").textbox("setError",$.su.CHAR.ERROR["00000067"]);
+								return false;
+							}
+						}
+						else if(type == 128)
+						{
+							if(hex_128_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_5g").textbox("setError",$.su.CHAR.ERROR["00000069"]);
+								return false;
+							}
+						}
+						else
+						{
+							if(hex_152_reg.test(key))
+							{
+								// return true;
+							}
+							else
+							{
+								$("input#encry_password_5g").textbox("setError",$.su.CHAR.ERROR["00000071"]);
+								return false;
+							}
+						}
+					}
+					new_encryption_5g = "wep";
+					
+				}
+			}
+
+			//弹框提示
+			return true;
+   }
+
+	var form2g5g_prepare_func = function(){
+		$("#note").html("");
+		if(encryption_2g == "none")
+		{
+			$("#note").html($.su.CHAR.BASIC_WIRELESS.NOTE);
+
+			$("#basic_wire_psk_key_2g").prop("disabled",false);
+
+			$("#basic_wire_wpa_key_2g").prop("disabled",true);
+
+			$("#wireless_2g_encryption").prop("disabled",false);
+			$("#wireless_2g_psk_version").prop("disabled",false);
+			$("#wireless_2g_psk_cipher").prop("disabled",false);
+
+			$("#wep_key1_2g").prop("disabled",true);
+			$("#wep_key2_2g").prop("disabled",true);
+			$("#wep_key3_2g").prop("disabled",true);
+			$("#wep_key4_2g").prop("disabled",true);
+		}
+		if(encryption_2g == "psk")
+		{
+			$("#basic_wire_psk_key_2g").prop("disabled",false);
+
+			$("#basic_wire_wpa_key_2g").prop("disabled",true);
+
+			$("#wireless_2g_encryption").prop("disabled",true);
+			$("#wireless_2g_psk_version").prop("disabled",true);
+			$("#wireless_2g_psk_cipher").prop("disabled",true);
+
+			$("#wep_key1_2g").prop("disabled",true);
+			$("#wep_key2_2g").prop("disabled",true);
+			$("#wep_key3_2g").prop("disabled",true);
+			$("#wep_key4_2g").prop("disabled",true);
+		}
+		if(encryption_2g == "wpa")
+		{
+			$("#basic_wire_psk_key_2g").prop("disabled",true);
+
+			$("#basic_wire_wpa_key_2g").prop("disabled",false);
+
+			$("#wireless_2g_encryption").prop("disabled",true);
+			$("#wireless_2g_psk_version").prop("disabled",true);
+			$("#wireless_2g_psk_cipher").prop("disabled",true);
+
+			$("#wep_key1_2g").prop("disabled",true);
+			$("#wep_key2_2g").prop("disabled",true);
+			$("#wep_key3_2g").prop("disabled",true);
+			$("#wep_key4_2g").prop("disabled",true);
+		}
+		if(encryption_2g == "wep")
+		{
+			var index = form2g5g_data.wireless_2g_wep_select;
+
+			$("#basic_wire_wpa_key_2g").prop("disabled",true);
+
+			$("#wireless_2g_encryption").prop("disabled",true);
+			$("#wireless_2g_psk_version").prop("disabled",true);
+			$("#wireless_2g_psk_cipher").prop("disabled",true);
+
+			$("#basic_wire_psk_key_2g").prop("disabled",true);
+			for(var i = 1; i <= 4; i++)
+			{
+				var temp_id = "#wep_key" + i + "_2g";
+				if(index == i)
+				{
+					$(temp_id).prop("disabled",false);
+				}
+				else
+				{
+					$(temp_id).prop("disabled",true);
+				}
+			}
+		}
+
+		if(encryption_5g == "none")
+		{
+			$("#note").html($.su.CHAR.BASIC_WIRELESS.NOTE);
+
+			$("#basic_wire_psk_key_5g").prop("disabled",false);
+			$("#wep_key1_5g").prop("disabled",true);
+			$("#wep_key2_5g").prop("disabled",true);
+			$("#wep_key3_5g").prop("disabled",true);
+			$("#wep_key4_5g").prop("disabled",true);
+
+			$("#basic_wire_wpa_key_5g").prop("disabled",true);
+
+			$("#wireless_5g_encryption").prop("disabled",false);
+			$("#wireless_5g_psk_version").prop("disabled",false);
+			$("#wireless_5g_psk_cipher").prop("disabled",false);
+
+			$("#wireless_5g_encryption").val("psk");
+			$("#wireless_5g_psk_version").val("auto");
+			$("#wireless_5g_psk_cipher").val("auto");
+		}
+		if(encryption_5g == "psk")
+		{
+			$("#wireless_5g_encryption").prop("disabled",true);
+			$("#wireless_5g_psk_version").prop("disabled",true);
+			$("#wireless_5g_psk_key").prop("disabled",true);
+
+			$("#basic_wire_wpa_key_5g").prop("disabled",true);
+
+			$("#basic_wire_psk_key_5g").prop("disabled",false);
+			$("#wep_key1_5g").prop("disabled",true);
+			$("#wep_key2_5g").prop("disabled",true);
+			$("#wep_key3_5g").prop("disabled",true);
+			$("#wep_key4_5g").prop("disabled",true);
+		}
+		if(encryption_5g == "wpa")
+		{
+			$("#wireless_5g_encryption").prop("disabled",true);
+			$("#wireless_5g_psk_version").prop("disabled",true);
+			$("#wireless_5g_psk_key").prop("disabled",true);
+
+			$("#basic_wire_wpa_key_5g").prop("disabled",false);
+
+			$("#basic_wire_psk_key_5g").prop("disabled",true);
+			$("#wep_key1_5g").prop("disabled",true);
+			$("#wep_key2_5g").prop("disabled",true);
+			$("#wep_key3_5g").prop("disabled",true);
+			$("#wep_key4_5g").prop("disabled",true);
+		}
+		if(encryption_5g == "wep")
+		{
+			var index = form2g5g_data.wireless_5g_wep_select;
+
+			$("#wireless_5g_encryption").prop("disabled",true);
+			$("#wireless_5g_psk_version").prop("disabled",true);
+			$("#wireless_5g_psk_key").prop("disabled",true);
+
+			$("#basic_wire_wpa_key_5g").prop("disabled",true);
+
+			$("#basic_wire_psk_key_5g").prop("disabled",true);
+			for(var i = 1; i <= 4; i++)
+			{
+				var temp_id = "#wep_key" + i + "_5g";
+				if(index == i)
+				{
+					$(temp_id).prop("disabled",false);
+				}
+				else
+				{
+					$(temp_id).prop("disabled",true);
+				}
+			}
+		}
+	}
+
+	var wireless2gProxy = new $.su.Proxy({
+		url: URL_WIRELESS_2G_5G_NEW
+	});
+
+	var wirelessSettingForm = $("form#wireless_setting").form({
+		proxy: wireless2gProxy,
+		fields: [
+			{name: "wireless_2g_enable", mapping: "wireless_2g_enable"},
+			{name: "wireless_2g_ssid", mapping: "wireless_2g_ssid"},
+			{name: "wireless_2g_hidden", mapping: "wireless_2g_hidden"},
+			{name: "wireless_5g_enable", mapping: "wireless_5g_enable"},
+			{name: "wireless_5g_ssid", mapping: "wireless_5g_ssid"},
+			{name: "wireless_5g_hidden", mapping: "wireless_5g_hidden"}
+		],
+		autoLoad:true,
+		submitBtn: "#total_save"
+	}).on("ev_loadData", function(e,data){
+		form2g5g_data = data;
+		encryption_2g = data.wireless_2g_encryption;
+		ssid_2g = data.wireless_2g_ssid;
+		wep_select_2g = data.wireless_2g_wep_select;
+		wep_format_2g = data["wireless_2g_wep_format"+wep_select_2g];
+		wep_type_2g   = data["wireless_2g_wep_type"+wep_select_2g];
+
+		var str = "";
+
+		if(data.wireless_2g_enable == "on")
+		{
+			$("#wireless_2g_disabled_all").val("off");
+		}
+		else
+		{
+			$("#wireless_2g_disabled_all").val("on");
+		}
+
+		if(data.wireless_5g_enable == "on")
+		{
+			$("#wireless_5g_disabled_all").val("off");
+		}
+		else
+		{
+			$("#wireless_5g_disabled_all").val("on");
+		}
+
+		if(data.wireless_2g_disabled == "on")
+		{
+			$("input#status_2g").checkbox("disable");
+			$("input#network_name_2g").textbox("disable");
+			$("input#enable_ssid_2g").checkbox("disable");
+			$("input#encry_password_2g").textbox("disable");
+			str += $.su.CHAR.ERROR["00000101"];
+		}
+		else
+		{
+			$("input#status_2g").checkbox("enable");
+			$("input#network_name_2g").textbox("enable");
+			$("input#enable_ssid_2g").checkbox("enable");
+			$("input#encry_password_2g").textbox("enable");		
+		}
+
+		if(data.wireless_5g_disabled == "on")
+		{
+			$("input#status_5g").checkbox("disable");
+			$("input#network_name_5g").textbox("disable");
+			$("input#enable_ssid_5g").checkbox("disable");
+			$("input#encry_password_5g").textbox("disable");
+			str += $.su.CHAR.ERROR["00000102"];
+		}
+		else
+		{
+			$("input#status_5g").checkbox("enable");
+			$("input#network_name_5g").textbox("enable");
+			$("input#enable_ssid_5g").checkbox("enable");
+			$("input#encry_password_5g").textbox("enable");
+		}
+
+		regionProxy.read({}, function(data){
+			var channel_5g = data.capability.channel_5g;
+			if($.isEmptyObject(channel_5g))
+			{
+				$("input#status_5g").checkbox("disable");
+				$("input#network_name_5g").textbox("disable");
+				$("input#enable_ssid_5g").checkbox("disable");
+				$("input#encry_password_5g").textbox("disable");
+				str += $.su.CHAR.ERROR["00000100"];
+				$("#note_title_text").html(str);
+				if(str == "")
+				{
+					$(".notice").addClass("hidden");
+				}
+				else
+				{
+					$(".notice").removeClass("hidden");
+				}
+			}
+		});
+
+		$("#note_title_text").html(str);
+		if(str == "")
+		{
+			$(".notice").addClass("hidden");
+		}
+		else
+		{
+			$(".notice").removeClass("hidden");
+		}
+
+		$("#basic_wire_psk_key_2g").val(data.wireless_2g_psk_key);
+
+		$("#wep_key1_2g").val(data.wireless_2g_wep_key1);
+		$("#wep_key2_2g").val(data.wireless_2g_wep_key2);
+		$("#wep_key3_2g").val(data.wireless_2g_wep_key3);
+		$("#wep_key4_2g").val(data.wireless_2g_wep_key4);
+		switch(encryption_2g){
+			case 'psk':
+				$("input#encry_password_2g").textbox("setValue", data.wireless_2g_psk_key);
+				break;
+			case 'wpa':
+				$("input#encry_password_2g").textbox("setValue", data.wireless_2g_wpa_key);
+				break;
+			case 'wep':
+				var index = data.wireless_2g_wep_select;
+				var id = "wireless_2g_wep_key" + index;
+				$("input#encry_password_2g").textbox("setValue", data[id]);
+				break;
+			default:;
+		}
+
+		encryption_5g = data.wireless_5g_encryption;
+		ssid_5g = data.wireless_5g_ssid;
+		wep_select_5g = data.wireless_5g_wep_select;
+		wep_format_5g = data["wireless_5g_wep_format"+wep_select_5g];
+		wep_type_5g   = data["wireless_5g_wep_type"+wep_select_5g];
+
+		$("#basic_wire_psk_key_5g").val(data.wireless_5g_psk_key);
+
+		$("#wep_key1_5g").val(data.wireless_5g_wep_key1);
+		$("#wep_key2_5g").val(data.wireless_5g_wep_key2);
+		$("#wep_key3_5g").val(data.wireless_5g_wep_key3);
+		$("#wep_key4_5g").val(data.wireless_5g_wep_key4);
+
+		switch(encryption_5g){
+			case 'psk':
+				$("input#encry_password_5g").textbox("setValue", form2g5g_data.wireless_5g_psk_key);
+				break;
+			case 'wpa':
+				$("input#encry_password_5g").textbox("setValue", form2g5g_data.wireless_5g_wpa_key);
+				break;
+			case 'wep':
+				var index = data.wireless_5g_wep_select;
+				var id = "wireless_5g_wep_key" + index;
+				$("input#encry_password_5g").textbox("setValue", data[id]);
+				break;
+			default:;
+		}
+		form2g5g_prepare_func();
+	});
+
+ 	$("#encryption_2g_notice").html($.su.CHAR.BASIC_WIRELESS.ENCRYPTION_2G_NOTICE);
+ 	$("#encryption_5g_notice").html($.su.CHAR.BASIC_WIRELESS.ENCRYPTION_5G_NOTICE);
+ 	$("#encryption_sure").html($.su.CHAR.BASIC_WIRELESS.ENCRYPTION_SURE);
+
+	var msg = $("div#notice").msg({
+			closeBtn: false,
+			type: "confirm",
+			cls:"m warning",
+			okHandler: function(){
+				$("form#wireless_setting").form('submit');
+			},
+			noHandler:function(){
+				form2g5g_prepare_func();
+				$("#wireless_2g_encryption").val(encryption_2g);
+				$("#wireless_5g_encryption").val(encryption_5g);
+				return;
+			}
+	});
+
+	$("#total_save").button({
+		text: $.su.CHAR.BASIC_WIRELESS.SAVE,
+		cls:"submit",
+		handler:function(){
+			switch(encryption_2g)
+			{
+				case "none":
+					break;
+				case "psk":
+						$("#wireless_setting input[name='wireless_2g_psk_key']").val($("#encry_password_2g").textbox("getValue"));
+					break;
+				case "wpa":
+						// $("#wireless_setting input[name='wireless_2g_wpa_key']").val($("#encry_password_2g").textbox("getValue"));
+					break;
+				case "wep":
+						var id = "#wep_key" + wep_select_2g + "_2g";
+ 						$(id).val($("#encry_password_2g").textbox("getValue"));
+					break;
+			};
+			switch(encryption_5g)
+			{
+				case "none":
+					break;
+				case "psk":
+						$("#wireless_setting input[name='wireless_5g_psk_key']").val($("#encry_password_5g").textbox("getValue"));
+					break;
+				case "wpa":
+						// $("#wireless_setting input[name='wireless_5g_wpa_key']").val($("#encry_password_5g").textbox("getValue"));
+					break;
+				case "wep":
+						var id = "#wep_key" + wep_select_5g + "_5g";
+ 						$(id).val($("#encry_password_5g").textbox("getValue"));
+					break;
+			};
+			if($("#wireless_setting").form("validate")&&validator_fun())
+			{
+				var text = "";
+				$("#encryption_2g_notice").css({"display":"block"});
+				$("#encryption_5g_notice").css({"display":"block"});
+                switch (new_encryption_2g){
+                    case "wep":
+                        text = $.su.CHAR.WIRELESS.WEP;
+                        $("#encryption_2g_notice").html($.su.CHAR.BASIC_WIRELESS.ENCRYPTION_2G_NOTICE.replace("%s",text));
+                        break;
+                    case "psk":
+                        text = $.su.CHAR.WIRELESS.WPA_WPA2_PERSONAL;
+                        $("#encryption_2g_notice").html("");
+                        $("#encryption_2g_notice").css({"display":"none"});
+                        break;
+                    case "wpa":
+                        text = $.su.CHAR.WIRELESS.WPA_WPA2_ENTERPRISE;
+                        $("#encryption_2g_notice").html($.su.CHAR.BASIC_WIRELESS.ENCRYPTION_2G_NOTICE.replace("%s",text));
+                        break;
+                    default:
+                        text = $.su.CHAR.WIRELESS.NO_SECURITY;
+                        $("#encryption_2g_notice").html($.su.CHAR.BASIC_WIRELESS.ENCRYPTION_2G_NO);
+                        break;
+                }
+
+				switch (new_encryption_5g){
+                    case "wep":
+                        text = $.su.CHAR.WIRELESS.WEP;
+                        $("#encryption_5g_notice").html($.su.CHAR.BASIC_WIRELESS.ENCRYPTION_5G_NOTICE.replace("%s", text));
+                        break;
+                    case "psk":
+                        text = $.su.CHAR.WIRELESS.WPA_WPA2_PERSONAL;
+                        $("#encryption_5g_notice").html("");
+                        $("#encryption_5g_notice").css({"display":"none"});
+                        break;
+                    case "wpa":
+                        text = $.su.CHAR.WIRELESS.WPA_WPA2_ENTERPRISE;
+                        $("#encryption_5g_notice").html($.su.CHAR.BASIC_WIRELESS.ENCRYPTION_5G_NOTICE.replace("%s", text));
+                        break;
+                    default:
+                        text = $.su.CHAR.WIRELESS.NO_SECURITY;
+                        $("#encryption_5g_notice").html($.su.CHAR.BASIC_WIRELESS.ENCRYPTION_5G_NO);
+                        break;
+                }
+
+ 				if( (new_encryption_2g=="psk")&&(new_encryption_5g=="psk"))
+ 				{
+ 					 $("form#wireless_setting").form('submit');
+ 				}
+ 				else
+ 				{
+ 					msg.msg("show");
+ 				}
+				
+			}
+			else
+			{
+				return;
+			}
+		}
+	});
+
+	var helpBasicWireless = new $.su.Help({
+			container: "div#help_basic_wireless",
+			content: ["BASIC_WIRELESS"]
+	});
+});
+
+</script>
+
+</body>
+</html>

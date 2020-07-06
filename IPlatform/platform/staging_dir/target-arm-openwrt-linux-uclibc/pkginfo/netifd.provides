@@ -1,0 +1,7 @@
+libblobmsg_json.so
+libjson.so.0
+libjson.so.0.0.1
+libnl-tiny.so
+libubox.so
+libubus.so
+libuci.so

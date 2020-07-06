@@ -1,0 +1,13 @@
+Package: kmod-stats
+Version: +1.0-
+Depends: kernel (=--unknown)
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/stats
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: TP-LINK
+Architecture: model_brcm_bcm470x
+Installed-Size: 3649
+Description:  Kernel package stats

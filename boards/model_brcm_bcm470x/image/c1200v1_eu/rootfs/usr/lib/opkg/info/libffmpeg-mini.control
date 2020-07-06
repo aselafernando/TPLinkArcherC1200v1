@@ -1,0 +1,16 @@
+Package: libffmpeg-mini
+Version: 0.11.2-1
+Depends: libpthread, zlib, libbz2
+Provides: libffmpeg
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/opensource/ffmpeg
+Section: libs
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 897831
+Description:  FFmpeg is a a software package that can record, convert and stream digital 
+ audio and video in numerous formats.
+ .
+ This package contains minimal-featured FFmpeg shared libraries.

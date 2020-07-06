@@ -1,0 +1,1268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+<style type="text/css">
+	
+
+/*a.edit{
+	text-decoration: underline;
+	cursor: pointer;
+	color: blue;
+}
+
+div.btn_cnt{
+	text-align: center;
+}
+
+div.btn_cnt button{
+	display: inline-block;
+}*/
+
+
+</style>
+</head>
+
+<body>
+<div class="func-container">
+	<div id="account">
+		
+		<form id="account_form">
+			<p class="note" id="note"></p>
+	    	<input type="text"  id="account_type" name="account" value="" />
+	    	<div id="">
+				<input type="text"  id="username"  name="username" value="" />
+				<input   id="password"  type="password" name="password" value="" />
+				<input type="password"  id="confirm" name="confirm" value="" />
+				<input id="pwd_status"  value="" />
+			</div>
+
+	    </form>
+	</div>
+
+
+	 <div id="folder">
+	 	<form id="folder-setting">
+	    	<input type="text"  id="network_server" name="server" value="" />
+			<div id="setGrid" class="folder-sharing-set-grid">
+	     		
+			</div>
+			<button id="total_save" type="button"></button>
+	    </form>
+
+	 </div>
+
+
+
+	 <div id="folder2" >
+		<input type="text"  id="share_all" name="share_all" value="" />
+		<span id="share-all-tips" class="inline-block"></span>
+		<input type="text"  id="authentication" name="authentication" value="" />
+	 	<div id="share_all_grid" class="hidden">
+	     		
+		</div>
+		<div id="share_fold_grid" class="hidden">
+	     		
+		</div>
+	 </div>
+
+	 <div id="share_edit">
+	 		<div class="widget-container">
+	 			<input type="text"  id="folder_usb" name="volumn" value="" /><span class="no-volumn-notice" id="no_volumn_notice"></span>
+	 		</div>
+	    	
+			<input type="text"  id="folder_path" readonly="readonly" name="path" value="" />
+			<button id="folder_brower"></button>
+			
+
+
+			<input type="text"  id="folder_share_name" name="name" value="" />
+			<input type="text"  id="guest_network_edit" name="guest_network" value="" />
+			<!-- <input type="text"  id="folder_read_access" name="folder_read_access" value="" /> -->
+			
+			<input type="text"  id="authentication_edit" name="authentication" value="" />
+			<input type="text"  id="writable_edit" name="writable" value="" />
+			<input type="text"  id="media_server_edit" name="media_server" value="" />
+
+			<input type="text"  id="enable_edit" name="enable" value="" />
+			<input   id="edit_uuid" name="uuid"/>
+			<!-- <button id="usb_tree_btn_ok"></button>
+			<button id="usb_tree_btn_cancle"></button> -->
+	</div>
+	
+	<div id="adv_folder_survey">
+	 	<!-- <p id="survey_title"></p>
+	 	<hr /> -->
+	 	<input id="foldertree" style=""/>
+	 	<!-- <div id="btn_cnt_survey" class="btn_cnt">
+			<button id="usb_tree_btn_ok"></button>
+			<button id="usb_tree_btn_cancle"></button>
+		</div> -->
+	 </div>
+
+	 <div id="leave" class="user-defined">
+	 	<!-- <p id="leave_title"></p>
+	 	<hr /> -->
+	 	
+	 	<div class="msg-content">
+		 	<h4 class="title">
+		    	<span class="icon"></span>
+		 		<span class="text" id="notice"></span>
+		 		
+		 	</h4>
+		</div>
+
+	 	<!-- <div class="button-container msg-btn-container">
+		 	<div class="msg-btn-wrap">
+			 	<div class="button-container inline-block">
+				 	<button type="button" class="button-button btn-msg btn-msg-cancel btn-prompt">
+				 		<span class="text button-text">Cancel</span>
+				 	</button>
+			 	</div>
+			 	<div class="button-container inline-block">
+			 		<button type="button" class="button-button btn-msg btn-msg-ok btn-prompt">
+			 		<span class="text button-text">OK</span>
+			 		</button>
+			 	</div>
+			 	<div class="button-container inline-block">
+			 		<button type="button" class="button-button btn-msg btn-msg-ok btn-prompt">
+			 		<span class="text button-text">OK</span>
+			 		</button>
+			 	</div>
+		 	</div>
+	 	</div> -->
+
+	 	<div class="button-container msg-btn-container">
+		 	<div class="msg-btn-wrap">
+		 		<span class="save_failed hidden" id="save_failed"></span>
+		 	    <button id="notice_cancle"></button>
+				<button id="continue"></button>
+				<button id="save_continue"></button>
+			</div>
+		</div>
+
+			
+			
+	
+	 </div>
+	<div id="help_folder_share"></div>
+		
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var SHARE_ACC_URL = "./data/usb.acc.json";
+	var SHARE_SET_URL = "./data/usb.setGrid.json";
+	var SHARE_ALL_URL = "./data/usb.shareAll.json";
+	var SHARE_AUTH_URL = "./data/usb.auth.json";
+	var SHARE_VOLUMN_URL = "./data/usb.volumn.json";
+
+	var SHARE_TREE_URL = "./data/usb.tree.json";
+	var SHARE_FOLDER_URL = "./data/usb.folder.json";
+	var SHARE_FOLDERGRID_URL = "./data/usb.folderGrid.json";
+	var SHARE_ALL_GRID_URL = "./data/usb.shareAllGrid.json";
+
+
+	var SHARE_ACC_URL_NEW = $.su.url("/admin/folder_sharing?form=account");
+	var SHARE_SET_URL_NEW = $.su.url("/admin/folder_sharing?form=settings");
+	var SHARE_ALL_URL_NEW = $.su.url("/admin/folder_sharing?form=mode");
+	var SHARE_AUTH_URL_NEW = $.su.url("/admin/folder_sharing?form=auth");
+	var SHARE_VOLUMN_URL_NEW = $.su.url("/admin/folder_sharing?form=volumn");
+
+	var SHARE_TREE_URL_NEW = $.su.url("/admin/folder_sharing?form=tree");
+	var SHARE_FOLDER_URL_NEW = $.su.url("/admin/folder_sharing?form=server");
+	var SHARE_FOLDERGRID_URL_NEW = $.su.url("/admin/folder_sharing?form=partial");
+	var SHARE_ALL_GRID_URL_NEW = $.su.url("/admin/folder_sharing?form=all");
+
+	var para = {};
+
+	$("div#account").panel({
+		title: $.su.CHAR.FOLDER.ACCOUNT_TITLE,
+		collapsible: false
+	});
+
+	$("#note").html($.su.CHAR.FOLDER.AC_NOTE);
+
+	$("#account_type").radio({
+		fieldLabel: $.su.CHAR.FOLDER.ACCOUNT,
+		columns:2,
+		items:[
+			{boxlabel: $.su.CHAR.FOLDER.AC_LOGIN, inputValue: 'admin'},
+			{boxlabel: $.su.CHAR.FOLDER.AC_FOLLOW, inputValue: 'custom'}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		switch(newValue)
+		{
+			case "admin":
+				$("#username").textbox("disable");
+				$("#username").textbox("setValue", $("form#account_form").data("data").username);
+
+				$("#password").password("disable");
+				$("#password").password("setValue", $("form#account_form").data("data").password);
+
+				$("#confirm").password("disable");
+				$("#confirm").password("setValue", $("form#account_form").data("data").password);
+				setTimeout(function(){
+					$("#password").password("setNormal");
+					$("input#pwd_status").status('setNormal');
+				},10);
+				break;
+			case "custom":
+				$("#username").textbox("enable");
+				$("#password").password("enable");
+				$("#confirm").password("enable");
+
+
+
+
+				//$("#username").textbox("setValue","");
+				//$("#password").password("setValue","");
+				//$("#confirm").password("setValue","");
+				break;
+		}
+	});
+
+	$("#username").textbox({
+		fieldLabel: $.su.CHAR.FOLDER.USERNAME,
+		//vtype:"name_with_special_start",
+		vtype:"string_visible",
+		allowBlank:false,
+		// validator:function(val){
+		// 	var regx = /^[a-zA-Z_]/;
+		// 	if(regx.test(val))
+		// 	{
+		// 		return true;
+		// 	}
+		// 	return $.su.CHAR.ERROR["00000012"];
+		// },
+		minLength:1,
+		maxLength:15
+	});
+
+
+	var passwordCheck = function(new_pwd, cfm_val){
+		
+		if(cfm_val == new_pwd){
+			$("#pwd_status").status("setSuccess");
+			return true;
+		}else{
+			$("#pwd_status").status("setFailed");
+			return false;
+		};
+	};
+
+	$("#password").password({
+		fieldLabel: $.su.CHAR.FOLDER.PASSWORD,
+		//vtype:"name",
+		vtype:"string_visible",
+		allowBlank:false,
+		minLength:1,
+		maxLength:15
+	}).on("ev_change", function(item, data){
+		$("#pwd_status").status('setNormal');
+		$("input#confirm").password('setNormal');
+		
+		var new_pwd = $("input#password").password("getValue");
+		var cfm_val = $("input#confirm").password("getValue");
+		if ( cfm_val){
+			passwordCheck(new_pwd, cfm_val);
+		}
+	}).on("ev_validatechange", function(item, data){
+		var new_pwd = $("input#password").password("getValue");
+	    var cfm_val = $("input#confirm").password("getValue");
+
+		if( cfm_val=='' ){
+			$("#pwd_status").status('setNormal');
+			return true;
+		}else{
+			passwordCheck(new_pwd, cfm_val);
+		};
+	});
+
+	$("#confirm").password({
+		fieldLabel: $.su.CHAR.FOLDER.CONFIRM,
+		cls:"inline",
+		showLevel:false,
+		allowBlank:false,
+		validator:function(val){
+			
+			return true;
+		},
+		//vtype:"name",
+		vtype:"string_visible",
+		minLength:1,
+		maxLength:15
+	}).on("ev_change ev_validatechange", function(){
+		var new_pwd = $("input#password").password("getValue");
+	    var cfm_val = $("input#confirm").password("getValue");
+		
+		if (new_pwd == ""){
+			if ( cfm_val == "" ){
+				$("#pwd_status").status("setNormal");
+			}else{
+				if (!passwordCheck(new_pwd, cfm_val)){
+					$("input#password").password("setError");
+				};
+			}
+		}else{
+			if (!passwordCheck(new_pwd, cfm_val)){
+				$("input#confirm").password("setError");
+			}
+		}
+	});
+
+
+	$("#pwd_status").status({
+		cls:"inline"
+		// fieldLabel: $.su.CHAR.FOLDER.CONFIRM,
+		// vtype:"wanpwd"
+	});
+
+	// $("#password").on("keyup", function(){
+	// 	var pwd = $("#password").password("getValue");
+	// 	var pwd_confirm = $("#confirm").password("getValue");
+	// 	if(pwd == pwd_confirm)
+	// 	{
+	// 		$("#pwd_status").status("setSuccess");
+	// 	}
+	// 	else
+	// 	{
+	// 		$("#pwd_status").status("setFailed");
+	// 	}
+	// });
+
+	// $("#confirm").on("keyup", function(){
+	// 	var pwd = $("#password").password("getValue");
+	// 	var pwd_confirm = $("#confirm").password("getValue");
+	// 	if(pwd == pwd_confirm)
+	// 	{
+	// 		$("#pwd_status").status("setSuccess");
+	// 	}
+	// 	else
+	// 	{
+	// 		$("#pwd_status").status("setFailed");
+	// 	}
+	// });
+
+
+	$("form#account_form").form({
+		proxy: {url:SHARE_ACC_URL_NEW},
+		fields: [
+			{name: "account", mapping: "account"},
+			{name: "username", mapping: "username"},
+			{name: "password", mapping: "password"},
+			{name: "confirm", mapping: "password"}
+		],
+		validator:function(){
+			if($("input#account_type").radio("getValue") == 'admin'){
+				return true;
+			}
+			var  val = $("#confirm").password("getValue");
+			var new_pwd = $("#password").password("getValue");
+			//console.log(new_pwd, val);
+			if(val == new_pwd)
+			{
+				
+				$("#pwd_status").status("setSuccess");
+				return true;
+			}
+			else
+			{
+				
+				// $("#pwd_status").status("setFailed");
+				$("#confirm").password("setError", $.su.CHAR.ERROR["00000080"]);
+				return false;
+			}
+		},
+		submitBtn: "default"
+	});
+
+
+	// var proxy =  new su
+	
+
+	
+
+
+	$("#total_save").button({
+		text: $.su.CHAR.OPERATION.SAVE,
+		cls:"submit",
+		handler:function(){
+			if( !folderSettingForm.form("validate") ) return false;
+			folderSettingForm.form("showLoading");
+			store.proxy.write(para, function(data){
+				$("div#setGrid").grid("getStore").loadData(data);
+				$("#folder-setting").form("prompt", true);
+				folderSettingForm.form("hideLoading");
+			}, function(){
+				$("#folder-setting").form("prompt", false);
+				folderSettingForm.form("hideLoading");
+			});
+		}
+	});
+	
+	var a = $("input#folder_usb").combobox({
+		fieldLabel: $.su.CHAR.FOLDER.VOLUMN_NAME,
+		cls:"inline-block",
+		labelCls:"l"
+	}).on("ev_change", function(e, oldValue, newValue){
+		if(oldValue&&(oldValue!=newValue))
+		{
+			$("input#folder_path").textbox("setValue", "");
+		}
+	});
+
+	$("input#folder_path").textbox({
+		fieldLabel: $.su.CHAR.FOLDER.FOLDER_PATH,
+		handler:function(){
+			$("input#foldertree").show();
+		},
+		allowBlank:false,
+		tipsCls:"after-button",
+		// readOnly:true,
+		labelCls:"l",
+		cls:"inline-block"
+	});
+
+	$("input#folder_path").attr("readonly", "readonly");
+
+	
+	$("input#folder_share_name").textbox({
+		fieldLabel: $.su.CHAR.FOLDER.SHARE_NAME,
+		labelCls:"l",
+		allowBlank:false,
+		vtype:"name",
+		minLength:4,
+		maxLength:32
+	});
+	
+	$("#guest_network_edit").checkbox({
+		fieldLabel: "",
+		labelCls:"l",
+		defaultValue:"on",
+		items: [
+			{boxlabel: $.su.CHAR.FOLDER.GUEST_ACCESS, uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+
+	$("#authentication_edit").checkbox({
+		fieldLabel: "",
+		labelCls:"l",
+		defaultValue:"off",
+		items: [
+			{boxlabel: $.su.CHAR.FOLDER.ENABLE_AUTHENTICATION, uncheckedValue:"off", inputValue: "on",checked:false }
+		]
+	});
+
+	$("#writable_edit").checkbox({
+		fieldLabel: "",
+		labelCls:"l",
+		defaultValue:"on",
+		items: [
+			{boxlabel: $.su.CHAR.FOLDER.ENABLE_WRITE_ACCESS, uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+
+
+	$("#media_server_edit").checkbox({
+		fieldLabel: "",
+		defaultValue:"on",
+		labelCls:"l",
+		items: [
+			{boxlabel: $.su.CHAR.FOLDER.ENABLE_MEDIA_SHARE, uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+	
+	$("#enable_edit").checkbox({
+		fieldLabel: "",
+		defaultValue:"on",
+		labelCls:"l",
+		items: [
+			{boxlabel: $.su.CHAR.FOLDER.ENABLE, uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+	$("#enable_edit").checkbox("hide");
+	
+	$("#edit_uuid").textbox({
+		fieldLabel: "",
+	}).hide();
+
+
+
+	
+	$("button#folder_brower").button({
+		text:$.su.CHAR.FOLDER.BROWSE,
+		handler:function(){
+			
+			var volumn_value = a.combobox("getValue");
+			//console.log(volumn_value);
+			folderStore.load({"path":"","uuid":volumn_value}, function(){
+				$("input#foldertree").one("ev_treeloaded", function(){
+					//console.log("occ")
+					$("div#adv_folder_survey").msg("show");
+					$("input#foldertree").foldertree("reset");
+
+				});
+			});
+			
+		},
+		cls:"inline ml5"
+	});
+	
+
+	$("div#adv_folder_survey").msg({
+		autoshow:false,
+		type: "prompt",
+		title:$.su.CHAR.FOLDER.BROWSE_TITLE,
+		okHandler: function(){
+			var val = $("input#foldertree").foldertree("getValue");
+			$("input#folder_path").textbox("setValue", val);
+			$("input#folder_path").textbox("validate");
+			$("div#adv_folder_survey").msg("close");
+		}
+	});
+
+	/*$("div#adv_folder_survey").css("top", ($(window).height()-$("div#adv_folder_survey").height()-76)/2);
+	$("div#adv_folder_survey").css("left", "50%" );*/
+
+	/*$("#usb_tree_btn_ok").button({
+		text:$.su.CHAR.FOLDER.OK,
+		handler:function(){
+			var val = $("input#foldertree").foldertree("getValue");
+			$("input#folder_path").textbox("setValue", val);
+			$("div#adv_folder_survey").msg("close");
+		},
+		cls:"inline"
+	});*/
+
+	/*$("#usb_tree_btn_cancle").button({
+		text:$.su.CHAR.FOLDER.CANCLE,
+		handler:function(){
+			$("div#adv_folder_survey").msg("close");
+		},
+		cls:"inline"
+	});*/
+
+	$("div#leave").msg({
+		autoshow: false,
+		width: 500,
+		cls:"l warning",
+		type: "window"
+	});
+
+	$("#notice").html($.su.CHAR.FOLDER.NOTICE);
+	$("#save_failed").html($.su.CHAR.FOLDER.SAVE_FAILED_NOTICE);
+	/*$("div#leave").css("top", ($(window).height()-$("div#leave").height()-76)/2);
+	$("div#leave").css("left", ($(window).width()-$("div#leave").width()-100)/2 );*/
+	// $("div#leave").css("left", "50%" );
+
+	$("#continue").button({
+		text:$.su.CHAR.FOLDER.CONTINUE,
+		handler:function(){
+			$("div#leave").msg("close");
+			$.su.menu.advanced.goTo("dynamic-dns");
+		},
+		cls:"inline  submit"
+	});
+
+	$("#save_continue").button({
+		text:$.su.CHAR.FOLDER.CONTINUE_SAVE,
+		handler:function(){
+			para = {};
+			// var successFlag = true;
+			para.server = $("#network_server").textbox("getValue");
+			para.enable = "";
+			para.port = "";
+
+
+			var submit_port_arr = [];
+			var port_arr = $("div#setGrid span input[name=port]");
+			var len = port_arr.length;
+			for (var i = 0; i < len; i++) {
+				// //console.log(port_arr[i].readOnly);
+				// //console.log(port_arr[i].value);
+				if(!port_arr[i].readOnly)
+				{
+					submit_port_arr.push(port_arr[i].value);
+				}
+				
+			};
+			para.port = submit_port_arr.join(",");
+
+
+			var submit_enable_arr = [];
+			var enable_arr = $("div#setGrid input.checkbox-checkbox[name=enable]");
+			var len = enable_arr.length;
+			for (var i = 0; i < len; i++) {
+				if(enable_arr[i].checked)
+				{
+					submit_enable_arr.push("on");
+				}
+				else
+				{
+					submit_enable_arr.push("off");
+				}
+			};
+			// //console.dir(submit_enable_arr);
+			para.enable = submit_enable_arr.join(",");
+
+			store.proxy.write(para, function(data){
+
+					$("div#leave").msg("close");
+					$.su.menu.advanced.goTo("dynamic-dns");
+			}, function(){
+				$("#save_failed").removeClass("hidden");
+					return;
+			});
+
+			// $.post(SHARE_SET_URL_NEW, para, function(data){
+			// 	// console.dir(data);
+			// 	if(data.success)
+			// 	{
+
+			// 	}
+			// 	else
+			// 	{
+			// 		successFlag = false;
+			// 		$("save_failed").removeClass("hidden");
+			// 		return;
+			// 	}
+			// });
+			// store.load();
+
+			
+
+			
+		},
+		cls:"inline  submit"
+	});
+
+	$("#notice_cancle").button({
+		text:$.su.CHAR.FOLDER.CANCLE,
+		handler:function(){
+
+			$("div#leave").msg("close");
+		},
+		cls:"inline submit"
+	});
+
+
+	
+
+	var folderStore = new $.su.TreeStore({
+		proxy: {
+			url: SHARE_TREE_URL_NEW
+		},
+		autoLoad: true
+	});
+
+
+	$("input#foldertree").foldertree({
+		store: folderStore
+	});
+
+	// $("#survey_title").html($.su.CHAR.FOLDER.BROWSE_TITLE);
+	
+	// $("button#usb_tree_btn_ok").button({
+	// 	text:$.su.CHAR.FOLDER.OK,
+	// 	cls:"inline"
+	// });
+	
+	// $("button#usb_tree_btn_cancle").button({
+	// 	text:$.su.CHAR.FOLDER.CANCLE,
+	// 	cls:"inline"
+	// })
+	
+
+	function hideFolder()
+	{
+		$("#share_fold_grid").hide();
+		$("button#auth").switchbutton("show");
+	}
+	
+	function displayFolder()
+	{
+		$("#share_fold_grid").show();
+		// $("button#auth").hide();
+		$("button#auth").switchbutton("hide");
+	}
+	
+	
+	$("div.func-container").page({
+		title: $.su.CHAR.FOLDER.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$("div#folder").panel({
+		title: $.su.CHAR.FOLDER.TITLE,
+		collapsible: false
+	});
+
+
+
+
+	$("input#network_server").textbox({
+		fieldLabel: $.su.CHAR.FOLDER.SERVER_NAME,
+		cls:"form-inner",
+		vtype:"name_special",
+		minLength:4,
+		maxLength:15,
+		allowBlank:false,
+		labelCls:"xl"
+	});
+
+
+	$("div#folder2").panel({
+		title: $.su.CHAR.FOLDER.SHARE_FOLDER,
+		collapsible: false
+	});
+	
+
+	var store = new $.su.Store({
+		proxy: {
+			url: SHARE_SET_URL_NEW
+		},
+		fields: [
+			{name: "edit"},
+			{name: "enable"},
+			{name: "protocol"},
+			{name: "link"},
+			{name: "port"}
+		],
+		autoLoad: true
+
+	});
+
+
+
+
+	$("div#setGrid").grid({
+		store: store,
+		minLines:0,
+		//editor: "default",
+		columns: [
+			{
+				text: $.su.CHAR.FOLDER.ENABLE, 
+				width:100,
+				xtype: "actioncolumn",
+				dataIndex: "enable",
+				items: [
+					{
+						xtype: "checkbox",
+						name: "enable",
+						fieldLabel: null,
+						items:[
+							{boxlabel: "", uncheckedValue:"off",  inputValue: "on"}
+						]
+					}
+				]
+			
+				
+	
+			},
+			{
+				text: $.su.CHAR.FOLDER.METHOD, 
+				width:180,
+				dataIndex: "protocol",
+				renderer: function(val, index, data){
+					switch(val.toUpperCase()){
+						case 'SAMBA':
+							return $.su.CHAR.FOLDER.NETWORK_NEIGHBORHOOD;
+						case 'FTP':
+							return $.su.CHAR.FOLDER.FTP;
+						case 'FTPEX':
+							return $.su.CHAR.FOLDER.FTPEX;
+					}
+				}
+			},
+			{
+				text: $.su.CHAR.FOLDER.LINK, 
+				width:200,
+				dataIndex: "link",
+				renderer:function(val,index,data){
+					var edit = data.edit || $("div#setGrid").grid("getStore").data[index].edit;
+					if(edit == 0)
+					{
+						return "<a class='text selectable'>"+$.su.func.escapeHtml(val)+"</a>";
+					}
+					else
+					{
+						/*
+						return "<a class='text selectable'>"+$.su.func.escapeHtml(val)+"</a>&nbsp;&nbsp;<a href=\"javascript:void(0);\" class='text link'>"+ $.su.CHAR.OPERATION.EDIT +"</a>";
+						*/
+						var ftpex_links = val.split(','),
+						ret = "",
+						len = ftpex_links.length, i;
+						for (i = 0; i < len - 1; i++)
+						{
+							ret += "<a class='text selectable'>" + $.su.func.escapeHtml(ftpex_links[i]) + "</a><br />";
+						}
+						ret += "<a class='text selectable'>" + $.su.func.escapeHtml(ftpex_links[i]) + "</a>&nbsp;&nbsp;<a href=\"javascript:void(0);\" class='text link'>"+ $.su.CHAR.OPERATION.EDIT +"</a>";
+						return ret;
+					}
+				}
+			},
+			{
+				text: $.su.CHAR.FOLDER.PORT, 
+				
+				dataIndex: "port",
+				/*editor: {
+					xtype: "textbox"
+				},*/
+				xtype: "actioncolumn",
+				items: [
+					{
+						xtype: "textbox",
+						name: "port",
+						inputCls: "xsp",
+						fieldLabel: null,
+						properties: [
+							{
+								property: "readOnly",
+								index: "edit",
+								value: false
+							}
+
+						]
+					}
+				]
+			}
+		]
+	});
+
+
+	//这里多个表格调用一个proxy，proxy需要单独定义！
+	var ipv4Proxy = new $.su.Proxy({
+		url: SHARE_FOLDER_URL_NEW
+	});
+
+	// $("input#port").textbox({
+	// 	fieldLabel: "",
+	// 	inputCls:"s",
+	// 	tips:"<a>ftp:////192.168.0.1:21//shares</a>"
+	// });
+
+
+	var folderSettingForm = $("form#folder-setting").form({
+		proxy: ipv4Proxy,
+		cls:"no-padding",
+		fields: [
+			{name: "server", mapping: "server"}
+		],
+		validator: function(){
+			if(!$("#network_server").textbox("validate")){
+				return false;
+			}
+			para = {};
+			para.operation = "save";
+			para.server = $("#network_server").textbox("getValue");
+			para.enable = "";
+			para.port = "";
+
+
+			var submit_port_arr = [];
+			var port_arr = $("div#setGrid span input[name=port]");
+			var len = port_arr.length;
+			for (var i = 0; i < len; i++) {
+				// //console.log(port_arr[i].readOnly);
+				// //console.log(port_arr[i].value);
+				if(!port_arr[i].readOnly)
+				{
+					submit_port_arr.push(port_arr[i].value);
+				}
+				else
+				{
+					continue;
+				}
+				var port_val = port_arr[i].value;
+				// //console.log(port_val);
+				if(isNaN(port_val))
+				{
+					$(port_arr[i]).textbox("setError");
+					$("#folder-setting").form("setError", $.su.CHAR.ERROR["00000010"]);
+					return false;
+				}
+				if( (port_val!=21) && ((port_val<1024) || (port_val>65535)))
+				{
+					// //console.log(port_val);
+					$(port_arr[i]).textbox("setError");
+					$("#folder-setting").form("setError", $.su.CHAR.ERROR["00000009"]);
+					return false;
+				}
+
+			};
+			$("#folder-setting").form("setNormal");
+			para.port = submit_port_arr.join(",");
+
+
+			var submit_enable_arr = [];
+			var enable_arr = $("div#setGrid input.checkbox-checkbox[name=enable]");
+			var len = enable_arr.length;
+			for (var i = 0; i < len; i++) {
+				if(enable_arr[i].checked)
+				{
+					submit_enable_arr.push("on");
+				}
+				else
+				{
+					submit_enable_arr.push("off");
+				}
+			};
+			// //console.dir(submit_enable_arr);
+			para.enable = submit_enable_arr.join(",");
+			return true;
+		},
+		submitBtn: "#total_save"
+	});
+
+
+	function check_is_changed()
+	{
+		var network_server_val = $("form#folder-setting").data("data").server;
+		var grid_store_data = store.data;
+		
+
+		para = {};
+		para.server = $("#network_server").textbox("getValue");
+		para.enable = "";
+		para.port = "";
+
+
+		var submit_port_arr = [];
+		var port_arr = $("div#setGrid span input[name=port]");
+		var len = port_arr.length;
+		for (var i = 0; i < len; i++) {
+			if(!port_arr[i].readOnly)
+			{
+				submit_port_arr.push(port_arr[i].value);
+			}
+			
+		};
+		para.port = submit_port_arr.join(",");
+
+
+		var submit_enable_arr = [];
+		var enable_arr = $("div#setGrid input.checkbox-checkbox[name=enable]");
+		var len = enable_arr.length;
+		for (var i = 0; i < len; i++) {
+			if(enable_arr[i].checked)
+			{
+				submit_enable_arr.push("on");
+			}
+			else
+			{
+				submit_enable_arr.push("off");
+			}
+		};
+		// //console.dir(submit_enable_arr);
+		para.enable = submit_enable_arr.join(",");
+
+
+		if(network_server_val!=para.server)
+		{
+			// //console.log(network_server_val);
+			return true
+		}
+		var len = grid_store_data.length;
+		var j = 0;
+		// //console.dir(grid_store_data);
+		for (var i = 0; i < len; i++) {
+			if(grid_store_data[i].enable != submit_enable_arr[i])
+			{
+				// //console.log(grid_store_data[i].enable);
+				return true
+			}
+			// //console.log(i, grid_store_data[i].edit)
+			if(grid_store_data[i].edit)
+			{
+				if( (grid_store_data[i].port != "") && (grid_store_data[i].edit) )
+				{
+					if(grid_store_data[i].port != submit_port_arr[j])
+					{
+						// //console.log(grid_store_data[i].port);
+						return true
+					}
+					else
+					{
+						j++;
+					}
+				}
+			}
+			else
+			{
+				continue;
+			}
+		}
+
+		return false;
+
+	}
+
+
+	$("div#setGrid").delegate("a.link","click",function(e){
+		//check form  is changed
+		// console.log(22);
+		e.stopPropagation(); 
+		// $("div#leave").msg("show");
+		if(check_is_changed())
+		{
+			
+			// $("div#leave").msg("show");
+			$("#save_continue").button("show");
+			$("#notice").html($.su.CHAR.FOLDER.NOTICE);
+		}
+		else
+		{
+			$("#save_continue").button("hide");
+			$("#notice").html($.su.CHAR.FOLDER.NO_CHANGE_NOTICE);
+			// //console.log("not change");
+			// //console.log("111");
+			// $.su.menu.advanced.goTo("dynamic-dns");
+		}
+		// console.log(22);
+		$("div#leave").msg("show");
+		
+	});
+	
+	var proxyAll = new $.su.Proxy({
+			url: SHARE_ALL_URL_NEW,
+			timeout: 12*1000
+	});
+
+	$("#share_all").switchbutton({
+		fieldLabel: $.su.CHAR.FOLDER.SHAREING_ALL,
+		proxy: proxyAll,
+		autoLoad: false,
+		cls: "inline-block",
+		onHandler:function(){
+			$("#authentication").switchbutton("show");
+			// var store = $("div#share_all_grid").grid("getStore");
+			// store.load();
+			$("div#share_all_grid").show();
+			$("div#share_fold_grid").hide();
+
+			/*$("#share-all-tips").css({
+				"display": "inline-block"
+			})*/
+		},
+		offHandler:function(){
+			$("#authentication").switchbutton("hide");
+			
+			$("div#share_all_grid").hide();
+			$("div#share_fold_grid").show();
+
+			/*$("#share-all-tips").css({
+				"display": "none"
+			})*/
+		},
+		offCallback:function(){
+			var store = $("div#share_fold_grid").grid("getStore");
+			store.load();
+		},
+		onCallback:function(){
+			var store = $("div#share_all_grid").grid("getStore");
+			store.load();
+		},
+		field: {
+			"name": "share_all"
+		}
+	});
+
+	$("span#share-all-tips").html($.su.CHAR.FOLDER.NOTE);
+
+
+	//$("#share_all").switchbutton("setTips", $.su.CHAR.FOLDER.NOTE);
+
+
+	var proxyAuth = new $.su.Proxy({
+			url: SHARE_AUTH_URL_NEW
+	});
+
+	$("#authentication").switchbutton({
+		fieldLabel: $.su.CHAR.FOLDER.ENABLE_AUTHENTICATION,
+		proxy: proxyAuth,
+		autoLoad: false,
+		field: {
+			"name": "authentication"
+		}
+	});
+
+	// console.dir(proxy);
+	proxyAll.read({}, function(){
+		// console.dir(arguments);
+	});
+	proxyAuth.read({}, function(){
+		// console.dir(arguments);
+	});
+
+
+	var storeTest = new $.su.Store({
+		proxy: {
+			url: SHARE_FOLDERGRID_URL_NEW,
+			timeout: 12*1000
+		},
+		fields: [
+			{name: "name"},
+			{name: "path"},
+			{name: "volumn"},
+			{name: "uuid"},
+			{name: "enable"},
+			{name: "authentication"},
+			{name: "guest_network"},
+			{name: "writable"},
+			{name: "media_server"}
+		],
+		autoLoad: true
+	});
+
+	$("div#share_fold_grid").grid({
+		store:storeTest,
+		minLines:0,
+		paging: {
+		},
+		// editor: "share_edit",
+		editor: {
+			content: "#share_edit",
+			fields: [
+				{name: "name"},
+				{name: "path"},
+				{name: "volumn", mapping:"uuid"},
+				{name: "uuid"},
+				{name: "enable"},
+				{name: "authentication"},
+				{name: "guest_network"},
+				{name: "writable"},
+				{name: "media_server"}
+			]
+
+		},
+		columns: [
+			{
+				xtype: "checkcolumn",
+				width: 32
+			},
+			{
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.FOLDER.SHARE_NAME, 
+				width:140,
+				dataIndex: "name"
+			},
+			{
+				text: $.su.CHAR.FOLDER.FOLDER_PATH, 
+				width:100,
+				dataIndex: "path"
+			},
+			{
+				text: $.su.CHAR.FOLDER.MEDIA_SHARING, 
+				width:100,
+				dataIndex: "media_server"
+			},
+			{
+				text: $.su.CHAR.FOLDER.VOLUMN_NAME, 
+				width:100,
+				dataIndex: "volumn"
+			},
+			{
+				text: $.su.CHAR.FOLDER.STATUS,
+				width:70,
+				dataIndex: "enable",
+				xtype: "statuscolumn"
+			},
+			{
+				text: "Modify",
+				xtype: "settings"
+			}
+		],
+		operation: "prompt|add|delete"
+	});
+
+
+
+	$.post(SHARE_VOLUMN_URL_NEW, function(data){
+		if(typeof data.data == "undefined")
+		{
+			return;
+		}
+
+		a.combobox("loadData", data.data);
+
+		var editor = $("div#share_fold_grid").grid("getEditor");
+		if(data.data.length > 0)
+		{
+
+			a.combobox("setValue", data.data[0].value);
+			$(editor).find("#no_volumn_notice").html("");
+			$(editor).find("#folder_brower").button("enable");
+		}
+		else
+		{
+
+			$(editor).find("#no_volumn_notice").html($.su.CHAR.FOLDER.NO_VOLUMN);
+
+			$(editor).find("button#folder_brower").button("disable");
+		}
+
+	},"json");
+
+
+
+	$("div#share_all_grid").grid({
+		store:{
+			proxy: {
+				url: SHARE_ALL_GRID_URL_NEW
+			},
+			fields: [
+				{name: "name"},
+				{name: "path"},
+				{name: "volumn"},
+				{name: "uuid"}
+			],
+			autoLoad: true
+		},
+		minLines:0,
+		//editor: "share_edit",
+		columns: [
+			{
+				text: "ID", 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.FOLDER.SHARE_NAME, 
+				width:140,
+				dataIndex: "name"
+			},
+			{
+				text: $.su.CHAR.FOLDER.FOLDER_PATH, 
+				width:100,
+				dataIndex: "path"
+			},
+			{
+				text: $.su.CHAR.FOLDER.VOLUMN_NAME, 
+				width:100,
+				dataIndex: "volumn"
+			}
+		],
+		operation: "refresh"
+	});
+
+	var helpFolderShare = new $.su.Help({
+		container: "div#help_folder_share",
+		content: ["FOLDER_SHARE_ACCOUNT", "FOLDER_SHARE_SETTINGS", "FOLDER_SHARE_FOLDERS"]
+	});
+	
+});
+</script>
+</body>
+
+</html>

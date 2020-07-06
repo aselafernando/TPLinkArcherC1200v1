@@ -1,0 +1,759 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Guest</title>
+</head>
+
+<body>
+<div class="func_container">
+
+    <div id="guest_global_cnt">
+	    <div id="guest_global">
+	    		<input type="text" id="guest_isolate" name="isolate" value=""/>
+				<input type="text" id="guest_access" name="access" value=""/>
+		</div>
+	</div>
+    
+	<div id="guest_2g">
+		<div class="mode-change">
+			<span id="show_2g" class="first-mode mode-select"></span>
+			<span> | </span>
+			<span id="show_5g" class="second-mode"></span>
+		</div>
+    	<div id="guest_setting_2g">
+	    	<input type="text"  id="status_2g" name="enable" value=""/>
+	    	<input type="text"  id="network_name_2g" name="ssid" value=""/>
+			<input type="text"  id="hide_ssid_2g" name="hidden" value=""/>
+	    	<input type="text"  id="security_2g" name="encryption" value=""/>
+			
+			<div id="guest_wpa_2g">
+				<input type="text" id="personal_version_2g" name="psk_version"/>
+				<input type="text" id="personal_encryption_2g" name="psk_cipher"/>
+				<input type="text" id="personal_password_2g" name="psk_key"/>
+			</div>
+
+			<p class="note hidden" id="note_title_2g">
+	    		<span class="title note-title"></span>
+	    		<span class="text" id="note_title_2g_text"></span>
+	    	</p>
+			
+	    </div>
+	   <!--  <h5 class="title hidden" id="note_title_2g"></h5> -->
+	    
+	   	<div id="guest_setting_5g" class="hidden">
+	    	<input type="text"  id="status_5g" name="enable" value=""/>
+	    	<input type="text"  id="network_name_5g" name="ssid" value=""/>
+			<input type="text"  id="hide_ssid_5g" name="hidden" value=""/>
+	    	<input type="text"  id="security_5g" name="encryption" value=""/>
+			
+			<div id="guest_wpa_5g" class="hidden">
+				<input type="text" id="personal_version_5g" name="psk_version"/>
+				<input type="text" id="personal_encryption_5g" name="psk_cipher"/>
+				<input type="text" id="personal_password_5g" name="psk_key"/>
+			</div>
+
+			 <p class="note hidden" id="note_title_5g">
+		    	<span class="title note-title"></span>
+		    	<span class="text" id="note_title_5g_text"></span>
+		    </p>
+			
+	    </div>
+	    <!-- <h5 class="title hidden" id="note_title_5g"></h5> -->
+	   
+    </div>
+
+	<div id="guest_5g">
+    	
+        
+    </div>
+    <div id="help_guest_set"></div>
+
+	
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var WIRELESS_GUEST_SET_URL = "./data/guestSettings.json";
+	var WIRELESS_GUEST_2G_URL = "./data/guestSettings.2g.json";
+	var WIRELESS_GUEST_5G_URL = "./data/guestSettings.5g.json";
+
+
+	var WIRELESS_GUEST_SET_URL_NEW = $.su.url("/admin/wireless?form=guest");
+	var WIRELESS_GUEST_2G_URL_NEW = $.su.url("/admin/wireless?form=guest_2g");
+	var WIRELESS_GUEST_5G_URL_NEW = $.su.url("/admin/wireless?form=guest_5g");
+
+	var URL_WIRELESS_2G_NEW = $.su.url("/admin/wireless?form=wireless_2g");
+	var URL_WIRELESS_5G_NEW = $.su.url("/admin/wireless?form=wireless_5g");
+
+	var SYS_WIRELESS_2G_URL_NEW = $.su.url("/admin/wireless?form=syspara_2g");
+	var SYS_WIRELESS_5G_URL_NEW = $.su.url("/admin/wireless?form=syspara_5g");
+
+	var sysWireless2gProxy = new $.su.Proxy({
+		url: SYS_WIRELESS_2G_URL_NEW
+	});
+
+	var sysWireless5gProxy = new $.su.Proxy({
+		url: SYS_WIRELESS_5G_URL_NEW
+	});
+
+	var wireless_2g_disabled = "off";
+	var wireless_2g_disabled_all = "off";
+
+	var wireless_5g_disabled = "off";
+	var wireless_5g_disabled_all = "off";
+
+	// $("#note_title_2g").html($.su.CHAR.SYSPARA.SWITCH_NOTICE);
+	// $("#note_title_5g").html($.su.CHAR.SYSPARA.SWITCH_NOTICE);
+	$("span.note-title").text($.su.CHAR.OPERATION.NOTE);
+	$("span#note_title_2g_text").text($.su.CHAR.SYSPARA.SWITCH_NOTICE);
+	$("span#note_title_5g_text").text($.su.CHAR.SYSPARA.SWITCH_NOTICE);
+
+
+	
+
+	$("div.func_container").page({
+		title: $.su.CHAR.GUEST_SETTINGS.WIRELESS_SETTINGS,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+	
+	
+
+	$("#show_2g").html($.su.CHAR.GUEST_SETTINGS.MODE_2G);
+	$("#show_5g").html($.su.CHAR.GUEST_SETTINGS.MODE_5G);
+
+	$("span.first-mode").click(function(){
+		if($(this).hasClass("mode-select"))
+		{
+
+		}
+		else
+		{
+			$(this).addClass("mode-select");
+			$("span.second-mode").toggleClass("mode-select");
+			$("#guest_setting_2g").show();
+			$("#guest_setting_5g").hide();
+			$("#guest_setting_2g").form("load");
+		}
+		// $("span.first-mode").toggleCss("mode-select");
+	});
+
+	$("span.second-mode").click(function(){
+		if($(this).hasClass("mode-select"))
+		{
+
+		}
+		else
+		{
+			if($(this).hasClass("disabled"))
+			{
+				return true;
+			}
+			$(this).addClass("mode-select");
+			$("span.first-mode").toggleClass("mode-select");
+			$("#guest_setting_2g").hide();
+			$("#guest_setting_5g").show();
+			$("#guest_setting_5g").form("load");
+		}
+		// $("span.first-mode").toggleCss("mode-select");
+	});
+	
+	// $("input#access").switchbutton({
+	// 	fieldLabel: $.su.CHAR.GUEST_SETTINGS.ALLOW_TO_SEE_EACH,
+	// 	labelCls: "l"
+	// //	tips: $.su.CHAR.GUEST_SETTINGS.ALLOW_TO_SEE_EACH
+	// });
+	$("input#guest_isolate").checkbox({
+		fieldLabel: null,
+		// fieldLabel: $.su.CHAR.GUEST_SETTINGS.SEE_EACH,
+		// cls: "inline",
+		items: [
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.ALLOW_EACH, uncheckedValue:"off", inputValue: "on", id: "chk_allow_each"}
+		]
+	});
+
+
+	$("input#guest_access").checkbox({
+		fieldLabel: null,
+		// fieldLabel: $.su.CHAR.GUEST_SETTINGS.ACCESS_LOCAL_NETWORK,
+		// cls: "inline",
+		items: [
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.ALLOW_LOCAL,  uncheckedValue:"off", inputValue: "on", id: "chk_allow_local"}
+		]
+	});
+	
+	var guestProxy = new $.su.Proxy({
+		url: WIRELESS_GUEST_SET_URL_NEW
+	});
+	$("div#guest_global").form({
+		proxy: guestProxy,
+		fields: [
+			{name: "access", mapping: "access"},
+			{name: "isolate", mapping: "isolate"}
+		],
+		submitBtn: 'default',
+		autoLoad: true
+	});
+
+	$("div#guest_global_cnt").panel({
+		title: $.su.CHAR.GUEST_SETTINGS.GLOBAL_SETTINGS,
+		collapsible: false
+	});
+	
+
+
+	/////////////// 2g panel	
+	$("div#guest_2g").panel({
+		title: $.su.CHAR.GUEST_SETTINGS.WIRELESS,
+		help: ""	//可能是个调用的id 也可能是个url
+	});	
+	
+	// $("input#status_2g").switchbutton({
+	// 	fieldLabel: $.su.CHAR.GUEST_SETTINGS.WIRELESS_24G_RADIO,
+	// 	labelCls: "l"
+	// });
+
+	$("input#status_2g").checkbox({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.WIRELESS_24G_RADIO,
+		// cls: "inline",
+		tips:"",
+		tipsCls:"l",
+		items: [												
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.ENABLE_GUEST, uncheckedValue:"off", inputValue: "on", id: "chk_enable_guest_2g"}
+		]
+	});
+	
+	$("input#network_name_2g").textbox({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.NAME_SSID,
+		//labelCls: "l",
+		vtype:{
+			vtype:"string_visible_allow_blank",
+			maxLength:32
+		},
+		maxLength:32,
+		autoTrim:false,
+		tipsCls:"after-checkbox",
+		allowBlank:false,
+		cls: 'inline-block'
+	});
+	
+	$("input#hide_ssid_2g").checkbox({
+		fieldLabel: null,
+		cls: 'inline',
+		items:[
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.HIDE_SSID,  uncheckedValue:"off", inputValue:'on' }
+		]
+	});
+
+	$('#guest_wpa_2g').fieldset({
+		fields: [
+			{name: "psk_version"},
+			{name: "psk_cipher"},
+			{name: "psk_key"}
+		]
+	}).hide();
+
+	$('#guest_wpa_5g').fieldset({
+		fields: [
+			{name: "psk_version"},
+			{name: "psk_cipher"},
+			{name: "psk_key"}
+		]
+	}).hide();
+
+	
+	// $("input#security_2g").switchbutton({
+	// 	fieldLabel: $.su.CHAR.GUEST_SETTINGS.SECURITY,
+	// 	//tips: "The tips of combo multi.",
+	// 	labelCls: "l",
+	// 	items: [
+	// 		{ text: $.su.CHAR.GUEST_SETTINGS.NO_SECURITY, value:'0', cls:'l', handler:function(value){
+	// 				$('div#guest_wpa_2g').hide();
+	// 			}
+	// 		},
+	// 		{ text: $.su.CHAR.GUEST_SETTINGS.WPA_WPA2_PERSONAL, value:'1', cls:'xl', handler:function(value){
+	// 				$('div#guest_wpa_2g').show();
+	// 			}
+	// 		}
+	// 	]
+	// });
+	$("input#security_2g").radio({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.SECURITY,
+		columns:2,
+		items:[
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.NO_SECURITY, inputValue: 'none'},
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.WPA_WPA2_PERSONAL, inputValue: 'psk'}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		switch(oldValue)
+		{
+			case 'none': 
+				// $('div#guest_wpa_2g').hide();
+				$('#guest_wpa_2g').fieldset("hide");
+				break;
+			case 'psk': 
+				break;
+		}
+		switch(newValue)
+		{
+			case 'none': 
+				// $('div#guest_wpa_2g').hide();
+				$('#guest_wpa_2g').fieldset("hide");
+				break;
+			case 'psk': 
+				// $('div#guest_wpa_2g').show();
+				$('#guest_wpa_2g').fieldset("show");
+				break
+		}
+	});
+
+	// $("input#personal_version_2g").switchbutton({
+	// 	fieldLabel: $.su.CHAR.GUEST_SETTINGS.VERSION,
+	// 	labelCls:'l',
+	// 	items:[
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.AUTO, value:'0', handler: null, cls:''},
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.WPA_PSK, value:'1', handler: null, cls:"xl"},
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.WPA2_PSK, value:'2', handler: null, cls:"l"}
+	// 	]
+	// });
+
+
+	$("input#personal_version_2g").radio({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.VERSION,
+		columns:3,
+		items:[
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.AUTO, inputValue: 'auto',  checked:true},
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.WPA_PSK, inputValue: 'wpa'},
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.WPA2_PSK, inputValue: 'rsn'}
+		]
+	});
+	
+	// $("input#personal_encryption_2g").switchbutton({
+	// 	fieldLabel: $.su.CHAR.GUEST_SETTINGS.ENCRYPTION,
+	// 	labelCls:'l',
+	// 	items:[
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.AUTO, value:'0', handler: null, cls:'', selected:true},
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.TKIP, value:'1', handler: null},
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.AES,  value:'2',handler: null}
+	// 	]
+	// });
+
+	$("input#personal_encryption_2g").radio({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.ENCRYPTION,
+		columns:3,
+		items:[
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.AUTO, inputValue: 'auto',  checked:true},
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.TKIP, inputValue: 'tkip'},
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.AES, inputValue: 'aes'}
+		]
+	});
+	
+	$("input#personal_password_2g").textbox({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.WIRELESS_PASSWORD,
+		autoTrim: false,
+		maxLength: 64
+	//	tips:$.su.CHAR.BANDWIDTHCTR.UNIT,
+	//	labelCls: "l"
+	});
+	
+	
+	// $("input#access_time_2g").switchbutton({
+	// 	fieldLabel: $.su.CHAR.GUEST_SETTINGS.ACCESS_TIME,
+	// 	labelCls: "l",
+	// 	tips: $.su.CHAR.GUEST_SETTINGS.ACCESS_TIME_TIP
+	// });
+	
+	
+	// $("input#schedule_2g").button({
+	// 	fieldLabel: "",
+	// 	labelCls:'l',
+	// 	text: $.su.CHAR.GUEST_SETTINGS.SCHEDULE
+	// });
+	
+	var guest2gProxy = new $.su.Proxy({
+		url: WIRELESS_GUEST_2G_URL_NEW
+	});
+	$("div#guest_setting_2g").form({
+		proxy: guest2gProxy,
+		fields: [
+			{name: "enable", mapping: "enable"},
+			{name: "ssid", mapping: "ssid"},
+			{name: "hidden", mapping: "hidden"},
+			{name: "encryption", mapping: "encryption"},
+			{name: "psk_version", mapping: "psk_version"},
+			{name: "psk_cipher", mapping: "psk_cipher"},
+			{name: "psk_key", mapping: "psk_key"},
+			// {name: "guest_time_2g", mapping: "guest_time_2g"},
+			// {name: "guest_schedule_2g", mapping: "guest_schedule_2g"}
+		],
+		submitBtn: 'default',
+		validator:function(){
+			var encryption = $("input#security_2g").radio("getValue");
+			if(encryption == "none")
+			{
+				return true;
+			}
+			if(encryption == "psk")
+			{
+				var val = $("input#personal_password_2g").textbox("getValue");
+				var reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{8,63}|[0-9a-fA-F]{8,64})$/;
+				if(reg.test(val))
+				{
+					return true;
+				}
+				else
+				{
+					$("input#personal_password_2g").textbox("setError",$.su.CHAR.ERROR["00000066"]);
+				}
+			}
+		},
+		autoLoad: true
+	}).on("ev_loadData", function(e, data){
+		// if(data.disabled == "on")
+		// {
+		// 	$("#status_2g").checkbox("disable");
+		// 	$("#status_2g").checkbox("setTips", $.su.CHAR.WIRELESS.ENABLE_TIPS);
+		// }
+		// else
+		// {
+		// 	$("#status_2g").checkbox("enable");
+		// 	$("#status_2g").checkbox("setTips", "");
+		// }
+		
+
+
+
+
+		if( (data.extinfo.support_band == "2G") || (data.extinfo.support_band == "none"))
+		{
+			$("span.second-mode").addClass("disabled");
+		}
+		else
+		{
+			$("span.second-mode").removeClass("disabled");
+		}
+
+	});
+	
+	
+	/////////////// 5g panel	
+	// $("div#guest_5g").panel({
+	// 	title: $.su.CHAR.GUEST_SETTINGS.SETTINGS_5GHZ,
+	// 	help: ""	//可能是个调用的id 也可能是个url
+	// });	
+	
+	$("input#status_5g").checkbox({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.WIRELESS_5G_RADIO,
+		// cls: "inline",
+		tips:"",
+		tipsCls:"l",
+		items: [
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.ENABLE_GUEST,  uncheckedValue:"off", inputValue: "on", id: "chk_enable_guest_5g"}
+		]
+	});
+	
+	$("input#network_name_5g").textbox({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.NAME_SSID,
+		//labelCls: "l",
+		vtype:{
+			vtype:"string_visible_allow_blank",
+			maxLength:32
+		},
+		maxLength:32,
+		autoTrim:false,
+		tipsCls:"after-checkbox",
+		allowBlank:false,
+		cls: 'inline-block'
+	});
+	
+	$("input#hide_ssid_5g").checkbox({
+		fieldLabel: null,
+		cls: 'inline',
+		items:[
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.HIDE_SSID,  uncheckedValue:"off", inputValue:'on' }
+		]
+	});
+	
+	
+	// $("input#security_5g").switchbutton({
+	// 	fieldLabel: $.su.CHAR.GUEST_SETTINGS.SECURITY,
+	// 	//tips: "The tips of combo multi.",
+	// 	labelCls: "l",
+	// 	items: [
+	// 		{ text: $.su.CHAR.GUEST_SETTINGS.NO_SECURITY, value:'0', cls:'l', handler:function(value){
+	// 				$('div#guest_wpa_5g').hide();
+	// 			}
+	// 		},
+	// 		{ text: $.su.CHAR.GUEST_SETTINGS.WPA_WPA2_PERSONAL, value:'1', cls:'xl', handler:function(value){
+	// 				$('div#guest_wpa_5g').show();
+	// 			}
+	// 		}
+	// 	]
+	// });
+	$("input#security_5g").radio({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.SECURITY,
+		columns:3,
+		items:[
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.NO_SECURITY, inputValue: 'none'},
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.WPA_WPA2_PERSONAL, inputValue: 'psk'}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		switch(oldValue)
+		{
+			case 'none': 
+				// $('div#guest_wpa_5g').hide();
+				$('#guest_wpa_5g').fieldset("hide");
+				break;
+			case 'psk': 
+				break;
+		}
+		switch(newValue)
+		{
+			case 'none': 
+				// $('div#guest_wpa_5g').hide();
+				$('#guest_wpa_5g').fieldset("hide");
+				break;
+			case 'psk': 
+				// $('div#guest_wpa_5g').show();
+				$('#guest_wpa_5g').fieldset("show");
+				break
+		}
+	});
+
+	// $("input#personal_version_5g").switchbutton({
+	// 	fieldLabel: $.su.CHAR.GUEST_SETTINGS.VERSION,
+	// 	labelCls:'l',
+	// 	items:[
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.AUTO, value:'0', handler: null, cls:''},
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.WPA_PSK, value:'1', handler: null, cls:"xl"},
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.WPA2_PSK, value:'2', handler: null, cls:"l"}
+	// 	]
+	// });
+
+
+	$("input#personal_version_5g").radio({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.VERSION,
+		columns:3,
+		items:[
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.AUTO, inputValue: 'auto',  checked:true},
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.WPA_PSK, inputValue: 'wpa'},
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.WPA2_PSK, inputValue: 'rsn'}
+		]
+	});
+	
+	// $("input#personal_encryption_5g").switchbutton({
+	// 	fieldLabel: $.su.CHAR.GUEST_SETTINGS.ENCRYPTION,
+	// 	labelCls:'l',
+	// 	items:[
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.AUTO, value:'0', handler: null, cls:'', selected:true},
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.TKIP, value:'1', handler: null},
+	// 		{text: $.su.CHAR.GUEST_SETTINGS.AES,  value:'2',handler: null}
+	// 	]
+	// });
+
+	$("input#personal_encryption_5g").radio({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.ENCRYPTION,
+		columns:3,
+		items:[
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.AUTO, inputValue: 'auto', checked:true},
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.TKIP, inputValue: 'tkip'},
+			{boxlabel: $.su.CHAR.GUEST_SETTINGS.AES, inputValue: 'aes'}
+		]
+	});
+	
+	$("input#personal_password_5g").textbox({
+		fieldLabel: $.su.CHAR.GUEST_SETTINGS.WIRELESS_PASSWORD,
+		autoTrim: false,
+		maxLength: 64
+	//	tips:$.su.CHAR.BANDWIDTHCTR.UNIT,
+	//	labelCls: "l"
+	});
+	
+	
+	// $("input#access_time_5g").switchbutton({
+	// 	fieldLabel: $.su.CHAR.GUEST_SETTINGS.ACCESS_TIME,
+	// 	labelCls: "l",
+	// 	tips: $.su.CHAR.GUEST_SETTINGS.ACCESS_TIME_TIP
+	// });
+	
+	
+	// $("input#schedule_5g").button({
+	// 	fieldLabel: "",
+	// 	labelCls:'l',
+	// 	text: $.su.CHAR.GUEST_SETTINGS.SCHEDULE
+	// });
+	
+	var guest5gProxy = new $.su.Proxy({
+		url: WIRELESS_GUEST_5G_URL_NEW
+	});
+	$("div#guest_setting_5g").form({
+		proxy: guest5gProxy,
+		fields: [
+			{name: "enable", mapping: "enable"},
+			{name: "ssid", mapping: "ssid"},
+			{name: "hidden", mapping: "hidden"},
+			{name: "encryption", mapping: "encryption"},
+			{name: "psk_version", mapping: "psk_version"},
+			{name: "psk_cipher", mapping: "psk_cipher"},
+			{name: "psk_key", mapping: "psk_key"},
+			// {name: "guest_time_5g", mapping: "guest_time_5g"},
+			// {name: "guest_schedule_5g", mapping: "guest_schedule_5g"}
+		],
+		submitBtn: 'default',
+		validator:function(){
+			var encryption = $("input#security_5g").radio("getValue");
+			if(encryption == "none")
+			{
+				return true;
+			}
+			if(encryption == "psk")
+			{
+				var val = $("input#personal_password_5g").textbox("getValue");
+				var reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{8,63}|[0-9a-fA-F]{8,64})$/;
+				if(reg.test(val))
+				{
+					return true;
+				}
+				else
+				{
+					$("input#personal_password_5g").textbox("setError",$.su.CHAR.ERROR["00000066"]);
+				}
+			}
+		},
+		autoLoad: true
+	}).on("ev_loadData", function(e, data){
+		// if(data.disabled == "on")
+		// {
+		// 	$("#status_5g").checkbox("disableAll");
+		// 	$("#status_5g").checkbox("setTips", $.su.CHAR.WIRELESS.ENABLE_TIPS);
+		// }
+		// else
+		// {
+		// 	$("#status_5g").checkbox("enableAll");
+		// 	$("#status_5g").checkbox("setTips", "");
+		// }
+		
+
+	});
+
+	$.post(URL_WIRELESS_2G_NEW, function(data){
+		if(typeof data.data == "undefined")
+		{
+			return;
+		}
+		// wire_channel_2g = data.data.channel;
+		wireless_2g_disabled = data.data.disabled;
+		wireless_2g_disabled_all = data.data.disabled_all;
+
+
+		if(wireless_2g_disabled == "on")
+		// if(data.disabled == "on")
+		{
+			// $("input#enable_5g").checkbox("disable");
+			// $("input#enable_5g").checkbox("setTips", $.su.CHAR.WIRELESS.ENABLE_TIPS);
+			$("#guest_setting_2g").form("disable");
+			$("#note_title_2g").removeClass("hidden");
+		}
+		else
+		{
+			// $("input#enable_5g").checkbox("enable");
+			// $("input#enable_5g").checkbox("setTips", "");
+			$("#guest_setting_2g").form("enable");
+			$("#note_title_2g").addClass("hidden");
+			if(wireless_2g_disabled_all == "on")
+			{
+				$("#status_2g").checkbox("disable");
+				$("#status_2g").checkbox("setTips", $.su.CHAR.WIRELESS.ENABLE_TIPS);
+			}
+			else
+			{
+				$("#status_2g").checkbox("enable");
+				$("#status_2g").checkbox("setTips", "");
+				sysWireless2gProxy.read({}, function(data){
+					enable = data.enable;
+					
+					if(enable == "on")
+					{
+						$("input#status_2g").checkbox("disable");
+						$("input#status_2g").checkbox("setTips", $.su.CHAR.ERROR["00000113"]);
+					}
+					else
+					{
+						// $("input#enable_2g").switchbutton("enable");
+						// $("input#enable_2g").switchbutton("setTips", "");
+					}
+				});
+			}
+		}
+	},"json");
+
+	$.post(URL_WIRELESS_5G_NEW, function(data){
+		if(typeof data.data == "undefined")
+		{
+			return;
+		}
+		// wire_channel_5g = data.data.channel;
+		wireless_5g_disabled = data.data.disabled;
+		wireless_5g_disabled_all = data.data.disabled_all;
+
+
+		if(wireless_5g_disabled == "on")
+		// if(data.disabled == "on")
+		{
+			// $("input#enable_5g").checkbox("disable");
+			// $("input#enable_5g").checkbox("setTips", $.su.CHAR.WIRELESS.ENABLE_TIPS);
+			$("#guest_setting_5g").form("disable");
+			$("#note_title_5g").removeClass("hidden");
+		}
+		else
+		{
+			// $("input#enable_5g").checkbox("enable");
+			// $("input#enable_5g").checkbox("setTips", "");
+			$("#guest_setting_5g").form("enable");
+			$("#note_title_5g").addClass("hidden");
+
+			if(wireless_5g_disabled_all == "on")
+			{
+				$("#status_5g").checkbox("disable");
+				$("#status_5g").checkbox("setTips", $.su.CHAR.WIRELESS.ENABLE_TIPS);
+			}
+			else
+			{
+				$("#status_5g").checkbox("enable");
+				$("#status_5g").checkbox("setTips", "");
+				sysWireless5gProxy.read({}, function(data){
+					enable = data.enable;
+					
+					if(enable == "on")
+					{
+						$("input#status_5g").checkbox("disable");
+						$("input#status_5g").checkbox("setTips", $.su.CHAR.ERROR["00000113"]);
+					}
+					else
+					{
+						// $("input#enable_2g").switchbutton("enable");
+						// $("input#enable_2g").switchbutton("setTips", "");
+					}
+				});
+			}
+		}
+	},"json");
+
+	
+	var helpGuestSet = new $.su.Help({
+		container: "div#help_guest_set",
+		content: ["GUEST_NETWORK_SETTINGS", "GUEST_NETWORK_WIRELESS"]
+	});
+});
+//]]>
+</script>
+
+</body>
+</html>

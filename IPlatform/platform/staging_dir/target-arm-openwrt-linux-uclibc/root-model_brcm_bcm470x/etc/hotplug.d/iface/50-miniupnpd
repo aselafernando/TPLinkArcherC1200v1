@@ -1,0 +1,30 @@
+#!/bin/sh
+iface_file="/var/miniupnpd_ext_iface"
+/etc/init.d/miniupnpd enabled && [ "$ACTION" = "ifup" ] && {
+	#initial launch of miniupnpd now that interfaces are up
+	local wanif
+	local lanif
+	local old_ifname
+	wanif=$(uci_get upnpd config external_iface)
+	lanif=$(uci_get upnpd config internal_iface)
+	old_ifname=$(cat ${iface_file})
+
+        . /lib/functions/network.sh
+        local ifname
+        network_get_device ifname ${iface:-wan}
+
+	#Changes of WAN or LAN interface
+	[ "$wanif" = "$INTERFACE" -o "$lanif" = "$INTERFACE" ] || return
+	echo $ifname > $iface_file
+
+#when wan side is ready, the daemon will check and bring up
+#if the interface name is not changed, we needn't retart the 
+#daemon
+	if [ $wanif = "$INTERFACE" ]; then
+		[ $ifname = $old_ifname ] && return
+	fi
+	
+	for iface in $(uci_get upnpd config internal_iface; uci_get upnpd config external_iface); do
+		[ "$INTERFACE" = "$iface" ] && /etc/init.d/miniupnpd restart
+	done
+}

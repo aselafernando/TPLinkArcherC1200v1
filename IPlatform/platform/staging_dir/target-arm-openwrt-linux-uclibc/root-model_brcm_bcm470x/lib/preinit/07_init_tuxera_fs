@@ -1,0 +1,15 @@
+
+init_tuxera_fs() {
+# insmod Tuxera related kernel modules
+	local tuxera_dir=/lib/modules/tuxera-fs/
+
+        insmod ${tuxera_dir}/tfat.ko
+        insmod ${tuxera_dir}/texfat.ko
+        insmod ${tuxera_dir}/tntfs.ko
+        insmod ${tuxera_dir}/thfsplus.ko
+# set network tcp paramaters. 
+	echo 4096 16384 1048576 > /proc/sys/net/ipv4/tcp_wmem
+	echo 4096 87380 1048576 > /proc/sys/net/ipv4/tcp_rmem
+}
+
+boot_hook_add preinit_main init_tuxera_fs

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+start_vlan_gro()
+{
+	for vlan in $(uci get network.lan.ifname)
+	do
+		[ -e /proc/net/vlan/$vlan ] && echo -gro 2 >> /proc/net/vlan/$vlan # open gro
+	done
+}
+
+stop_vlan_gro()
+{
+	for vlan in $(ls /proc/net/vlan)
+	do
+		if [ "$vlan" != "config" ]
+		then
+			[ -e /proc/net/vlan/$vlan ] && echo -gro 0 >> /proc/net/vlan/$vlan # close gro
+		fi
+	done
+}
+
+# Start gro when USB hotplug or IPTV restart.
+start_vlan_gro
+

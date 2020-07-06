@@ -1,0 +1,13 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：sys paras页面中survey获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":[
+		{"survey_mac":"C4-6A-B7-4A-46-43", "survey_ssid": "TP-LINK-APP1", "survey_signal":"-115dbm", "survey_channel":"6", "survey_security":"WPA2-PSK",  "key":"001"},
+		{"survey_mac":"C4-6A-B7-4A-46-44", "survey_ssid": "TP-LINK-APP2", "survey_signal":"-145dbm", "survey_channel":"4", "survey_security":"WPA2-PSK",  "key":"002"},
+		{"survey_mac":"C4-6A-B7-4A-46-45", "survey_ssid": "TP-LINK-APP3", "survey_signal":"-175dbm", "survey_channel":"7", "survey_security":"WPA2-PSK",  "key":"003"},
+		{"survey_mac":"C4-6A-B7-4A-46-46", "survey_ssid": "TP-LINK-APP4", "survey_signal":"-125dbm", "survey_channel":"2", "survey_security":"WPA2-PSK",  "key":"004"}
+	]	
+}

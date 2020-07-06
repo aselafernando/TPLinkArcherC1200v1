@@ -1,0 +1,60 @@
+#!/bin/sh /etc/rc.common
+
+START=25
+STOP=90
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+NETWORK_MOD_ID=290
+LOGX_ID_NETIFD_START=200
+LOGX_ID_NETIFD_STOP=201
+
+start() {
+	local pid=""
+	local wan_ifname=`uci get network.wan.ifname`
+
+	stop
+
+	[ -e /proc/sys/kernel/core_pattern ] && {
+		ulimit -c unlimited
+		echo '/tmp/%e.%p.%s.%t.core' > /proc/sys/kernel/core_pattern
+	}
+
+	# netifd depends on "statistics" kern module
+	insmod statistics
+	service_start /sbin/netifd
+
+	pid=$(pidof netifd)
+	if [ x"$pid" != x ]; then
+		logx -p $pid $NETWORK_MOD_ID $LOGX_ID_NETIFD_START
+	fi
+}
+
+restart() {
+	start
+}
+
+shutdown() {
+	stop
+}
+
+stop() {
+	local pid=$(pidof netifd)
+
+	ifdown -a
+	if [ x"$pid" != x ]; then
+		sleep 1
+	fi
+
+	service_stop /sbin/netifd
+	rmmod statistics
+
+	if [ x"$pid" != x ]; then
+		logx -p $pid $NETWORK_MOD_ID $LOGX_ID_NETIFD_STOP
+	fi
+}
+
+reload() {
+	ubus call network reload
+}

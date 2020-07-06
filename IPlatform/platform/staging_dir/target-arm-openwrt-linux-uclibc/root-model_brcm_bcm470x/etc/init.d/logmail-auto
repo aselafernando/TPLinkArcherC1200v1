@@ -1,0 +1,40 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+
+LOGMAIL=logmail
+
+. /lib/functions.sh
+
+start() {
+    local auto_mail auto_mail_type every_day_time every_hours
+    config_load syslog
+    config_get auto_mail mail auto_mail
+    config_get auto_mail_type mail auto_mail_type
+    config_get every_day_time mail every_day_time
+    config_get every_hours mail every_hours
+
+    local tmpfile="/tmp/logmail-auto.$$"
+    touch "$tmpfile"
+    if [ "$auto_mail" = "on" ]; then
+        if [ "$auto_mail_type" = "day_time" ]; then
+            local hour min
+            hour=${every_day_time%%:*}
+            min=${every_day_time##*:}
+            echo " $min $hour *   *   *     $LOGMAIL" > "$tmpfile"
+        elif [ "$auto_mail_type" = "hours" ]; then
+            echo "  0 */$every_hours *   *   *     $LOGMAIL" > "$tmpfile"
+        fi
+    fi
+
+    crontab -l | grep -v "$LOGMAIL" | cat - "$tmpfile" | crontab -
+    rm -f "$tmpfile"
+}
+
+stop() {
+    return 0
+}
+
+restart() {
+    start $@
+}

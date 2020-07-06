@@ -1,0 +1,9 @@
+#!/bin/sh
+
+brcm_factory()
+{
+    nvram set nvram_reset=1
+    nvram commit
+}
+
+brcm_factory

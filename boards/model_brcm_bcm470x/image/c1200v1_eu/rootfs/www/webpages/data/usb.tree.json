@@ -1,0 +1,65 @@
+{ 
+	"errorcode": false, 
+	"success": true, 
+	"data": { 
+		"uuid": "0008BF2A00021ABC", 
+		"name": "picture", 
+		"path": "N:/picture", 
+		"branches": [ { 
+			"path": "N:/picture/BMP", 
+			"name": "BMP", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/DNG", 
+			"name": "DNG", 
+			"hasBranch": true  
+		}, { 
+			"path": "N:/picture/GIF", 
+			"name": "GIF", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/HD_JPEG", 
+			"name": "HD_JPEG", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/JPEG", 
+			"name": "JPEG", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/JPEG_LRG", 
+			"name": "JPEG_LRG", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/JPEG_LRG – DMPr, +PR1+, +PR2+ Testing", 
+			"name": "JPEG_LRG – DMPr, +PR1+, +PR2+ Testing", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/JPEG_LRG – over 5MB – DMPr, +PR1+, +PR2+ Testing", 
+			"name": "JPEG_LRG – over 5MB – DMPr, +PR1+, +PR2+ Testing", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/JPEG_MED", 
+			"name": "JPEG_MED", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/JPEG_SM", 
+			"name": "JPEG_SM", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/PNG", 
+			"name": "PNG", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/PNG_LRG", 
+			"name": "PNG_LRG", 
+			"hasBranch": true 
+		}, { 
+			"path": "N:/picture/TIFF",
+			"name": "TIFF", 
+			"hasBranch": true 
+		} ], 
+		"expanded": true, 
+		"hasBranch": true 
+	} 
+} 
+ 

@@ -1,0 +1,66 @@
+#!/bin/sh
+# Copyright(c) 2011-2014 Shenzhen TP-LINK Technologies Co.Ltd.
+# file     90-vpn
+# brief    
+# author   Zhu Xianfeng<zhuxianfeng@tp-link.net>
+# version  1.0.0
+# date     02Dec14
+# history  arg 1.0.0, 02Dec14, Zhu Xianfeng, Create the file. 
+
+. /lib/functions.sh
+
+if [ "$INTERFACE" != "wan" -a "$INTERFACE" != "internet" ]; then
+	exit 0
+fi
+
+openvpn_handle()
+{
+	local enabled="off"
+	local proto="udp"
+	local port="1194"
+        local access="home"
+
+	config_load openvpn
+	config_get enabled "server" "enabled"
+	config_get proto "server" "proto"
+	config_get port "server" "port"
+	config_get access "server" "access"
+
+	if [ "$enabled" != "on" ]; then
+		fw openvpn_block $proto $port
+		return 0
+	fi
+
+	# firewall handle 
+	# iptables -t filter -I INPUT 1 -i eth0 -p udp --dport 1194 -j ACCEPT
+	if [ "$ACTION" = "ifup" ]; then
+		fw openvpn_access $proto $port $access
+	elif [ "$ACTION" = "down" ]; then 
+		fw openvpn_block $proto $port $access
+	fi
+}
+
+pptpvpn_handle()
+{
+	local enabled="off"
+
+	config_load pptpd
+	config_get enabled "pptpd" "enabled"
+	config_get smbacc  "pptpd" "samba_access"
+
+	if [ "$enabled" != "on" ]; then
+		return 0
+	fi
+
+	# firewall handle
+	# iptables -t filter -I INPUT 1 -p tcp --dport 1723 -j ACCEPT
+	# iptables -t filter -I INPUT 1 -p gre -j ACCEPT
+	if [ "$ACTION" = "ifup" ]; then
+		fw pptp_access $smbacc
+	elif [ "$ACTION" = "down" ]; then 
+		fw pptp_block
+	fi
+}
+
+openvpn_handle
+pptpvpn_handle

@@ -1,0 +1,29 @@
+{
+
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：internet页面中当前拨号类型是Dynamic IP时，以及点击Renew/Release时, 则请求该数据",
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{
+		"conntype": "pppoe",
+		
+		"ipaddr": 		"192.168.0.1",
+		"netmask": 		"255.255.255.0",
+		"gateway": 		"192.168.0.1",
+		"pri_dns": 			"1.1.1.1",
+		"snd_dns": 			"2.2.2.2",
+		"dns_mode": 			"dynamic",
+		"dyn_pridns": "2.2.2.2",
+		"dyn_snddns": "2.2.2.2",
+		"manual_pridns": 		"3.3.3.3",
+		"manual_snddns": 		"4.4.4.",
+		"mtu": 					"1500",
+		"hostname": 			"host",
+		"unicast": 		"off",
+		"mac_clone_type":		"computer",
+		
+		"conn_status": "connected"
+	}
+}

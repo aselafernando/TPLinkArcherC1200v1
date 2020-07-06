@@ -1,0 +1,80 @@
+/cgi-bin/luci/;stok=12345/admin/wireless?form=region wireless.region.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=wireless_2g wireless.24g.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=wireless_5g wireless.5g.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=wireless_2g&form=wireless_5g wireless.2g.5g.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=wps_pin wps.pin.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=wps_connect wps.query.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=maclist macFiltering.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=macfilter macFiltering.rule.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=devlist macFiltering.result.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=statistics wireless.statistics.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=guest guestSettings.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=guest_2g guestSettings.2g.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=guest_5g guestSettings.5g.json
+/cgi-bin/luci/;stok=12345/admin/disk_setting?form=metadata disk.query.json
+/cgi-bin/luci/;stok=12345/admin/disk_setting?form=remove disk.remove.json
+/cgi-bin/luci/;stok=12345/admin/disk_setting?form=scan disk.scan.json
+/cgi-bin/luci/;stok=12345/admin/disk_setting?form=contents&serial=123456789 disk.list.json
+/cgi-bin/luci/;stok=12345/admin/disk_setting?form=contents&serial=123456780 disk.list.json
+/cgi-bin/luci/;stok=12345/admin/disk_setting?form=contents&serial=123456781 disk.list.json
+
+/cgi-bin/luci/;stok=12345/admin/folder_sharing?form=account   usb.acc.json
+/cgi-bin/luci/;stok=12345/admin/folder_sharing?form=volumn   usb.volumn.json
+/cgi-bin/luci/;stok=12345/admin/folder_sharing?form=tree   usb.tree.json
+/cgi-bin/luci/;stok=12345/admin/folder_sharing?form=settings   usb.setGrid.json
+/cgi-bin/luci/;stok=12345/admin/folder_sharing?form=server   usb.setGrid.json
+/cgi-bin/luci/;stok=12345/admin/folder_sharing?form=auth   usb.auth.json
+/cgi-bin/luci/;stok=12345/admin/folder_sharing?form=mode   usb.shareAll.json
+/cgi-bin/luci/;stok=12345/admin/folder_sharing?form=all   usb.shareAllGrid.json
+/cgi-bin/luci/;stok=12345/admin/folder_sharing?form=partial   usb.folderGrid.json
+
+/cgi-bin/luci/;stok=12345/admin/print_server usb.print.json
+
+/cgi-bin/luci/;stok=12345/admin/qos?form=enable qos.status.json
+/cgi-bin/luci/;stok=12345/admin/qos?form=settings qos.set.json
+/cgi-bin/luci/;stok=12345/admin/qos?form=add qos.add.json
+
+/cgi-bin/luci/;stok=12345/admin/qos?form=list qos.rule.json
+/cgi-bin/luci/;stok=12345/admin/qos?form=applist qos.applist.json
+/cgi-bin/luci/;stok=12345/admin/qos?form=upgrade qos.upgrade.json
+
+/cgi-bin/luci/;stok=12345/admin/iptv?form=setting iptv.setttings.json
+
+
+
+/cgi-bin/luci/;stok=12345/admin/wireless?form=syspara_2g syspara.w24g.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=syspara_5g syspara.w5g.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=survey_2g sys.survey2g.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=survey_5g sys.survey5g.json
+/cgi-bin/luci/;stok=12345/admin/wireless?form=syspara_wps syspara.wps.json
+
+/cgi-bin/luci/;stok=12345/admin/syslog?form=log log.grid.json
+/cgi-bin/luci/;stok=12345/admin/syslog?form=mail syslog.mail.json
+/cgi-bin/luci/;stok=12345/admin/syslog?form=filter syslog.filter.json
+/cgi-bin/luci/;stok=12345/admin/syslog?form=types syslog.types.json
+
+/cgi-bin/luci/;stok=12345/admin/time?form=settings time.set.json
+/cgi-bin/luci/;stok=12345/admin/time?form=dst time.dst.json
+
+/cgi-bin/luci/;stok=12345/admin/diag?form=diag diag.set.json
+
+/cgi-bin/luci/;stok=12345/admin/traffic?form=status   statistic.set.json
+/cgi-bin/luci/;stok=12345/admin/traffic?form=lists   statistic.grid.json
+
+/cgi-bin/luci/;stok=12345/admin/security_settings?form=dos_setting   syspara.level.json
+
+
+/cgi-bin/luci/;stok=12345/admin/administration?form=testmail	  account.testmail.json
+/cgi-bin/luci/;stok=12345/admin/administration?form=mode   account.set.json
+/cgi-bin/luci/;stok=12345/admin/administration?form=local   account.grid.json
+/cgi-bin/luci/;stok=12345/admin/administration?form=view   macFiltering.result.json
+/cgi-bin/luci/;stok=12345/admin/administration?form=remote   account.remote.json
+/cgi-bin/luci/;stok=12345/admin/administration?form=recovery	account.xxx.json
+/cgi-bin/luci/;stok=12345/admin/administration?form=account	  account.xxx.json
+
+
+/cgi-bin/luci/;stok=12345/admin/firmware?form=upgrade firmware.set.json
+/cgi-bin/luci/;stok=12345/admin/firmware?form=config   system.backup.json
+/cgi-bin/luci/;stok=12345/admin/ledgeneral?form=setting led.json
+
+

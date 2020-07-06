@@ -1,0 +1,114 @@
+#!/bin/sh
+
+[ "$DEVICE" == "lo" ] && exit 0
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+. /lib/iptv/iptv_func.sh
+. /lib/iptv/iptv_core.sh
+
+config_load iptv  
+config_load network
+
+# Do the gc when 'iptv stop'.
+local en=$(uci_get_state iptv core enable)
+[ -z "$en" ] && exit 0
+[ "$en" != "1" ] && {
+	local brwan=$(ifconfig -a|grep "br-wan")
+	[ -n "$brwan" ] && {
+		ifconfig br-wan down 
+		brctl delbr br-wan
+	}
+	# FIXME: We found that only delete the internet_if in unload is not enough,
+	# because internet_if would be used by 'network' 'firewall' etc, after network
+	# restart, the internet_if would be created again. We delete the internet_if
+	# again after network restart.
+	local mode=$(uci_get_state iptv core mode)
+	case "$mode" in
+		Bridge)
+			echo "Do nothing in Bridge."
+		;;
+		*)
+			echo "Down the internet_if"
+			config_get wanif "iptv" "wan"
+			config_get lanif "iptv" "lan"
+			local net_ports=$(uci_get_state iptv core net_port)
+			local net_vif=$(uci_get_state iptv core net_vif)
+			local internet_vid=$(get_internet_vid "$net_ports" "$net_vif")
+			local wan_dev=${wanif%%.*} 
+			local internet_if="$wan_dev.$internet_vid"
+
+			local is_existen=$(ifconfig -a|grep -E "$internet_if")
+			[ "$internet_if" = "$lanif" ] && { 
+				is_existen="" 
+			}
+			[ -n "$is_existen" ] && {
+				ifconfig $internet_if down
+				vconfig rem $internet_if
+			}
+		;;
+	esac
+	uci_revert_state iptv
+	# Restart firewall for making sure rules normal
+	fw restart
+	exit 0
+}
+
+config_get mode "iptv" "mode"
+case "$mode" in
+	Bridge)
+	local iptv_port=$(uci_get_state iptv core wan_port)
+	[ -n "$iptv_port" ] && {
+		local iptv_vifs=$(uci_get_state iptv core wan_vif)
+		for vif in $iptv_vifs; do
+			echo "iptv.hotplug iptv_port($iptv_port) iptv_vifs($iptv_vifs)"
+			ifconfig $vif up
+			brctl addif "br-wan" $vif
+		done	  
+	}
+	;;
+	*)
+		local net_ports=$(uci_get_state iptv core net_port)
+		local iptv_ports=$(uci_get_state iptv core iptv_port)
+		local ipphone_ports=$(uci_get_state iptv core ipphone_port)
+		local mciptv_ports=$(uci_get_state iptv core mciptv_port)
+		
+		config_get wiface "iptv" "wan"
+		wiface=${wiface%%.*} 
+		[ -n "$net_ports" ] && {
+			config_get internet_tag "iptv" "internet_tag"
+			config_get internet_vprio "iptv" "internet_vprio" 
+			[ "$internet_tag" = "on" -a $internet_vprio -gt 0 ] && {
+				config_get internet_vid "iptv" "internet_vid"				
+				iptv_set_8021q_prio "${wiface}.${internet_vid}" $internet_vprio	   
+			}
+		}
+
+		[ -n "$iptv_ports" ] && {
+			config_get iptv_vprio "iptv" "iptv_vprio"
+			[ $iptv_vprio -gt 0 ] && {
+				config_get iptv_vid "iptv" "iptv_vid"				
+				iptv_set_8021q_prio "${wiface}.${iptv_vid}" $iptv_vprio				  
+			}
+		}
+		
+		[ -n "$ipphone_ports" ] && {
+			config_get ipphone_vprio "iptv" "ipphone_vprio"
+			[ $ipphone_vprio -gt 0 ] && {
+				config_get ipphone_vid "iptv" "ipphone_vid"				
+				iptv_set_8021q_prio "${wiface}.${ipphone_vid}" $ipphone_vprio				  
+			}
+		}
+
+		[ -n "$mciptv_ports" ] && {
+			config_get mciptv_vprio "iptv" "mciptv_vprio"
+			[ $mciptv_vprio -gt 0 ] && {
+				config_get mciptv_vid "iptv" "mciptv_vid"				
+				iptv_set_8021q_prio "${wiface}.${mciptv_vid}" $mciptv_vprio				  
+			}
+		}
+	;;
+esac
+
+fw restart
+

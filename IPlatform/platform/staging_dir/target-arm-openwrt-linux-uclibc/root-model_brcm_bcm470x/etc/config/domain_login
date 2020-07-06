@@ -1,0 +1,7 @@
+config default "tp_domain"
+	option domain 'tplinkwifi.net'
+	list alias 'tplinklogin.net'
+	option new_addr '192.168.0.1'
+	option old_addr '192.168.0.1'
+	option old_mask '255.255.255.0'
+	option conflict 'off'

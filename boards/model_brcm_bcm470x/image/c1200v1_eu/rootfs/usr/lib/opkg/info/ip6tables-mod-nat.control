@@ -1,0 +1,13 @@
+Package: ip6tables-mod-nat
+Version: 1.4.21-1
+Depends: ip6tables, kmod-ipt-nat6
+Provides: 
+Source: package/iptables
+Section: net
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 160
+Description:  iptables extensions for IPv6-NAT targets.

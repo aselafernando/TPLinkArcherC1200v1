@@ -1,0 +1,76 @@
+#!/bin/sh
+# Copyright(c) 2011-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+# file     nat
+# brief    cmd for other modules using
+# author   Guo Dongxian
+# version  1.0.0
+# date     25Mar14
+# history  arg 1.0.0, 25Mar14, Guo Dongxian, Create the file
+
+NAT_LIBDIR=/lib/nat
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+. $NAT_LIBDIR/nat_comm.sh
+. $NAT_LIBDIR/nat.sh
+
+case "$(type nat)" in
+	*function) ;;
+	*) exit 255;;
+esac
+
+usage() {
+	echo $0 "<action>" "<module>" "{" "<parameters>" "}"
+	exit 0
+}
+
+act=$1
+shift
+case "$act" in
+    --help|help) usage ;;
+    a|add) act=add ;;
+    d|del|delete) act=del ;;
+    *) exit $? ;;
+esac
+
+mod=$1
+shift
+[ -z "$mod" ] && usage
+! nat_check_mod $mod && usage
+
+param=$1
+shift
+[ -n "$param" ] && {
+    if [ "$param" != "{" ]; then
+        usage
+    else 
+        param=""
+        while [ "$1" != "}" ]; do
+            [ $# -eq 0 ] && usage
+            append param "$1"
+            shift
+        done
+    fi
+}
+
+local bool=$(uci_get_state nat.core.enabled)
+[ $bool -eq 0 ] && {
+    exit 0
+}
+
+if [ "$act" == "add" ]
+then
+    config_load "network"
+    rules=$(nat_${mod}_param_to_rule "$param")
+    tgt=$(nat_${mod}_target "$rules")
+
+    [ -n "$rules" -a -n "$tgt" ] && {
+        nat "$act" "$mod" "$tgt" "$" { $rules }
+    }
+    config_clear
+else
+    nat "$act" "$mod" # Flush rules
+fi
+
+exit $?
+

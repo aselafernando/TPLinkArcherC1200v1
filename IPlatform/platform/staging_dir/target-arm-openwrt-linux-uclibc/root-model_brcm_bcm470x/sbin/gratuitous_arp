@@ -1,0 +1,27 @@
+#!/bin/sh
+
+. /usr/share/libubox/jshn.sh
+
+COUNT=8
+NO_EXPORT=1
+
+get_br_name() {
+    json_init
+    json_load "`ubus call network.interface.lan status`"
+    json_get_var l3_device l3_device
+    export ${NO_EXPORT:+-n} "$1=$l3_device"
+}
+
+get_br_ip(){
+    local ip=$(uci get network.lan.ipaddr)
+    export ${NO_EXPORT:+-n} "$1=$ip"
+}   
+
+send_gratuitous_arp(){
+    get_br_name ifname
+    get_br_ip   ipaddr
+    arping -q -I "$ifname" -s "$ipaddr" -c "$COUNT" "$ipaddr" &
+}
+
+send_gratuitous_arp
+

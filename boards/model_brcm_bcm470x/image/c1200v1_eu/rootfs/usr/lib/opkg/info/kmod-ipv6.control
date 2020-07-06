@@ -1,0 +1,13 @@
+Package: kmod-ipv6
+Version: -
+Depends: kernel (=--unknown)
+Provides: 
+Source: package/kernel
+Section: kernel
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 105
+Description:  Kernel modules for IPv6 support

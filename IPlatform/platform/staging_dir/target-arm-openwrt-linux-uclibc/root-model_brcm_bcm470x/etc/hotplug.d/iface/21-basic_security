@@ -1,0 +1,24 @@
+#!/bin/sh
+# Copyright(c) 2011-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+# file     basic_security.hotplug
+# brief    
+# author   Hu luyao
+# version  1.0.0
+# date     26Feb14
+# history   arg 1.0.0, 26Feb14, Guo Dongxian, Create the file. 
+
+[ "$DEVICE" == "lo" ] && exit 0
+
+. /lib/functions.sh
+. /lib/basic_security/core.sh
+
+
+
+case "$ACTION" in
+        ifup)
+                fw_hotplug
+        ;;
+        ifdown)
+               
+        ;;
+esac

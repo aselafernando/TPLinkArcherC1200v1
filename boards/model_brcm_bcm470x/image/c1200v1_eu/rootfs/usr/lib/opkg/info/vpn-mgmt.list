@@ -1,0 +1,7 @@
+/usr/sbin/build-ovpn-crt
+/lib/upgrade/keep.d/vpn-mgmt
+/etc/hotplug.d/iface/90-vpn
+/sbin/loadopenvpncert
+/usr/sbin/vpn_mgmt
+/etc/openvpn/crt.sed
+/etc/easy-rsa/vars

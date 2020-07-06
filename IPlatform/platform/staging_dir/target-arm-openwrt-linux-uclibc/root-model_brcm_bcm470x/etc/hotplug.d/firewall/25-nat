@@ -1,0 +1,12 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+
+[ "$ACTION" = "start" ] && {
+	local f=/var/nat.switch
+    
+    [ -e $f ] && rm -f "$f"
+
+    /etc/init.d/nat restart
+}

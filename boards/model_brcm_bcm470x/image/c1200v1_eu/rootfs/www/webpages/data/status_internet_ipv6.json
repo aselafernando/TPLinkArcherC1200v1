@@ -1,0 +1,13 @@
+{
+	"errCode": false,
+	"success": true,
+	"data":{
+		"wan_macaddr": "00-11-22-33-44-55",
+		"wan_ipv6_ip6addr": "202.116.78.5",
+		"wan_ipv6_gateway": "202.116.78.1",
+		"wan_ipv6_pridns":"8.8.8.8, 8.8.8.9",
+		"wan_ipv6_snddns":"8.8.8.8, 8.8.8.9",
+		"wan_ipv6_conntype": "Dynamic IP"
+
+	}
+}

@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" manifest="app.manifest">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<link rel="shortcut icon" href="favicon.ico"/>
+<!-- <link type="text/css" href="css/reset.css" rel="stylesheet" /> -->
+
+
+
+
+
+
+
+
+
+
+<title>Opening...</title>
+<style type="text/css">
+    html {
+        color: #4d4d4d;
+        font-family: Verdana,Geneva,sans-serif;
+        font-size: 12px;
+    }
+    body{
+        margin: 0px;
+        padding:0px;
+    }
+
+    iframe{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .top-content-wrap{
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 1px 1px 8px #898989;
+        padding: 9px;
+        width: 600px;
+        z-index: 999;
+        left: 0;
+        position: absolute;
+        top: 0;
+        padding-top: 12px;
+    }
+
+    .close-layer{
+        background: rgba(0, 0, 0, 0) url("themes/blue/img/icons-01.png") no-repeat scroll -148px -406px;
+        cursor: pointer;
+        height: 15px;
+        margin-right: 5px;
+        position: absolute;
+        right: 0;
+        top: 5px;
+        width: 15px;
+    }
+
+    div.upgrade-field,div.collapse-layer{
+        display: inline-block;
+    }
+
+    div.detail-field{
+        width:420px;
+        font-size: 14px;
+        margin-top: 5px;
+        margin-left: 24px;
+    }
+
+    div.version-field{
+        width:85px;
+        margin-right: 5px;
+        margin-left: 10px;
+    }
+
+    div.version-field,div.collapse-layer{
+        vertical-align: top;
+        margin-top: 0px;
+        padding-top: 0px;
+    }
+
+
+
+    div.part-seperate button{
+        background-color: #96cc56;
+        min-width: 90px;
+        padding: 3px 6px 4px;
+        border: 0 none;
+        border-radius: 15px;
+        color: #ffffff;
+        height: 30px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    div.part-seperate button:hover{
+        background-color: #7eb73d;
+    } 
+
+    div.part-seperate button#never-btn, div.part-seperate button#remind-btn{
+        background-color: #fff;
+        border: 1px solid #96cc56;
+        color: #96cc56;
+    }
+
+    div.part-seperate button#never-btn:hover, div.part-seperate button#remind-btn:hover{
+        /*background-color: #fff;*/
+        border: 1px solid #7eb73d;
+        color: #7eb73d;
+    }
+
+
+
+    div.collapse-layer .basic-icon{
+        background: rgba(0, 0, 0, 0) url("themes/blue/img/icons-01.png") no-repeat scroll -152px -116px;
+        
+        background-position: -151px -115px;     
+        height: 22px;
+        width: 22px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .cloud-icon{
+        background: rgba(0, 0, 0, 0) url("themes/blue/img/icons-01.png") no-repeat scroll -152px -116px;
+        background-position: -1px -500px;   
+        height: 100px;
+        width: 120px;
+        display: inline-block;
+    }
+
+    div.collapse-layer .advance-icon{
+        background: rgba(0, 0, 0, 0) url("themes/blue/img/icons-01.png") no-repeat scroll -152px -116px;
+        background-position: -187px -115px; 
+        height: 22px;
+        width: 22px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    div.collapse-layer .basic-icon:hover {
+        background-position: -215px -239px;
+    }
+    div.collapse-layer .advance-icon:hover {
+        background-position: -215px -262px;
+    }
+
+    div.part-seperate{
+        padding-left:130px;
+        padding-top: 10px;
+    }
+
+    .hidden{
+        display: none
+    }
+
+    
+
+    .btn_cnt{
+        display:inline-block;  
+    }
+
+</style>
+<!--[if IE]>
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<style>
+.btn_cnt{
+    background:#fff  url(themes/blue/img/ie-05.png)  left -637px no-repeat;
+    padding:0px 0px 0px 3px; 
+    margin:0px 0px 0px 0px;  
+    float:left;
+    display:inline-block;  
+    overflow:hidden;
+}
+
+/*
+.btn_cnt:hover{
+    background:#fff  url(themes/blue/img/ie-05.png)  left -596px no-repeat;
+}
+
+.btn_cnt button:hover{
+background-position:right -678px;
+}
+*/
+div.btn_cnt button{
+    //background:url(themes/blue/img/ie-05.png)  right -717px no-repeat;
+    padding:0px 12px 0px 3px; 
+    margin:0px 10px 0px 7px;  
+    //float:left;
+    display:inline-block;  
+    width:auto;
+    overflow:visible;
+    background-image:url(themes/blue/img/ie-05.png);
+    background-position:right -718px;
+    background-repeat:no-repeat; 
+    background-color: #fff;
+}
+
+
+.cloud-icon{
+        background:url("themes/blue/img/icons-01.png") no-repeat scroll -152px -116px;
+        background-position: -7px -455px;   
+        height: 50px;
+        width: 85px;
+        display: inline-block;
+    }
+
+div.collapse-layer .advance-icon{
+        background: url("themes/blue/img/icons-01.png") no-repeat scroll -152px -116px;
+    }
+
+div.collapse-layer .basic-icon{
+        background: url("themes/blue/img/icons-01.png") no-repeat scroll -152px -116px;
+    }
+
+.close-layer{
+        background:url("themes/blue/img/icons-01.png") no-repeat scroll -148px -406px;
+    }
+.top-content-wrap{
+   border:1px solid #898989;
+}
+    div.part-seperate button{
+        background-color: #fff;
+    }
+</style>
+<![endif]-->
+
+</head>
+
+<body id="upgrade-body">
+
+<noscript>
+    <meta http-equiv="refresh" content="0; url=error.html"/>
+</noscript>
+<iframe  id="ifm_content" frameborder="0"></iframe>
+
+<div class="top-content-wrap hidden" id="top-content">
+    
+    <div class="upgrade-field version-field">
+        <span class="cloud-icon"></span>
+    </div>
+    <div class="upgrade-field detail-field">
+        <p><label id="upgrade-feature-label" class="text"></label></p>
+        <p id="upgrade-feature-detail-cnt" class="hidden">
+            <span id="upgrade-feature-detail" class="text"></span>
+        </p>
+    </div>
+
+    <div class="collapse-layer" type="button" style="display: inline-block;">
+        <span class="basic-icon"></span>
+    </div>
+
+    <div class="close-layer"></div>
+
+    <div class="part-seperate">
+        <div class="btn_cnt"><button id="never-btn" type="button"></button></div>
+        <div class="btn_cnt"><button id="remind-btn" type="button"></button></div>
+        <div class="btn_cnt"><button id="upgrade-btn" type="button"></button></div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript" src="js/libs/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/su/locale.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+    try{
+        $.su.locale.URL_LAN_CHECK =  $.su.url("/locale?form=lang");//"./data/lan.json";
+        $.su.locale.get();
+    }catch(error){
+        location.href = "./error.html";
+    };
+//]]>
+</script>
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(e){
+    var URL_UPGRADE = "/cgi-bin/luci/;stok=/upgrade?form=set";
+
+    // var checkUpgradeProxy = new $.su.Proxy({
+    //     async: false,
+    //     url: URL_UPGRADE,
+    //     autoLoad: false
+    // });
+    
+
+    var getUrlParam = function(name){
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+
+
+    var ori_url = getUrlParam("url");
+    var reg = new RegExp("(^http:|^https:)");
+    if(reg.test(ori_url))
+    {
+        ori_url = ori_url;
+    }
+    else
+    {
+        ori_url = "http://" + ori_url;
+    }
+
+
+    // var msgObj = $("#top-content").msg({
+    //     type: "window",
+    //     global: true,
+    //     title: $.su.CHAR.QUICK_SETUP.RESET_USER_TITLE,
+    //     closeBtn: false,
+    //     noHandler: function(){
+    //         $("#top-content").msg("close");
+    //         window.location.href = ori_url;
+    //     },  
+    //     cancelHandler: function(){
+    //         $("#top-content").msg("close");
+    //         window.location.href = ori_url;
+    //     },    
+    //     cls: "l"
+    // }).show();
+
+    // $.su.mask.hide();
+
+    // $("div#loading-container").hide();
+    $("#ifm_content").attr("src", ori_url);
+    // $("#ifm_content").load(function(){
+        
+    // });
+    $(".close-layer").on("click" , function(){
+        $("#top-content").hide();
+    });
+
+    // $(".basic-icon").on("click" , function(){
+    //     $("#upgrade-feature-detail-cnt").show();
+    //     $(".basic-icon").attr("class", "advance-icon");  
+    // });
+
+    // $(".advance-icon").on("click" , function(){
+    //    $("#upgrade-feature-detail-cnt").hide();
+    //    console.log(22);
+    //    $(".advance-icon").attr("class", "basic-icon"); 
+    //     console.log(33); 
+    // });
+
+    $('div.collapse-layer').on('click', '.basic-icon', function() {
+        $("#upgrade-feature-detail-cnt").show();
+        $(".basic-icon").attr("class", "advance-icon");
+    });
+
+    $('div.collapse-layer').on('click', '.advance-icon', function() {
+       $("#upgrade-feature-detail-cnt").hide();
+       $(".advance-icon").attr("class", "basic-icon"); 
+    });
+
+    $("#never-btn").on("click" , function(){
+        $.post(URL_UPGRADE, {
+            operation: "never"
+        }, function(){
+            $("#top-content").hide();
+        },"json");
+    });
+
+    $("#remind-btn").on("click" , function(){
+        $.post(URL_UPGRADE, {
+            operation: "remind"
+        }, function(){
+            $("#top-content").hide();
+        },"json");
+    });
+
+    $("#upgrade-btn").on("click" , function(){
+        $.post(URL_UPGRADE, {
+            operation: "upgrade",
+            nav: "advanced",
+            page: "firmware-upgrade"
+        }, function(){
+            location.href = "./login.html";
+        },"json");
+        //$("#top-content").hide();
+    });
+    
+    $("#never-btn").html($.su.CHAR.UPGRADE.NEVER);
+    $("#remind-btn").html($.su.CHAR.UPGRADE.REMIND);
+    $("#upgrade-btn").html($.su.CHAR.UPGRADE.UPGRADE_NOW);
+
+    
+    //$("#upgrade-feature-detail").html($.su.CHAR.UPGRADE.NOTICE);
+
+    $.post(URL_UPGRADE, {
+            operation: "read"
+        }, function(data){
+            // $("#top-content").hide();
+            //$("#upgrade-feature-label").html($.su.CHAR.UPGRADE.NOTICE);
+            if(data.data.level == 1)
+            {
+                $("#remind-btn").hide();
+                $("#never-btn").hide();
+            }
+            else
+            {
+                $("#remind-btn").show();
+                $("#never-btn").show();
+            }
+            if(data.data.content)
+            {
+                $("#upgrade-feature-label").html(data.data.content.replace(/\\\\/g,"&#92;").replace(/\\n/g,"<br>"));
+            }
+            else
+            {
+                $("#upgrade-feature-label").html($.su.CHAR.UPGRADE.NOTICE);
+            }
+
+            $("#upgrade-feature-detail").html(data.data.detail.replace(/\\\\/g,"&#92;").replace(/\\n/g,"<br>"));
+        },"json");
+    
+    var leftOff = parseInt($(window).width() - $("#top-content").width())/2;
+    $("#top-content").css("left", leftOff );
+    // $("#top-content").removeClass("hidden");
+    //$("#top-content").fadeIn(1000);
+
+    setTimeout(function(){$("#top-content").fadeIn(1000);}, 3000)
+    
+    // setTimeout("$(\"#top-content\").removeClass(\"hidden\");", 2000);
+
+    // $("button#upgrade-btn").button({
+    //     text: $.su.CHAR.UPGRADE.UPGRADE_NOW,
+    //     handler: function(e){
+    //         $("#top-content").msg("close");
+    //         window.location.href = ori_url;
+    //     },
+    //     cls: "submit upgrade-btn gap inline-block"
+    // });
+
+    // $("button#remind-btn").button({
+    //     text: $.su.CHAR.UPGRADE.REMIND,
+    //     handler: function(e){
+    //        $("#top-content").msg("close");
+    //         window.location.href = ori_url;
+    //     },
+    //     cls: "submit upgrade-btn gap inline-block"
+    // });
+
+    // $("button#never-btn").button({
+    //     text: $.su.CHAR.UPGRADE.NEVER,
+    //     handler: function(e){
+    //         $("#top-content").msg("close");
+    //         window.location.href = ori_url;
+    //     },
+    //     cls: "submit upgrade-btn inline-block"
+    // });
+    
+});
+//]]>
+</script>
+</body>
+</html>

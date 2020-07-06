@@ -1,0 +1,69 @@
+#!/usr/bin/lua
+--[[
+Copyright(c) 2008-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+
+File    : logmail
+Details : System log mailing utility.
+Author  : Ye Qianchuan <yeqianchuan@tp-link.net>
+Version : 1.0
+Date    : 4 Jun, 2014
+]]--
+
+local util = require "luci.util"
+local sys = require "luci.sys"
+local uci = require "luci.model.uci"
+local uci_r = uci.cursor()
+local email = require "luci.model.email"
+local mime = require "mime"
+local ltn12 = require "ltn12"
+
+local config = uci_r:get_all("syslog", "mail")
+if not config.from
+    or not config.to
+    or not config.smtp_server
+then
+    os.exit(1)
+end
+
+local MODEL   = uci_r:get("locale", "sysinfo", "model") or "ArcherC9"
+local name = "syslog-%s.log" % os.date("%Y-%m-%d")
+local source = {
+    headers = {
+        subject = MODEL .. ": System Log"
+    },
+    body = {
+        [1] = {
+            body = mime.eol(0, [[
+The system log is attached.
+]])
+        },
+        [2] = {
+            headers = {
+                ["content-type"] = 'text/plain; name="%s"' % name,
+                ["content-disposition"] = 'attachment; filename="%s"' % name,
+                ["content-transfer-encoding"] = "BASE64"
+            },
+            body = ltn12.source.chain(
+                sys.ltn12_popen("logread -w"),
+                ltn12.filter.chain(
+                    mime.encode("base64"),
+                    mime.wrap()
+                )
+            )
+        }
+    }
+}
+
+local rc, err = email.send({
+    from     = config.from,
+    rcpt     = config.to,
+    server   = config.smtp_server,
+    user     = config.auth == "on" and config.user or nil,
+    password = config.auth == "on" and config.password or nil,
+}, source)
+
+if not rc then
+    io.stderr:write(err)
+    io.stderr:write("\n")
+    os.exit(1)
+end

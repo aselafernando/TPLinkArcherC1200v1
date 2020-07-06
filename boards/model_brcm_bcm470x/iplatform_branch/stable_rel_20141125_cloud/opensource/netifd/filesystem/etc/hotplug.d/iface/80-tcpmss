@@ -1,0 +1,23 @@
+#!/bin/sh
+
+. /lib/functions.sh
+
+config_load network
+config_get proto internet proto "none"
+
+if [[ "$proto" != "none" && "$INTERFACE" == "internet" ]]; then
+	config_get mtu internet mru
+elif [[ "$proto" == "none" && "$INTERFACE" == "wan" ]]; then
+	config_get mtu wan mtu
+else
+	exit 0
+fi
+
+if [[ "$ACTION" == "ifup" ]]; then
+	# fw unsetmss
+	fw setmss $((mtu-40))
+elif [[ "$ACTION" == "ifdown" ]]; then
+	fw unsetmss
+fi
+
+exit 0

@@ -1,0 +1,44 @@
+# Skip fake devices (e.g. relayd)
+grep -qs "^ *$DEVICE:" /proc/net/dev || exit 0
+
+# Skip interface message not for ipv6 (e.g. "lan" "wan" "lo")
+[ $INTERFACE != "wanv6" -o $INTERFACE != "lanv6" ] && exit 0
+
+case "$ACTION" in
+	ifup)
+		include /lib/network
+		scan_interfaces
+
+		# Setup sysctls
+		local proto accept_ra send_rs accept_ra_pinfo
+		
+		config_get proto "$INTERFACE" proto
+		if [ "$proto" = "dhcp6c" ]; then
+			accept_ra=2
+			accept_ra_pinfo=0
+			send_rs=1
+		else
+			accept_ra=0
+			accept_ra_pinfo=0
+			send_rs=1
+		fi
+
+#		config_get_bool accept_ra "$INTERFACE" accept_ra $accept_ra
+#		[ $accept_ra -eq 0 ] || {
+#			logger -t ifup "Allowing Router Advertisements on $INTERFACE ($DEVICE)"
+#			accept_ra=2
+#		}
+		do_sysctl "net.ipv6.conf.$DEVICE.accept_ra" $accept_ra
+
+		# Whether to learn prefix information in RA
+		do_sysctl "net.ipv6.conf.$DEVICE.accept_ra_pinfo" $accept_ra_pinfo
+
+# 		config_get_bool send_rs "$INTERFACE" send_rs $send_rs
+# 		[ $send_rs -eq 0 ] || {
+# 			logger -t ifup "Enabling Router Solicitations on $INTERFACE ($DEVICE)"
+# 			send_rs=2
+# 		}
+		do_sysctl "net.ipv6.conf.$DEVICE.forwarding" $send_rs
+	;;
+esac
+

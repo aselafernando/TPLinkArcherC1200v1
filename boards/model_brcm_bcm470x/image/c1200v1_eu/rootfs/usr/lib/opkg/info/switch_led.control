@@ -1,0 +1,13 @@
+Package: switch_led
+Version: 1.0-1
+Depends: libledctrl, libubox, online-test
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/switch-led
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 2860
+Description:  Say SWITCH_LED

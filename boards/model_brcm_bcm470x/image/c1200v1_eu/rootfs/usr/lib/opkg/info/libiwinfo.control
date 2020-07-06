@@ -1,0 +1,14 @@
+Package: libiwinfo
+Version: 36
+Depends: 
+Provides: 
+Source: package/iwinfo
+Section: libs
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Jo-Philipp Wich <xm@subsignal.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 20234
+Description:  Wireless information library with consistent interface for proprietary Broadcom,
+ madwifi, nl80211 and wext driver interfaces.

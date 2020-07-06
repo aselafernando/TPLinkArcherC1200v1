@@ -1,0 +1,2 @@
+/etc/modules.d/32-ip6-tunnel
+/lib/modules/iplatform/ip6_tunnel.ko

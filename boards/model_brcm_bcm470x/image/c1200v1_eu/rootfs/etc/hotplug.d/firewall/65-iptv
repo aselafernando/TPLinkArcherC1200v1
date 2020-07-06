@@ -1,0 +1,20 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+
+[ "$ACTION" = "start" ] && {
+	config_load iptv
+	
+	config_get _iptv "iptv" enable
+	config_get _mode "iptv" mode
+	[ "$_iptv" = "on" -a "$_mode" = "Bridge" ] && {
+		# Add nat postrouting rules
+		local r1
+	
+		r1=$(fw list i n postrouting_rule|grep "\-m physdev")
+		[ -z "$r1" ] && {
+			fw add i n postrouting_rule ACCEPT ^ { -m physdev --physdev-is-bridged }
+		}
+	}
+}

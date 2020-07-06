@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Advance</title>
+</head>
+
+<body>
+<div class="func-container">
+	 
+
+	 <div id="staticRoute">
+	 	<div id="staticRouteGrid">
+	     		
+		</div>
+		<div id="add_staticRoute">
+			<input id="route_target" name="target"/>
+			<input id="route_netmask" name="netmask"/>
+			<input id="route_gateway" name="gateway"/>
+			<input id="route_interface" name="interface"/>
+			<input id="route_name" name="name"/>
+			<input id="route_enable" name="enable"/>
+		</div>
+	 </div>
+
+	 <div id="systemRoute">
+	 	<div id="systemRouteGrid">
+	     		
+		</div>
+	 </div>
+
+	 <div id="advanced_routing_help"></div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var URL_STATIC = $.su.url("/admin/network?form=routes_static");   //"data/advanceRouting.staticRoute.json";
+	var URL_SYSTEM = $.su.url("/admin/network?form=routes_system");   //"data/advanceRouting.systemRoute.json";
+	
+	var lanIP = 0;
+	var lanMask = 0;
+	var wanIP = 0;
+	var wanMask = 0;
+	var wanSndIP = 0;
+	var wanSndMask = 0;
+
+	var lanProxy = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=status_ipv4')
+	});
+
+	lanProxy.read({}, function(data){
+		lanIP = data.lan_ipv4_ipaddr;
+		lanMask = data.lan_ipv4_netmask;
+		wanIP = data.wan_ipv4_ipaddr;
+		wanMask = data.wan_ipv4_netmask;
+		data.wan_ipv4_snd_ipaddr?wanSndIP=data.wan_ipv4_snd_ipaddr:1;
+		data.wan_ipv4_snd_netmask?wanSndMask=data.wan_ipv4_snd_netmask:1;	
+	});
+
+
+	$("div.func-container").page({
+		title: $.su.CHAR.ADVANCED_ROUTING.STATIC_ROUTING,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+	
+	
+
+	$("div#staticRoute").panel({
+		title: $.su.CHAR.ADVANCED_ROUTING.STATIC_ROUTING,
+		collapsible: false
+	});
+
+
+	$("div#systemRoute").panel({
+		title: $.su.CHAR.ADVANCED_ROUTING.SYSTEM_ROUTING_TABLE,
+		collapsible: false
+	});
+
+	$("input#route_target").textbox({
+		fieldLabel: $.su.CHAR.ADVANCED_ROUTING.DESTINATION_NETWORK,
+		labelCls: 's',
+		textFormat: $.su.format.ip,
+		allowBlank: false,
+		vtype: 'ip'
+	});
+
+	$("input#route_netmask").textbox({
+		fieldLabel: $.su.CHAR.ADVANCED_ROUTING.SUBNET_MASK,
+		labelCls: 's',
+		allowBlank: false,
+        vtype: {
+            vtype: "netmask",
+            allowAllOneFlag: true
+        }
+	});
+
+	$("input#route_gateway").textbox({
+		fieldLabel: $.su.CHAR.ADVANCED_ROUTING.DEFAULT_GATEWAY,
+		labelCls: 's',
+		textFormat: $.su.format.ip,
+		allowBlank: false,
+        vtype: {
+            vtype: "ip",
+            allowAllZeroFlag: true
+        }
+	});
+
+	$("input#route_interface").combobox({
+		fieldLabel: $.su.CHAR.ADVANCED_ROUTING.INTERFACE,
+		labelCls: 's',
+		defaultValue: ['LAN'],
+		allowBlank: false,
+		items: [
+			{"value": "LAN", "name": $.su.CHAR.ADVANCED_ROUTING.LAN},
+			{"value": "WAN", "name": $.su.CHAR.ADVANCED_ROUTING.WAN}
+		]
+	});
+
+	$("input#route_name").textbox({
+		fieldLabel: $.su.CHAR.ADVANCED_ROUTING.DESCRIPTION,
+		labelCls: 's',
+		maxLength: 32,
+		vtype: 'string_visible_allow_blank'
+	})
+
+	$("input#route_enable").checkbox({
+		fieldLabel: '',
+		labelCls: 's',
+		items: [
+			{boxlabel: $.su.CHAR.ADVANCED_ROUTING.ENABLE, inputValue:'on', uncheckedValue:'off',checked:true}
+		]
+	});
+
+
+
+	$("div#staticRouteGrid").grid({
+		store:{
+			proxy: {
+				url: URL_STATIC
+			},
+			fields: [
+				{name: "target"},
+				{name: "netmask"},
+				{name: "gateway"},
+				{name: "interface"},
+				{name: "name"},
+				{name: "enable"}
+			],
+			autoLoad: true
+		},
+		minLines: 0,
+		editor: {			
+			content: "#add_staticRoute",
+			fields: [
+				{name: "target"},
+				{name: "netmask"},
+				{name: "gateway"},
+				{name: "interface"},				
+				{name: "name"},
+				{name: "enable"}
+			],
+			validator: function(){
+				var destination_ip = $('input#route_target').textbox('getValue');
+				var subnetMask  = $('input#route_netmask').textbox('getValue');
+				var gateway = $("input#route_gateway").textbox('getValue');
+
+				var keyNum = false;
+
+				var editorList = $("div#staticRouteGrid").grid('getEditor');
+
+				if( $("div#staticRouteGrid").grid('isEditing') ){
+					keyNum = $(editorList).editor('getEditingId');
+				}
+
+				for(var i=0; i< $("div#staticRouteGrid").grid('getStore').data.length; i++ ){
+					if(  !keyNum || ($("div#staticRouteGrid").grid('isEditing') && keyNum!=$("div#staticRouteGrid").grid('getStore').data[i].key)  )
+					{
+						if( destination_ip==$("div#staticRouteGrid").grid('getStore').data[i].target && subnetMask==$("div#staticRouteGrid").grid('getStore').data[i].netmask && gateway==$("div#staticRouteGrid").grid('getStore').data[i].gateway  ){
+							$('input#route_target').textbox('setError');
+							$($("div#staticRouteGrid").grid("getEditor")).form('setError',  $.su.CHAR.ERROR['00000107'] );
+							return false;
+						}						
+					}
+				}
+/*
+				if( !$.su.func.isNetIp( $("input#route_target").textbox('getValue'), $("input#route_netmask").textbox('getValue')) ){
+					$($("div#staticRouteGrid").grid("getEditor")).form('setError',  $.su.CHAR.ERROR['00000049'] );
+					return false;
+				}
+
+
+				if( $.su.func.isSameNet(destination_ip, lanIP, lanMask) ){
+					$('input#route_target').textbox('setError',   $.su.CHAR.ERROR['00000092'] );
+					return false;
+				}
+
+				if( $.su.func.isSameNet(destination_ip, wanIP, wanMask) ){
+					$('input#route_target').textbox('setError',   $.su.CHAR.ERROR['00000093'] );
+					return false;
+				}
+
+				if( wanSndIP!=0 && $.su.func.isSameNet(destination_ip, wanSndIP, wanSndMask) ){
+					$('input#route_target').textbox('setError',   $.su.CHAR.ERROR['00000093'] );
+					return false;
+				}
+
+				if( $.su.func.ipContain(destination_ip, subnetMask, lanIP, lanMask) ){
+					$('input#route_target').textbox('setError',   $.su.CHAR.ERROR['00000090'] );
+					return false;
+				}
+
+				if( $.su.func.ipContain(destination_ip, subnetMask, wanIP, wanMask) ){
+					$('input#route_target').textbox('setError',   $.su.CHAR.ERROR['00000091'] );
+					return false;
+				}
+
+
+				if( wanSndIP!=0 && $.su.func.ipContain(destination_ip, subnetMask, wanSndIP, wanSndMask) ){
+					$('input#route_target').textbox('setError',   $.su.CHAR.ERROR['00000091'] );
+					return false;
+				}
+			
+*/
+				return true;
+			}
+		},
+		paging: {
+		},
+		columns: [
+			{
+				xtype: "checkcolumn",
+				width: 30
+			},
+			{
+				text: $.su.CHAR.GRID.ID, 
+				xtype: "rownumberer",
+				width: 30
+			},
+			{
+				text: $.su.CHAR.ADVANCED_ROUTING.DESTINATION_NETWORK, 
+				width:100,
+				dataIndex: "target"
+			},
+			{
+				text: $.su.CHAR.ADVANCED_ROUTING.SUBNET_MASK, 
+				width:100,
+				dataIndex: "netmask"
+			},
+			{
+				text: $.su.CHAR.ADVANCED_ROUTING.DEFAULT_GATEWAY, 
+				width:100,
+				dataIndex: "gateway"
+			},
+			{
+			    text: $.su.CHAR.ADVANCED_ROUTING.INTERFACE, 
+			 	width:60,
+			 	dataIndex: "interface"
+		    },
+			{
+				text: $.su.CHAR.ADVANCED_ROUTING.DESCRIPTION, 
+				width:100,
+				dataIndex: "name"
+			},
+			{
+				text: $.su.CHAR.GRID.STATUS, 
+				width:60,
+				dataIndex: "enable",
+				xtype: "statuscolumn"
+			},
+			{
+				xtype: "settings"
+			//	width:80
+			}
+		],
+		operation: "prompt|add|delete"
+	});
+
+	$("div#systemRouteGrid").grid({
+		store:{
+			proxy: {
+				url: URL_SYSTEM
+			},
+			fields: [
+				{name: "dest"},
+				{name: "mask"},
+				{name: "gateway"},
+				{name: "interface"}
+			],
+			autoLoad: true
+		},
+		minLines: 0,
+		columns: [
+			{
+				text: $.su.CHAR.GRID.ID, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.ADVANCED_ROUTING.DESTINATION_NETWORK, 
+				width:150,
+				dataIndex: "dest"
+			},
+			{
+				text: $.su.CHAR.ADVANCED_ROUTING.SUBNET_MASK, 
+				width:170,
+				dataIndex: "mask"
+			},
+			{
+				text: $.su.CHAR.ADVANCED_ROUTING.GATEWAY, 
+				width:120,
+				dataIndex: "gateway"
+			},
+			{
+				text: $.su.CHAR.ADVANCED_ROUTING.INTERFACE, 
+				// width:80,
+				dataIndex: "interface"
+			}
+		],
+		operation: [{
+			xtype: "totalCount",
+			cls: "left",
+			fieldLabel: $.su.CHAR.ADVANCED_ROUTING.CLIENT_NUMBER
+		},"refresh"]
+	});
+
+	var helpAdvancedRouting = new $.su.Help({
+		container: "div#advanced_routing_help",
+		content: ["ADVANCED_ROUTING_STATIC_ROUTING", "ADVANCED_ROUTING_SYSTEM_ROUTING_TABLE"]
+	});
+});
+</script>
+</body>
+
+</html>

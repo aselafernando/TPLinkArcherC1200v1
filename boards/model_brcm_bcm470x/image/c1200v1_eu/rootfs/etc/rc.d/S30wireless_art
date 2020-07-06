@@ -1,0 +1,13 @@
+#!/bin/sh /etc/rc.common
+
+START=30
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+start() {
+     /sbin/wifi_firm
+     /sbin/wifi init common
+     /sbin/wifi init art
+     return 0
+}

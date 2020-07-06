@@ -1,0 +1,17 @@
+Package: tuxera-fs
+Version: 1-0.0
+Depends: 
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/tuxera-fs
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Tristan Xiao <xiaolongde@tp-link.net>
+Architecture: model_brcm_bcm470x
+Installed-Size: 389
+Description:  This package is used to replace ntfs-3g to turning NAS read/write performance.
+ It includes two parts: 
+ 1. the kernel modules(tntfs.ko, tfat.ko,texfat.ko and thfsplus.ko) that in each
+ product filesystem directory.
+ 2. the script that is used to load the kernel modules.

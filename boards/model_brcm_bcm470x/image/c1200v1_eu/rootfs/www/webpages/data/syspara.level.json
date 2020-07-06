@@ -1,0 +1,18 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：sys para页面中wps获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":{
+		"icmp_low": "3000",
+		"icmp_middle":"2000",
+		"icmp_high":"1500",
+		"udp_low":"3000",
+		"udp_middle":"2000",
+		"udp_high":"1500",
+		"syn_low":"3000",
+		"syn_middle":"2000",
+		"syn_high":"1500"
+	}
+}

@@ -1,0 +1,5 @@
+config global 'leds'
+	option enable 'off'
+	option time_start '22:00'
+	option time_end '06:00'
+	option interval '1'

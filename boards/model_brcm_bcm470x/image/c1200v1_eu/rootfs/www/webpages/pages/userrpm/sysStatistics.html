@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>statistic Control</title>
+</head>
+
+<body>
+<div class="func-container">
+	 <div id="statistic">
+	 	<form id="statistic-setting">
+	    	<input type="text"  id="statistic_statu" name="enable" value="" />
+	    	<!-- <input type="text"  id="pkt" name="pkt" value="" />  -->
+	    </form>
+	 </div>
+
+	 <div id="folder">
+	 	<div id="folderGrid">
+	     		
+		</div>
+	 </div>
+	<div id="help_sys_statisic"></div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var STATISTICS_STATUS_URL = "./data/statistic.set.json";
+	var STATISTICS_LIST_URL = "./data/statistic.grid.json";
+
+
+	var STATISTICS_STATUS_URL_NEW = $.su.url("/admin/traffic?form=status");
+	var STATISTICS_LIST_URL_NEW = $.su.url("/admin/traffic?form=lists");
+
+
+
+	var SYS_NAT_URL_NEW = $.su.url("/admin/nat?form=setting");
+
+
+
+	var sysNatProxy = new $.su.Proxy({
+		url: SYS_NAT_URL_NEW
+	});
+
+
+	$("div.func-container").page({
+		title: $.su.CHAR.STATISTICS.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$("div#statistic").panel({
+		title: $.su.CHAR.STATISTICS.TRIFFIC_STATISTICS,
+		collapsible: false
+	});
+
+	$("div#folder").panel({
+		title: $.su.CHAR.STATISTICS.TITLE,
+		collapsible: false
+	});
+
+
+	$("input#statistic_statu").switchbutton({
+		fieldLabel: $.su.CHAR.STATISTICS.ENABLE_STATISTICS,
+		// onHandler:function(){$.post(STATISTICS_STATUS_URL_NEW, {status: "on"})},
+		// offHandler:function(){$.post(STATISTICS_STATUS_URL_NEW, {status: "off"})},
+		tips:"",
+		proxy: {
+			url: STATISTICS_STATUS_URL_NEW
+		},
+		field: {
+			"name": "enable"
+		},
+		labelCls:'s'
+	});
+
+	/*$("input#pkt").textbox({
+		fieldLabel: $.su.CHAR.STATISTICS.PKT,
+		labelCls:'xl',
+		tips:$.su.CHAR.STATISTICS.UNIT
+	});*/
+
+	var ipv4Proxy = new $.su.Proxy({
+		url: "./data/statistic.set.json"
+	});
+
+
+	$("form#statistic-setting").form({
+		// proxy: ipv4Proxy,
+		fields: [
+			{name: "statistic_statu", mapping: "statistic_statu"}
+			/*{name: "pkt", mapping: "pkt"}*/
+		],
+		submitBtn: null
+	});
+
+	var storeTest = new $.su.Store({
+		proxy: {
+			url:STATISTICS_LIST_URL_NEW
+		},
+		fields: [
+			{name: "ip"},
+			{name: "total_pkt"},
+			{name: "total_byte"},
+			{name: "cur_pkt"},
+			{name: "cur_byte"},
+			{name: "cur_icmp"},
+			{name: "cur_udp"},
+			{name: "cur_syn"}
+		],
+		autoLoad: true
+	});
+
+	function enableButton()
+	{
+		// console.log(22);
+		$("#refreshBtn").button("enable");
+	}
+	
+
+	var grid = $("div#folderGrid").grid({
+		store:storeTest,
+		deleteConfirmMsgText: $.su.CHAR.STATISTICS.DELETE_CONFIRM,
+		deleteAllConfirmMsgText: $.su.CHAR.STATISTICS.DELETE_ALL_CONFIRM,
+		minLines:0,
+		paging: {
+		},
+		editor: "default",
+		columns: [
+			{
+				text: $.su.CHAR.STATISTICS.IP_MAC, 
+				width:110,
+				dataIndex: "ip"
+			},
+			{
+				text: $.su.CHAR.STATISTICS.TPKT, 
+				width:100,
+				renderer:function(val){
+					return $.su.func.escapeHtml($.su.func.changeUnit(val));
+				},
+				dataIndex: "total_pkt"
+			},
+			{
+				text: $.su.CHAR.STATISTICS.TBYTE, 
+				width:100,
+				renderer:function(val){
+					return $.su.func.escapeHtml($.su.func.changeUnit(val));
+				},
+				dataIndex: "total_byte"
+			},
+			{
+				text: $.su.CHAR.STATISTICS.CPKT, 
+				width:120,
+				renderer:function(val){
+					return $.su.func.escapeHtml($.su.func.changeUnit(val));
+				},
+				dataIndex: "cur_pkt"
+			},
+			{
+				text: $.su.CHAR.STATISTICS.CBYTE, 
+				width:120,
+				renderer:function(val){
+					return $.su.func.escapeHtml($.su.func.changeUnit(val));
+				},
+				dataIndex: "cur_byte"
+			},
+			// {
+			// 	text: $.su.CHAR.STATISTICS.CICMP, 
+			// 	width:70,
+			// 	dataIndex: "cur_icmp"
+			// },
+			// {
+			// 	text: $.su.CHAR.STATISTICS.CUDP, 
+			// 	width:70,
+			// 	dataIndex: "cur_udp"
+			// },
+			// {
+			// 	text: $.su.CHAR.STATISTICS.CSYN, 
+			// 	width:70,
+			// 	dataIndex: "cur_syn"
+
+
+			// },
+			{
+				text: $.su.CHAR.GRID.MODIFY, 
+				renderer:function(val,index){
+					var store = $("div#folderGrid").grid("getStore");
+					var key = store.data[index].key;
+
+					if(val)
+					{
+						var inHTML = "";
+						inHTML +=		"<a href=\"javascript:void(0);\" data-key=\""+key+"\" class=\"grid-content-btn btn-reset\">";
+						inHTML +=			"<span class=\"icon\"></span>";
+						inHTML += 			"<span class=\"text\">"+$.su.CHAR.OPERATION.EDIT+"</span>";
+						inHTML += 		"</a>";
+
+
+						inHTML += 		"<a href=\"javascript:void(0);\" data-key=\""+key+"\" class=\"grid-content-btn grid-content-btn-delete btn-delete\">";
+						inHTML +=			"<span class=\"icon\"></span>";
+						inHTML += 			"<span class=\"text\">"+$.su.CHAR.OPERATION.DELETE+"</span>";
+						inHTML += 		"</a>";
+						return inHTML;
+					}
+					else
+					{
+						return "--";
+					}
+					//console.log(key);
+					
+				}
+			}
+		],
+		operation: [
+
+		// "refresh",
+		{
+			xtype: "button", 
+			text: $.su.CHAR.OPERATION.REFRESH,
+			id:"refreshBtn",
+			iconCls:"btn-refresh",
+			handler:function(e){
+				//console.dir(arguments);
+				e.stopPropagation();
+				e.preventDefault();
+				$("#refreshBtn").button("disable");
+				setTimeout(enableButton, 1000);
+				grid.grid("runProgress");
+				grid.grid("getStore").load({}, function(){
+					grid.grid("prompt", true);
+				}, function(){
+					grid.grid("prompt", false);
+				}, function(){
+					grid.grid("prompt", false);
+				});
+				return true;
+			}
+		},
+		{
+			xtype: "button", 
+			text: $.su.CHAR.OPERATION.RESET_ALL,
+			id: "resetAllBtn",
+			iconCls:"btn-reset-all",
+			handler:function(){
+				/*storeTest.proxy.write({"operation":"reset_all"}, function(data){
+					storeTest.loadData(data);
+				});*/
+				$("#resetAllBtn").button("disable");
+				grid.grid("runProgress");
+				grid.grid("getStore").load({
+					"operation": "reset_all"
+				}, function(){
+					$("#resetAllBtn").button("enable");
+					grid.grid("prompt", true);
+				}, function(){
+					$("#resetAllBtn").button("enable");
+					grid.grid("prompt", false);
+				}, function(){
+					$("#resetAllBtn").button("enable");
+					grid.grid("prompt", false);
+				});
+				return false;
+			}
+		},
+		"deleteAll"
+		// {
+		// 	xtype: "button", 
+		// 	text: $.su.CHAR.STATISTICS.DEL, 
+		// 	handler:function(){
+		// 		$.ajax({
+		// 			url: "./data/statistic.grid.json",
+		// 			type: 'POST',
+		// 			data:{"operation":"delAll"},
+		// 			dataType: 'json',
+		// 			timeout: 1000,
+		// 			error: function(){return false;},
+		// 			success: function(result){
+		// 				$("div#folderGrid").grid("load");
+		// 			}
+		// 		});
+		// 		return false;
+		// 		// $("div#folderGrid").grid("removeAllData");
+		// 	}
+		// }
+		// "autoRefresh",
+		// "reset",
+		// "deleteAll",
+		]
+	});
+
+	grid.delegate("a.grid-content-btn.btn-reset", "click", function(e){
+		    // me = this;
+		    // //console.dir(grid);
+			e.preventDefault();
+			e.stopPropagation();
+			var key = $(this).attr("data-key");
+			var store = grid.get(0).store;
+			store.update(key, {"operation":"reset"});
+			return false;
+			// store.proxy.write({"operation":"reset"}, function(data){store.update()});
+			// //console.log(11);
+			
+			// 	editorObj = me.getEditor();
+
+			// if (editorObj && editorObj.isEditor){
+			// 	if (editorObj.editing === false){
+			// 		store = me.get(0).store;
+			// 		store.remove([key], {"operation":"reset"});
+			// 	}else{
+			// 		$(editorObj).editor("shake");
+			// 	};
+			// };
+		});
+
+		var helpSysStatistic = new $.su.Help({
+			container: "div#help_sys_statisic",
+			content: ["TRAFFIC_STATISTIC", "TRAFFIC_STATISTIC_LIST"]
+		});
+
+		sysNatProxy.read({}, function(data){
+		var boost_enable = data.hw_enable;
+		if(boost_enable == "on")
+		{
+			$("input#statistic_statu").switchbutton("disable");
+			$("input#statistic_statu").switchbutton("setTips", $.su.CHAR.ERROR["00000114"]);
+		}
+		else
+		{
+			$("input#statistic_statu").switchbutton("enable");
+			$("input#statistic_statu").switchbutton("setTips", "");
+		}
+	})
+
+	var refreshSysTraffic = setInterval(function(){
+		$("#refreshBtn").button("disable");
+		setTimeout(enableButton, 1000);
+		grid.grid("runProgress");
+		grid.grid("getStore").load({}, function(){
+			grid.grid("prompt", true);
+		}, function(){
+			grid.grid("prompt", false);
+		}, function(){
+			grid.grid("prompt", false);
+		});
+	},30000);
+
+	$.su.app.runningModule.addUnloadHandler(function(){
+		clearInterval(refreshSysTraffic);
+	});
+});
+</script>
+</body>
+
+</html>

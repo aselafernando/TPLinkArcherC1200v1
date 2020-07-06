@@ -1,0 +1,13 @@
+Package: luasec
+Version: 0.4-1
+Depends: lua, libopenssl, luasocket
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/opensource/luasec
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 12474
+Description:  LuaSec is a binding for OpenSSL library to provide TLS/SSL communication.

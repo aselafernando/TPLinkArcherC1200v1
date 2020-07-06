@@ -1,0 +1,17 @@
+#!/bin/sh
+
+local alias_new="$2"
+local alias_orig="$3"
+local alias_file="/etc/proftpd/alias.conf"
+
+case "$1" in
+	"start")
+		echo -e "UserAlias $alias_new $alias_orig\nDenyLoginName $alias_orig">> $alias_file 
+		;;
+	"stop")
+		sed -i "/UserAlias $alias_new $alias_orig/d" $alias_file
+		sed -i "/DenyLoginName $alias_orig/d" $alias_file
+		;;
+	*)
+		;;
+esac

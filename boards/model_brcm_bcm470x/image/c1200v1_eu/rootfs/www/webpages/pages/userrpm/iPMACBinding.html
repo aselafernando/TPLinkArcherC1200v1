@@ -1,0 +1,445 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+</head>
+
+<body>
+<div class="func-container">
+	<div id="binding_setting">
+		<input type="text" id="enable_binding" name="enable" value="" />
+	</div>
+
+	 <div id="arp_list">
+	 	<div id="arpGrid">
+	     		
+		</div>
+	 </div>
+
+	 <div id="binding_list">
+	 	<div id="bindingGrid">
+	     		
+		</div>
+		<div id="add_arpBinding">
+			<input id="bind_macaddr" name="mac"/>
+			<input id="bind_ipaddr" name="ipaddr"/>
+			<input id="bind_description" name="description"/>
+			<input id="bind_enable" name="enable"/>
+		</div>
+	 </div>
+	 <div id="help_ipmac_bind"></div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var URL_ENABLE_ARP = $.su.url("/admin/imb?form=setting");//"./data/ipmac.enable.json";
+	var URL_ARP = $.su.url("/admin/imb?form=arp_list");//"./data/ipmac.arp.json";
+	var URL_BINDING = $.su.url("/admin/imb?form=bind_list");//"./data/ipmac.bind.json";
+
+
+	$("div.func-container").page({
+		title: $.su.CHAR.IP_MAC.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$("div#binding_setting").panel({
+		title: $.su.CHAR.IP_MAC.TITLE,
+		collapsible: false
+	});
+
+	var lanIP = 0;
+	var lanMask = 0;
+
+	var lanProxy = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=lan_ipv4')
+	});
+
+	lanProxy.read({}, function(data){
+		lanIP = data.ipaddr;
+		lanMask = data.mask_type.toUpperCase()=='CUSTOM'?data.custom_value:data.mask_type;
+	});
+
+
+	var arpBindProxy = new $.su.Proxy({
+		url: URL_ENABLE_ARP
+	});
+
+	$("input#enable_binding").switchbutton({
+		fieldLabel: $.su.CHAR.IP_MAC.ENABLE_ARP,
+		proxy: arpBindProxy,
+		cls:"form-inner",
+		onCallback:function(){
+			var store = arpGrid.grid("getStore");
+			store.load();
+		},
+		offCallback:function(){
+			var store = arpGrid.grid("getStore");
+			store.load();
+
+		},
+		field: {
+			"name": "enable"
+		}
+	});
+
+
+	$("div#arp_list").panel({
+		title: $.su.CHAR.IP_MAC.ARP_LIST,
+		collapsible: false
+	});
+
+	var arpProxy = new $.su.Proxy({
+		url: URL_ARP
+	});
+	
+var arpGrid = $("div#arpGrid").grid({
+		store:{
+			proxy: arpProxy,
+			fields: [
+				{name: "mac"},
+				{name: "ipaddr"},
+				{name: "enable"}
+			],
+			autoLoad: false
+		},
+		paging: {
+		},
+		//minLines:0,
+		columns: [
+			{
+				text: $.su.CHAR.IP_MAC.ID, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.IP_MAC.MAC_ADDRESS, 
+				width:180,
+				dataIndex: "mac"
+			},
+			{
+				text: $.su.CHAR.IP_MAC.IP_ADDRESS, 
+				width:120,
+				dataIndex: "ipaddr"
+			},
+			{
+				text: $.su.CHAR.IP_MAC.BOUND, 
+				width:80,
+				dataIndex: "enable",
+				renderer:function(val)
+				{
+
+					if(val == "on")
+					{
+
+						return $.su.CHAR.IP_MAC.BOUND;
+					}
+					else
+					{
+						return $.su.CHAR.IP_MAC.UNBOUND;
+					}
+				}
+			},
+			{
+				text: $.su.CHAR.GRID.MODIFY, 
+				dataIndex: "enable",
+				renderer: function(data, i){
+					var disabled = (data == "on") ? "disabled" : "";
+                    var enable_arp = $("input#enable_binding").textbox("getValue");
+                    if (enable_arp == "off")
+                    {
+                        disabled = "disabled";
+                    }
+					var inHTML = 	"<div class=\"button-container\">";
+						inHTML += 		"<a href=\"javascript:void(0);\" class=\"grid-content-btn btn-ipmac-bind btn-bind "+disabled+"\" data-index=\""+i+"\" data-disabled=\""+disabled+"\">";
+						inHTML +=			"<span class=\"icon\"></span>";
+						inHTML += 			"<span class=\"text\">"+ $.su.CHAR.IP_MAC.BOUND + "</span>";
+						inHTML += 		"</a>";
+						inHTML += 		"<a href=\"javascript:void(0);\" class=\"grid-content-btn btn-ipmac-delete btn-delete\" data-index=\""+i+"\">";
+						inHTML +=			"<span class=\"icon\"></span>";
+						inHTML += 			"<span class=\"text\">"+ $.su.CHAR.IP_MAC.DELETE + "</span>";
+						inHTML += 		"</a>";
+						inHTML += 	"</div>";
+					return inHTML;
+				}
+			}
+		],
+		operation: [{
+			xtype: "totalCount",
+			cls: "left",
+			fieldLabel: $.su.CHAR.IP_MAC.ARP_NUM
+		},"refresh"]
+	});
+
+	arpGrid.delegate("a.btn-ipmac-bind", "click", function(){
+	   //$.post("./data/access.inline.json", {action: "block"});
+	   //blackGrid
+	   //加验证
+	  
+
+		var index = $(this).attr("data-index"),			//获得数据对应的index
+	   		store = arpGrid.grid("getStore"),	//获取store
+	   		keyProperty = store.keyProperty;			//key的属性名
+
+	   	var temp = {};									//数据备份，因为返回数据删除确认后，本地store的这部分数据已经被删除，所以先备份，用在下面表格
+	   	temp.data = $.su.clone(store.data);		//这里是所有data
+
+
+	   	var d = temp.data[index],				//当前操作的数据
+	   		key = d[keyProperty];				//当前操作的key值
+	   		d = $.su.json.toJSONString(d);		//数据格式化
+	   	var dd = temp.data[index];
+	   var maxItems = bindingGrid[0].maxRules;
+	   var len = bindingGrid.grid("getStore").data.length;
+	   var ip_exsit =  false;
+	   
+	   var bindingGridstore = bindingGrid.grid("getStore");
+					keyProperty = bindingGridstore.keyProperty;
+					grid_array = bindingGridstore.data;
+				
+				if ($.isArray(grid_array) && grid_array.length > 0) {
+					for(var k = 0; k < grid_array.length; k++){
+							var data = grid_array[k];
+							if (data["ipaddr"] == dd.ipaddr){
+								ip_exsit = true;
+								break;
+							}
+						}
+
+					}
+				
+
+
+
+
+	   if(!ip_exsit && (maxItems <= len))
+	   {
+	   		bindingGrid[0].maxRulesMsg.msg("show");
+			return;
+	   }
+
+	   	//console.log("enable", dd["enable"])
+	   	var enable_arp = $("input#enable_binding").textbox("getValue");
+
+		   	if (!key || dd["enable"] == "on" || enable_arp == "off"){ //如果链接是非绑定，要分情况不post数据到服务端，加一个datadisable;
+		   		//console.log("enable", d["enable"])
+		   		return;
+		   			   	//console.log("enable", enable_arp);
+		   	}else{
+		   		//console.log("enable1", enable_arp);
+		   		store.update(key, {
+		   			"operation": "bind",
+		   			"data": d 					//添加post过去时的data值，su中tostring方法
+		   		},function(key, data){
+
+		   			var bindingStore = bindingGrid.grid("getStore");
+		   			bindingStore.load();
+
+		   		})
+		   	};
+	   	delete temp;
+	});
+
+
+	arpGrid.delegate("a.btn-ipmac-delete", "click", function(){
+	   //$.post("./data/access.inline.json", {action: "block"});
+	   //blackGrid
+	   //加验证
+		var index = $(this).attr("data-index"),			//获得数据对应的index
+	   		store = arpGrid.grid("getStore"),	//获取store
+	   		keyProperty = store.keyProperty;			//key的属性名
+
+	   	var temp = {};									//数据备份，因为返回数据删除确认后，本地store的这部分数据已经被删除，所以先备份，用在下面表格
+	   	temp.data = $.su.clone(store.data);		//这里是所有data
+
+
+	   	var d = temp.data[index],				//当前操作的数据
+	   		key = d[keyProperty];				//当前操作的key值
+	   		d = $.su.json.toJSONString(d);		//数据格式化
+	   	//console.log("enable", dd["enable"])
+		   	if (!key){ //如果链接是非绑定，要分情况不post数据到服务端，加一个datadisable;
+		   		//console.log("enable", d["enable"])
+		   		return;
+		   	}else{
+		   		store.remove(key, {
+		   			"operation": "remove",
+		   			"data": d 					//添加post过去时的data值，su中tostring方法
+		   		},function(key, data){
+		   			var bindingStore = bindingGrid.grid("getStore");
+		   			bindingStore.load();
+		   		})
+		   	};
+	   	delete temp;
+	});
+
+
+
+
+
+	$("div#binding_list").panel({
+		title: $.su.CHAR.IP_MAC.BINDING_LIST,
+		collapsible: false
+	});
+
+	var bindingProxy = new $.su.Proxy({
+		url: URL_BINDING
+	});
+	
+	$("input#bind_macaddr").textbox({
+		fieldLabel: $.su.CHAR.IP_MAC.MAC_ADDRESS,
+		maxLength:17,
+		vtype:"mac"
+	});
+
+	$("input#bind_ipaddr").textbox({
+		fieldLabel: $.su.CHAR.IP_MAC.IP_ADDRESS,
+		textFormat:$.su.format.ip,
+		maxLength:15,
+		vtype:"ip"
+	});
+
+	$("input#bind_description").textbox({
+		fieldLabel: $.su.CHAR.IP_MAC.DESCRIPTION,
+		vtype:"string_visible_allow_blank",
+		maxLength:32,
+		tipsCls:"xs",
+		tips:$.su.CHAR.IP_MAC.OPTIONAL
+	});
+
+	$("input#bind_enable").checkbox({
+		fieldLabel: '',
+		defaultValue:["on"],
+		items: [
+			{boxlabel: $.su.CHAR.IP_MAC.ENABLE_THIS_ENTRY, inputValue:'on', uncheckedValue:'off',checked:true}
+		]
+	});
+
+
+	var bindingGrid = $("div#bindingGrid").grid({
+		store:{
+			proxy: bindingProxy,
+			fields: [
+				{name: "mac"},
+				{name: "ipaddr"},
+				{name: "description"},
+				{name: "enable"}
+			],
+			autoLoad: true
+		},
+		paging: {
+		},
+		editor: {
+			validator:function(){
+				var mac = $("input#bind_macaddr").textbox("getValue");
+				var ip = $("input#bind_ipaddr").textbox("getValue");
+				var store = bindingGrid.grid("getStore");
+					keyProperty = store.keyProperty;
+					grid_array = store.data;
+				var editor = $(bindingGrid.grid("getEditor"));
+					editingId = editor.editor("getEditingId");
+
+				if ($.isArray(grid_array) && grid_array.length > 0) {
+					for(var k = 0; k < grid_array.length; k++){
+						var data = grid_array[k];
+						if (data[keyProperty] == editingId) {
+							continue;
+						}
+						else{
+							if (data["ipaddr"] == ip){
+							$("input#bind_ipaddr").textbox("setError");
+							editor.form("setError",$.su.CHAR.ERROR["00000007"]);
+									return false;
+							}
+						}
+
+					}
+				}
+				if( !$.su.func.isSameNet( ip, lanIP, lanMask) ){
+					$("#bind_ipaddr").textbox("setError");
+					$(bindingGrid.grid("getEditor")).form('setError',  $.su.CHAR.ERROR['00000047']);
+					return false;
+				}
+				if( ip == lanIP ){
+					$("#bind_ipaddr").textbox("setError");
+					$(bindingGrid.grid("getEditor")).form('setError',  $.su.CHAR.ERROR['00000077']);
+					return false;
+				}
+
+				return true;
+
+			},
+			content: "#add_arpBinding",
+			fields: [
+				{name: "mac"},
+				{name: "ipaddr"},
+				{name: "description"},
+				{name: "enable"}
+			]
+		},
+		columns: [
+			{
+				xtype: "checkcolumn",
+				width: 32
+			},
+			{
+				text: $.su.CHAR.IP_MAC.ID, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.IP_MAC.MAC_ADDRESS, 
+				width:180,
+				dataIndex: "mac"
+			},
+			{
+				text: $.su.CHAR.IP_MAC.IP_ADDRESS, 
+				width:100,
+				dataIndex: "ipaddr"
+			},
+			{
+				text: $.su.CHAR.IP_MAC.DESCRIPTION, 
+				width:120,
+				dataIndex: "description"
+			},
+			{
+				text: $.su.CHAR.IP_MAC.ENABLE, 
+				width:80,
+				dataIndex: "enable",
+				xtype: "statuscolumn"
+			},
+			{
+				xtype: "settings"
+			}
+		],
+		operation: "prompt|add|delete"
+	});
+
+	var arpStore = arpGrid.grid("getStore");
+	var bindingStore = bindingGrid.grid("getStore");
+	$(bindingStore).on("ev_updatedata", function(key, index, data){
+		arpStore.load();
+	});
+
+	$(bindingStore).on("ev_removedata", function(key, index, data){
+		arpStore.load();
+	});
+
+	$(bindingStore).on("ev_insertdata", function(index, records){
+		arpStore.load();
+	});
+
+	var helpIpmacBind = new $.su.Help({
+			container: "div#help_ipmac_bind",
+			content: ["IPMAC_BIND_SETTING", "IPMAC_BIND_ARP", "IPMAC_BIND_LIST"]
+	});
+});
+</script>
+</body>
+
+</html>

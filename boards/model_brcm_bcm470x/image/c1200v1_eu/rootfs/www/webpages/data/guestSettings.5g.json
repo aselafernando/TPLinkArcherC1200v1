@@ -1,0 +1,15 @@
+{
+	"timeout": false,
+	"success": true,
+	"data":{
+		"enable": "off",
+		"ssid": "wire_5g_12",
+		"hidden": "on",
+		"encryption": "none",
+		
+		
+		"psk_version": "wpa",
+		"psk_cipher": "aes",
+		"psk_key":"12345678"
+	}
+}

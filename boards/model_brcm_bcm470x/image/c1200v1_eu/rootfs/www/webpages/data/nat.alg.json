@@ -1,0 +1,13 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": {
+		"ftp": "on",
+		"tftp": "on",
+		"h323": "off",
+		"rtsp": "off",
+		"pptp": "off",
+		"l2tp": "off",
+		"ipsec": "off"
+	}
+}

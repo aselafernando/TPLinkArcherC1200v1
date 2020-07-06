@@ -1,0 +1,53 @@
+[global]
+	netbios name = |NAME| 
+	display charset = |CHARSET|
+	interfaces = |INTERFACES|
+	server string = |DESCRIPTION|
+	unix charset = |CHARSET|
+	workgroup = |WORKGROUP|
+	browseable = yes
+	deadtime = 30
+	domain master = yes
+	encrypt passwords = true
+	enable core files = no
+	guest account = guest
+	guest ok = yes
+	# invalid users = root
+	username map = /etc/samba/smbusers
+	local master = yes
+	load printers = no
+	map to guest = Bad User
+	max protocol = NT1
+	min receivefile size = 16384
+	null passwords = yes
+	obey pam restrictions = yes
+	os level = 20
+	passdb backend = smbpasswd
+	preferred master = yes
+	printable = no
+	security = user
+	smb encrypt = disabled
+	smb passwd file = /etc/samba/smbpasswd
+	socket options = TCP_NODELAY IPTOS_LOWDELAY
+	syslog = 2
+	use sendfile = yes
+	writeable = yes
+	passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+ 	passwd program = /usr/bin/passwd %u
+  	unix password sync = yes
+    log file = /var/log/log.%m
+    # an integer in kilobytes 
+    max log size = 8
+    max smbd processes = 6
+    max connections = 16
+    deny login names = |DENY_LOGIN_NAMES|
+
+#[root]
+#	revalidate = yes
+#	writeable = yes
+#	valid users = root,admin,guest
+#	read list = root,admin,guest
+#	write list = root,admin,guest
+#	guest network enable = yes
+#	path = /
+

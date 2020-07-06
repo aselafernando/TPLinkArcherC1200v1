@@ -1,0 +1,287 @@
+{
+    "errCode": false,
+    "success": true,
+    "data": {
+        "flows": [
+        {
+            "up_limit": 187500,
+            "up_bps": 0,
+            "epoch": 13,
+            "src_port": "52984",
+            "dst_ip": "220.181.124.5",
+            "uid": "44",
+            "connections": 20,
+            "down_bps": 0,
+            "mac": "6c:62:6d:f7:2e:66",
+            "down_bytes": 500,
+            "up_bytes": 900,
+            "name": "website",
+            "protocol": "6",
+            "group": "website",
+            "src_ip": "192.168.1.150",
+            "dst_port": "80",
+            "policies": {
+                "down_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_active": 0,
+                "up_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_active": 0
+            },
+            "down_limit": 1875000
+        },
+        {
+            "up_limit": 187500,
+            "up_bps": 0,
+            "epoch": 13,
+            "src_port": "50772",
+            "dst_ip": "74.125.128.125",
+            "uid": "7",
+            "connections": 6,
+            "down_bps": 0,
+            "mac": "6c:62:6d:f7:2e:66",
+            "down_bytes": 500,
+            "up_bytes": 900,
+            "name": "default",
+            "protocol": "6",
+            "group": "default",
+            "src_ip": "192.168.1.150",
+            "dst_port": "5222",
+            "policies": {
+                "down_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_active": 0,
+                "up_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_active": 0
+            },
+            "down_limit": 1875000
+        },
+        {
+            "up_limit": 187500,
+            "up_bps": 0,
+            "epoch": 13,
+            "src_port": "58719",
+            "dst_ip": "8.27.235.126",
+            "uid": "77",
+            "connections": 1,
+            "down_bps": 0,
+            "mac": "6c:62:6d:f7:2e:66",
+            "down_bytes": 500,
+            "up_bytes": 900,
+            "name": "microsoftupdate",
+            "protocol": "6",
+            "group": "microsoftupdate",
+            "src_ip": "192.168.1.150",
+            "dst_port": "80",
+            "policies": {
+                "down_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_active": 0,
+                "up_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_active": 0
+            },
+            "down_limit": 1875000
+        },
+        {
+            "up_limit": 187500,
+            "up_bps": 0,
+            "epoch": 13,
+            "src_port": "4000",
+            "dst_ip": "183.60.56.40",
+            "uid": "157",
+            "connections": 1,
+            "down_bps": 0,
+            "mac": "6c:62:6d:f7:2e:66",
+            "down_bytes": 500,
+            "up_bytes": 900,
+            "name": "generic_teredo",
+            "protocol": "17",
+            "group": "default",
+            "src_ip": "192.168.1.150",
+            "dst_port": "8000",
+            "policies": {
+                "down_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_active": 0,
+                "up_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_active": 0
+            },
+            "down_limit": 1875000
+        },
+        {
+            "up_limit": 187500,
+            "up_bps": 0,
+            "epoch": 13,
+            "src_port": "33124",
+            "dst_ip": "8.8.8.8",
+            "uid": "160",
+            "connections": 52,
+            "down_bps": 0,
+            "mac": "50:e5:49:1e:7c:b2",
+            "down_bytes": 500,
+            "up_bytes": 900,
+            "name": "default",
+            "protocol": "17",
+            "group": "default",
+            "src_ip": "192.168.1.111",
+            "dst_port": "53",
+            "policies": {
+                "down_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_active": 0,
+                "up_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_active": 0
+            },
+            "down_limit": 1875000
+        },
+        {
+            "up_limit": 187500,
+            "up_bps": 0,
+            "epoch": 13,
+            "src_port": "52215",
+            "dst_ip": "121.9.212.140",
+            "uid": "161",
+            "connections": 2,
+            "down_bps": 0,
+            "mac": "50:e5:49:1e:7c:b2",
+            "down_bytes": 500,
+            "up_bytes": 900,
+            "name": "web",
+            "protocol": "6",
+            "group": "web",
+            "src_ip": "192.168.1.111",
+            "dst_port": "80",
+            "policies": {
+                "down_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_active": 0,
+                "up_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_active": 0
+            },
+            "down_limit": 1875000
+        },
+        {
+            "up_limit": 187500,
+            "up_bps": 0,
+            "epoch": 13,
+            "src_port": "60029",
+            "dst_ip": "173.194.127.140",
+            "uid": "38",
+            "connections": 3,
+            "down_bps": 0,
+            "mac": "2c:41:38:09:3e:a2",
+            "down_bytes": 500,
+            "up_bytes": 900,
+            "name": "default",
+            "protocol": "6",
+            "group": "default",
+            "src_ip": "192.168.1.200",
+            "dst_port": "80",
+            "policies": {
+                "down_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_active": 0,
+                "up_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_active": 0
+            },
+            "down_limit": 1875000
+        },
+        {
+            "up_limit": 187500,
+            "up_bps": 0,
+            "epoch": 13,
+            "src_port": "49180",
+            "dst_ip": "74.125.128.125",
+            "uid": "41",
+            "connections": 15,
+            "down_bps": 0,
+            "mac": "6c:62:6d:f7:2e:66",
+            "down_bytes": 500,
+            "up_bytes": 900,
+            "name": "default",
+            "protocol": "6",
+            "group": "default",
+            "src_ip": "192.168.1.150",
+            "dst_port": "5222",
+            "policies": {
+                "down_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_active": 0,
+                "up_profile_optimal": {
+                    "rate": 0
+                },
+                "up_profile_nominal": {
+                    "rate": 0
+                },
+                "down_profile_active": 0
+            },
+            "down_limit": 1875000
+        }]
+    }
+}

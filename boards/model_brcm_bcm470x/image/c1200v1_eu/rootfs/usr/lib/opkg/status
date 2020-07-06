@@ -1,0 +1,2083 @@
+Package: luci-lib-sys
+Version: 0.11.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: terminfo
+Version: 5.7-5
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847348
+
+Package: libuci-lua
+Version: 2013-01-04.1-1
+Depends: libuci, liblua
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847315
+
+Package: kmod-domain-tip
+Version: +1.0-
+Depends: kernel (= --unknown), kmod-domain-libs
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847319
+
+Package: iwinfo
+Version: 36
+Depends: libiwinfo
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847342
+
+Package: samba36-server
+Version: 3.6.5-3
+Depends: libuuid, libubox, libubus
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847334
+
+Package: connmode
+Version: 1.0.0-1
+Depends: libuci, libubus, ubus, ubusd, libpthread
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847318
+
+Package: radvdctl
+Version: 1.0-1
+Depends: radvd
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847332
+
+Package: kmod-lib-textsearch
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847344
+
+Package: rename
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: kmod-l2tp
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: libc
+Version: -1
+Depends: libgcc
+Provides:
+Status: install hold installed
+Essential: yes
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847348
+
+Package: iputils-ping6
+Version: 20101006-1
+Depends: libopenssl
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847322
+
+Package: access-control
+Version: 1
+Depends: iptables, kmod-ipt-conntrack, kmod-ipt-nat, client_mgmt, conntrack-tools
+Provides:
+Status: install ok installed
+Architecture: all
+Conffiles:
+ /etc/config/access_control e83f586546161199d7de634e846f1f53
+Installed-Time: 1465847315
+
+Package: administration
+Version: 1.0
+Depends: client_mgmt, factory-settings-reset, luasocket, luasec, luarsa
+Provides:
+Status: install ok installed
+Architecture: all
+Conffiles:
+ /etc/config/administration 68e0fb5fcce1afb6523f518e478f48ea
+Installed-Time: 1465847315
+
+Package: kmod-ip6-tunnel
+Version: -
+Depends: kernel (= --unknown), kmod-ipv6, kmod-iptunnel6
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: kmod-GPL_NetUSB
+Version: +1.0.0-1
+Depends: kernel (= --unknown)
+Provides:
+Status: install ok installed
+Architecture: all
+Installed-Time: 1465847323
+
+Package: opkg
+Version: 618-5
+Depends: zlib
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/opkg.conf c3e866d97b97292873f87ee28f109a07
+Installed-Time: 1465847348
+
+Package: iptables-mod-extra
+Version: 1.4.21-1
+Depends: iptables, kmod-ipt-extra
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: ip
+Version: 3.3.0-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/iproute2/rt_tables a1313318d6778fe6b8c680248ef5a463
+Installed-Time: 1465847322
+
+Package: kmod-bonding
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: libjpeg
+Version: 6b-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847323
+
+Package: ubus
+Version: 2013-01-13-bf566871bd6a633e4504c60c6fc55b2a97305a50
+Depends: libubus, libblobmsg-json, ubusd
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: libpthread
+Version: -1
+Depends: libgcc
+Provides:
+Status: install hold installed
+Essential: yes
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847349
+
+Package: sfdisk
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: alsa-lib
+Version: 1.0.24.1-1
+Depends: libpthread, librt
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847311
+
+Package: busybox
+Version: 1.19.4-6
+Provides:
+Status: install ok installed
+Essential: yes
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847317
+
+Package: base-filesystem
+Version: 1-r7549
+Depends: netifd, libc
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/hosts 0463a46c7c601af6d82f83626aa7271c
+ /etc/inittab 3fafaa42fdc6218dea5c2d54d5b2f291
+ /etc/group 76598ba5bbc1be93b2b7613993a411e7
+ /etc/passwd 55d8e4ce5b985e6e357903cc24b5387c
+ /etc/shadow 7598eaec455be5d5cf553d98ccf435f4
+ /etc/profile 2729e95cc09e5f2a7ab9daae3d7ba857
+ /etc/shells 725ba6f40dff0612f61ecd3f171bb3e1
+ /etc/sysctl.conf b2c0cfd7b436ea3b54ccb476b60e80d9
+ /etc/rc.local 1b7c2aa7550adc1b13d182a2320b8b84
+ /etc/sysupgrade.conf f91aef484370cefee501d64b5725c1d2
+ /etc/config/network f52a26b6216c6b10456715b0c2552c25
+ /etc/config/system 4b57a90f5e724d8f01710af5d661eaa8
+Installed-Time: 1465847316
+
+Package: proftpd
+Version: 1.3.4b-1
+Depends: libubox, libubus, libiconv-full, libintl-full
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/proftpd/proftpd.conf 4ca27a4955a43432e0c24a94e1a1e9a7
+Installed-Time: 1465847331
+
+Package: kmod-nfnetlink
+Version: -
+Depends: kernel (= --unknown), kmod-ipt-core
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: libubus-lua
+Version: 2013-01-13-bf566871bd6a633e4504c60c6fc55b2a97305a50
+Depends: libubus, liblua
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847315
+
+Package: logmail
+Version: 1.0
+Depends: lua, logread, luci-lib-core, luci-lib-sys, luasocket
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847326
+
+Package: wide-dhcpv6-server
+Version: 20080615-11
+Depends: kmod-ipv6
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/config/dhcp6s 2b4045e19472ad6e5a51fb78a422d340
+Installed-Time: 1465847339
+
+Package: iqos-db-parser
+Version: 1.0.0-1
+Depends: kmod-appidentify, kmod-sched-qos, libc
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847336
+
+Package: kmod-crypto-hash
+Version: -
+Depends: kernel (= --unknown), kmod-crypto-core
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847343
+
+Package: kmod-tun
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: autodetect
+Version: 1.0
+Depends: flock, pppoe-discovery, dnslookup, online-test, ip
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847316
+
+Package: libiwinfo-lua
+Version: 36
+Depends: libiwinfo, liblua, lua
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847342
+
+Package: conntrack-tools
+Version: 1.0.0-1
+Depends: libnetfilter-conntrack
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/conntrackd/conntrackd.conf 1d6497f4781ca1d72f2f901bd4cdee80
+Installed-Time: 1465847318
+
+Package: libiwinfo
+Version: 36
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: iptvc
+Version: 1-0.1
+Depends: kmod-iptvx, kmod-liblog, liblog
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847322
+
+Package: luarsa
+Version: 1
+Depends: libopenssl
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847326
+
+Package: libcurl
+Version: 7.29.0-1
+Depends: libopenssl, zlib
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847311
+
+Package: openssl-util
+Version: 1.0.1e-1
+Depends: libopenssl
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/ssl/openssl.cnf ce31ab5015842bf7c2939514a634e0e4
+Installed-Time: 1465847329
+
+Package: kmod-ipt-httphost
+Version: +1.42-3.1
+Depends: kernel (= --unknown), kmod-ipt-core
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: print-server
+Version: 1
+Depends: kmod-NetUSB
+Provides:
+Status: install ok installed
+Architecture: all
+Installed-Time: 1465847331
+
+Package: libogg
+Version: 1.1.4-2
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847325
+
+Package: kmod-lib-crc-ccitt
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847344
+
+Package: kmod-domain-dns
+Version: +1.0-
+Depends: kernel (= --unknown), kmod-domain-libs
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847319
+
+Package: kmod-stats
+Version: +1.0-
+Depends: kernel (= --unknown)
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847334
+
+Package: kmod-gre
+Version: -
+Depends: kernel (= --unknown), kmod-ipv6
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: kmod-pppoe
+Version: -
+Depends: kernel (= --unknown), kmod-ppp, kmod-pppox
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: led-night-mode
+Version: 1.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847323
+
+Package: agetty
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: kmod-pppox
+Version: -
+Depends: kernel (= --unknown), kmod-ppp
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: kmod-ipt-conntrack
+Version: -
+Depends: kernel (= --unknown), kmod-ipt-core
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847344
+
+Package: improxy
+Version: 1.0-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/config/improxy 0d35cf18b3ad6555ed9638d73cd04e4b
+Installed-Time: 1465847321
+
+Package: liblog
+Version: 1.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847325
+
+Package: base-files
+Version: 117-r7549
+Depends: netifd, libc
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847349
+
+Package: kmod-input-core
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: libexif
+Version: 0.6.19-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847324
+
+Package: password-reset
+Version: 1.0
+Depends: libuci, libpthread, luasocket
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847330
+
+Package: dnsproxy
+Version: 1.0-1
+Depends: nat, dnslookup
+Provides:
+Status: install ok installed
+Architecture: all
+Conffiles:
+ /etc/config/dnsproxy fca3b6e055e41ff51890296de4f1c8a4
+Installed-Time: 1465847319
+
+Package: mcookie
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: partx-utils
+Version: 2.21.2-1
+Depends: libblkid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: cal
+Version: 2.21.2-1
+Depends: libncurses
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: netifd
+Version: 2013-05-13-bc4a4bb127622c76085ecec7fd20448aad7bafaf
+Depends: libuci, libnl-tiny, libubus, ubus, ubusd, jshn, kmod-bonding
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847328
+
+Package: ddns-scripts
+Version: 1.0.0-21
+Depends: dnslookup
+Provides:
+Status: install ok installed
+Architecture: all
+Conffiles:
+ /etc/config/ddns e19ce3e864ba474cb345b3ddaa23e16f
+Installed-Time: 1465847318
+
+Package: nvrammanager
+Version: 1.0
+Depends: libpthread, libubus, libubox
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847328
+
+Package: openvpn-polarssl
+Version: 2.3.8-1
+Depends: kmod-tun, liblzo, libpolarssl
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/config/openvpn c9fa77e14cd0f209e9d6abe103925728
+Installed-Time: 1465847330
+
+Package: tp_wps_led
+Version: 1.0-1
+Depends: libledctrl
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: dnsmasq
+Version: 2.62-2
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/config/dhcp 26dd6eb326cffb94b91050969e596952
+ /etc/dnsmasq.conf 7cf378e58d3fe5db31f4116a16c15c61
+Installed-Time: 1465847319
+
+Package: resolveip
+Version: 2
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847332
+
+Package: traffic-stats
+Version: 1.0-1
+Depends: libubus, libubox, ubus, ubusd, libpthread
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847337
+
+Package: libblkid
+Version: 2.21.2-1
+Depends: libuuid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847337
+
+Package: luci-sgi-cgi
+Version: 0.11.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: ubusd
+Version: 2013-01-13-bf566871bd6a633e4504c60c6fc55b2a97305a50
+Depends: libubox
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: jpeg-tools
+Version: 6b-1
+Depends: libjpeg
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847323
+
+Package: libflac
+Version: 1.2.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847321
+
+Package: webpages
+Version: 1.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847339
+
+Package: pppd
+Version: 2.4.3-8
+Depends: kmod-ppp, kmod-pptp, kmod-pppoe, resolveip
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847330
+
+Package: libiconv-full
+Version: 1.11.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847347
+
+Package: kmod-ipt-trigger
+Version: +1.42-3.1
+Depends: kernel (= --unknown), kmod-ipt-core, kmod-ipt-compat-xtables
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: luci-apps
+Version: 1.0
+Depends: uhttpd, libiwinfo-lua, luci-lib-web, luci-lib-json, openssl-util, autodetect, luarsa, online-test, logreset, logread, logmail, miniupnpd
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847327
+
+Package: lsblk
+Version: 2.21.2-1
+Depends: libblkid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: kmod-pptp
+Version: -
+Depends: kernel (= --unknown), kmod-ppp, kmod-gre, kmod-pppox
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: namei
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: luasocket
+Version: 2.0.2-3
+Depends: lua
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847326
+
+Package: block-mount
+Version: 0.2.0-9
+Depends: blkid, swap-utils
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/config/fstab 20bbede62549e8e4d038d6247e09365a
+Installed-Time: 1465847316
+
+Package: kmod-ipt-nathelper-rtsp
+Version: +1.42-3.1
+Depends: kernel (= --unknown), kmod-ipt-core, kmod-ipt-conntrack-extra
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: libvorbis
+Version: 1.2.3-1
+Depends: libogg
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847325
+
+Package: miniupnpd
+Version: 1.8.20130426-2
+Depends: iptables, libip4tc, libnfnetlink
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/config/upnpd 7ac3ae02560f8ac866180b8a0b7b9d2b
+Installed-Time: 1465847327
+
+Package: iptables-mod-iprange
+Version: 1.4.21-1
+Depends: iptables, kmod-ipt-iprange
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: kmod-ipt-compat-xtables
+Version: +1.42-3.1
+Depends: kernel (= --unknown), kmod-ipt-core
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: firewall
+Version: 2-55.1
+Depends: iptables, kmod-ipt-conntrack, kmod-ipt-nat
+Provides:
+Status: install ok installed
+Architecture: all
+Conffiles:
+ /etc/config/firewall 08ef8fc70f91bf121f82589d82605e7c
+ /etc/firewall.user 43e25ef73306f7ea73813d648990b181
+Installed-Time: 1465847321
+
+Package: wireless-button
+Version: 1.0
+Depends: libuci, libpthread, luasocket, liblog
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847339
+
+Package: system-monitor
+Version: 1.0
+Depends: libubox, libubus
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847335
+
+Package: luci-app-firewall
+Version: 0.11.1-1
+Depends: firewall
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: kmod-ipt-conntrack-extra
+Version: -
+Depends: kernel (= --unknown), kmod-ipt-core, kmod-ipt-conntrack
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: kmod-domain-libs
+Version: +1.0-
+Depends: kernel (= --unknown)
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847319
+
+Package: luci-lib-ipkg
+Version: 0.11.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: iptables-mod-httphost
+Version: 1.42-3.1
+Depends: iptables, kmod-ipt-httphost
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: uuidgen
+Version: 2.21.2-1
+Depends: libuuid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: tc
+Version: 3.3.0-1
+Depends: kmod-sched-core
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847322
+
+Package: libuci
+Version: 2013-01-04.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847315
+
+Package: liblua
+Version: 5.1.4-8
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847312
+
+Package: tdb
+Version: 1.1.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847335
+
+Package: libip4tc
+Version: 1.4.21-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: kmod-appid-ext-example
+Version: +1.1.0-1
+Depends: kernel (= --unknown), kmod-appidentify
+Provides:
+Status: install ok installed
+Architecture: all
+Installed-Time: 1465847336
+
+Package: kmod-ip6tables
+Version: -
+Depends: kernel (= --unknown), kmod-ipv6
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: libcyassl
+Version: 2.7.0-1
+Depends: libpthread, librt
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847323
+
+Package: fdk-aac
+Version: 0.1.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847311
+
+Package: libdaemon
+Version: 0.14-2
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847324
+
+Package: kmod-ipt-extra
+Version: -
+Depends: kernel (= --unknown), kmod-ipt-core
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: uci
+Version: 2013-01-04.1-1
+Depends: libuci
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847315
+
+Package: lua
+Version: 5.1.4-8
+Depends: liblua
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847312
+
+Package: cloud-client
+Version: 1
+Depends: libcyassl, libpthread, libuci, libubus, ubus, ubusd, jshn, libjson, libblobmsg-json, libcurl, librt
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847318
+
+Package: losetup
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: flock
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: dropbear
+Version: 2011.54-2
+Depends: liblua
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/dropbear/dropbear_rsa_host_key d41d8cd98f00b204e9800998ecf8427e
+ /etc/dropbear/dropbear_dss_host_key d41d8cd98f00b204e9800998ecf8427e
+ /etc/config/dropbear a95420a9e43b2afcdc7152ad2c903abe
+Installed-Time: 1465847320
+
+Package: client_mgmt
+Version: 1.0-1
+Depends: libubus, libblobmsg-json, libiwinfo, libubox, libpthread, libuci
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847318
+
+Package: libnetfilter-conntrack
+Version: 0.9.1-1
+Depends: libnfnetlink, kmod-nf-conntrack-netlink
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847347
+
+Package: tmp-server
+Version: 1
+Depends: libpthread, libuci, liblua, dropbear
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847336
+
+Package: curl
+Version: 7.29.0-1
+Depends: libcurl
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847311
+
+Package: xl2tpd
+Version: 1.1.12-1
+Depends: kmod-pppol2tp, kmod-ppp, pppd, ip, resolveip
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: mtd
+Version: 18.1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847327
+
+Package: ip6tables-mod-nat
+Version: 1.4.21-1
+Depends: ip6tables, kmod-ipt-nat6
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: online-test
+Version: 1.0
+Depends: dnslookup, ubus
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847328
+
+Package: libgcc
+Version: -1
+Provides:
+Status: install hold installed
+Essential: yes
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847348
+
+Package: iptables-mod-app
+Version: 1.42-3.1
+Depends: iptables, kmod-ipt-app
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: kmod-appid-ext-spf
+Version: +1.1.0-1
+Depends: kernel (= --unknown), kmod-appidentify
+Provides:
+Status: install ok installed
+Architecture: all
+Installed-Time: 1465847336
+
+Package: libip6tc
+Version: 1.4.21-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: libledctrl
+Version: 1.0
+Depends: librt, libuci
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847323
+
+Package: basic-security
+Version: 1-0.0
+Depends: iptables, kmod-ipt-conntrack, kmod-ipt-nat
+Provides:
+Status: install ok installed
+Architecture: all
+Conffiles:
+ /etc/config/basic_security 9a534dd54373fce0a4324382dde51814
+Installed-Time: 1465847316
+
+Package: time-schedule
+Version: 1.0
+Depends: libuci, luci-lib-core, libjson
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847336
+
+Package: luci-proto-ppp
+Version: 0.11.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: bpalogin
+Version: 2.0.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847316
+
+Package: tddp
+Version: 1.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847335
+
+Package: libuuid
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: wipefs
+Version: 2.21.2-1
+Depends: libblkid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847339
+
+Package: switch-setup
+Version: 1
+Provides:
+Status: install ok installed
+Architecture: all
+Conffiles:
+ /etc/config/switch d7e6f225e08870db1002e9634a4c1ba5
+Installed-Time: 1465847335
+
+Package: cfdisk
+Version: 2.21.2-1
+Depends: libblkid, libncurses
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: libubox
+Version: 2013-07-04-11e8afea0f7eb34f8c23a8e589ee659c46f3f8aa
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847312
+
+Package: whereis
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847339
+
+Package: usbshare
+Version: 1
+Depends: libblkid, libuuid, libuci, liblog
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847337
+
+Package: logread
+Version: 1.0
+Depends: lua, liblogread-lua
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847325
+
+Package: apptest
+Version: 1.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847316
+
+Package: logd
+Version: 1.0
+Depends: log-i18n
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847325
+
+Package: liblzo
+Version: 2.06-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847327
+
+Package: time-settings
+Version: 1
+Provides:
+Status: install ok installed
+Architecture: all
+Installed-Time: 1465847336
+
+Package: kmod-ipv6-pass-through
+Version: +1.0-
+Depends: kernel (= --unknown)
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847322
+
+Package: libjson
+Version: 0.9-2
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847324
+
+Package: qos
+Version: 1-0.0
+Depends: iptables, kmod-ipt-conntrack, kmod-ipt-iprange, iptables-mod-iprange, kmod-ipt-app, iptables-mod-app, iqos-db-loader, iqos-db-parser
+Provides:
+Status: install ok installed
+Architecture: all
+Conffiles:
+ /etc/config/qos f2c1dd7c5bd9c47058815086fc9fb614
+Installed-Time: 1465847331
+
+Package: kmod-button-poll
+Version: -3
+Depends: kernel (= --unknown)
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847318
+
+Package: logx
+Version: 1.0
+Depends: liblog
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847326
+
+Package: luci-lib-web
+Version: 0.11.1-1
+Depends: luci-lib-core, luci-lib-sys, luci-lib-nixio, luci-lib-core, luci-sgi-cgi
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/config/luci 9ad93451ad3c977ed4ca90da98bcc1ea
+Installed-Time: 1465847314
+
+Package: librt
+Version: -1
+Depends: libpthread
+Provides:
+Status: install hold installed
+Essential: yes
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847349
+
+Package: libtiff
+Version: 4.0.3-1
+Depends: zlib, libjpeg
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847335
+
+Package: tiff-utils
+Version: 4.0.3-1
+Depends: libtiff
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847335
+
+Package: kmod-liblog
+Version: +1.0-
+Depends: kernel (= --unknown)
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847326
+
+Package: swap-utils
+Version: 2.21.2-1
+Depends: libblkid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: findfs
+Version: 2.21.2-1
+Depends: libblkid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: libblobmsg-json
+Version: 2013-07-04-11e8afea0f7eb34f8c23a8e589ee659c46f3f8aa
+Depends: libjson, libubox
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847312
+
+Package: liblogread-lua
+Version: 1.0
+Depends: liblua, logd, log-i18n
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847325
+
+Package: libintl-full
+Version: 0.18.1.1-2
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: kmod-crypto-ecb
+Version: -
+Depends: kernel (= --unknown), kmod-crypto-manager, kmod-crypto-core
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847344
+
+Package: cloud-luci
+Version: 1
+Depends: luci-lib-json
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847318
+
+Package: kmod-ipt-app
+Version: +1.42-3.1
+Depends: kernel (= --unknown), kmod-ipt-core
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: iptables
+Version: 1.4.21-1
+Depends: kmod-ipt-core, libip4tc, libip6tc, libxtables
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: hotplug2
+Version: 1.0-beta-4
+Depends: libbsd
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/hotplug2.rules d4975ba71cf50d3d3c286b0de0f0929a
+Installed-Time: 1465847321
+
+Package: kmod-ipt-nathelper
+Version: -
+Depends: kernel (= --unknown), kmod-ipt-core, kmod-ipt-nat
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: kmod-nf-conntrack-netlink
+Version: -
+Depends: kernel (= --unknown), kmod-nfnetlink, kmod-ipt-conntrack
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: kmod-br-filter
+Version: -3
+Depends: kernel (= --unknown)
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847317
+
+Package: ntfs-3g
+Version: 2011.4.12-1-fuseint
+Depends: kmod-fuse, libpthread
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847328
+
+Package: lanv6
+Version: 1.0-1
+Depends: radvd, wide-dhcpv6-server
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847323
+
+Package: kmod-sit
+Version: -
+Depends: kernel (= --unknown), kmod-ipv6, kmod-iptunnel4
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: kmod-fuse
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847344
+
+Package: bridge
+Version: 1.5-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847317
+
+Package: ds-lite
+Version: 1-1
+Depends: kmod-ipv6, kmod-ip6-tunnel
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847320
+
+Package: jshn
+Version: 2013-07-04-11e8afea0f7eb34f8c23a8e589ee659c46f3f8aa
+Depends: libjson
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847312
+
+Package: iqos-db-loader
+Version: 1.0.0-1
+Depends: kmod-appidentify, kmod-sched-qos, libc
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847336
+
+Package: libncurses
+Version: 5.7-5
+Depends: terminfo
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847348
+
+Package: kmod-ipt-core
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847344
+
+Package: libpcap
+Version: 1.1.1-2
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847325
+
+Package: kmod-ipv6
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: iptables-mod-trigger
+Version: 1.42-3.1
+Depends: iptables, kmod-ipt-trigger
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: setterm
+Version: 2.21.2-1
+Depends: libncurses
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: libpolarssl
+Version: 1.2.12-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847330
+
+Package: kmod-ppp
+Version: -
+Depends: kernel (= --unknown), kmod-lib-crc-ccitt
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: kmod-NetUSB
+Version: +1.0.0-1
+Depends: kernel (= --unknown), kmod-GPL_NetUSB
+Provides:
+Status: install ok installed
+Architecture: all
+Installed-Time: 1465847323
+
+Package: ledctrl
+Version: 1.0
+Depends: libledctrl, liblog
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847323
+
+Package: hwclock
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: libbsd
+Version: 0.3.0-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847347
+
+Package: openvpn-easy-rsa
+Version: 2013-01-30-2
+Depends: openssl-util
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/easy-rsa/keys/serial 0ade138937c4b9cb36a28e2edb6485fc
+ /etc/easy-rsa/keys/index.txt d41d8cd98f00b204e9800998ecf8427e
+Installed-Time: 1465847330
+
+Package: libnfnetlink
+Version: 1.0.0-2
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847347
+
+Package: minidlna
+Version: 1.1.2-1
+Depends: libpthread, libexif, libjpeg, libsqlite3, libffmpeg, libid3tag, libflac, libvorbis, libuuid, libtiff, libubox, libubus, libiconv-full, libintl-full
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/config/minidlna 9b14ee30ebe4f0aade3e70b45150b562
+Installed-Time: 1465847327
+
+Package: libubus
+Version: 2013-01-13-bf566871bd6a633e4504c60c6fc55b2a97305a50
+Depends: libubox
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: uhttpd
+Version: 2012-10-30-e57bf6d8bfa465a50eea2c30269acdfe751a46fd
+Depends: libubox
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/config/uhttpd 83ac7209f0c6f356fc327bacd04cf2d4
+Installed-Time: 1465847315
+
+Package: kmod-iptunnel4
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: luasec
+Version: 0.4-1
+Depends: lua, libopenssl, luasocket
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847326
+
+Package: kmod-iptunnel6
+Version: -
+Depends: kernel (= --unknown), kmod-ipv6
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: dnslookup
+Version: 1.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847319
+
+Package: luac
+Version: 5.1.4-8
+Depends: liblua
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847312
+
+Package: ip6tables
+Version: 1.4.21-1
+Depends: kmod-ip6tables, iptables
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: libxtables
+Version: 1.4.21-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: libmount
+Version: 2.21.2-1
+Depends: libblkid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847337
+
+Package: zlib
+Version: 1.2.7-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847349
+
+Package: tuxera-fs
+Version: 1-0.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847337
+
+Package: luci-lib-nixio
+Version: 0.11.1-1
+Depends: luci-lib-core, libifaddrs
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: kmod-iptvx
+Version: +1-0.1
+Depends: kernel (= --unknown)
+Provides:
+Status: install ok installed
+Architecture: all
+Installed-Time: 1465847322
+
+Package: luci-lib-json
+Version: 0.11.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: dos-protection
+Version: 1.0-1
+Depends: libuci, luci-lib-core, libubus, ubus, ubusd, libpthread, librt, traffic-stats, conntrack-tools, liblog
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847319
+
+Package: logger
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: parental-control
+Version: 1-0.0
+Depends: iptables, kmod-ipt-conntrack, kmod-ipt-nat, time-schedule, client_mgmt, kmod-ipt-httphost, iptables-mod-httphost
+Provides:
+Status: install ok installed
+Architecture: all
+Conffiles:
+ /etc/config/parental_control d6184c2768b24fb263d2a07e8ed82834
+Installed-Time: 1465847330
+
+Package: factory-settings-reset
+Version: 1.0
+Depends: libuci, libpthread, luasocket, liblog
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847320
+
+Package: kmod-ipt-nathelper-extra
+Version: -
+Depends: kernel (= --unknown), kmod-ipt-core, kmod-ipt-nat, kmod-lib-textsearch
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: pptpd
+Version: 1.4.0-1
+Depends: kmod-ppp, kmod-gre, kmod-mppe, pppd
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/pptpd.conf cdb8b23d8921a60dffd941b5686a1dc5
+ /etc/config/pptpd 2bd9b4f3c283ce68bc18a89d223376f4
+Installed-Time: 1465847331
+
+Package: pppoe-discovery
+Version: 3.8p
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847331
+
+Package: wide-dhcpv6-client
+Version: 20080615-11
+Depends: kmod-ipv6
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847339
+
+Package: radvd
+Version: 1.7-1
+Depends: kmod-ipv6, libdaemon, libifaddrs
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Conffiles:
+ /etc/config/radvd 60c3ad8ad87d5dd14799fe7a5db73f72
+Installed-Time: 1465847332
+
+Package: fdisk
+Version: 2.21.2-1
+Depends: libblkid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: libid3tag
+Version: 0.15.1b-3
+Depends: zlib
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847324
+
+Package: libifaddrs
+Version: 1.0.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847322
+
+Package: look
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: uuidd
+Version: 2.21.2-1
+Depends: libuuid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: libsqlite3
+Version: 3071201-1
+Depends: libpthread
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847334
+
+Package: wps-socket
+Version: 1.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847340
+
+Package: getopt
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: script-utils
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: ip6tables-extra
+Version: 1.4.21-1
+Depends: ip6tables, kmod-ip6tables-extra
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847341
+
+Package: kernel
+Version: --unknown
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847343
+
+Package: libnl-tiny
+Version: 0.1-3
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847324
+
+Package: libbz2
+Version: 1.0.6-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847311
+
+Package: blkid
+Version: 2.21.2-1
+Depends: libblkid
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: wall
+Version: 2.21.2-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: luci-proto-core
+Version: 0.11.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: kmod-mppe
+Version: -
+Depends: kernel (= --unknown), kmod-ppp, kmod-crypto-core, kmod-crypto-arc4, kmod-crypto-sha1, kmod-crypto-ecb
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: 6rd
+Version: 2-1
+Depends: kmod-ipv6, kmod-sit
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847315
+
+Package: luci-i18n-english
+Version: 0.11.1-1
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: mount-utils
+Version: 2.21.2-1
+Depends: libmount
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847338
+
+Package: uhttpd-mod-ubus
+Version: 2012-10-30-e57bf6d8bfa465a50eea2c30269acdfe751a46fd
+Depends: uhttpd, libubus, libblobmsg-json
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847315
+
+Package: nat
+Version: 1-0.1
+Depends: iptables, kmod-ipt-conntrack, kmod-ipt-nat, kmod-ipt-trigger, iptables-mod-trigger
+Provides:
+Status: install ok installed
+Architecture: all
+Conffiles:
+ /etc/config/nat 4f5125ac32887c76e18ab5db96242d27
+Installed-Time: 1465847328
+
+Package: radvdump
+Version: 1.7-1
+Depends: kmod-ipv6, libdaemon, libifaddrs
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847332
+
+Package: logreset
+Version: 1.0
+Depends: mtd
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847325
+
+Package: libffmpeg-mini
+Version: 0.11.2-1
+Depends: libpthread, zlib, libbz2
+Provides: libffmpeg
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847320
+
+Package: switch_led
+Version: 1.0-1
+Depends: libledctrl, libubox, online-test
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847334
+
+Package: liblog-lua
+Version: 1.0
+Depends: liblua, liblog
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847325
+
+Package: kmod-crypto-arc4
+Version: -
+Depends: kernel (= --unknown), kmod-crypto-core
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847344
+
+Package: kmod-crypto-sha1
+Version: -
+Depends: kernel (= --unknown), kmod-crypto-hash, kmod-crypto-core
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847344
+
+Package: kmod-appidentify
+Version: +1.1.0-1
+Depends: kernel (= --unknown)
+Provides:
+Status: install ok installed
+Architecture: all
+Installed-Time: 1465847336
+
+Package: kmod-pppol2tp
+Version: -
+Depends: kernel (= --unknown), kmod-ppp, kmod-pppox, kmod-l2tp
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: libopenssl
+Version: 1.0.1e-1
+Depends: zlib
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847329
+
+Package: luci-lib-core
+Version: 0.11.1-1
+Depends: lua, libuci-lua, libubus-lua
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847314
+
+Package: 6to4
+Version: 1.0-1
+Depends: libpcap, kmod-sit
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847315
+
+Package: log-i18n
+Version: 1.0
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847326
+
+Package: kmod-sched-core
+Version: -
+Depends: kernel (= --unknown)
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847346
+
+Package: vpn-mgmt
+Version: 1
+Depends: libuci
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847339
+
+Package: kmod-ipt-iprange
+Version: -
+Depends: kernel (= --unknown), kmod-ipt-core
+Provides:
+Status: install hold installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847345
+
+Package: imb
+Version: 1.0-1
+Depends: libuci, luci-lib-core, libubus, ubus, ubusd, libpthread, liblog
+Provides:
+Status: install ok installed
+Architecture: model_brcm_bcm470x
+Installed-Time: 1465847321
+

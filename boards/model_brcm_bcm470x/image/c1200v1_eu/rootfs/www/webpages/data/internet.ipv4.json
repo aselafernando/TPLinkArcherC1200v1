@@ -1,0 +1,10 @@
+{
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{		
+		"conntype": "l2tp",
+		"autodetect": "off"
+	}
+}

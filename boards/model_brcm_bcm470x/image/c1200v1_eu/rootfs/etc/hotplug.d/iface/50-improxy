@@ -1,0 +1,9 @@
+#!/bin/sh
+# Copyright (c) 2014 The Linux Foundation. All rights reserved.
+
+. /lib/functions.sh
+
+/etc/init.d/improxy enabled && [ "$ACTION" = "ifup" ] && {
+	/etc/init.d/improxy restart
+}
+

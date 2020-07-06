@@ -1,0 +1,13 @@
+Package: ledctrl
+Version: 1.0
+Depends: libledctrl, liblog
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/ledctrl
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 6800
+Description:  LED Controller for TP-Link

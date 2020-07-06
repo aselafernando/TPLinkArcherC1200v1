@@ -1,0 +1,24 @@
+{
+	
+	
+	"timeout": false,
+	"success": true,
+	"data":{
+		"enable": "on", 
+		"mode":"Bridge",
+		"internet_tag":"on",
+		"internet_vid":"2",
+		"internet_vprio":"3",
+		"ipphone_vid":"3",
+		"ipphone_vprio":"4",
+		"iptv_vid":"5",
+		"iptv_vprio":"6",
+		"mciptv_enable":"on",
+		"mciptv_vid":"4",
+		"mciptv_vprio":"6",
+		"lan1":"Internet",
+		"lan2":"IPTV",
+		"lan3":"IP-Phone",
+		"lan4":"IP-Phone"
+	}
+}

@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>QoS</title>
+</head>
+
+<body>
+<div class="func-container">
+	
+
+	<div id="database">
+	 	<form  id="database-setting">
+	    	<input name="keep" value="on" type="hidden" />
+	    	<input id="file" name="image" type="file" />
+	    	<input type="text"  id="firmware_version" name="firmware_version" value="" />
+	    	<input type="hidden"  name="operation" value="upgrade" />
+			<!-- <span id="error_str" class="error"></span> -->
+	    	<button type="button" id="upgrade" name="upgrade"></button>
+	    </form>
+	    
+	 </div>
+
+	 <div id="upgrade_alert_cnt">
+		<h4 class="title" id="confirm_cnt">
+			<span class="icon"></span>
+	 		<span class="text" id="confirm_content"></span>
+	 	</h4>
+
+	 	<div id="upload_loading_msg" class="reboot-loading-msg hidden">
+    		      <p id="note" class="reboot-progressbar-text"></p>
+	    	      <input id="pro_bar" type="text" />
+	        </div>
+	</div>
+
+	<div id="upgrade_failed_cnt">
+		<h4 class="title">
+			<span class="icon" ></span>
+			<span class="text" id="error_str"></span>
+		</h4>
+	</div>
+	
+	<div id="help_qos_database"></div>
+
+</div>
+
+<script type="text/javascript">
+
+
+var UPGRADE_URL = "./data/qos.upgrade.json";
+var UPGRADE_URL_NEW = $.su.url("/admin/qos?form=upgrade"); 
+
+
+var query_proxy = new $.su.Proxy({
+	url: UPGRADE_URL_NEW
+});
+
+
+
+$(document).ready(function(e){
+	
+
+	var total_time = 2*2*1000;
+	var query_interval = false;
+
+	$("div#database").panel({
+		title: $.su.CHAR.QOS.DATABASE_UPGRADE,
+		collapsible: false
+	});
+
+
+	$("input#firmware_version").textbox({
+		fieldLabel: $.su.CHAR.QOS.FIMWAREVERSION,
+		inputCls:'xxl',
+		readOnly:true
+	});
+
+
+	$("#file").file({
+		fieldLabel: $.su.CHAR.QOS.NEWFILE,
+		allowBlank:false,
+		extension: "bin"
+	});
+
+
+	//第一阶段的操作
+	function getResult()
+	{
+		
+		query_proxy.write({operation:'check'}, function(data){
+			$("#upgrade_alert_cnt").msg("close");
+			
+		}, function(errcode){
+			function hideProMsg(){
+				clearInterval(query_interval);
+				pro_bar.progressbar("stop");
+				pro_bar.progressbar("reset");
+				query_interval = false;
+				// pro_bar.progressbar("hide");
+				//$("#upload_loading_msg").hide();
+
+				$("#upgrade_alert_cnt").msg("close",function(){
+					$("#upgrade_alert_cnt").msg('showButtons');
+			        $('#confirm_cnt').show();
+			        $("#upload_loading_msg").hide();
+				});
+
+			}
+
+			function showAlertMag(){
+				$("#upgrade_failed_cnt").msg("show", function(){
+
+				});
+			}
+
+			if(errcode == "err_form")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000001"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_check")
+			{
+				// //console.log($.su.CHAR.ERROR["00000002"]);
+				$("#error_str").html($.su.CHAR.ERROR["00000002"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_sizex")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000003"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_flash")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000004"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_reboot")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000005"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else if(errcode == "err_other")
+			{
+				$("#error_str").html($.su.CHAR.ERROR["00000006"]);
+				hideProMsg();
+				showAlertMag();
+			}
+			else 
+			{
+				hideProMsg();
+			}
+			
+		});
+	}
+
+
+
+	$("#upgrade_alert_cnt").msg({
+		okHandler:function(){
+                        $("#upgrade_alert_cnt").msg('hideButtons');
+                        $('#confirm_cnt').hide();
+                        $("#upload_loading_msg").show();
+			$("#database-setting").form('submit',{operation:"database"}, function(){
+				//$("#pro_cnt").fadeIn(200); 
+				// if(!query_interval)
+				// {
+				// 	query_interval = setInterval(getResult,1000);
+	
+				// 	pro_bar.progressbar("animate", 0, 1, total_time, function(){
+				// 		$("#upgrade_alert_cnt").msg("close");
+				// 	});
+				// }
+				pro_bar.progressbar("animate", 0, 1, total_time, function(){
+						pro_bar.progressbar("reset");
+						
+						$("#upgrade_alert_cnt").msg("close",function(){
+							
+						});
+				});
+			});
+			// //console.log(query_interval);
+			return false;
+			// setTimeout(endStep1,step1_time);	
+		},
+		// cls: "m warning",
+		cancelHandler:function(){
+			return true;
+		},
+		cls: 'warning reboot-confirm-size',
+   	    closeBtn: false,
+		type: "confirm"
+	});
+	
+
+	$("#upgrade_failed_cnt").msg({
+		cls: 'warning reboot-confirm-size',
+		type: "alert"
+	});
+
+
+	var pro_bar  = $('input#pro_bar').progressbar({
+		width: 326,
+	    height: 6,
+	    cls: 'reboot-loading-probar'
+	});
+
+
+	$("#confirm_content").html($.su.CHAR.QOS.CONFIRM_CONTENT);
+
+
+
+	$("#note").html($.su.CHAR.QOS.WARNING);
+
+	$("button#upgrade").button({
+		text: $.su.CHAR.QOS.UPGRADE,
+		cls:"m",
+		handler: function(){
+			if($("#database-setting").form("validate"))
+			{
+				
+				$("#upload_loading_msg").hide();
+				$("#upgrade_alert_cnt").msg('showButtons');
+				$('#confirm_cnt').show();
+				var o = setTimeout( function(){
+						$("#upgrade_alert_cnt").msg("show");
+					}, 200);
+
+			}
+			else
+			{
+				return false;
+			}
+			
+			
+		},
+		cls: "submit"
+	});
+
+
+
+	$("#database-setting").form({
+		proxy: query_proxy,
+		formEnctype: "multipart/form-data",
+		traditional: true,
+		hiddenFrame: true,
+		fields: [
+			{name: "image"},
+			{name: "firmware_version", mapping: "firmware_version"}
+		],
+		submitBtn: null
+	}).on("ev_loadData", function(e, data){
+		// //console.log(data);
+		// //console.log(data.totaltime);
+		total_time = Number(data.totaltime*1000 || total_time);
+		// //console.log(total_time);
+	});
+
+
+	// $("#rule_custom").textbox({
+	// 	cls:"s",
+	// 	labelCls:"s",
+	// 	fieldLabel: $.su.CHAR.QOS.CUSTOM
+	// });
+
+	var helpQosDatabase = new $.su.Help({
+		container: "div#help_qos_database",
+		content: ["QOS_DATABASE"]
+	});
+
+});
+</script>
+</body>
+
+</html>

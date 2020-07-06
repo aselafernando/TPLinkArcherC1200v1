@@ -1,0 +1,13 @@
+Package: libblobmsg-json
+Version: 2013-07-04-11e8afea0f7eb34f8c23a8e589ee659c46f3f8aa
+Depends: libjson, libubox
+Provides: 
+Source: ibase/libubox
+Section: libs
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 3392
+Description:  blobmsg <-> json conversion library

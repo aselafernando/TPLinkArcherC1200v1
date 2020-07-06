@@ -1,0 +1,13 @@
+Package: libuci
+Version: 2013-01-04.1-1
+Depends: 
+Provides: 
+Source: ibase/uci
+Section: libs
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 14455
+Description:  C library for the Unified Configuration Interface (UCI)

@@ -1,0 +1,4 @@
+config global automount
+	option from_fstab 1
+	option anon_mount 1
+	

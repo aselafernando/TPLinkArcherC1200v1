@@ -1,0 +1,7 @@
+/lib/upgrade/keep.d/qos
+/etc/init.d/qos
+/lib/qos/config.sh
+/lib/qos/core.sh
+/etc/config/qos
+/lib/qos/core_qos.sh
+/lib/qos/core_log.sh

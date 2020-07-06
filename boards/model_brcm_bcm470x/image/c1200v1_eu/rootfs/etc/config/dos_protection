@@ -1,0 +1,24 @@
+config global 'settings'
+    option enable           'off'
+    option time             '5'
+
+    option icmp_level       'off'
+    option icmp_curr        '0'
+
+    option udp_level        'off'
+    option udp_curr         '0'
+
+    option syn_level        'off'
+    option syn_curr         '0'
+
+    option syn_low          '200'
+    option syn_middle       '100'
+    option syn_high         '50'
+
+    option udp_low          '7200'
+    option udp_middle       '2000'
+    option udp_high         '400'
+
+    option icmp_low         '50'
+    option icmp_middle      '20'
+    option icmp_high        '10'

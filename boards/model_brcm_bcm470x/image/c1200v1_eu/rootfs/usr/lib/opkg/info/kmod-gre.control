@@ -1,0 +1,13 @@
+Package: kmod-gre
+Version: -
+Depends: kernel (=--unknown), kmod-ipv6
+Provides: 
+Source: package/kernel
+Section: kernel
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 10912
+Description:  Generic Routing Encapsulation support

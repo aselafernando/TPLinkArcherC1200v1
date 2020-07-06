@@ -1,0 +1,32 @@
+#!/bin/sh /etc/rc.common
+
+START=30
+STOP=90
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+start() {
+	#if [ "$(is_cal)" = "true" ]; then
+     /sbin/wifi_firm
+     /sbin/wifi init
+	#else
+	#		/etc/init.d/art start
+	#fi
+	return 0
+}
+
+restart() {
+	/sbin/wifi reload
+	return 0
+}
+
+stop() {
+	/sbin/wifi down
+	return 0
+}
+
+reload() {
+	/sbin/wifi reload
+	return 0
+}

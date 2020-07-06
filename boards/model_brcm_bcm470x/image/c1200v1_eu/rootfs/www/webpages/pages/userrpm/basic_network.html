@@ -1,0 +1,808 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+</head>
+
+<body>
+<div class="func-container">
+
+    
+    <div id="">
+
+		<div class="map_wrap">
+			<div id="map_internet" class="map-internet map-internet-connect">
+				<div id="map_icon_internet" class="map-icon-internet selected">
+					<span id="map_icon_internet_status" class="map-icon-internet-status hidden"></span>
+				</div>
+				<p id="map_internet_p"></p>
+			</div>
+
+			<div id="map_router" class="map-router">
+				<div id="map_icon_router" class="map-icon-router"></div>
+				<p id="map_router_p"></p>
+				<div id="map_router_tip" class="map-router-tip">
+					<div id="map_router_24g" class="map-router-wrap">
+						<div id="map_router_24g_img" class="map-router-24g-img"></div>
+						<p id="map_router_24g_text"></p>
+					</div>
+					<div class="map-router-bar"></div>
+					<div id="map_router_5g" class="map-router-wrap">
+						<div id="map_router_5g_img" class="map-router-24g-img"></div>
+						<p id="map_router_5g_text"></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="map-line-horizontal"></div>
+			<div class="map-line-vertical"></div>
+			<div class="map-line-branch"></div>
+
+			<div class="map-wrap-left">
+
+				<div id="map_wire" class="map-wire">
+					<div id="map_icon_wire" class="map-icon-wire">
+						<span id="map_num_wire" class="map-icon-num hidden"></span>
+					</div>
+					<p id="map_wire_p"></p>
+				</div>
+				
+				<div id="map_wireless" class="map-wireless">
+					<div id="map_icon_wireless" class="map-icon-wireless">
+						<span id="map_num_wireless" class="map-icon-num hidden"></span>
+					</div>
+					<p id="map_wireless_p"></p>
+				</div>
+			</div>
+
+
+			<div class="map-wrap-right">
+				<div id="map_printer" class="map-printer">
+					<div id="map_icon_printer" class="map-icon-printer">
+					</div>
+					<p id="map_printer_p"></p>
+				</div>
+
+				<div id="map_usb" class="map-usb">
+					<div id="map_icon_usb" class="map-icon-usb">
+					</div>
+					<p id="map_usb_p"></p>
+				</div>
+			</div>
+
+		</div>
+
+		<form id="basic_network_form">
+
+			<div id="internet_panel" class="map-panel">
+				<h4 class="map-panel-title">
+					<span class="map-panel-icon-internet"></span>
+					<span class="map-panel-icon-text" id="map_title_internet"></span>
+				</h4>
+				<div id="" class="map-panel-cnt">
+					<input id="internet_status" name="status"/>
+					<input id="internet_conn_type" name="wan_ipv4_conntype"/>
+					<input id="internet_ip_address" name="wan_ipv4_ipaddr"/>
+					<input id="internet_snd_conn" name="wan_ipv4_snd_conn"/>
+					<input id="internet_snd_ip" name="wan_ipv4_snd_ipaddr"/>
+				</div>
+			</div>
+			
+			<div id="router_panel" class="map-panel hidden">
+				<h4 class="map-panel-title">
+					<span class="map-panel-icon-router"></span>
+					<span class="map-panel-icon-text" id="map_title_router"></span>
+				</h4>
+				<div id="" class="map-panel-cnt">
+					<div id="router_wireless_24g" class="map-form-left">
+						<h5 id="router_wireless_24g_title" class="map-form-title"></h5>
+						<!-- <input id="router_wireless_24g_ssid" name="wireless_2g_ssid"/> -->
+						<p class="status-textarea-read">
+				    		<label id="wireless_2g_ssid_label" class="xxs"></label>
+				    		<span id="wireless_2g_ssid"></span>
+				    	</p>
+						<input id="router_wireless_24g_channel" name="wireless_2g_channel"/>
+						<input id="router_wireless_24g_mac" name="wireless_2g_macaddr"/>
+					</div>
+					<div id="router_wireless_5g" class="map-form-right">
+						<h5 id="router_wireless_5g_title" class="map-form-title"></h5>
+						<!-- <input id="router_wireless_5g_ssid" name="wireless_5g_ssid"/> -->
+						<p class="status-textarea-read">
+				    		<label id="wireless_5g_ssid_label" class="xxs"></label>
+				    		<span id="wireless_5g_ssid"></span>
+				    	</p>
+						<input id="router_wireless_5g_channel" name="wireless_5g_channel"/>
+						<input id="router_wireless_5g_mac" name="wireless_5g_macaddr"/>
+					</div>
+					<div id="router_guest_24g" class="map-form-left">
+						<h5 id="router_guest_24g_title" class="map-form-title"></h5>
+						<input id="router_guest_24g_status" name="guest_2g_enable"/>
+						<!-- <input id="router_guest_24g_ssid" name="guest_2g_ssid"/> -->
+						<p class="status-textarea-read">
+				    		<label id="guest_2g_ssid_label" class="xxs"></label>
+				    		<span id="guest_2g_ssid"></span>
+				    	</p>
+					</div>
+					<div id="router_guest_5g" class="map-form-left">
+						<h5 id="router_guest_5g_title" class="map-form-title"></h5>
+						<input id="router_guest_5g_status" name="guest_5g_enable"/>
+						<!-- <input id="router_guest_5g_ssid" name="guest_5g_ssid"/> -->
+						<p class="status-textarea-read">
+				    		<label id="guest_5g_ssid_label" class="xxs"></label>
+				    		<span id="guest_5g_ssid"></span>
+				    	</p>
+					</div>
+				</div>
+			</div>
+			
+			<div id="wireless_host_panel" class="map-panel hidden">
+				<h4 class="map-panel-title">
+					<span class="map-panel-icon-wireless"></span>
+					<span class="map-panel-icon-text" id="map_title_wireless_host"></span>
+				</h4>
+				<div id="" class="map-panel-cnt">
+					<div id="map_grid_wireless_host">
+					</div>
+				</div>
+			</div>
+
+			<div id="wireless_guest_panel" class="map-panel hidden">
+				<h4 class="map-panel-title">
+					<span class="map-panel-icon-wireless"></span>
+					<span class="map-panel-icon-text" id="map_title_wireless_guest"></span>
+				</h4>
+				<div id="" class="map-panel-cnt">
+					<div id="map_grid_wireless_guest">
+					</div>
+				</div>
+			</div>
+			
+			<div id="wire_panel" class="map-panel hidden">
+				<h4 class="map-panel-title">
+					<span class="map-panel-icon-wire"></span>
+					<span class="map-panel-icon-text" id="map_title_wire"></span>
+				</h4>
+				<div id="" class="map-panel-cnt">
+					<div id="map_grid_wire">
+					</div>
+				</div>
+			</div>
+			
+			<div id="printer_panel" class="map-panel hidden">
+				<h4 class="map-panel-title">
+					<span class="map-panel-icon-printer"></span>
+					<span class="map-panel-icon-text" id="map_title_printer"></span>
+				</h4>
+				<div id="" class="map-panel-cnt">
+					<input id="printer_name" name="printer_name"/>
+				</div>
+			</div>
+			
+			<div id="usb_panel" class="map-panel hidden">
+				<h4 class="map-panel-title">
+					<span class="map-panel-icon-usb"></span>
+					<span class="map-panel-icon-text" id="map_title_usb"></span>
+				</h4>
+				<div id="" class="map-panel-cnt">
+	     			<input id="usb_storage_brand" type="text" name="storage_vendor"/>
+	     			<p class="usb-form-line">
+	     				<span id="usb_storage_label_total" class="usb-storage-label"></span>
+	     				<span id="usb_storage_total" class="usb-input-blue" name="storage_capacity"></span>
+	     				<span id="usb_storage_total_unit" type="text" name="storage_capacity_unit"></span>
+	     			</p>
+	     			<p class="usb-form-line">
+	     				<span id="usb_storage_label_available" class="usb-storage-label"></span>
+	     				<span id="usb_storage_available" class="usb-input-blue" name="storage_available"></span>
+	     				<span id="usb_storage_available_unit" type="text" name="storage_available_unit"></span>
+	     			</p>
+				</div>
+			</div>
+
+		</form>
+		
+    </div>
+
+    <div id="basic_network_help"></div>
+    
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+
+	var internetProxy = new $.su.Proxy({ url: "./data/basic.network.internet.json" });
+	var internetProxy_URL = new $.su.Proxy({ url: $.su.url('/admin/basic?form=internet') });
+
+	$('span#usb_storage_label_total').html($.su.CHAR.STATUS.TOTAL);
+	$('span#usb_storage_label_available').html($.su.CHAR.STATUS.AVAILABLE);
+
+	$("div#map_grid_wireless_host").grid({
+		store:{
+		//	proxy: wireless24gGridProxy,
+			fields: [
+				{name: "hostname"},
+				{name: "ipaddr"},
+				{name: "macaddr"}
+			],
+			autoLoad: true
+		},
+		minLines: 0,
+		maxLines: 5,
+		columns: [
+			{
+				text: $.su.CHAR.GRID_ID_COLUMN, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.BASIC_NETWORK.NAME, 
+				dataIndex: "hostname",
+				width: 160
+			},
+			{
+				text: $.su.CHAR.BASIC_NETWORK.IP_ADDR, 
+				width: 150,
+				dataIndex: "ipaddr"
+			},
+			{
+				text: $.su.CHAR.BASIC_NETWORK.MAC_ADDR,
+				dataIndex: "macaddr"
+			}
+		]
+
+	});
+	
+	$("div#map_grid_wireless_guest").grid({
+		store:{
+		//	proxy: wireless24gGridProxy,
+			fields: [
+				{name: "hostname"},
+				{name: "ipaddr"},
+				{name: "macaddr"}
+			],
+			autoLoad: true
+		},
+		minLines: 0,
+		maxLines: 5,
+		columns: [
+			{
+				text: $.su.CHAR.GRID_ID_COLUMN, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.BASIC_NETWORK.NAME, 
+				dataIndex: "hostname",
+				width: 160
+			},
+			{
+				text: $.su.CHAR.BASIC_NETWORK.IP_ADDR, 
+				width: 150,
+				dataIndex: "ipaddr"
+			},
+			{
+				text: $.su.CHAR.BASIC_NETWORK.MAC_ADDR,
+				dataIndex: "macaddr"
+			}
+		]
+
+	});
+	
+
+
+	$("div#map_grid_wire").grid({
+		store:{
+		//	proxy: wireless5gGridProxy,
+			fields: [
+				{name: "hostname"},
+				{name: "ipaddr"},
+				{name: "macaddr"}
+			],
+			autoLoad: true
+		},
+		minLines: 0,
+		maxLines: 5,
+		columns: [
+			{
+				text: $.su.CHAR.GRID_ID_COLUMN, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.BASIC_NETWORK.NAME, 
+				dataIndex: "hostname",
+				width: 160
+			},
+			{
+				text: $.su.CHAR.BASIC_NETWORK.IP_ADDR, 
+				width: 150,
+				dataIndex: "ipaddr"
+			},
+			{
+				text: $.su.CHAR.BASIC_NETWORK.MAC_ADDR,
+				dataIndex: "macaddr"
+			}
+		]
+
+	});
+	
+
+	$("div.func-container").page({
+		title: $.su.CHAR.BASIC_INTERNET.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$('p#map_internet_p').html($.su.CHAR.BASIC_NETWORK.INTERNET);
+	$('p#map_router_p').html($.su.CHAR.BASIC_NETWORK.ROUTER);
+//	$('div#map_router_tip').html($.su.CHAR.BASIC_NETWORK.WIRELESS);
+	$('p#map_wireless_p').html($.su.CHAR.BASIC_NETWORK.WIRELESS_CLIENTS);
+	$('p#map_wire_p').html($.su.CHAR.BASIC_NETWORK.WIRE_CLIENTS);
+	$('p#map_printer_p').html($.su.CHAR.BASIC_NETWORK.PRINTER);
+	$('p#map_usb_p').html($.su.CHAR.BASIC_NETWORK.USB_DISK);
+
+	$('p#map_router_24g_text').html($.su.CHAR.BASIC_NETWORK.GHZ24);
+	$('p#map_router_5g_text').html($.su.CHAR.BASIC_NETWORK.GHZ5);
+
+	$('span#map_title_internet').html($.su.CHAR.BASIC_NETWORK.INTERNET);
+	$('span#map_title_router').html($.su.CHAR.BASIC_NETWORK.WIRELESS);
+	$('span#map_title_wireless_host').html($.su.CHAR.BASIC_NETWORK.HOST_CLIENTS);
+	$('span#map_title_wireless_guest').html($.su.CHAR.BASIC_NETWORK.GUEST_CLIENTS);
+	$('span#map_title_wire').html($.su.CHAR.BASIC_NETWORK.WIRE_CLIENTS);
+	$('span#map_title_printer').html($.su.CHAR.BASIC_NETWORK.PRINTER);
+	$('span#map_title_usb').html($.su.CHAR.BASIC_NETWORK.USB_DISK);
+
+	$('h5#router_wireless_24g_title').html($.su.CHAR.BASIC_NETWORK.WIRELESS_24GHZ);
+	$('h5#router_wireless_5g_title').html($.su.CHAR.BASIC_NETWORK.WIRELESS_5GHZ);
+	$('h5#router_guest_24g_title').html($.su.CHAR.BASIC_NETWORK.GUEST_24GHZ);
+	$('h5#router_guest_5g_title').html($.su.CHAR.BASIC_NETWORK.GUEST_5GHZ);
+
+	function clearStatus(){
+		$('div#map_icon_internet').removeClass('selected');
+		$('div#map_icon_router').removeClass('map-icon-router-conn');
+		$('div#map_icon_wireless').removeClass('map-icon-wireless-conn');
+		$('div#map_icon_wire').removeClass('map-icon-wire-conn');
+		$('div#map_icon_printer').removeClass('map-icon-printer-conn');
+		$('div#map_icon_usb').removeClass('map-icon-usb-conn');
+
+		$('div#internet_panel').hide();	
+		$('div#router_panel').hide();	
+		$('div#wireless_host_panel').hide();	
+		$('div#wireless_guest_panel').hide();	
+		$('div#wire_panel').hide();	
+		$('div#printer_panel').hide();	
+		$('div#usb_panel').hide();	
+	}
+
+////////////////////////////// form init
+
+	var onoffTrans = function(str){
+		if(str.toUpperCase() == 'ON'){
+			return $.su.CHAR.STATUS.ON;
+		}else{
+			return $.su.CHAR.STATUS.OFF;
+		};
+	};
+
+	$("form#basic_network_form").form({
+		fields: [
+		//	{name: "wan_ipv4_conntype", mapping: "wan_ipv4_conntype"},
+			{name: "wan_ipv4_ipaddr", mapping: "wan_ipv4_ipaddr"},
+
+			{name: "wireless_2g_ssid", mapping: "wireless_2g_ssid"},
+		//	{name: "wireless_2g_channel", mapping: "wireless_2g_channel"},
+			{name: "wireless_2g_macaddr", mapping: "wireless_2g_macaddr"},
+			{name: "wireless_5g_ssid", mapping: "wireless_5g_ssid"},
+		//	{name: "wireless_5g_channel", mapping: "wireless_5g_channel"},
+			{name: "wireless_5g_macaddr", mapping: "wireless_5g_macaddr"},
+
+			//{name: "guest_2g_enable", mapping: "guest_2g_enable"},
+			{name: "guest_2g_ssid", mapping: "guest_2g_ssid"},
+			// {name: "guest_5g_enable", mapping: "guest_5g_enable"},
+			{name: "guest_5g_ssid", mapping: "guest_5g_ssid"},
+
+			// {name: "printer_name", mapping: "printer_name"},
+
+			//{name: "storage_vendor", mapping: "storage_vendor"},
+
+			{name: "storage_capacity", mapping: "storage_capacity"},
+			{name: "storage_capacity_unit", mapping: "storage_capacity_unit"},
+			{name: "storage_available", mapping: "storage_available"},
+			{name: "storage_available_unit", mapping: "storage_available_unit"}
+		],
+		submitBtn: false,
+		autoLoad: true
+	}).on("ev_loadData", function(e, data){
+		// console.log(arguments);
+
+		if (data){
+			$("input#router_guest_24g_status").textbox("setValue", onoffTrans(data["guest_2g_enable"]));
+			$("input#router_guest_5g_status").textbox("setValue", onoffTrans(data["guest_5g_enable"]));
+			
+			var vendor = data["storage_vendor"] ? data["storage_vendor"] : "--";
+			$("input#usb_storage_brand").textbox("setValue", vendor);
+
+			$("#wireless_2g_ssid").html($.su.func.escapeHtml(data.wireless_2g_ssid));
+			$("#wireless_5g_ssid").html($.su.func.escapeHtml(data.wireless_5g_ssid));
+			$("#guest_2g_ssid").html($.su.func.escapeHtml(data.guest_2g_ssid));
+			$("#guest_5g_ssid").html($.su.func.escapeHtml(data.guest_5g_ssid));
+
+			if(data.printer_count == 0)
+			{
+				$("input#printer_name").textbox("setValue",$.su.CHAR.PRINT.NONE);
+			}
+			else
+			{
+				$("input#printer_name").textbox("setValue", data.printer_name);
+			}
+		}
+		
+	});
+
+
+
+	var statusProxy = new $.su.Proxy({
+		url: $.su.url('/admin/status?form=all')
+	});
+
+
+	function changeIcon(enable, disable, encryption, icon){
+		if( enable.toUpperCase()=='OFF' || disable.toUpperCase()=='ON'){
+			icon.removeClass('not-secure');
+			icon.addClass('not-open');
+		}else if(  enable.toUpperCase()=='ON' && disable.toUpperCase()=='OFF' && encryption.toUpperCase()=='NONE' ){
+			icon.removeClass('not-open');
+			icon.addClass('not-secure');
+		}else if( enable.toUpperCase()=='ON' && disable.toUpperCase()=='OFF' &&  encryption.toUpperCase()!='NONE' ){
+			icon.removeClass('not-open');
+			icon.removeClass('not-secure');
+		}
+	}
+
+	statusProxy.read({}, function(data, status, xhr){
+		$("form#basic_network_form").form('loadData', data);
+
+		function transType(type, item){
+			switch(type){
+				case 'dhcp':
+					item.textbox('setValue', $.su.CHAR.BASIC_NETWORK.DYNAMIC_IP);
+					break;
+				case 'static':
+					item.textbox('setValue', $.su.CHAR.BASIC_NETWORK.STATIC_IP);
+					break;
+				case 'pppoe':
+					item.textbox('setValue', $.su.CHAR.BASIC_NETWORK.PPPOE);
+					break;
+				case 'bigpond':
+					item.textbox('setValue', $.su.CHAR.BASIC_NETWORK.BIGPOND_CABLE);
+					break;
+				case 'l2tp':
+					item.textbox('setValue', $.su.CHAR.BASIC_NETWORK.L2TP);
+					break;
+				case 'pptp':
+					item.textbox('setValue', $.su.CHAR.BASIC_NETWORK.PPTP);
+					break;
+				case 'none':
+					item.textbox('setValue', $.su.CHAR.BASIC_NETWORK.NONE);
+					break;
+			}
+		}
+
+		transType( data.wan_ipv4_conntype, $('input#internet_conn_type') );
+
+		var numberTest = new $.su.vtype({
+            vtype: "number"
+		});
+
+		if( data.wireless_2g_channel.toUpperCase()=='AUTO' ){
+			$("input#router_wireless_24g_channel").textbox('setValue', $.su.CHAR.BASIC_NETWORK.AUTO + ' (' + $.su.CHAR.STATUS.CURRENT_CHANNEL + ' ' + data.wireless_2g_current_channel + ')');
+		}else if( numberTest.validate(data.wireless_2g_current_channel) ){
+			$("input#router_wireless_24g_channel").textbox('setValue', data.wireless_2g_current_channel );
+		}else{
+			$("input#router_wireless_24g_channel").textbox('setValue', data.wireless_2g_channel );
+		}
+
+		if( data.wireless_5g_channel.toUpperCase()=='AUTO' ){
+			$("input#router_wireless_5g_channel").textbox('setValue', $.su.CHAR.BASIC_NETWORK.AUTO + ' (' + $.su.CHAR.STATUS.CURRENT_CHANNEL + ' ' + data.wireless_5g_current_channel + ')');
+		}else if( numberTest.validate(data.wireless_5g_current_channel) ){
+			$("input#router_wireless_5g_channel").textbox('setValue', data.wireless_5g_current_channel );
+		}else{
+			$("input#router_wireless_5g_channel").textbox('setValue', data.wireless_5g_channel );
+		}
+
+		$('span#usb_storage_total').html(data.storage_capacity);
+		$('span#usb_storage_total_unit').html(data.storage_capacity_unit);
+		$('span#usb_storage_available').html(data.storage_available);
+		$('span#usb_storage_available_unit').html(data.storage_available_unit);
+
+		changeIcon(data.wireless_2g_enable, data.wireless_2g_disabled, data.wireless_2g_encryption, $('div#map_router_24g_img'));
+		changeIcon(data.wireless_5g_enable, data.wireless_5g_disabled, data.wireless_5g_encryption, $('div#map_router_5g_img'));
+
+		if(data.wan_ipv4_snd_conn && data.wan_ipv4_snd_conn!=''){
+			$('input#internet_snd_conn').textbox('show');
+			$('input#internet_snd_ip').textbox('show');
+			// $('input#internet_snd_conn').textbox('setValue', data.wan_ipv4_snd_conn);
+			if(data.wan_ipv4_snd_conn=='dynamic'){
+				$('input#internet_snd_conn').textbox('setValue', $.su.CHAR.BASIC_NETWORK.DYNAMIC_IP);
+			}else if(data.wan_ipv4_snd_conn=='static'){
+				$('input#internet_snd_conn').textbox('setValue', $.su.CHAR.BASIC_NETWORK.STATIC_IP);
+			}
+			$('input#internet_snd_ip').textbox('setValue', data.wan_ipv4_snd_ipaddr);
+		}else{
+			$('input#internet_snd_conn').textbox('hide');
+			$('input#internet_snd_ip').textbox('hide');
+		}
+		
+		var wirelessCount = 0;
+		if( data.access_devices_wireless_host && data.access_devices_wireless_host.length >0){
+			$("div#map_grid_wireless_host").grid('getStore').loadData(data.access_devices_wireless_host);
+			wirelessCount += data.access_devices_wireless_host.length;
+		}
+
+		if( data.access_devices_wireless_guest && data.access_devices_wireless_guest.length >0){
+			$("div#map_grid_wireless_guest").grid('getStore').loadData(data.access_devices_wireless_guest);
+			wirelessCount += data.access_devices_wireless_guest.length;
+		}	
+		$('span#map_num_wireless').show();
+		$('span#map_num_wireless').html(wirelessCount);
+
+
+		if( data.access_devices_wired && data.access_devices_wired.length >0){
+			$("div#map_grid_wire").grid('getStore').loadData(data.access_devices_wired);
+			$('span#map_num_wire').show();
+			$('span#map_num_wire').html(data.access_devices_wired.length);
+		}else{
+			$('span#map_num_wire').show();
+			$('span#map_num_wire').html(0);
+		}
+
+		if(data.storage_capacity==0 && data.storage_available==0){
+			$('div#map_icon_usb').addClass('map-icon-usb-disconn');
+		}
+
+		if(data.printer_count==0){
+			$('div#map_icon_printer').addClass('map-icon-printer-disconn');
+		}
+	});
+	
+	var statusInetProxy = new $.su.Proxy({
+		url: $.su.url('/admin/status?form=internet')
+	});
+
+
+	statusInetProxy.read({}, function(data, status, xhr){
+		if( data.internet_status.toUpperCase() == 'CONNECTED' ){
+			$('span#map_icon_internet_status').addClass('map-icon-internet-conn');
+		//	$("input#internet_status").textbox('setValue', $.su.CHAR.BASIC_NETWORK.CONNECTED);
+		}else if(  data.internet_status.toUpperCase() == 'UNPLUGGED' ){
+			$('span#map_icon_internet_status').addClass('map-icon-internet-disconn');
+		//	$("input#internet_status").textbox('setValue', $.su.CHAR.BASIC_NETWORK.UNPLUGGED);
+		}else if(  data.internet_status.toUpperCase()=='POOR_CONNECTED' ||  data.internet_status.toUpperCase() == 'DISCONNECTED' || data.internet_status.toUpperCase() == 'CONNECTING'){
+			$('span#map_icon_internet_status').addClass('map-icon-internet-poor-conn');
+			//console.log( data.internet_status.slice(0, 1)	)
+		}
+		$('span#map_icon_internet_status').removeClass('hidden');
+		$("input#internet_status").textbox('setValue', (data.internet_status.slice(0, 1).toUpperCase()+data.internet_status.slice(1)).replace('_', ' ') );
+	});
+
+
+/////////////////
+
+	$("input#internet_status").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.INTERNET_STATUS,
+	//	labelCls:"xxs",
+		readOnly: true
+	});
+
+
+	$("input#internet_conn_type").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.CONNECTION_TYPE,
+	//	labelCls:"xxs",
+		readOnly: true
+	});
+
+
+	$("input#internet_ip_address").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.INTERNET_IP_ADDR,
+	//	labelCls:"xxs",
+		readOnly: true
+	});
+
+	$("input#internet_snd_conn").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.SECONDARY_CONN,
+	//	labelCls:"xxs",
+		cls: 'hidden',
+		readOnly: true
+	});
+
+	$("input#internet_snd_ip").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.IP_ADDR,
+	//	labelCls:"xxs",
+		cls: 'hidden',
+		readOnly: true
+	});
+/////////////////
+
+	$("input#printer_name").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.NAME,
+		labelCls:"xxs",
+		readOnly: true
+	});
+
+/////////////////
+
+	$("input#usb_storage_brand").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.USB_DISK,
+		labelCls: 'xxs',
+	//	cls: 'inlineBlock',
+	//	inputCls: 'usb-storage-input usb-input-blue',
+		readOnly: true
+	});
+
+
+	$("input#usb_storage_total").textbox({
+		fieldLabel: null,
+		cls: 'inlineBlock',
+		inputCls: 'usb-storage-input usb-input-blue',
+		readOnly: true
+	});
+
+	$("input#usb_storage_total_unit").textbox({
+		fieldLabel: null,
+		cls: 'inlineBlock',
+		inputCls: 'usb-storage-input',
+		readOnly: true
+	});
+
+	$("input#usb_storage_available").textbox({
+		fieldLabel: null,
+		cls: 'inlineBlock',
+		inputCls: 'usb-storage-input usb-input-blue',
+		readOnly: true
+	});
+
+	$("input#usb_storage_available_unit").textbox({
+		fieldLabel: null,
+		cls: 'inlineBlock',
+		inputCls: 'usb-storage-input',
+		readOnly: true
+	});
+///////////////////  router  form
+
+
+	// $("input#router_wireless_24g_ssid").textbox({
+	// 	fieldLabel: $.su.CHAR.BASIC_NETWORK.SSID,
+	// 	labelCls:"xxs",
+	// 	readOnly: true
+	// });
+
+    $("#wireless_2g_ssid_label").html($.su.CHAR.BASIC_NETWORK.SSID+":");
+
+	$("input#router_wireless_24g_channel").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.CHANNEL,
+		labelCls:"xxs",
+		readOnly: true
+	});
+
+	$("input#router_wireless_24g_mac").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.MAC,
+		labelCls:"xxs",
+		readOnly: true
+	});
+
+	// $("input#router_wireless_5g_ssid").textbox({
+	// 	fieldLabel: $.su.CHAR.BASIC_NETWORK.SSID,
+	// 	labelCls:"xxs",
+	// 	readOnly: true
+	// });
+
+	$("#wireless_5g_ssid_label").html($.su.CHAR.BASIC_NETWORK.SSID+":");
+
+	$("input#router_wireless_5g_channel").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.CHANNEL,
+		labelCls:"xxs",
+		readOnly: true
+	});
+
+	$("input#router_wireless_5g_mac").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.MAC,
+		labelCls:"xxs",
+		readOnly: true
+	});
+
+
+	$("input#router_guest_24g_status").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.STATUS,
+		labelCls:"xxs",
+		readOnly: true
+	});
+
+
+	// $("input#router_guest_24g_ssid").textbox({
+	// 	fieldLabel: $.su.CHAR.BASIC_NETWORK.SSID,
+	// 	labelCls:"xxs",
+	// 	readOnly: true
+	// });
+
+	$("#guest_2g_ssid_label").html($.su.CHAR.BASIC_NETWORK.SSID+":");
+
+	$("input#router_guest_5g_status").textbox({
+		fieldLabel: $.su.CHAR.BASIC_NETWORK.STATUS,
+		labelCls:"xxs",
+		readOnly: true
+	});
+
+
+	// $("input#router_guest_5g_ssid").textbox({
+	// 	fieldLabel: $.su.CHAR.BASIC_NETWORK.SSID,
+	// 	labelCls:"xxs",
+	// 	readOnly: true
+	// });
+
+	$("#guest_5g_ssid_label").html($.su.CHAR.BASIC_NETWORK.SSID+":");
+
+////////////  grid
+
+
+///////////////////////////// widget operation
+	$('div#map_internet').click(function(){
+		clearStatus();
+		$('div#map_icon_internet').addClass('selected');
+		$('div.panel').hide();
+		$('div#internet_panel').fadeIn(150);
+	});
+
+	$('div#map_router').click(function(){
+		clearStatus();
+		$('div#map_icon_router').addClass('map-icon-router-conn');
+		$('div.panel').hide();
+		$('div#router_panel').fadeIn(150);
+	});
+
+	$('div#map_wireless').click(function(){
+		clearStatus();
+		$('div#map_icon_wireless').addClass('map-icon-wireless-conn');
+		$('div.panel').hide();
+		$('div#wireless_host_panel').fadeIn(150);
+		$('div#wireless_guest_panel').fadeIn(150);
+	});
+
+	$('div#map_wire').click(function(){
+		clearStatus();
+		$('div#map_icon_wire').addClass('map-icon-wire-conn');
+		$('div.panel').hide();
+		$('div#wire_panel').fadeIn(150);
+	});
+
+	$('div#map_printer').click(function(){
+		clearStatus();
+		$('div#map_icon_printer').addClass('map-icon-printer-conn');
+		$('div.panel').hide();
+		$('div#printer_panel').fadeIn(150);
+	});
+
+	$('div#map_usb').click(function(){
+		clearStatus();
+		$('div#map_icon_usb').addClass('map-icon-usb-conn');
+		$('div.panel').hide();
+		$('div#usb_panel').fadeIn(150);
+	});
+
+	var helpBasicNetwork = new $.su.Help({
+		container: "div#basic_network_help",
+		content: ["BASIC_NETWORK_INTEREST","BASIC_NETWORK_ROUTER", "BASIC_NETWORK_CLIENTS", "BASIC_NETWORK_PRINTER", "BASIC_NETWORK_USB"]
+	});
+
+
+});
+//]]>
+</script>
+
+</body>
+</html>

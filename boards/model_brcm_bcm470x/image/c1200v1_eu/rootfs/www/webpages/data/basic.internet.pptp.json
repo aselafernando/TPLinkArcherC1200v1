@@ -1,0 +1,23 @@
+{
+
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：internet ipv4页面中当前拨号类型是pptp时，则请求该数据",
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{		
+		"pptp_username": "username",
+		"pptp_password": "password",
+
+		"pptp_snd_conn": "1",
+		"pptp_dyn_svr_ip": "3.3.3.3",
+
+		"pptp_static_svr_ip": "3.3.3.33",
+		"pptp_static_ip": "4.4.4.4",
+		"pptp_static_submask": "255.0.0.0",
+		"pptp_static_gateway": "4.4.4.4",
+		"pptp_static_pri_dns": "0.0.0.0",
+		"pptp_static_snd_dns": "1.1.1.1"
+	}
+}

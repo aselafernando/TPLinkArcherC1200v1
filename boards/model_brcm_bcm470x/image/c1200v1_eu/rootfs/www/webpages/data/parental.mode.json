@@ -1,0 +1,12 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：parental control页面中获取总开关",
+	
+	"timeout": false,
+	"success": true,
+	"data":
+	{
+		"access_mode": "black", "black": "[\"keyword1\", \"keyword 2\", \"keyword 3\", \"keyword 4\", \"keyword 5\"]", 
+		"white": "[\"keyword11\", \"keyword 22\", \"keyword 33\", \"keyword 44\", \"keyword 55\"]","others":{"max_rules_black":5, "max_rules_white":5}
+	}
+}

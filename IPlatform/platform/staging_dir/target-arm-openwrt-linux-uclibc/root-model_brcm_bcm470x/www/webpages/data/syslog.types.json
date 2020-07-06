@@ -1,0 +1,85 @@
+{
+   "data" : [
+      {
+         "value" : "ALL",
+         "name" : "ALL"
+      },
+      {
+         "name" : "FIREWALL",
+         "value" : "firewall"
+      },
+      {
+         "name" : "NAT",
+         "value" : "nat"
+      },
+      {
+         "name" : "DDNS",
+         "value" : "ddns"
+      },
+      {
+         "name" : "IMB",
+         "value" : "imb"
+      },
+      {
+         "value" : "basic-security",
+         "name" : "BASIC_SECURITY"
+      },
+      {
+         "name" : "PARENTAL_CONTROL",
+         "value" : "parental-control"
+      },
+      {
+         "name" : "ACCESS_CONTROL",
+         "value" : "access-control"
+      },
+      {
+         "value" : "dos-protection",
+         "name" : "DOS_PROTECTION"
+      },
+      {
+         "name" : "QOS",
+         "value" : "qos"
+      },
+      {
+         "value" : "traffic-stats",
+         "name" : "TRAFFIC_STATS"
+      },
+      {
+         "value" : "time-settings",
+         "name" : "TIME_SETTINGS"
+      },
+      {
+         "name" : "ACCOUNT_MANAGEMENT",
+         "value" : "account-management"
+      },
+      {
+         "name" : "LOCAL_MANAGEMENT",
+         "value" : "local-management"
+      },
+      {
+         "name" : "REMOTE_MANAGEMENT",
+         "value" : "remote-management"
+      },
+      {
+         "value" : "locale",
+         "name" : "LOCALE"
+      },
+      {
+         "value" : "factory-reset",
+         "name" : "FACTORY_RESET"
+      },
+      {
+         "name" : "LED_CONTROLLER",
+         "value" : "led-controller"
+      },
+      {
+         "name" : "NETWORK",
+         "value" : "network"
+      },
+      {
+         "value" : "usbshare",
+         "name" : "USBSHARE"
+      }
+   ],
+   "success" : true
+}

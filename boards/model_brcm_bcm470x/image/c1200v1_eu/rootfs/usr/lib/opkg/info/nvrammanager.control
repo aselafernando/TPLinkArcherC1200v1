@@ -1,0 +1,13 @@
+Package: nvrammanager
+Version: 1.0
+Depends: libpthread, libubus, libubox
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/nvrammanager
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Zhang Longwei <zhanglongwei@tp-link.net>
+Architecture: model_brcm_bcm470x
+Installed-Size: 34847
+Description:  App module for nvram

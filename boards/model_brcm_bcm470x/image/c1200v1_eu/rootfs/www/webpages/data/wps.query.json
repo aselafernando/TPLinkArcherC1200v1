@@ -1,0 +1,16 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "往后台发送的url形式： wps.query.json?method=push&operation=connect",
+	"comments": "其中method有： push 或者 pin",
+	"comments": "其中operation有： connect（点击connect按钮） 或者 query（持续往后台发送请求） 或者 cancel（点击cancel按钮）",
+	"comments": "返回的result结果有： success（找到设备，同时返回mac） 或者 fail（继续查找） 或者 timeout（超过时间）",
+
+	"timeout": false,
+	"success": true,
+	"data":{
+		"wps_status": "ok",  
+		"mac": "22-33-44-55-66-77",
+		"wps_timeout": "40000",
+		"available":1  
+	}
+}

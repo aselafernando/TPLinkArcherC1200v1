@@ -1,0 +1,20 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+SERVICE_PID_FILE=/var/run/switch_led.pid
+
+start()
+{
+	service_start /usr/bin/switch_led
+	( sleep 1; renice -n 20 -p `cat $SERVICE_PID_FILE` ) &
+}
+
+stop()
+{
+	service_stop /usr/bin/switch_led
+}
+

@@ -1,0 +1,10 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": {
+		"mac_clone_type": "default",
+		"mac_default": "11-22-33-44-55-66",
+		"mac_computer": "12-22-33-44-55-66",
+		"mac_custom": "14-22-33-44-55-66"
+	}
+}

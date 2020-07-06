@@ -1,0 +1,8 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+
+if [ "$ACTION" = "start" ]; then
+	/etc/init.d/parental_control restart
+fi

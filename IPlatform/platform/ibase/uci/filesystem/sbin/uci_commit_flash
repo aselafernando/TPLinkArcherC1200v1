@@ -1,0 +1,7 @@
+#!/usr/bin/env lua
+
+local uci = require "luci.model.uci"
+local uci_r = uci.cursor()
+
+-- FIXME: allow multiple args.
+uci_r:commit(arg[1])

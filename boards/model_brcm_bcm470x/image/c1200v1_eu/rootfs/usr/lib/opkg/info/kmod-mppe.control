@@ -1,0 +1,13 @@
+Package: kmod-mppe
+Version: -
+Depends: kernel (=--unknown), kmod-ppp, kmod-crypto-core, kmod-crypto-arc4, kmod-crypto-sha1, kmod-crypto-ecb
+Provides: 
+Source: package/kernel
+Section: kernel
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 4555
+Description:  Kernel modules for Microsoft PPP compression/encryption

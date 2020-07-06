@@ -1,0 +1,1446 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Status</title>
+</head>
+
+<body>
+<div class="func-container">
+	
+	
+	 <div id="status" class="status-page-panel">
+
+		<form id="status_form">
+
+		<div id="internet"  class="status-panel internet-panel">
+			<h4 class="status">
+				<span class="status-icon status-icon-internet"></span>
+				<span id="status_internet_title"></span>
+				<span id="conn_status_internet" class="conn-status conn-internet-connected hidden"></span>
+			</h4>
+			<div class="mode-change hidden" id="internet_mode_change">
+				<span id="show_ipv4_internet" class="first-mode mode-select"></span>
+				<span> | </span>
+				<span id="show_ipv6_internet" class="second-mode"></span>
+			</div>
+
+
+			<div id="internet_ipv4" class="status-panel-main">
+				<input type="text" class="" id="internet_ipv4_mac_address" name="wan_macaddr" />
+				<input type="text" class="" id="internet_ipv4_ip_address" name="wan_ipv4_ipaddr" />
+				<input type="text" class="" id="internet_ipv4_sub_mask" name="wan_ipv4_netmask" />
+				<input type="text" class="" id="internet_ipv4_gateway" name="wan_ipv4_gateway" />
+				<input type="text" class="" id="internet_ipv4_pri_dns" name="wan_ipv4_pridns" />
+				<input type="text" class="" id="internet_ipv4_snd_dns" name="wan_ipv4_snddns" />
+			<!--	<input type="text" class="" id="internet_ipv4_conn_type" name="wan_ipv4_conntype" />	-->
+				<p class="status-textarea-read">
+					<label id="internet_ipv4_conn_type_label" class="xs"></label>
+					<span class="selectable" id="internet_ipv4_conn_type"></span>
+				</p>
+			</div>
+
+			<div id="internet_ipv6" class="status-panel-main hidden">
+				<input type="text" class="" id="internet_ipv6_mac_address" name="wan_macaddr" />
+				<!-- <textarea type="text" class="" id="internet_ipv6_ip_address" name="wan_ipv6_ip6addr"></textarea> -->
+				<p class="status-textarea-read">
+					<label id="internet_ipv6_ip_address_label" class="xs"></label>
+					<span class="selectable upper-case" id="internet_ipv6_ip_address"></span>
+				</p>
+		    	<!-- <textarea type="text" class="" id="internet_ipv6_gateway" name="wan_ipv6_gateway"></textarea> -->
+				<p class="status-textarea-read">
+					<label id="internet_ipv6_gateway_label" class="xs"></label>
+					<span class="selectable" id="internet_ipv6_gateway"></span>
+				</p>
+				<p class="status-textarea-read">
+					<label id="internet_ipv6_pri_dns_label" class="xs"></label>
+					<span class="selectable upper-case" id="internet_ipv6_pri_dns"></span>
+				</p>
+				<p class="status-textarea-read">
+					<label id="internet_ipv6_snd_dns_label" class="xs"></label>
+					<span class="selectable upper-case" id="internet_ipv6_snd_dns"></span>
+				</p>
+				<!-- <input type="text" class="" id="internet_ipv6_pri_dns" name="wan_ipv6_pridns" />
+				<input type="text" class="" id="internet_ipv6_snd_dns" name="wan_ipv6_snddns" /> -->
+				<!-- <input type="text" class="" id="internet_ipv6_conn_type" name="wan_ipv6_conntype" /> -->
+				<p class="status-textarea-read">
+					<label id="internet_ipv6_conn_type_label" class="xs"></label>
+					<span class="selectable" id="internet_ipv6_conn_type"></span>
+				</p>
+			</div>
+		</div>
+
+
+
+		<div id="wireless" class="status-panel wireless-panel">
+			<h4 class="status">
+				<span class="status-icon status-icon-wireless"></span>
+				<span id="status_wirless_title"></span>
+				<span id="conn_status_wireless_2g" class="conn-status conn-wireless-connected hidden"></span>
+				<span id="conn_status_wireless_5g" class="conn-status conn-wireless-connected hidden"></span>
+			</h4>
+			<div class="mode-change">
+				<span id="show_24g_wireless" class="first-mode mode-select"></span>
+				<span> | </span>
+				<span id="show_5g_wireless" class="second-mode"></span>
+			</div>
+
+			<div id="wireless_24g" class="status-panel-main">
+				<p class="status-textarea-read">
+					<label id="wireless_24g_ssid_label" class="xs"></label>
+					<span class="selectable" id="wireless_24g_name"></span>
+				</p>
+			<!--	<input type="text" class="" id="wireless_24g_name" name="wireless_2g_ssid" />	-->
+				<input type="text" class="" id="wireless_24g_radio" name="wireless_2g_enable" />
+				<input type="text" class="" id="wireless_24g_mode" name="wireless_2g_hwmode" />
+				<input type="text" class="" id="wireless_24g_channelwidth" name="wireless_2g_htmode" />
+			<!--	<input type="text" class="" id="wireless_24g_channel" name="wireless_2g_current_channel" />		-->
+				<p class="status-textarea-read">
+					<label id="wireless_24g_channel_label" class="xs"></label>
+					<span class="selectable" id="wireless_24g_channel"></span>
+				</p>
+				<input type="text" class="" id="wireless_24g_mac" name="wireless_2g_macaddr" />
+				<div id="2g_wds_status">
+					<input type="text" class="" id="wireless_24g_wds" name="wireless_2g_wds_status" />
+				</div>
+			</div>
+
+			<div id="wireless_5g" class="status-panel-main hidden">
+				<p class="status-textarea-read">
+					<label id="wireless_5g_ssid_label" class="xs"></label>
+					<span class="selectable" id="wireless_5g_name"></span>
+				</p>
+			<!--	<input type="text" class="" id="wireless_5g_name" name="wireless_5g_ssid" />	-->
+				<input type="text" class="" id="wireless_5g_radio" name="wireless_5g_enable" />
+				<input type="text" class="" id="wireless_5g_mode" name="wireless_5g_hwmode" />
+				<input type="text" class="" id="wireless_5g_channelwidth" name="wireless_5g_htmode" />
+		   <!-- 	<input type="text" class="" id="wireless_5g_channel" name="wireless_2g_current_channel" />		-->
+				<p class="status-textarea-read">
+					<label id="wireless_5g_channel_label" class="xs"></label>
+					<span class="selectable" id="wireless_5g_channel"></span>
+				</p>
+				<input type="text" class="" id="wireless_5g_mac" name="wireless_5g_macaddr" />
+				<div id="5g_wds_status">
+					<input type="text" class="" id="wireless_5g_wds" name="wireless_5g_wds_status" />
+				</div>
+			</div>
+		</div>
+
+
+		 <div id="lan"  class="status-panel lan-panel">
+			<h4 class="status">
+				<span class="status-icon status-icon-lan"></span>
+				<span id="status_lan_title"></span>
+				<span></span>
+			</h4>
+			<div class="mode-change hidden" id="lan_mode_change">
+				<span id="show_ipv4_lan" class="first-mode mode-select"></span>
+				<span> | </span>
+				<span id="show_ipv6_lan" class="second-mode"></span>
+			</div>
+
+			<div id="lan_ipv4" class="status-panel-main">
+				<input type="text" class="" id="lan_ipv4_mac" name="lan_macaddr" />
+				<input type="text" class="" id="lan_ipv4_ip" name="lan_ipv4_ipaddr" />
+				<input type="text" class="" id="lan_ipv4_mask" name="lan_ipv4_netmask" />
+				<input type="text" class="" id="lan_ipv4_enable_dhcp" name="lan_ipv4_dhcp_enable" />
+			</div>
+
+			<div id="lan_ipv6" class="status-panel-main hidden">
+				<input type="text" class="" id="lan_ipv6_mac" name="lan_macaddr" />
+				<!-- <textarea type="text" class="" id="lan_ipv6_ip" name="lan_ipv6_ipaddr"></textarea> -->
+				<p class="status-textarea-read">
+					<label id="lan_ipv6_ip_label" class="xs"></label>
+					<span class="selectable upper-case" id="lan_ipv6_ip"></span>
+				</p>
+				<!-- <textarea type="text" class="" id="lan_ipv6_link" name="lan_ipv6_link_local_addr"></textarea> -->
+				<p class="status-textarea-read">
+					<label id="lan_ipv6_link_label" class="xs"></label>
+					<span class="selectable upper-case" id="lan_ipv6_link"></span>
+				</p>
+				<p class="status-textarea-read">
+					<label id="lan_ipv6_assign_label" class="xs"></label>
+					<span class="selectable"  id="lan_ipv6_assign"></span>
+				</p>
+				<!-- <input type="text" class="" id="lan_ipv6_assign" name="lan_ipv6_assign_type" /> -->
+			</div>
+		</div>
+
+		 <div id="guest"  class="status-panel guest-panel">
+			<h4 class="status">
+				<span class="status-icon status-icon-guest"></span>
+				<span id="status_guest_title"></span>
+				<span id="conn_status_guest_2g" class="conn-status conn-guest-connected hidden"></span>
+				<span id="conn_status_guest_5g" class="conn-status conn-guest-connected hidden"></span>
+			</h4>
+			<div class="mode-change">
+				<span id="show_24g_guest" class="first-mode mode-select"></span>
+				<span> | </span>
+				<span id="show_5g_guest" class="second-mode"></span>
+			</div>
+
+			<div id="guest_24g" class="status-panel-main">
+				<p class="status-textarea-read">
+					<label id="guest_24g_ssid_label" class="xs"></label>
+					<span id="guest_24g_name" class="selectable"></span>
+				</p>
+			<!--	<input type="text" class="" id="guest_24g_name" name="guest_2g_ssid" />		-->
+				<input type="text" class="" id="guest_24g_ssid" name="guest_2g_hidden" />
+				<input type="text" class="" id="guest_24g_radio" name="guest_2g_enable" />
+				<input type="text" class="" id="guest_24g_allow" name="guest_isolate" />
+			</div>
+
+			<div id="guest_5g" class="status-panel-main hidden">
+				<p class="status-textarea-read">
+					<label id="guest_5g_ssid_label" class="xs"></label>
+					<span id="guest_5g_name" class="selectable"></span>
+				</p>
+			<!--	<input type="text" class="" id="guest_5g_name" name="guest_5g_ssid" />	-->
+				<input type="text" class="" id="guest_5g_ssid" name="guest_5g_hidden" />
+				<input type="text" class="" id="guest_5g_radio" name="guest_5g_enable" />
+				<input type="text" class="" id="guest_5g_allow" name="guest_isolate" />
+			</div>
+		</div>
+
+		 <div id="usb"  class="status-panel usb-panel">
+			<h4 class="status">
+				<span class="status-icon status-icon-usb"></span>
+				<span id="status_usb_title"></span>
+				<span></span>
+			</h4>
+
+			<div id="usb-panel" class="status-panel-main">
+				<div class="usb-form-printer">
+					<span id="icon_printer_span" class="icon-usb-printer"></span>
+					<p id="usb_storage_text_printer" class="usb-text-printer"></p>
+					<p class="usb-form-line">
+						<span class="usb-storage-dot"></span>
+						<span id="usb_storage_printer" class="usb-storage-text selectable"></span>
+				<!--		<textarea id=""  type="text" name="printer_name"></textarea>
+						<p class="status-textarea-read">
+							<label id="internet_ipv6_gateway_label" class="xs"></label>
+							<span id="internet_ipv6_gateway"></span>
+						</p>
+				   -->
+					</p>
+				</div>
+				
+				<div class="usb-form-usb">
+					<span id="usb_icon_span" class="icon-usb-storage"></span>
+					<p id="usb_storage_text_usb" class="usb-text-usb"></p>
+					<p class="usb-form-line">
+						<span class="usb-storage-dot usb-disk-dot"></span>
+						<span id="usb_storage_label_total" class="usb-storage-label"></span>
+					<!--
+						<input id="usb_storage_total" type="text" name="storage_capacity"/>
+						<input id="usb_storage_total_unit" type="text" name="storage_capacity_unit"/>
+					-->
+						<span id="usb_storage_total"  class="usb-input-blue"></span>
+						<span id="usb_storage_total_unit"></span>
+
+					</p>
+					<p class="usb-form-line">
+						<span id="usb_storage_label_available" class="usb-storage-label"></span>
+					<!--
+						<input id="usb_storage_available" type="text" name="storage_available"/>
+						<input id="usb_storage_available_unit" type="text" name="storage_available_unit"/>
+					-->
+						<span id="usb_storage_available" class="usb-input-blue"></span>
+						<span id="usb_storage_available_unit"></span>
+					</p>
+
+				</div>
+
+			</div>
+		 </div>
+
+
+		 <div id="performance"  class="status-panel performance-panel">
+			<h4 class="status">
+				<span class="status-icon status-icon-performance"></span>
+				<span id="status_performance_title">performance</span>
+				<span></span>
+			</h4>
+
+			<div id="performance-panel" class="status-panel-main">
+					<p id="performance_cpu_load" class="performance-line"></p>
+					<input type="text" id="performance_cpu_load_bar" class="" name="cpu_usage" />
+
+					<p id="performance_memory_usage" class="performance-line"></p>
+					<input type="text" id="performance_memory_usage_bar" class="" name="mem_usage" />
+			</div>
+		 </div>
+
+		 <!--  -->
+
+		 <div id="access"  class="status-panel access-wired-panel">
+			<h4 class="status">
+				<span class="status-icon status-icon-access-wired"></span>
+				<span id="status_access_wired_title"></span>
+				<span></span>
+			</h4>
+
+			<div id="access-panel" class="status-panel-main access-panel-left">
+				<div class="status-access-block wired-block">
+					<div class="icon-access-wire">
+						<span id="access_wired_num" class="access-wire-clients-num"></span>
+					</div>
+					<p class="access_client_name">Wired Clients</p>
+
+					<div id="access_wired_list" class="access-client-list">
+					</div>
+
+				</div>
+			</div>
+
+		 </div>
+		 <!--  -->
+
+		 <div id="access"  class="status-panel access-wireless-panel">
+			<h4 class="status">
+				<span class="status-icon status-icon-access-wireless"></span>
+				<span id="status_access_wireless_title"></span>
+				<span></span>
+			</h4>
+
+			<div class="mode-change">
+				<span id="show_wireless_host" class="first-mode mode-select"></span>
+				<span> | </span>
+				<span id="show_wireless_guest" class="second-mode"></span>
+			</div>
+
+			<div id="access_wireless_host" class="status-panel-main access-panel-right">
+				<div class="status-access-block wired-block">
+					<div class="icon-access-wireless">
+						<span id="access_wireless_host_num" class="access-wireless-clients-num">5</span>
+					</div>
+					<p class="access_client_name">Wireless Clients</p>
+
+					<div id="access_wireless_host_list" class="access-client-list">
+					</div>
+
+				</div>
+			</div>
+
+			<div id="access_wireless_guest" class="status-panel-main access-panel-right hidden">
+				<div class="status-access-block wired-block">
+					<div class="icon-access-wireless">
+						<span id="access_wireless_guest_num" class="access-wireless-clients-num">5</span>
+					</div>
+					<p class="access_client_name">Wireless Clients</p>
+
+					<div id="access_wireless_guest_list" class="access-client-list">
+					</div>
+
+				</div>
+			</div>
+
+		 </div>
+<!--  -->
+		</form>
+
+	 </div>
+
+	 <div id="status_help"></div>
+	   
+</div>
+</body>
+<script type="text/javascript">
+//<![CDATA[
+try{
+	$
+}catch(e){
+	location.href = "/";
+};
+
+$(document).ready(function(e){
+	$("div.func-container").page({
+		title: $.su.CHAR.STATUS.TITLE,
+		help: "STATUS"	//可能是个调用的id 也可能是个url
+	});
+	//这里多个表格调用一个proxy，proxy需要单独定义！
+	var statusProxy = new $.su.Proxy({
+		url: $.su.url('/admin/status?form=all')
+	});
+
+	var statusInetProxy = new $.su.Proxy({
+		url: $.su.url('/admin/status?form=internet')
+	});
+
+	var accessLeftFlag = true;
+	var accessRightFlag = true;
+	var support_wds_show = "";
+	
+	$("#2g_wds_status").css({
+		"display" : "none"
+	});
+
+	$("#5g_wds_status").css({
+		"display" : "none"
+	});
+
+	$('span#status_internet_title').html($.su.CHAR.STATUS.INTERNET);
+	$('span#status_wirless_title').html($.su.CHAR.STATUS.WIRELESS);
+	$('span#status_lan_title').html($.su.CHAR.STATUS.LAN);
+	$('span#status_guest_title').html($.su.CHAR.STATUS.GUEST_NETWORK);
+	$('span#status_usb_title').html($.su.CHAR.STATUS.USB_TITLE);
+	$('span#status_performance_title').html($.su.CHAR.STATUS.PERFORMANCE);
+	$('span#status_access_wired_title').html($.su.CHAR.STATUS.WIRED_CLIENTS);
+	$('span#status_access_wireless_title').html($.su.CHAR.STATUS.WIRELESS_CLIENTS);
+	$('label#internet_ipv4_conn_type_label').html($.su.CHAR.STATUS.CONNECTION_TYPE + ':');
+	$('label#internet_ipv6_conn_type_label').html($.su.CHAR.STATUS.CONNECTION_TYPE + ':');
+
+	$("form#status_form").form({
+		cls: 'no-padding',
+		fields: [
+			{name: "wan_macaddr", mapping: "wan_macaddr"},
+			{name: "wan_ipv4_ipaddr", mapping: "wan_ipv4_ipaddr"},
+			{name: "wan_ipv4_netmask", mapping: "wan_ipv4_netmask"},
+			{name: "wan_ipv4_gateway", mapping: "wan_ipv4_gateway"},
+			{name: "wan_ipv4_pridns", mapping: "wan_ipv4_pridns"},
+			{name: "wan_ipv4_snddns", mapping: "wan_ipv4_snddns"},
+			// {name: "wan_ipv4_conntype", mapping: "wan_ipv4_conntype"},
+			{name: "wan_macaddr", mapping: "wan_macaddr"},
+			{name: "wan_ipv6_ip6addr", mapping: "wan_ipv6_ip6addr"},
+			{name: "wan_ipv6_gateway", mapping: "wan_ipv6_gateway"},
+			{name: "wan_ipv6_pridns", mapping: "wan_ipv6_pridns"},
+			{name: "wan_ipv6_snddns", mapping: "wan_ipv6_snddns"},
+			// {name: "wan_ipv6_conntype", mapping: "wan_ipv6_conntype"},
+			{name: "wireless_2g_ssid", mapping: "wireless_2g_ssid"},
+			// {name: "wireless_2g_enable", mapping: "wireless_2g_enable"},
+			{name: "wireless_2g_hwmode", mapping: "wireless_2g_hwmode"},
+			{name: "wireless_2g_htmode", mapping: "wireless_2g_htmode"},
+		//	{name: "wireless_2g_current_channel", mapping: "wireless_2g_current_channel"},
+			{name: "wireless_2g_macaddr", mapping: "wireless_2g_macaddr"},
+			// {name: "wireless_2g_wds_status", mapping: "wireless_2g_wds_status"},
+			{name: "wireless_5g_ssid", mapping: "wireless_5g_ssid"},
+			// {name: "wireless_5g_enable", mapping: "wireless_5g_enable"},
+			{name: "wireless_5g_hwmode", mapping: "wireless_5g_hwmode"},
+			{name: "wireless_5g_htmode", mapping: "wireless_5g_htmode"},
+		//	{name: "wireless_5g_current_channel", mapping: "wireless_5g_current_channel"},
+			{name: "wireless_5g_macaddr", mapping: "wireless_5g_macaddr"},
+			// {name: "wireless_5g_wds_status", mapping: "wireless_5g_wds_status"},
+			{name: "lan_macaddr", mapping: "lan_macaddr"},
+			{name: "lan_ipv4_ipaddr", mapping: "lan_ipv4_ipaddr"},
+			{name: "lan_ipv4_netmask", mapping: "lan_ipv4_netmask"},
+			{name: "lan_ipv4_dhcp_enable", mapping: "lan_ipv4_dhcp_enable"},
+			{name: "lan_macaddr", mapping: "lan_macaddr"},
+			{name: "lan_ipv6_ipaddr", mapping: "lan_ipv6_ipaddr"},
+			{name: "lan_ipv6_link_local_addr", mapping: "lan_ipv6_link_local_addr"},
+			// {name: "lan_ipv6_assign_type", mapping: "lan_ipv6_assign_type"},
+			{name: "guest_2g_ssid", mapping: "guest_2g_ssid"},
+			// {name: "guest_2g_hidden", mapping: "guest_2g_hidden"},
+			// {name: "guest_2g_enable", mapping: "guest_2g_enable"},
+			// {name: "guest_isolate", mapping: "guest_isolate"},
+			{name: "guest_5g_ssid", mapping: "guest_5g_ssid"},
+			{name: "guest_5g_hidden", mapping: "guest_5g_hidden"},
+			{name: "guest_5g_enable", mapping: "guest_5g_enable"},
+			{name: "guest_isolate", mapping: "guest_isolate"},
+			{name: "guest_5g_ssid", mapping: "guest_5g_ssid"},
+			// {name: "guest_5g_hidden", mapping: "guest_5g_hidden"},
+			// {name: "guest_5g_enable", mapping: "guest_5g_enable"},
+			// {name: "guest_isolate", mapping: "guest_isolate"},
+			{name: "storage_capacity", mapping: "storage_capacity"},
+			{name: "storage_capacity_unit", mapping: "storage_capacity_unit"},
+			{name: "storage_available", mapping: "storage_available"},
+			{name: "storage_available_unit", mapping: "storage_available_unit"},
+			// {name: "printer_name", mapping: "printer_name"},
+			{name: "cpu_usage", mapping: "cpu_usage"},
+			{name: "mem_usage", mapping: "mem_usage"}
+		],
+		submitBtn: null,
+		autoLoad: false
+	}).on("ev_loadData", function(e, data){
+			
+			var str = "";
+			var lan_id = "MODE_" + data.wireless_2g_hwmode.toUpperCase();
+			str	= $.su.CHAR.WIRELESS[lan_id];
+			$("#wireless_24g_mode").val(str);
+
+			lan_id = "MODE_" + data.wireless_5g_hwmode.toUpperCase();
+			str	= $.su.CHAR.WIRELESS[lan_id];
+			$("#wireless_5g_mode").val(str);
+
+	});
+
+	statusProxy.read({}, function(data, status, xhr){
+		if(data.wan_ipv6_enable.toUpperCase()== 'ON'){
+			$('div#internet_mode_change').show();
+			$('div#lan_mode_change').show();
+		}
+
+		$("form#status_form").form('loadData', data);
+
+		function transChar(data, itemId){
+			if(data.toUpperCase() == 'ON'){
+				$('input#'+itemId).textbox('setValue', $.su.CHAR.STATUS.ON);
+			}else{
+				$('input#'+itemId).textbox('setValue', $.su.CHAR.STATUS.OFF);
+			}
+		}
+
+		transChar(data.wireless_2g_enable, 'wireless_24g_radio');
+		transChar(data.wireless_5g_enable, 'wireless_5g_radio');
+
+		transChar(data.guest_2g_hidden, 'guest_24g_ssid');
+		transChar(data.guest_2g_enable, 'guest_24g_radio');
+		transChar(data.guest_isolate, 'guest_24g_allow');
+
+		transChar(data.guest_5g_hidden, 'guest_5g_ssid');
+		transChar(data.guest_5g_enable, 'guest_5g_radio');
+		transChar(data.guest_isolate, 'guest_5g_allow');
+
+		var numberTest = new $.su.vtype({
+			vtype: "number"
+		});
+////////////////////////////
+		function showMode(data, element){
+			switch(data){
+				case 'dhcp':
+					element.html($.su.CHAR.STATUS.DYNAMIC_IP);
+					break;
+				case 'static':
+					element.html($.su.CHAR.STATUS.STATIC_IP);
+					break;
+				case 'bigpond':
+					element.html($.su.CHAR.STATUS.BIGPOND_CABLE);
+					break;
+				case 'pppoe':
+					element.html($.su.CHAR.STATUS.PPPOE);
+					break;
+				case 'l2tp':
+					element.html($.su.CHAR.STATUS.L2TP);
+					break;
+				case 'pptp':
+					element.html($.su.CHAR.STATUS.PPTP);
+					break;
+					
+				case 'dhcp6c':
+				case 'dhcpv6':
+					element.html($.su.CHAR.STATUS.DYNAMIC_IP);
+					break;
+				case 'staticv6':
+					element.html($.su.CHAR.STATUS.STATIC_IP);
+					break;
+				case 'pppoev6':
+					element.html($.su.CHAR.STATUS.PPPOE);
+					break;
+				case '6to4':
+					element.html($.su.CHAR.STATUS.TUNNEL_6TO4);
+					break;
+				case '6rd':
+					element.html($.su.CHAR.STATUS.RD6);
+					break;
+				case 'dslite':
+					element.html($.su.CHAR.STATUS.DSLITE);
+					break;
+				case 'passthrough':
+					element.html($.su.CHAR.STATUS.PASSTHROUGH);
+					break;
+				case 'slaac':
+					element.html($.su.CHAR.STATUS.SLAAC);
+					break;
+				case 'rdnss':
+					element.html($.su.CHAR.STATUS.RDNSS);
+					break;
+				case 'none':
+					element.html($.su.CHAR.STATUS.NONE);
+					break;
+			}
+		}
+
+		showMode(data.wan_ipv4_conntype, $('span#internet_ipv4_conn_type'));
+		showMode(data.wan_ipv6_conntype, $('span#internet_ipv6_conn_type'));
+
+		if( data.wireless_2g_channel.toUpperCase()=='AUTO' ){
+			$('span#wireless_24g_channel').html($.su.CHAR.STATUS.AUTO + ' (' + $.su.CHAR.STATUS.CURRENT_CHANNEL + ' ' + data.wireless_2g_current_channel + ')');
+		}else if( numberTest.validate(data.wireless_2g_current_channel) ){
+			$('span#wireless_24g_channel').html( data.wireless_2g_current_channel );
+		}else{
+			$('span#wireless_24g_channel').html( data.wireless_2g_channel );
+		}
+
+		if( data.wireless_5g_channel.toUpperCase()=='AUTO' ){
+			$('span#wireless_5g_channel').html($.su.CHAR.STATUS.AUTO + ' (' + $.su.CHAR.STATUS.CURRENT_CHANNEL + ' ' + data.wireless_5g_current_channel + ')');
+		}else if( numberTest.validate(data.wireless_5g_current_channel) ){
+			$('span#wireless_5g_channel').html( data.wireless_5g_current_channel );
+		}else{
+			$('span#wireless_5g_channel').html( data.wireless_5g_channel );
+		}
+
+		if( (data.wireless_2g_hwmode=='a' || data.wireless_2g_hwmode=='b' ||  data.wireless_2g_hwmode=='g'||  data.wireless_2g_hwmode=='bg') && data.wireless_2g_htmode.toUpperCase() == 'AUTO' ){
+			$('input#wireless_24g_channelwidth').textbox('setValue', '20MHz');
+		}else if( data.wireless_2g_htmode.toUpperCase() == 'AUTO' ){
+			$('input#wireless_24g_channelwidth').textbox('setValue', $.su.CHAR.STATUS.AUTO);
+		}else{
+			$('input#wireless_24g_channelwidth').textbox('setValue', data.wireless_2g_htmode + 'MHz');
+		}
+
+		if( (data.wireless_5g_hwmode=='a_5' ) &&  data.wireless_5g_htmode.toUpperCase() == 'AUTO' ){
+			$('input#wireless_5g_channelwidth').textbox('setValue', '20MHz');
+		}else if( data.wireless_5g_htmode.toUpperCase() == 'AUTO' ){
+			$('input#wireless_5g_channelwidth').textbox('setValue', $.su.CHAR.STATUS.AUTO);
+		}else{
+			$('input#wireless_5g_channelwidth').textbox('setValue', data.wireless_5g_htmode + 'MHz');
+		}
+
+		if(data.guest_2g_extinfo.support_wds_show == "yes")
+		{
+			support_wds_show = "yes";
+			$("#2g_wds_status").css({
+				"display" : "block"
+			});
+		}
+
+
+		switch(data.wireless_2g_wds_status){
+			case 'disable':
+				$('input#wireless_24g_wds').textbox('setValue', $.su.CHAR.STATUS.DISABLED);
+				break;
+			case 'init':
+				$('input#wireless_24g_wds').textbox('setValue', $.su.CHAR.STATUS.INIT);
+				break;
+			case 'scan':
+				$('input#wireless_24g_wds').textbox('setValue', $.su.CHAR.STATUS.SCAN);
+				break;
+			case 'auth':
+				$('input#wireless_24g_wds').textbox('setValue', $.su.CHAR.STATUS.AUTH);
+				break;
+			case 'assoc':
+				$('input#wireless_24g_wds').textbox('setValue', $.su.CHAR.STATUS.ASSOC);
+				break;
+			case 'run_encrypt':
+				$('input#wireless_24g_wds').textbox('setValue', $.su.CHAR.STATUS.RUN);
+				break;
+			case 'run_unencrypt':
+				$('input#wireless_24g_wds').textbox('setValue', $.su.CHAR.STATUS.RUN);
+				break;
+		}
+
+		if(data.guest_5g_extinfo.support_wds_show == "yes")
+		{
+			$("#5g_wds_status").css({
+				"display" : "block"
+			})
+		}
+
+		switch(data.wireless_5g_wds_status){
+			case 'disable':
+				$('input#wireless_5g_wds').textbox('setValue', $.su.CHAR.STATUS.DISABLED);
+				break;
+			case 'init':
+				$('input#wireless_5g_wds').textbox('setValue', $.su.CHAR.STATUS.INIT);
+				break;
+			case 'scan':
+				$('input#wireless_5g_wds').textbox('setValue', $.su.CHAR.STATUS.SCAN);
+				break;
+			case 'auth':
+				$('input#wireless_5g_wds').textbox('setValue', $.su.CHAR.STATUS.AUTH);
+				break;
+			case 'assoc':
+				$('input#wireless_5g_wds').textbox('setValue', $.su.CHAR.STATUS.ASSOC);
+				break;
+			case 'run_encrypt':
+				$('input#wireless_5g_wds').textbox('setValue', $.su.CHAR.STATUS.RUN);
+				break;
+			case 'run_unencrypt':
+				$('input#wireless_5g_wds').textbox('setValue', $.su.CHAR.STATUS.RUN);
+				break;
+		}
+
+
+		$('span#internet_ipv6_ip_address').html($.su.func.escapeHtml(data.wan_ipv6_ip6addr).toUpperCase());
+		$('span#internet_ipv6_gateway').html($.su.func.escapeHtml(data.wan_ipv6_gateway));
+		$('span#internet_ipv6_pri_dns').html($.su.func.escapeHtml(data.wan_ipv6_pridns));
+		$('span#internet_ipv6_snd_dns').html($.su.func.escapeHtml(data.wan_ipv6_snddns));
+		$('span#lan_ipv6_ip').html($.su.func.escapeHtml(data.lan_ipv6_ipaddr).toUpperCase());
+		$('span#lan_ipv6_link').html($.su.func.escapeHtml(data.lan_ipv6_link_local_addr));
+
+		$('span#wireless_24g_name').html($.su.func.escapeHtml(data.wireless_2g_ssid));
+		$('span#wireless_5g_name').html($.su.func.escapeHtml(data.wireless_5g_ssid));
+		$('span#guest_24g_name').html($.su.func.escapeHtml(data.guest_2g_ssid));
+		$('span#guest_5g_name').html($.su.func.escapeHtml(data.guest_5g_ssid));
+		if(data.printer_count == 0)
+		{
+			$('span#usb_storage_printer').html($.su.CHAR.PRINT.NONE);
+			$('#icon_printer_span').addClass('icon-usb-printer-disconn');
+		}
+		else
+		{
+			$('span#usb_storage_printer').html( $.su.func.escapeHtml(data.printer_name) );
+		}
+
+		var t = setTimeout( function(){ $('div#performance-panel').css('height',  $('div#usb-panel').css('height') ); }, 100 );	
+
+		$('span#usb_storage_total').html($.su.func.escapeHtml(data.storage_capacity));
+		$('span#usb_storage_total_unit').html($.su.func.escapeHtml(data.storage_capacity_unit));
+		$('span#usb_storage_available').html($.su.func.escapeHtml(data.storage_available));
+		$('span#usb_storage_available_unit').html($.su.func.escapeHtml(data.storage_available_unit));
+
+
+		if(data.storage_capacity==0 && data.storage_available==0){
+			$('#usb_icon_span').addClass('icon-usb-storage-disconn');
+		}
+
+		showMode(data.lan_ipv6_assign_type, $('span#lan_ipv6_assign'));
+
+		function changeIcon(enable, disable, encryption, icon){
+			if( enable.toUpperCase()=='OFF' || disable.toUpperCase()=='ON'){
+				icon.removeClass('not-secure');
+				icon.addClass('not-open');
+			}else if( disable.toUpperCase()=='OFF' && enable.toUpperCase()=='ON' &&  encryption.toUpperCase()=='NONE' ){
+				icon.removeClass('not-open');
+				icon.addClass('not-secure');
+			}else if( disable.toUpperCase()=='OFF' && enable.toUpperCase()=='ON' &&  encryption.toUpperCase()!='NONE' ){
+				icon.removeClass('not-open');
+				icon.removeClass('not-secure');
+			}
+		}
+		changeIcon(data.wireless_2g_enable, data.wireless_2g_disabled, data.wireless_2g_encryption, $('span#conn_status_wireless_2g'));
+		changeIcon(data.wireless_5g_enable, data.wireless_5g_disabled, data.wireless_5g_encryption, $('span#conn_status_wireless_5g'));
+		$('span#conn_status_wireless_2g').removeClass('hidden');
+		changeIcon(data.guest_2g_enable, data.guest_2g_disabled, data.guest_2g_encryption, $('span#conn_status_guest_2g'));
+		changeIcon(data.guest_5g_enable, data.guest_5g_disabled, data.guest_5g_encryption, $('span#conn_status_guest_5g'));
+		$('span#conn_status_guest_2g').removeClass('hidden');
+
+
+
+		var wiredData = data.access_devices_wired?data.access_devices_wired:[];
+		var wiredStr = '';
+		$('span#access_wired_num').html(wiredData.length);
+
+		for(var i=0; i<wiredData.length; i++){
+
+			if( wiredData.length>3 ){
+				if( i!=3 ){
+					wiredStr += '<p class="access-client-list-p"><span title="'+wiredData[i].hostname+'">'+ $.su.func.breakWordWithLen(wiredData[i].hostname) +'</span><span class="access-client-list-icon"></span></p>';
+					wiredStr += '<div class="access-client-detail hidden"><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.IP_ADDR_P+'</label><span class="cfg_value">'+wiredData[i].ipaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.MAC_ADDR_P+'</label><span class="cfg_value">'+wiredData[i].macaddr+'</span></p></div>';
+				}else if( i==3 ){
+					wiredStr += '<p class="omit-line">...</p><div class="omit-content hidden">';
+					wiredStr += '<p class="access-client-list-p"><span title="'+wiredData[i].hostname+'">'+ $.su.func.breakWordWithLen(wiredData[i].hostname) +'</span><span class="access-client-list-icon"></span></p>';
+					wiredStr += '<div class="access-client-detail hidden"><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.IP_ADDR_P+'</label><span class="cfg_value">'+wiredData[i].ipaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.MAC_ADDR_P+'</label><span class="cfg_value">'+wiredData[i].macaddr+'</span></p></div>';
+				}
+
+			}else{
+				wiredStr += '<p class="access-client-list-p"><span title="'+wiredData[i].hostname+'">'+ $.su.func.breakWordWithLen(wiredData[i].hostname) +'</span><span class="access-client-list-icon"></span></p>';
+				wiredStr += '<div class="access-client-detail hidden"><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.IP_ADDR_P+'</label><span class="cfg_value">'+wiredData[i].ipaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.MAC_ADDR_P+'</label><span class="cfg_value">'+wiredData[i].macaddr+'</span></p></div>';
+			}
+		}
+
+		if(wiredData.length>3){
+			wiredStr += '</div>';
+		}
+		$('div#access_wired_list').html(wiredStr);
+
+
+		var wirelessHostData = data.access_devices_wireless_host?data.access_devices_wireless_host:[];
+		var wirelessGuestData = data.access_devices_wireless_guest?data.access_devices_wireless_guest:[];
+
+		// var wirelessData = [];
+
+		// data.access_devices_wireless_guest?wirelessData.push(data.access_devices_wireless_guest):1;
+		// data.access_devices_wireless_host?wirelessData.push(data.access_devices_wireless_host):1;
+
+		// wirelessData = wirelessData.concat(data.access_devices_wireless_guest, data.access_devices_wireless_host);
+
+		var wirelessHostStr = '';
+		var wirelessGuestStr = '';
+
+		$('span#access_wireless_host_num').html(wirelessHostData.length);
+		$('span#access_wireless_guest_num').html(wirelessGuestData.length);
+
+		for(var i=0; i<wirelessHostData.length; i++){
+
+			if( wirelessHostData.length>3 ){
+				if( i!=3 ){
+					wirelessHostStr += '<p class="access-client-list-p"><span title="'+wirelessHostData[i].hostname+'">'+ $.su.func.breakWordWithLen(wirelessHostData[i].hostname, 25) +'</span><span class="access-client-list-icon"></span></p>';
+					wirelessHostStr += '<div class="access-client-detail hidden"><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.IP_ADDR_P+'</label><span class="cfg_value">'+wirelessHostData[i].ipaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.MAC_ADDR_P+'</label><span class="cfg_value">'+wirelessHostData[i].macaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.CONN_TYPE_P+'</label><span class="cfg_value">'+wirelessHostData[i].wire_type+'</span></p></div>';
+				}else if( i==3 ){
+					wirelessHostStr += '<p class="omit-line">...</p><div class="omit-content hidden">';
+					wirelessHostStr += '<p class="access-client-list-p"><span title="'+wirelessHostData[i].hostname+'">'+ $.su.func.breakWordWithLen(wirelessHostData[i].hostname, 25) +'</span><span class="access-client-list-icon"></span></p>';
+					wirelessHostStr += '<div class="access-client-detail hidden"><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.IP_ADDR_P+'</label><span class="cfg_value">'+wirelessHostData[i].ipaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.MAC_ADDR_P+'</label><span class="cfg_value">'+wirelessHostData[i].macaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.CONN_TYPE_P+'</label><span class="cfg_value">'+wirelessHostData[i].wire_type+'</span></p></div>';
+				}
+
+			}else{
+				wirelessHostStr += '<p class="access-client-list-p"><span title="'+wirelessHostData[i].hostname+'">'+ $.su.func.breakWordWithLen(wirelessHostData[i].hostname, 25) +'</span><span class="access-client-list-icon"></span></p>';
+				wirelessHostStr += '<div class="access-client-detail hidden"><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.IP_ADDR_P+'</label><span class="cfg_value">'+wirelessHostData[i].ipaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.MAC_ADDR_P+'</label><span class="cfg_value">'+wirelessHostData[i].macaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.CONN_TYPE_P+'</label><span class="cfg_value">'+wirelessHostData[i].wire_type+'</span></p></div>';
+			}
+		}
+
+		if(wirelessHostData.length>3){
+			wirelessHostStr += '</div>';
+		}
+
+
+		for(var i=0; i<wirelessGuestData.length; i++){
+
+			if( wirelessGuestData.length>3 ){
+				if( i!=3 ){
+					wirelessGuestStr += '<p class="access-client-list-p"><span title="'+wirelessGuestData[i].hostname+'">'+ $.su.func.breakWordWithLen(wirelessGuestData[i].hostname) +'</span><span class="access-client-list-icon"></span></p>';
+					wirelessGuestStr += '<div class="access-client-detail hidden"><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.IP_ADDR_P+'</label><span class="cfg_value">'+wirelessGuestData[i].ipaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.MAC_ADDR_P+'</label><span class="cfg_value">'+wirelessGuestData[i].macaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.CONN_TYPE_P+'</label><span class="cfg_value">'+wirelessGuestData[i].wire_type+'</span></p></div>';
+				}else if( i==3 ){
+					wirelessGuestStr += '<p class="omit-line">...</p><div class="omit-content hidden">';
+					wirelessGuestStr += '<p class="access-client-list-p"><span title="'+wirelessGuestData[i].hostname+'">'+ $.su.func.breakWordWithLen(wirelessGuestData[i].hostname) +'</span><span class="access-client-list-icon"></span></p>';
+					wirelessGuestStr += '<div class="access-client-detail hidden"><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.IP_ADDR_P+'</label><span class="cfg_value">'+wirelessGuestData[i].ipaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.MAC_ADDR_P+'</label><span class="cfg_value">'+wirelessGuestData[i].macaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.CONN_TYPE_P+'</label><span class="cfg_value">'+wirelessGuestData[i].wire_type+'</span></p></div>';
+				}
+
+			}else{
+				wirelessGuestStr += '<p class="access-client-list-p"><span title="'+wirelessGuestData[i].hostname+'">'+ $.su.func.breakWordWithLen(wirelessGuestData[i].hostname) +'</span><span class="access-client-list-icon"></span></p>';
+				wirelessGuestStr += '<div class="access-client-detail hidden"><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.IP_ADDR_P+'</label><span class="cfg_value">'+wirelessGuestData[i].ipaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.MAC_ADDR_P+'</label><span class="cfg_value">'+wirelessGuestData[i].macaddr+'</span></p><p class="cfg_status"><label class="label_status_s">'+$.su.CHAR.STATUS.CONN_TYPE_P+'</label><span class="cfg_value">'+wirelessGuestData[i].wire_type+'</span></p></div>';
+			}
+		}
+
+		if(wirelessGuestData.length>3){
+			wirelessGuestStr += '</div>';
+		}
+
+		$('div#access_wired_list').html(wiredStr);
+		$('div#access_wireless_host_list').html(wirelessHostStr);
+		$('div#access_wireless_guest_list').html(wirelessGuestStr);
+	});
+
+	statusInetProxy.read({}, function(data, status, xhr){
+		if( data.internet_status.toUpperCase() == 'CONNECTED' ){
+			$('span#conn_status_internet').removeClass('conn-internet-disconnected');
+			$('span#conn_status_internet').removeClass('conn-internet-poor-connected');
+		}else if(  data.internet_status.toUpperCase() == 'UNPLUGGED' ){
+			$('span#conn_status_internet').removeClass('conn-internet-poor-connected');
+			$('span#conn_status_internet').addClass('conn-internet-disconnected');
+		}else if(  data.internet_status.toUpperCase()=='POOR_CONNECTED' ||  data.internet_status.toUpperCase() == 'DISCONNECTED' || data.internet_status.toUpperCase() == 'CONNECTING'){
+			$('span#conn_status_internet').removeClass('conn-internet-disconnected');
+			$('span#conn_status_internet').addClass('conn-internet-poor-connected');
+		}
+		$('span#conn_status_internet').removeClass('hidden');
+	});
+
+
+
+///////////////////////////////////////////   Internet 
+
+	$("input#internet_ipv4_mac_address").textbox({
+		fieldLabel: $.su.CHAR.STATUS.MAC_ADDRESS,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#internet_ipv4_ip_address").textbox({
+		fieldLabel: $.su.CHAR.STATUS.IP_ADDRESS,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#internet_ipv4_sub_mask").textbox({
+		fieldLabel: $.su.CHAR.STATUS.SUBNET_MASK,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#internet_ipv4_gateway").textbox({
+		fieldLabel: $.su.CHAR.STATUS.DEFAULT_GATEWAY,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#internet_ipv4_pri_dns").textbox({
+		fieldLabel: $.su.CHAR.STATUS.PRIMARY_DNS,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#internet_ipv4_snd_dns").textbox({
+		fieldLabel: $.su.CHAR.STATUS.SECOND_DNS,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	/*$("input#internet_ipv4_conn_type").textbox({
+		fieldLabel: $.su.CHAR.STATUS.CONNECTION_TYPE,
+		labelCls:"xs",
+		readOnly: true
+	});*/
+
+	$("input#internet_ipv6_mac_address").textbox({
+		fieldLabel: $.su.CHAR.STATUS.MAC_ADDRESS,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$('label#internet_ipv6_ip_address_label').html($.su.CHAR.STATUS.IP_ADDRESS + ':');
+	$('label#internet_ipv6_gateway_label').html($.su.CHAR.STATUS.DEFAULT_GATEWAY + ':');
+/*
+	$("textarea#internet_ipv6_ip_address").textarea({
+		fieldLabel: $.su.CHAR.STATUS.IP_ADDRESS,
+		labelCls:"xs",
+		readOnly: true
+	});
+*/
+/*	$("textarea#internet_ipv6_gateway").textarea({
+		fieldLabel: $.su.CHAR.STATUS.DEFAULT_GATEWAY,
+		labelCls:"xs",
+		readOnly: true
+	});
+*/
+	$('label#internet_ipv6_pri_dns_label').html($.su.CHAR.STATUS.PRIMARY_DNS + ':');
+	$('label#internet_ipv6_snd_dns_label').html($.su.CHAR.STATUS.SECOND_DNS + ':');
+
+/*	$("input#internet_ipv6_pri_dns").textbox({
+		fieldLabel: $.su.CHAR.STATUS.PRIMARY_DNS,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#internet_ipv6_snd_dns").textbox({
+		fieldLabel: $.su.CHAR.STATUS.SECOND_DNS,
+		labelCls:"xs",
+		readOnly: true
+	});*/
+
+/*	$("input#internet_ipv6_conn_type").textbox({
+		fieldLabel: $.su.CHAR.STATUS.CONNECTION_TYPE,
+		labelCls:"xs",
+		readOnly: true
+	});*/
+
+
+	$('span#show_ipv4_internet').html($.su.CHAR.STATUS.IPV4);
+	$('span#show_ipv6_internet').html($.su.CHAR.STATUS.IPV6);
+
+	
+	$('span#show_ipv4_internet').click(function(){
+		$(this).addClass('mode-select');
+		$('span#show_ipv6_internet').removeClass('mode-select');
+		$('div#internet_ipv4').fadeIn(200);
+		$('div#internet_ipv6').css("display", "none");
+	});
+	
+
+	$('span#show_ipv6_internet').click(function(){
+		$(this).addClass('mode-select');
+		$('span#show_ipv4_internet').removeClass('mode-select');
+		$('div#internet_ipv6').fadeIn(200);
+		$('div#internet_ipv4').css("display", "none");
+	});
+	
+
+
+/////////////////////////////////////////////////   Wireless
+
+$('label#wireless_24g_ssid_label').html($.su.CHAR.STATUS.NETWORK_NAME_SSID+':');
+$('label#wireless_5g_ssid_label').html($.su.CHAR.STATUS.NETWORK_NAME_SSID+':');
+$('label#guest_24g_ssid_label').html($.su.CHAR.STATUS.NETWORK_NAME_SSID+':');
+$('label#guest_5g_ssid_label').html($.su.CHAR.STATUS.NETWORK_NAME_SSID+':');
+
+$('label#wireless_24g_channel_label').html($.su.CHAR.STATUS.CHANNEL+':');
+$('label#wireless_5g_channel_label').html($.su.CHAR.STATUS.CHANNEL+':');
+
+/*
+	$("input#wireless_24g_name").textbox({
+		fieldLabel: $.su.CHAR.STATUS.NETWORK_NAME_SSID,
+		labelCls:"xs",
+		readOnly: true
+	});
+*/
+
+	$("input#wireless_24g_radio").textbox({
+		fieldLabel: $.su.CHAR.STATUS.RADIO,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#wireless_24g_mode").textbox({
+		fieldLabel: $.su.CHAR.STATUS.MODE,
+		labelCls:"xs",
+		readOnly: true
+	});
+/*
+	$("input#wireless_24g_channel").textbox({
+		fieldLabel: $.su.CHAR.STATUS.CHANNEL,
+		labelCls:"xs",
+		readOnly: true
+	});
+*/
+
+	$("input#wireless_24g_channelwidth").textbox({
+		fieldLabel: $.su.CHAR.STATUS.CHANNEL_WIDTH,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#wireless_24g_mac").textbox({
+		fieldLabel: $.su.CHAR.STATUS.MAC,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#wireless_24g_wds").textbox({
+		fieldLabel: $.su.CHAR.STATUS.WDS_STATUS,
+		labelCls:"xs",
+		readOnly: true
+	});
+/*
+	$("input#wireless_5g_name").textbox({
+		fieldLabel: $.su.CHAR.STATUS.NETWORK_NAME_SSID,
+		labelCls:"xs",
+		readOnly: true
+	});
+*/
+	$("input#wireless_5g_radio").textbox({
+		fieldLabel: $.su.CHAR.STATUS.RADIO,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#wireless_5g_mode").textbox({
+		fieldLabel: $.su.CHAR.STATUS.MODE,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#wireless_5g_channel").textbox({
+		fieldLabel: $.su.CHAR.STATUS.CHANNEL,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+
+	$("input#wireless_5g_channelwidth").textbox({
+		fieldLabel: $.su.CHAR.STATUS.CHANNEL_WIDTH,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+
+	$("input#wireless_5g_mac").textbox({
+		fieldLabel: $.su.CHAR.STATUS.MAC,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#wireless_5g_wds").textbox({
+		fieldLabel: $.su.CHAR.STATUS.WDS_STATUS,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+
+	// $("div#wireless5g").panel({
+	// 	title: $.su.CHAR.STATUS.WIRELESS5G,
+	// 	cls:'status-container',
+	// 	collapsible: false
+	// });
+
+
+	$("input#wireless-client").textbox({
+		fieldLabel: $.su.CHAR.STATUS.WIRELESS_CLIENT,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+
+	$('span#show_24g_wireless').html($.su.CHAR.STATUS.HZ24G);
+	$('span#show_5g_wireless').html($.su.CHAR.STATUS.HZ5G);
+
+	
+	$('span#show_24g_wireless').click(function(){
+		$(this).addClass('mode-select');
+		$('span#show_5g_wireless').removeClass('mode-select');
+		$('div#wireless_24g').fadeIn(200);
+		$('div#wireless_5g').css("display", "none");
+		$('span#conn_status_wireless_2g').hasClass('hidden')?$('span#conn_status_wireless_2g').removeClass('hidden'):1;
+		$('span#conn_status_wireless_5g').hasClass('hidden')?1:$('span#conn_status_wireless_5g').addClass('hidden');
+	});
+	
+
+	$('span#show_5g_wireless').click(function(){
+		$(this).addClass('mode-select');
+		$('span#show_24g_wireless').removeClass('mode-select');
+		$('div#wireless_5g').fadeIn(200);
+		$('div#wireless_24g').css("display", "none");
+		$('span#conn_status_wireless_2g').hasClass('hidden')?1:$('span#conn_status_wireless_2g').addClass('hidden');
+		$('span#conn_status_wireless_5g').hasClass('hidden')?$('span#conn_status_wireless_5g').removeClass('hidden'):1;
+	});
+	
+
+
+///////////////////////////////////////////////  LAN
+
+	$("input#lan_ipv4_mac").textbox({
+		fieldLabel: $.su.CHAR.STATUS.MAC_ADDRESS,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#lan_ipv4_ip").textbox({
+		fieldLabel: $.su.CHAR.STATUS.IP_ADDRESS,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#lan_ipv4_mask").textbox({
+		fieldLabel: $.su.CHAR.STATUS.SUBNET_MASK,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#lan_ipv4_enable_dhcp").textbox({
+		fieldLabel: $.su.CHAR.STATUS.ENABLE_DHCP,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+	$("input#lan_ipv6_mac").textbox({
+		fieldLabel: $.su.CHAR.STATUS.MAC_ADDRESS,
+		labelCls:"xs",
+		readOnly: true
+	});
+
+
+	// $("input#lan_ipv6_assign").textbox({
+	// 	fieldLabel: $.su.CHAR.STATUS.ASSIGN_TYPE,
+	// 	labelCls:"xs",
+	// 	readOnly: true
+	// });
+
+	$("#lan_ipv6_assign_label").html($.su.CHAR.STATUS.ASSIGN_TYPE+":");
+
+	$('label#lan_ipv6_ip_label').html($.su.CHAR.STATUS.IP_ADDRESS + ':');
+	$('label#lan_ipv6_link_label').html($.su.CHAR.STATUS.LINKADDR + ':');
+
+/*	$("textarea#lan_ipv6_ip").textarea({
+		fieldLabel: $.su.CHAR.STATUS.IP_ADDRESS,
+		labelCls:"xs",
+		readOnly: true
+	});
+*/
+/*	$("textarea#lan_ipv6_link").textarea({
+		fieldLabel: $.su.CHAR.STATUS.LINKADDR,
+		labelCls:"xs",
+		readOnly: true
+	});
+*/
+	$('span#show_ipv4_lan').html($.su.CHAR.STATUS.IPV4);
+	$('span#show_ipv6_lan').html($.su.CHAR.STATUS.IPV6);
+
+	
+	$('span#show_ipv4_lan').click(function(){
+		$(this).addClass('mode-select');
+		$('span#show_ipv6_lan').removeClass('mode-select');
+		$('div#lan_ipv4').fadeIn(200);
+		$('div#lan_ipv6').css("display", "none");
+	});
+	
+
+	$('span#show_ipv6_lan').click(function(){
+		$(this).addClass('mode-select');
+		$('span#show_ipv4_lan').removeClass('mode-select');
+		$('div#lan_ipv6').fadeIn(200);
+		$('div#lan_ipv4').css("display", "none");
+	});
+	
+
+
+//////////////////////////////////////////////   Guest
+	$("input#guest_24g_name").textbox({
+		fieldLabel: $.su.CHAR.STATUS.NETWORK_NAME_SSID,
+		labelCls:"xs",
+		//inputCls: "m",
+		readOnly: true
+	});
+
+	$("input#guest_24g_ssid").textbox({
+		fieldLabel: $.su.CHAR.STATUS.HIDE_SSID,
+		labelCls:"xs",
+		inputCls: "m",
+		readOnly: true
+	});
+
+	$("input#guest_24g_radio").textbox({
+		fieldLabel: $.su.CHAR.STATUS.RADIO,
+		labelCls:"xs",
+		inputCls: "m",
+		readOnly: true
+	});
+
+	$("input#guest_24g_allow").textbox({
+		fieldLabel: $.su.CHAR.STATUS.ALLOW_TO_SEE_EACH,
+		labelCls:"xs",
+		inputCls: "m",
+		readOnly: true
+	});
+
+	$("input#guest_5g_name").textbox({
+		fieldLabel: $.su.CHAR.STATUS.NAME_SSID,
+		labelCls:"xs",
+		inputCls: "m",
+		readOnly: true
+	});
+
+	$("input#guest_5g_ssid").textbox({
+		fieldLabel: $.su.CHAR.STATUS.HIDE_SSID,
+		labelCls:"xs",
+		inputCls: "m",
+		readOnly: true
+	});
+
+	$("input#guest_5g_radio").textbox({
+		fieldLabel: $.su.CHAR.STATUS.RADIO,
+		labelCls:"xs",
+		inputCls: "m",
+		readOnly: true
+	});
+
+	$("input#guest_5g_allow").textbox({
+		fieldLabel: $.su.CHAR.STATUS.ALLOW_TO_SEE_EACH,
+		labelCls:"xs",
+		inputCls: "m",
+		readOnly: true
+	});
+
+	$('span#show_24g_guest').html($.su.CHAR.STATUS.HZ24G);
+	$('span#show_5g_guest').html($.su.CHAR.STATUS.HZ5G);
+
+	
+	$('span#show_24g_guest').click(function(){
+		$(this).addClass('mode-select');
+		$('span#show_5g_guest').removeClass('mode-select');
+		$('div#guest_24g').fadeIn(200);
+		$('div#guest_5g').css("display", "none");
+		$('span#conn_status_guest_2g').hasClass('hidden')?$('span#conn_status_guest_2g').removeClass('hidden'):1;
+		$('span#conn_status_guest_5g').hasClass('hidden')?1:$('span#conn_status_guest_5g').addClass('hidden');
+	});
+	
+
+	$('span#show_5g_guest').click(function(){
+		$(this).addClass('mode-select');
+		$('span#show_24g_guest').removeClass('mode-select');
+		$('div#guest_5g').fadeIn(200);
+		$('div#guest_24g').css("display", "none");
+		$('span#conn_status_guest_2g').hasClass('hidden')?1:$('span#conn_status_guest_2g').addClass('hidden');
+		$('span#conn_status_guest_5g').hasClass('hidden')?$('span#conn_status_guest_5g').removeClass('hidden'):1;
+	});
+	
+
+/////////////////////////////////////////  usb
+
+	$('span#usb_storage_label_total').html($.su.CHAR.STATUS.TOTAL);
+	$('span#usb_storage_label_available').html($.su.CHAR.STATUS.AVAILABLE);
+
+	$('p#usb_storage_text_usb').html($.su.CHAR.STATUS.USB);
+	$('p#usb_storage_text_printer').html($.su.CHAR.STATUS.PRINTER);
+
+
+	$("input#usb_storage_total").textbox({
+		fieldLabel: null,
+		cls: 'inlineBlock',
+		inputCls: 'usb-storage-input usb-input-blue',
+		readOnly: true
+	});
+
+	$("input#usb_storage_total_unit").textbox({
+		fieldLabel: null,
+		cls: 'inlineBlock',
+		inputCls: 'usb-storage-input',
+		readOnly: true
+	});
+
+	$("input#usb_storage_available").textbox({
+		fieldLabel: null,
+		cls: 'inlineBlock',
+		inputCls: 'usb-storage-input usb-input-blue',
+		readOnly: true
+	});
+
+	$("input#usb_storage_available_unit").textbox({
+		fieldLabel: null,
+		cls: 'inlineBlock',
+		inputCls: 'usb-storage-input',
+		readOnly: true
+	});
+
+/*	$("textarea#usb_storage_printer").textarea({
+		fieldLabel: null,
+		cls: 'inlineBlock',
+		inputCls: 'printer-textarea',
+		readOnly: true
+	});
+*/
+/////////////////////////////////////////  performance
+	$('p#performance_cpu_load').html($.su.CHAR.STATUS.CPU_LOAD);
+	$('p#performance_memory_usage').html($.su.CHAR.STATUS.MEMORY_USAGE);
+
+	$('input#performance_cpu_load_bar').progressbar({
+		text: "",
+		fieldLabel: null,
+		cls: 'performance-cpu-usage',
+		unit: "%",
+		expression: "percentage*100",
+		// value: 0.1,
+		isProgressbar: true,
+		showPercentage: true,
+		width: 213,
+		height: 16
+	});
+
+	$('input#performance_memory_usage_bar').progressbar({
+		text: "",
+		fieldLabel: null,
+		cls: 'performance-memory-usage',
+		unit: "%",
+		expression: "percentage*100",
+		// value: 0.1,
+		isProgressbar: true,
+		showPercentage: true,
+		width: 213,
+		height: 16
+	});
+
+///////////////////////////////////////////  access device
+
+	$('span#show_wireless_host').html($.su.CHAR.STATUS.HOST);
+	$('span#show_wireless_guest').html($.su.CHAR.STATUS.GUEST);
+
+
+	$('span#show_wireless_host').click(function(){
+		$(this).addClass('mode-select');
+		$('span#show_wireless_guest').removeClass('mode-select');
+		$('div#access_wireless_host').fadeIn(200);
+		$('div#access_wireless_guest').hide();
+	});
+	
+
+	$('span#show_wireless_guest').click(function(){
+		$(this).addClass('mode-select');
+		$('span#show_wireless_host').removeClass('mode-select');
+		$('div#access_wireless_guest').fadeIn(200);
+		$('div#access_wireless_host').css("display", "none");
+	});
+	
+
+  $('div#access_wired_list').delegate('p.access-client-list-p', 'click', function(){
+	  	if($(this).hasClass('selected-list-p')){
+  			accessLeftFlag = true;
+	  		$(this).removeClass('selected-list-p');
+	  		$(this).next('div.access-client-detail').hide();
+	  	}else{
+  			accessLeftFlag = false;
+	  		$('div#access_wired_list').find('p.access-client-list-p').removeClass('selected-list-p');
+	  		$('div#access_wired_list').find('p.access-client-list-p').next('div.access-client-detail').hide();	
+	  		
+	  		$(this).addClass('selected-list-p');
+	  		$(this).next('div.access-client-detail').fadeIn(150);  		
+	  	}
+
+  });
+
+  $('div#access_wireless_host_list').delegate('p.access-client-list-p', 'click', function(){
+
+	  	if( $(this).hasClass('selected-list-p') ){
+	  		accessRightFlag = true;
+	  		$(this).removeClass('selected-list-p');
+	  		$(this).next('div.access-client-detail').hide();
+	  	}else{
+  			accessRightFlag = false;
+	  		$('div#access_wireless_host_list').find('p.access-client-list-p').removeClass('selected-list-p');
+	  		$('div#access_wireless_host_list').find('p.access-client-list-p').next('div.access-client-detail').hide();
+	  		
+	  		$(this).addClass('selected-list-p');
+	  		$(this).next('div.access-client-detail').fadeIn(150);
+	  	}
+  });
+
+
+  $('div#access_wireless_guest_list').delegate('p.access-client-list-p', 'click', function(){
+
+	  	if( $(this).hasClass('selected-list-p') ){
+	  		accessRightFlag = true;
+	  		$(this).removeClass('selected-list-p');
+	  		$(this).next('div.access-client-detail').hide();
+	  	}else{
+  			accessRightFlag = false;
+	  		$('div#access_wireless_guest_list').find('p.access-client-list-p').removeClass('selected-list-p');
+	  		$('div#access_wireless_guest_list').find('p.access-client-list-p').next('div.access-client-detail').hide();
+	  		
+	  		$(this).addClass('selected-list-p');
+	  		$(this).next('div.access-client-detail').fadeIn(150);
+	  	}
+  });
+/*
+  $('div.wireless-block p.access-client-list-p').click(function(){
+  	$('div.wireless-block p.access-client-list-p').show();
+  	$(this).hide();
+  	$('div#access-wireless-detail').hide();
+  	$('p#selected-list-p-wireless').insertAfter($(this));
+  	$('div.wireless-block div#access-wireless-detail').insertAfter($('p#selected-list-p-wireless'));
+  	$('p#selected-list-p-wireless').show();
+  	$('div#access-wireless-detail').slideDown();
+  });
+*/
+  $('div.access-panel-left').mouseenter(function(){
+  	$('div.access-panel-left .omit-line').hide();
+  	$('div.access-panel-left .omit-content').show();
+  });
+
+  $('div.access-panel-left').mouseleave(function(){
+	  	if(accessLeftFlag){
+		  	$('div.access-panel-left').find('p.access-client-list-p').removeClass('selected-list-p');
+		  	$('div.access-panel-left').find('div.access-client-detail').hide();
+		  	$('div.access-panel-left .omit-line').show();
+		  	$('div.access-panel-left .omit-content').hide();
+		  	$('div.access-panel-left div.wireless-block p.access-client-list-p').show();  		
+  		}	
+	});
+
+  $('div.access-panel-right').mouseenter(function(){
+  	$('div.access-panel-right .omit-line').hide();
+  	$('div.access-panel-right .omit-content').show();
+  });
+
+  $('div.access-panel-right').mouseleave(function(){
+	  	if(accessRightFlag){
+		  	$('div.access-panel-right').find('p.access-client-list-p').removeClass('selected-list-p');
+		  	$('div.access-panel-right').find('div.access-client-detail').hide();
+		  	$('div.access-panel-right .omit-line').show();
+		  	$('div.access-panel-right .omit-content').hide();
+		  	$('div.access-panel-right div.wireless-block p.access-client-list-p').show();
+		  	$('div.access-panel-right div.wireless-block p#selected-list-p-wireless').slideUp();
+		  	$('.status-access-right div.access-panel-right div#access-wireless-detail').slideUp();
+		}
+	});
+
+  $('p#selected-list-p-wired').click(function(){
+  	$(this).slideUp();
+  	$('div#access-wired-detail').slideUp();
+  	$('div.wired-block p.access-client-list-p').show();
+  });
+
+
+  $('p#selected-list-p-wireless').click(function(){
+  	$(this).slideUp();
+  	$('div#access-wireless-detail').slideUp();
+  	$('div.wireless-block p.access-client-list-p').show();
+  });
+
+
+	var helpStatus = new $.su.Help({
+		container: "div#status_help",
+		content: ["STATUS_INTERNET", "STATUS_WIRELESS", "STATUS_LAN", "STATUS_GUEST", "STATUS_USB", "STATUS_PERFORMANCE", "STATUS_WIRED", "STATUS_WIRELESS_CLIENTS"],
+		afterLoad:function(){
+			if(support_wds_show == "yes")
+			{
+				$("#status_wds").show();
+			}
+			else
+			{	
+				$("#status_wds").hide();
+			}
+		}
+
+	});
+
+
+});
+</script>
+</html>
+
+
+

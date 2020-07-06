@@ -1,0 +1,9 @@
+config global 'account'
+    option recovery 'off'
+    option authentication 'off'
+
+config global 'local'
+    option mode 'all'
+
+config global 'remote'
+    option enable 'off'

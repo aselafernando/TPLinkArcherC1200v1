@@ -1,0 +1,117 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/netifd/netifd-proto.sh
+
+IFNAME=$ifname
+INTERFACE=$interface
+STATE=$new_dhcpc_state
+
+ppp_up="/tmp/pppv6/ppp_up"
+pppdir="/tmp/pppv6"
+
+[ -z "$INTERFACE" ] && exit 1
+[ -z "$IFNAME" ] && exit 1
+
+deconfig_interface() {
+	proto_init_update "$IFNAME" 0
+	proto_send_update "$INTERFACE"
+}
+
+setup_interface () {
+	local remoteip
+
+	i=0
+	config_load /etc/config/network
+	config_get proto wanv6 proto
+	config_get ip_config wanv6 ip_config
+	
+	proto_init_update "$IFNAME" 1 1
+	proto_set_keep 1
+	
+	[ $ip_config != "specified" ] && {	
+	# using SLAAC or DHCPv6 is decided by user
+	#
+	# mbit=`cat /proc/ndisc_mbit`
+	# [ $mbit -eq 0 ] && {
+
+	[ "$ip_config" == "slaac" ] && {
+
+			while read line
+			do
+				[ $IFNAME != ${line##* } ] && continue
+				[ "fe80" = ${line:0:4} ] && continue
+			
+				element=${line:0:32}
+
+				ip6addr=${element:0:4}:${element:4:4}:${element:8:4}:${element:12:4}
+				ip6addr=$ip6addr:${element:16:4}:${element:20:4}:${element:24:4}:${element:28:4}
+
+				new_ip6addr=$ip6addr
+
+			done </proc/net/if_inet6
+
+
+			[ -z "$new_ip6addr" ] && {
+				proto_notify_error "$INTERFACE" "NO ADDRESS" 
+				sleep 3 
+				proto_setup_failed "$INTERFACE"
+				return
+			}
+		}
+
+		if [ -n "$new_ip6addr" ]; then
+			proto_add_ipv6_address "$new_ip6addr" "64"
+		elif [ -z "$new_ip6prefix" ]; then
+			deconfig_interface
+			return
+		fi
+	
+		[ "$proto" == "pppoev6" -a -f "$ppp_up" ] && {
+	#		cat "$ppp_up" | while read line
+			while read line
+			do
+				[ "$i" == "0" -a "$line" != "none" ] && proto_add_ipv4_address "$line" "32"
+				[ "$i" == "1" -a "$line" != "none" ] && proto_add_ipv4_route "0.0.0.0" "0" "$line"
+				[ "$i" == "2" -a "$line" != "none" ] && proto_add_ipv6_address "$line" "64"
+				[ "$i" == "3" -a "$line" != "none" ] && {
+					remoteip="$line"
+					proto_add_ipv6_route "::" "0" "$line"
+				}
+				
+				i=`expr $i + 1`	
+			done < "$ppp_up"
+			rm -rf "$pppdir"
+		}
+	}
+	
+	[ -n "$new_domain_name_servers" ] && {
+		DNS2=${new_domain_name_servers##*[, ]}
+		DNS1=${new_domain_name_servers%%[, ]*}
+		[ -n "$DNS1" ] && proto_add_dns_server "$DNS1"
+		[ -n "$DNS1" -a -n "$DNS2" -a "$DNS1" != "$DNS2" ] && proto_add_dns_server "$DNS2"
+	}
+
+    if [ -n "$new_ip6prefix" ]; then 
+        echo "$new_ip6prefix" > /tmp/dhcp6c/prefix.info
+    fi
+
+	proto_send_update "$INTERFACE"
+}
+
+# code=0 is equal to [ -n "$new_ip6addr" -o -n "$new_ip6prefix" ]
+case "$STATE" in
+	"3")
+		#if [ -n "$code" -a "$code" == "0" ]; then
+			 setup_interface
+		#else
+		#	deconfig_interface
+		#fi
+	;;
+
+	"6")
+		deconfig_interface
+	;;
+esac
+
+exit 0

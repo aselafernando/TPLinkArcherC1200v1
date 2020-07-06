@@ -1,0 +1,25 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": [{
+		"name": "U:(Kingston)",
+		"path": "U:\\",
+		"expanded": true,
+		"hasBranch": true,
+		"branches": [
+			{"name": "java", "path": "U:\\java\\", "expanded": true},
+			{"name": "C", "path": "U:\\C\\", "expanded": true},
+			{"name": "smb", "path": "U:\\smb\\", "expanded": true},
+			{"name": "SOHO", "path": "U:\\SOHO\\", "expanded": true,
+				"hasBranch": true,
+				"branches": [
+					{"name": "Pages", "path": "U:\\SOHO\\Pages\\"}
+				],
+				"leavesInfo": "tmp.txt",
+				"leaves": [
+					{"name": "tmp.txt", "path": "U:\\SOHO\\tmp.txt", "character": ".txt"}
+				]
+			}
+		]
+	}]
+}

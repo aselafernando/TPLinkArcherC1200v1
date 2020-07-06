@@ -1,0 +1,13 @@
+Package: pppoe-discovery
+Version: 3.8p
+Depends: 
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/opensource/pppoe-discovery
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Ye Qianchuan <yeqianchuan@tp-link.net>
+Architecture: model_brcm_bcm470x
+Installed-Size: 6509
+Description:  pppoe discovery

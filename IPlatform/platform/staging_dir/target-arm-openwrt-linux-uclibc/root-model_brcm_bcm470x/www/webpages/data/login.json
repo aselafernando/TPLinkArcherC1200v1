@@ -1,0 +1,34 @@
+{
+	"success": true,
+	"data": {
+		"dst_addr": "192.168.0.1",
+		"dst_webpath": "/userrpm/xxx.html",
+		"new_addr": "192.168.1.1",
+		"conflict": false,
+		"mode": 1,
+		
+		"allow_login": false,
+		"logined_user": "User111",
+		"logined_host": "Host111",
+		"logined_ip": "192.168.1.1",
+		"logined_mac": "00-00-00-00-00",
+		
+		"logined_remote": "",
+		
+		"username": "",
+
+		"password1": 	["E878F01B518E3FFD823FEAE8DBB39DA8E149719D4271B82023FF50068CC58FA3E5A18D9D9FD7607D199D1B1F98A26F173094F3AD5599628A821B0245DD8822CA946E7F5172BD417F852FDA945940412848E12BDC2902E3F8D325538DFAF6B174B80FA897781FA1E6BCB0C946A11E6DFF9A010F5025B0B1E8EA92BD822BBF33AD", "010001"],
+
+		"password": 	["AE419162424FCB465BC29ECC8C7096AAA66B7B3C53AC2F3EBFE5F09E6FFD192641D52A0CBC827F3C36DA8C326B80A3AD8A91CEE10EBE66045524655948EF4DC6D040A664CBA7107EAD8D835D1FCD2402BC8FF05BA2341DC7135104E9EFF58BAF453118CCCC684C8D397EED103D1AE0E96A9085E77260C45C200646418F367839", "010001"],
+		
+		"stok": "12345",
+		
+		"enable_rec": true,
+		"email": "zhangzhongwei***@****.net",
+		"vercode": ""
+	},
+	"errorcode1": "user conflict",
+	"errorcode3": "login failed",
+	"errorcode2": "exceeded max attempts",
+	"errorcode": "permission denied"
+}

@@ -1,0 +1,7 @@
+/etc/config/improxy
+/etc/ppp/ip-down.d/99improxy.sh
+/etc/init.d/improxy
+/usr/sbin/improxy
+/etc/ppp/ip-up.d/99improxy.sh
+/etc/hotplug.d/iface/50-improxy
+/etc/hotplug.d/firewall/50-improxy

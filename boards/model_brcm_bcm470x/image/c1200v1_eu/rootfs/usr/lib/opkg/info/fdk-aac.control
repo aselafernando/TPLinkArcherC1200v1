@@ -1,0 +1,14 @@
+Package: fdk-aac
+Version: 0.1.1-1
+Depends: 
+Provides: 
+Source: package/fdk-aac
+Section: libs
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 899406
+Description:  The Open Source Fraunhofer FDK AAC library is purported to be a "high quality"
+ aac implementation.

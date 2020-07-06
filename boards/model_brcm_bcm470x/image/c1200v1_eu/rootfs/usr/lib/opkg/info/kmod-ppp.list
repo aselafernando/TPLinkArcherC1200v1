@@ -1,0 +1,4 @@
+/etc/modules.d/30-ppp
+/lib/modules/iplatform/ppp_generic.ko
+/lib/modules/iplatform/slhc.ko
+/lib/modules/iplatform/ppp_async.ko

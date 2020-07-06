@@ -1,0 +1,11 @@
+{
+	"success":true,
+	"error":"",
+	"data":
+		{
+			"bw_config":{
+				"up_limit": 10000,
+				"down_limit": 10000
+			}
+		}
+}

@@ -1,0 +1,15 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": [
+		{"mac":"11-11-11-11-11-11", "enable": "on", "note": "note1", "success": true, "key": "001"},
+		{"mac":"12-22-23-34-44-AA", "enable": false, "note": "note2", "success": false, "key": "002"},
+		{"mac":"13-22-23-34-44-56", "enable": "on", "note": "note3", "success": false, "key": "003"},
+		{"mac":"14-22-23-34-44-56", "enable": false, "note": "note4", "success": false, "key": "004"}
+		
+	],
+	"errorcode": "",
+	"others": {
+		"max_rules":6
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：folder share页面中获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data": 
+	{
+		"server": "TPLINK_SHARE"
+	}
+}

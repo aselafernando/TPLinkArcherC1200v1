@@ -1,0 +1,834 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>WPS</title>
+<style type="text/css">
+
+</style>
+</head>
+
+<body>
+<div class="func-container">
+	<div id="pin_cnt">
+		<form id="pin_form">
+			<!-- <p id="wps_note" class="note"></p> -->
+			<input type="text"  id="wps_label" name="wps_label" value=""/>
+			<input type="text"  id="wps_pin" name="wps_pin" value=""/>
+			<div id="btn_cnt" class="btn_cnt inline-block">
+				<button type="button" id="general"></button>
+				<button type="button" id="default"></button>
+				<span id="wps-loading" class="loading wps-submit-wait-loading" style="display: none;"></span>
+			</div>
+		</form>
+		<div>
+			<span id="pin_lock_note" class="pin-lock-status"></span>
+		</div>
+		<p class="note hidden">
+			<span class="title note-title"></span>
+			<span id="note"></span>
+		</p>
+	</div>
+
+	<div id="wps-2g" class="hidden">
+		<!-- <p id="wps-select-des"></p> -->
+		
+		<input type="text"  id="wps-push-btn" name="status" value=""/>
+		
+		
+		<div  id="push_cnt" class="form-inner">
+			<p id="wps-push-des" class="wps-align-radio note note-half-margin"></p>
+			<div class="inline-block mp5">
+				<button id="push-conn-btn"/>
+				<input id="push-pro-bar" type="text" class="hidden"/>
+				<button id="push-cancel-btn" />
+			</div>
+
+			<!-- <p id="push-conn-tips"></p> -->
+			<div class="inline-block">
+				<input id="push-conn-result" />
+			</div>
+
+			<p class="note hidden">
+		    	<span class="title note-title"></span>
+		    	<span class="text" id="note_title_text"></span>
+		    </p>
+		</div>
+
+		<div class="hidden" id="client_pin_cnt">
+			<form>
+				<input id="wps_client_pin" name="wps_pin" class="" type="text"/>
+			</form>
+			<div class="inline-block  mp5">
+				<button id="pin-conn-btn"/>
+				<input id="pin-pro-bar" type="text" class="hidden"/>
+				<button id="pin-cancel-btn" />
+			</div>
+			<!-- <p id="pin-conn-tips"></p> -->
+			<div class="inline-block">
+				<input id="pin-conn-result" />
+			</div>
+
+		</div>
+
+	</div>
+
+	<input type="hidden" id="adv_wps_just_for_timmmer" />
+	    
+    <div id="help_wps"></div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var pushInterval=false;
+    var pinInterval=false;
+
+	var time = "";
+	var wizardOn = 1;
+	var disabled;
+
+	var count1 = 0;
+	var count2 = 0;
+	var pin_lock_2g = "";
+	var pin_lock_5g = "";
+	var pin_lock_flag = false;
+	var wps_label_status = "";
+
+	var WPS_PIN_URL = "./data/wps.pin.json";
+	var WPS_QUERY_URL = "./data/wps.query.json";
+
+	var WPS_PIN_URL_NEW = $.su.url("/admin/wireless?form=wps_pin");
+	var WPS_QUERY_URL_NEW = $.su.url("/admin/wireless?form=wps_connect");
+
+	$("span.note-title").text($.su.CHAR.OPERATION.NOTE);
+
+	var wireless_2g_disabled = "off";
+	var wireless_2g_disabled_all = "off";
+
+	var wireless_5g_disabled = "off";
+	var wireless_5g_disabled_all = "off";
+
+	var URL_WIRELESS_2G_NEW = $.su.url("/admin/wireless?form=wireless_2g");
+	var URL_WIRELESS_5G_NEW = $.su.url("/admin/wireless?form=wireless_5g");
+
+	$('div.func-container').page({
+		title: $.su.CHAR.WPS.TITLE,
+		help: ''	//可能是个调用的id 也可能是个url
+	});
+	
+	/////////////// 2g panel
+	$('div#wps-2g').panel({
+		title: $.su.CHAR.WPS.TITLE,
+		help: ''	//可能是个调用的id 也可能是个url
+	});	
+
+	$('div#pin_cnt').panel({
+		title: $.su.CHAR.WPS.TITLE2,
+		help: ''	//可能是个调用的id 也可能是个url
+	});
+	$("span#pin_lock_note").hide();
+	$("span#pin_lock_note").text($.su.CHAR.ERROR["00000124"]);
+
+	$('button#general').button({
+		text: $.su.CHAR.WPS.GENERAL,
+		handler:function(){
+			$('button#general').button("disable");
+			$("span.wps-submit-wait-loading").css({
+				"display": "inline-block"
+			});
+			wps_pin_proxy.write({option: "generate"}, function(data){
+				$("input#wps_pin").textbox("setValue", data.wps_pin);
+				$('button#general').button("enable");
+				$("span.wps-submit-wait-loading").hide();
+				pin_lock_flag = false;
+				$("#pin_lock_note").hide();
+			}, function(){
+		
+			});
+		},
+		cls: 'no-label-align inline-block gap'
+	});
+
+	$('button#default').button({
+		text: $.su.CHAR.WPS.DFT,
+		handler:function(){
+			$("span.wps-submit-wait-loading").css({
+				"display": "inline-block"
+			});
+			$('button#default').button("disable");
+			wps_pin_proxy.write({option: "default"}, function(data){
+				$("input#wps_pin").textbox("setValue", data.wps_pin);
+				$("span.wps-submit-wait-loading").hide();
+				$('button#default').button("enable");
+			}, function(){
+			});
+		},
+		cls: 'no-label-align inline-block'
+	});
+
+    var  wps_pin_proxy = new $.su.Proxy({
+			url: WPS_PIN_URL_NEW
+	});
+
+	var  wps_pin_proxy_async = new $.su.Proxy({
+			url: WPS_PIN_URL_NEW,
+			async:false
+	});
+
+	$("input#wps_label").switchbutton({
+		fieldLabel: $.su.CHAR.WPS.ENABLE_ROUTE_PIN,
+		proxy: wps_pin_proxy,
+		tips:"",
+		cls:"",
+		autoLoad:false,
+		field: {
+			"name": "wps_label"
+		},
+		onHandler: function(){
+			if(pin_lock_flag){
+				$("span#pin_lock_note").show();
+			}
+		},
+		offHandler: function(){
+			$("span#pin_lock_note").hide();
+		}
+	});
+
+
+	$("input#wps_pin").textbox({
+		fieldLabel: $.su.CHAR.WPS.ROUTE_PIN,
+		cls:"emphasize inline-block",
+		readOnly:true
+	});
+
+	wps_pin_proxy_async.read({},function(data){
+		pin_lock_2g = data.lock_2g;
+		pin_lock_5g = data.lock_5g;
+		wps_label_status = data.wps_label;
+	});
+
+	$("form#pin_form").form({
+		proxy:wps_pin_proxy,
+		fields: [
+			{name: "wps_label", mapping: "wps_label"},
+			{name: "wps_pin", mapping: "wps_pin"}
+		],
+		autoLoad:true
+	});
+
+	$('#client_pin_cnt').fieldset({
+		fields: [
+			{name: "wps_pin"}
+		]
+	});
+
+	$('input#wps-push-btn').radio({
+		fieldLabel: $.su.CHAR.WPS.SELECT_SETUP,
+		columns:2,
+		items:[
+			{boxlabel: $.su.CHAR.WPS.PUSH_BTN, inputValue: '0', id: 'wps-push',name:'setup_method',checked:true},
+			{boxlabel: $.su.CHAR.WPS.PIN_BTN, inputValue: '1', id: 'wps-pin',name:'setup_method'}
+		]
+	}).on("ev_click", function(){
+		if($(this).val() == 1)
+		{
+			// $('#client_pin_cnt').show();
+			$('button#pin-cancel-btn').button("disable");
+			$.post(WPS_QUERY_URL_NEW, {option: "cancel"});
+			clearInterval(pinInterval);
+			pinInterval = false;
+			$('#pin-pro-bar').progressbar("hide");
+			$('button#pin-conn-btn').button("show");
+			$('button#pin-cancel-btn').button("hide");
+			$('button#pin-conn-btn').button("enable");
+			$('#client_pin_cnt').fieldset("show");
+			$('#push_cnt').hide();
+			$("#client_pin_cnt").fadeIn(150);
+		}
+		else
+		{
+			// $('#client_pin_cnt').hide();
+			$('button#push-cancel-btn').button("disable");
+			$.post(WPS_QUERY_URL_NEW, {option: "cancel"});
+			clearInterval(pushInterval);
+			pushInterval = false;
+			$('#push-pro-bar').progressbar("hide");
+			$('button#push-conn-btn').button("enable");
+			$('button#push-conn-btn').button("show");
+			$('button#push-cancel-btn').button("hide");
+
+			$('#client_pin_cnt').fieldset("hide");
+			$('#push_cnt').fadeIn(150);
+			$("#client_pin_cnt").hide();
+		}
+	});
+
+	$('p#wps-push-des').html($.su.CHAR.WPS.PUSH_DES);
+	$('p#wps-push-des').addClass('no-label-align');
+
+	var pushStatus = $("#push-conn-result").status({
+		// cls: "",
+		proxy: {
+			url: WPS_QUERY_URL_NEW
+		}
+	});
+
+	var pinStatus = $("#pin-conn-result").status({
+		// cls: "",
+		proxy: {
+			url: WPS_QUERY_URL_NEW
+		}
+	});
+
+	function getResult()
+	{
+		if(1)
+		{
+			$.post(WPS_QUERY_URL_NEW, {option: "pbc"}, function(data, textStatus, jqXHR){
+				// //console.log(data.data.wps_status);
+				count1++;
+				if(typeof data.data == "undefined")
+				{
+					return;
+				}
+
+				// //console.log(data.data.wps_status);
+				if(data.data.wps_status == "success") //ok
+				{
+					var str = $.su.CHAR.WPS.RESULT_HEAD + " <b>" + data.data.mac + "</b> " + $.su.CHAR.WPS.RESULT_END;
+					// $('p#push-conn-result').html(str);
+					pushStatus.status("setSuccess", str);
+					clearInterval(pushInterval);
+					pushInterval = false;
+					$('button#push-conn-btn').button("enable");
+					$('button#push-conn-btn').button("show");
+					$('button#push-cancel-btn').button("hide");
+					$('#push-pro-bar').progressbar("hide");
+					count1 = 0;
+					
+				}
+				else if(data.data.wps_status == "ok") 
+				{
+					//console.log(data.data.wps_status);
+					pushStatus.status("setLoading", "");
+				}
+				else   //fail //timeout
+				{
+					if(data.data.wps_status == "error")
+					{
+						pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_ERROR);
+					}
+					if(data.data.wps_status == "failed")
+					{
+						pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_ERROR);
+					}
+					if(data.data.wps_status == "overlap")
+					{
+						pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_OVERLAP);
+					}
+					if(data.data.wps_status == "timeout")
+					{
+						//console.log(data.data.wps_status);
+						pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_TIMEOUT);
+					}
+					if(data.data.wps_status == "na")
+					{
+						pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_INACT);
+					}
+					clearInterval(pushInterval);
+					pushInterval = false;
+					//console.log(pushInterval);
+					$('button#push-conn-btn').button("enable");
+					$('button#push-conn-btn').button("show");
+					$('button#push-cancel-btn').button("hide");
+					$('#push-pro-bar').progressbar("hide");
+					count1 = 0;
+
+				}
+				if(count1 >= time/1000)
+				{
+					if(pushInterval)
+					{
+
+						clearInterval(pushInterval);
+						pushInterval = false;
+						$('button#push-conn-btn').button("enable");
+						$('button#push-conn-btn').button("show");
+						$('button#push-cancel-btn').button("hide");
+						$('#push-pro-bar').progressbar("hide");
+						// $('p#push-conn-result').html($.su.CHAR.WPS.NOT_FOUND);
+						pushStatus.status("setFailed", $.su.CHAR.WPS.NOT_FOUND);
+						count1 = 0;
+					}
+				}
+			}, "json");
+		} else{
+			clearInterval(pushInterval);
+			pushInterval = false;
+		}
+	}
+
+	function endQuery()
+	{
+		if(pushInterval)
+		{
+			clearInterval(pushInterval);
+			pushInterval = false;
+			$('button#push-conn-btn').button("enable");
+			$('button#push-conn-btn').button("show");
+			$('button#push-cancel-btn').button("hide");
+			$('#push-pro-bar').progressbar("hide");
+			// $('p#push-conn-result').html($.su.CHAR.WPS.NOT_FOUND);
+			pushStatus.status("setFailed", $.su.CHAR.WPS.NOT_FOUND);
+		}
+	}
+
+	function getResult2()
+	{
+		if($("#adv_wps_just_for_timmmer")[0])
+		{
+			$.post(WPS_QUERY_URL_NEW, {option: "pin"}, function(data, textStatus, jqXHR){
+				// //console.dir(data);
+				count2++;
+				if(typeof data.data == "undefined")
+				{
+					return;
+				}
+				if(data.data.wps_status == "success") //ok
+				{
+					var str = $.su.CHAR.WPS.RESULT_HEAD + " <b>" + data.data.mac + "</b> " + $.su.CHAR.WPS.RESULT_END;
+					// $('p#pin-conn-result').html(str);
+					pinStatus.status("setSuccess", str);
+					clearInterval(pinInterval);
+					pinInterval = false;
+					$('button#pin-conn-btn').button("enable");
+					$('button#pin-conn-btn').button("show");
+					$('button#pin-cancel-btn').button("hide");
+					$('#pin-pro-bar').progressbar("hide");
+					count2 = 0;
+				}
+				else if(data.data.wps_status == "ok") //fail
+				{
+					pinStatus.status("setLoading", "");
+				}
+				else   //timeout
+				{
+					// $('p#pin-conn-result').html($.su.CHAR.WPS.NOT_FOUND);
+					//console.log(data.data.wps_status);
+					if(data.data.wps_status == "error")
+					{
+						pinStatus.status("setFailed", $.su.CHAR.WPS.STATUS_PIN_ERROR);
+					}
+					if(data.data.wps_status == "failed")
+					{
+						pinStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_ERROR);
+					}
+					if(data.data.wps_status == "overlap")
+					{
+						pinStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_OVERLAP);
+					}
+					if(data.data.wps_status == "timeout")
+					{
+						pinStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_TIMEOUT);
+					}
+					if(data.data.wps_status == "na")
+					{
+						pinStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_INACT);
+					}
+					clearInterval(pinInterval);
+					pinInterval = false;
+					$('button#pin-conn-btn').button("enable");
+					$('button#pin-conn-btn').button("show");
+					$('button#pin-cancel-btn').button("hide");
+					$('#pin-pro-bar').progressbar("hide");
+					count2 = 0;
+				}
+
+				if(count2 >= time/1000)
+				{
+					if(pinInterval)
+					{
+						clearInterval(pinInterval);
+						pinInterval = false;
+
+						$('button#pin-conn-btn').button("enable");
+						$('button#pin-conn-btn').button("show");
+						$('button#pin-cancel-btn').button("hide");
+						$('#pin-pro-bar').progressbar("hide");
+						//$('p#pin-conn-result').html($.su.CHAR.WPS.NOT_FOUND);
+						pinStatus.status("setFailed", $.su.CHAR.WPS.NOT_FOUND);
+						count2 = 0;
+					}
+				}
+			}, "json");
+		}else{
+			clearInterval(pinInterval);
+			pinInterval = false;
+		}
+	}
+
+	function endQuery2()
+	{
+		if(pinInterval)
+		{
+			clearInterval(pinInterval);
+			pinInterval = false;
+			$('button#pin-conn-btn').button("enable");
+			$('button#pin-conn-btn').button("show");
+			$('button#pin-cancel-btn').button("hide");
+			$('#pin-pro-bar').progressbar("hide");
+			//$('p#pin-conn-result').html($.su.CHAR.WPS.NOT_FOUND);
+			pinStatus.status("setFailed", $.su.CHAR.WPS.NOT_FOUND);
+		}
+	}
+
+	$('button#push-conn-btn').button({
+		text: $.su.CHAR.WPS.CONNECT,
+		handler:function(){
+			// $('p#push-conn-result').html("");
+			$('button#push-conn-btn').button("disable");
+			$.post(WPS_QUERY_URL_NEW, {option: "connect"}, function(data){
+				if(data.data.wps_status != "ok")
+				{
+					if(data.data.wps_status == "error")
+					{
+						pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_PIN_ERROR);
+					}
+					if(data.data.wps_status == "failed")
+					{
+						pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_ERROR);
+					}
+					if(data.data.wps_status == "overlap")
+					{
+						pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_OVERLAP);
+					}
+					if(data.data.wps_status == "timeout")
+					{
+						pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_TIMEOUT);
+					}
+					if(data.data.wps_status == "na")
+					{
+						pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_CONN_INACT);
+					}
+					// pushStatus.status("setFailed", $.su.CHAR.WPS.STATUS_PIN_ERROR);
+					$('button#push-conn-btn').button("enable");
+					return;
+				}
+				else
+				{
+					$('#push-pro-bar').progressbar("show");
+
+					$('#push-pro-bar').progressbar("reset");
+
+					$('#push-pro-bar').progressbar("animate", 0,1,time);
+
+					$('button#push-cancel-btn').button("getContainer").css("display", "inline-block");
+					
+					var query_time = time; //暂定，实际从底层获取
+					if(!pushInterval)
+					{
+						count1 = 0;
+						pushInterval = setInterval(getResult,1000);
+						// //console.log(pushInterval);
+					}
+					else
+					{
+						clearInterval(pushInterval);
+						pushInterval = false;
+						count1 = 0;
+						pushInterval = setInterval(getResult,1000);
+					}
+					$('button#push-cancel-btn').button("enable");
+				}
+			},"json");
+		},
+		cls: 'no-label-align inline-block'
+	});
+
+	$('button#push-cancel-btn').button({
+		text: $.su.CHAR.WPS.CANCEL,
+		handler:function(){
+			$('button#push-cancel-btn').button("disable");
+			$.post(WPS_QUERY_URL_NEW, {option: "cancel"}, function(data){
+				//console.log(data.data.wps_status);
+				if(data.data.wps_status == "cancel")
+				{
+					pushStatus.status("setSuccess", $.su.CHAR.WPS.STATUS_CANCEL);
+				}
+				else
+				{
+					pushStatus.status("setNormal");
+				}
+		}, "json");
+			clearInterval(pushInterval);
+			pushInterval = false;
+			$('#push-pro-bar').progressbar("reset");
+			$('#push-pro-bar').progressbar("hide");
+			$('button#push-conn-btn').button("enable");
+			$('button#push-conn-btn').button("show");
+			$('button#push-cancel-btn').button("hide");
+			
+		},
+		cls: 'inline-block hidden'
+	});
+
+	$('button#push-cancel-btn').button("hide");
+	
+	$('input#push-pro-bar').progressbar({
+		fieldLabel: null,
+		cls: 'inline-block',
+		width: 300,
+		height: 6,
+		value: 0
+	});
+	$('input#push-pro-bar').progressbar("hide");
+
+	$('input#wps_client_pin').textbox({
+		fieldLabel: $.su.CHAR.WPS.ENTER_CLIENT_PIN,
+		vtype:{
+			vtype:'number',
+			max:99999999
+		},
+		maxLength:8,
+		minLength:8,
+		allowBlank:false,
+		validator:function(val){
+			if(val.toString().length != 8)
+			{
+				return $.su.CHAR.ERROR["00000075"];
+			}
+			return true;
+		},
+		cls: 'no-label-align'
+	});
+
+	$('button#pin-conn-btn').button({
+		text: $.su.CHAR.WPS.CONNECT,
+		cls:"inline-block",
+		handler:function(){
+			// $('p#pin-conn-result').html("");
+			var pin = $('input#wps_client_pin').textbox("getValue");
+			if(!$('input#wps_client_pin').textbox("validate"))
+			{
+				return false;
+			}
+			$('button#pin-conn-btn').button("disable");
+			$.post(WPS_QUERY_URL_NEW, {option: "connect", wps_pin: pin}, function(data){
+				// //console.dir(arguments);
+				if(data.data.wps_status == "error")
+				{
+					pinStatus.status("setFailed", $.su.CHAR.WPS.STATUS_PIN_ERROR);
+					$('button#pin-conn-btn').button("enable");
+					return;
+				}
+				else
+				{
+					$('#pin-pro-bar').progressbar("show");
+					// $('#pin-pro-bar').progressbar("setValue", 0,0);
+					$('#pin-pro-bar').progressbar("reset");
+					$('#pin-pro-bar').progressbar("animate", 0,1,time);
+					$('#pin-cancel-btn').button("getContainer").css("display", "inline-block");
+					// $('#pin-cancel-btn').button("show");
+					var query_time = time; //暂定，实际从底层获取
+					if(!pinInterval)
+					{
+						count2 = 0;
+						pinInterval = setInterval(getResult2,1000);
+					}
+					else
+					{
+						count2 = 0;
+						clearInterval(pinInterval);
+						pinInterval = false;
+						pinInterval = setInterval(getResult2,1000);
+					}
+					$('button#pin-cancel-btn').button("enable");
+				}
+			},"json");
+		}	
+	});
+
+	$('#pin-conn-btn').addClass('no-label-align');
+
+	$('input#pin-pro-bar').progressbar({
+		fieldLabel: null,
+		cls: 'inline',
+		width: 300,
+		height: 6,
+		value: 0
+	});
+
+	$('input#pin-pro-bar').progressbar("hide");
+
+	$('button#pin-cancel-btn').button({
+		text: $.su.CHAR.WPS.CANCEL,
+		handler:function(){
+			$('button#pin-cancel-btn').button("disable");
+			$.post(WPS_QUERY_URL_NEW, {option: "cancel"}, function(data){
+				//console.log(data.data.wps_status);
+				if(data.data.wps_status == "cancel")
+				{
+					pinStatus.status("setSuccess", $.su.CHAR.WPS.STATUS_CANCEL);
+				}
+				else
+				{
+					pinStatus.status("setNormal");
+				}
+		}, "json");
+			clearInterval(pinInterval);
+			pinInterval = false;
+			$('#pin-pro-bar').progressbar("reset");
+			$('#pin-pro-bar').progressbar("hide");
+			$('button#pin-conn-btn').button("show");
+			$('button#pin-cancel-btn').button("hide");
+			$('button#pin-conn-btn').button("enable");
+		},
+		cls: 'inline-block hidden'
+	});
+
+	$('button#pin-cancel-btn').button("hide");
+
+	$("label.note").html($.su.CHAR.WPS.NOTE);
+
+	$.post(WPS_QUERY_URL_NEW, function(data, textStatus, jqXHR){
+		if(typeof data.data == "undefined")
+		{
+			return;
+		}
+		time = data.data.wps_timeout;
+		wizardOn = data.data.available;
+		disabled = data.data.disabled;
+		var note = $("#note");
+		if(wizardOn)
+		{
+			if(disabled == "on")
+			{
+				$("p.note").css("display", "inline-block");
+				note.html($.su.CHAR.WPS.SWITCH_NOTE);
+			}
+			else
+			{
+				$("p.note").css("display", "none");
+				note.html("");
+			}
+			$('div#wps-2g').fadeIn(150);
+		}
+		else
+		{
+			if(disabled == "on")
+			{
+				$("p.note").css("display", "inline-block");
+				note.html($.su.CHAR.WPS.SWITCH_NOTE);
+			}
+			else
+			{
+				$("p.note").css("display", "inline-block");
+				note.html($.su.CHAR.WPS.SWITCH_NOTE2);
+			}
+			$('div#wps-2g').css({
+				"display": "none"
+			});
+		}
+	},"json");
+
+	$.su.app.runningModule.addUnloadHandler(function(){
+		if(pushInterval)
+	    {
+	    	clearInterval(pushInterval);
+			pushInterval = false;
+	    }
+	    if(pinInterval)
+	    {
+	    	clearInterval(pinInterval);
+			pinInterval = false;
+	    }
+	});
+
+	$("#note_title_text").html($.su.CHAR.ERROR["00000103"]);
+	$.post(URL_WIRELESS_2G_NEW, function(data){
+		if(typeof data.data == "undefined")
+		{
+			return;
+		}
+
+		wireless_2g_disabled = data.data.disabled;
+		wireless_2g_disabled_all = data.data.disabled_all;
+
+		$.post(URL_WIRELESS_5G_NEW, function(data){
+			if(typeof data.data == "undefined")
+			{
+				return;
+			}
+
+			wireless_5g_disabled = data.data.disabled;
+			wireless_5g_disabled_all = data.data.disabled_all;
+
+			if(wireless_2g_disabled=="on" && wireless_5g_disabled=="on")
+			{
+				$("form#pin_form").form("disable");
+				$('button#general').button("disable");
+				$('button#default').button("disable");
+
+				$('input#wps-push-btn').radio("disable");
+				$('button#push-conn-btn').button("disable");
+				$('button#push-cancel-btn').button("disable");
+				$('input#wps_client_pin').textbox("disable");
+				$('button#pin-conn-btn').button("disable");
+				$('button#pin-cancel-btn').button("disable");
+				$(".notice").removeClass("hidden");
+			}
+			else
+			{
+				$("form#pin_form").form("enable");
+				$('button#general').button("enable");
+				$('button#default').button("enable");
+
+				$('input#wps-push-btn').radio("enable");
+				$('button#push-conn-btn').button("enable");
+				$('button#push-cancel-btn').button("enable");
+				$('input#wps_client_pin').textbox("enable");
+				$('button#pin-conn-btn').button("enable");
+				$('button#pin-cancel-btn').button("enable");
+				$(".notice").addClass("hidden");
+
+				if(wireless_2g_disabled_all=="on" && wireless_5g_disabled_all=="on")
+				{
+					$("input#wps_label").switchbutton("disable");
+					$("input#wps_label").switchbutton("setTips", $.su.CHAR.ERROR["00000104"]);
+				}
+				else if(!wizardOn)
+				{
+					$("input#wps_label").switchbutton("disable");
+					$("input#wps_label").switchbutton("setTips", $.su.CHAR.ERROR["00000130"]);
+				}
+				else
+				{
+					if(pin_lock_2g == "lock" || pin_lock_5g == "lock"){
+						if(wps_label_status == "on"){
+							pin_lock_flag = true;
+							$("#pin_lock_note").show();
+						}
+					}
+				}
+			}
+		},"json");
+	},"json");
+
+	var helpWps = new $.su.Help({
+		container: "div#help_wps",
+		content: ["WPS","WPS_WIZARD"]
+	});
+});
+
+</script>
+
+</body>
+</html>

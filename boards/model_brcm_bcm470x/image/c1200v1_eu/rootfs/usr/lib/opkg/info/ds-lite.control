@@ -1,0 +1,15 @@
+Package: ds-lite
+Version: 1-1
+Depends: kmod-ipv6, kmod-ip6-tunnel
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/opensource/ds-lite
+Section: ipv6
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Steven Barth <steven@midlink.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 1067
+Description:  Provides support for Dual-Stack Lite in /etc/config/network.
+ Refer to http://wiki.openwrt.org/doc/uci/network for
+ configuration details.

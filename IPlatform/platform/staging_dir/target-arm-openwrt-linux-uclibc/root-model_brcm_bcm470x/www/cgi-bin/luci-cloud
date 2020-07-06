@@ -1,0 +1,3 @@
+#!/usr/bin/lua
+cloud_entry = require "luci-cloud.cloud-luci"
+cloud_entry.run()

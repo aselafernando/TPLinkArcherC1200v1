@@ -1,0 +1,10 @@
+#!/bin/sh
+
+
+[ -n "$(et port_status 1 | grep Up)" ]&& return 0;
+[ -n "$(et port_status 2 | grep Up)" ]&& return 0;
+[ -n "$(et port_status 3 | grep Up)" ]&& return 0;
+[ -n "$(et port_status 4 | grep Up)" ]&& return 0;
+
+return 1;
+

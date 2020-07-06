@@ -1,0 +1,4 @@
+# -*- Makefile -*-
+
+obj-m += nf_nat_rtsp.o
+obj-m += nf_conntrack_rtsp.o

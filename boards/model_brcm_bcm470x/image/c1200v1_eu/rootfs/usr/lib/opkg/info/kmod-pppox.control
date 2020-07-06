@@ -1,0 +1,13 @@
+Package: kmod-pppox
+Version: -
+Depends: kernel (=--unknown), kmod-ppp
+Provides: 
+Source: package/kernel
+Section: kernel
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 1910
+Description:  Kernel helper module for PPPoE and PPTP support

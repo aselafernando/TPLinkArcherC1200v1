@@ -1,0 +1,4 @@
+/lib/administration/core.sh
+/etc/hotplug.d/firewall/50-administration
+/etc/init.d/administration
+/etc/config/administration

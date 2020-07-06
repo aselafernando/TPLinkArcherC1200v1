@@ -1,0 +1,38 @@
+#!/bin/sh /etc/rc.common
+
+START=99z
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+start() {
+        setup_switch() { return 0; }
+		#. /lib/switch/switch.sh
+        setup_switch
+
+        . /lib/switch/core.sh
+
+		setup_ports
+}
+
+restart() {
+		stop
+        start
+}
+
+shutdown() {
+		echo "Shutdown switch!"
+}
+
+stop() {
+		. /lib/switch/core.sh
+		unsetup_ports
+		
+        unsetup_switch() { return 0; }
+		#. /lib/switch/switch.sh
+		unsetup_switch
+}
+
+reload() {
+        start
+}

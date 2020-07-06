@@ -1,0 +1,113 @@
+#!/bin/sh
+# Copyright(c) 2011-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+#
+# /usr/sbin/ddns
+# Written by Guo Dongxian<guodongxian@tp-link.com.cn>, April 2014
+#
+# This script is as shell cmd for others call
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+. /usr/lib/ddns/dynamic_dns_functions.sh
+
+Usage()
+{
+    echo "ddns action"
+    echo "     start   [service]"
+    echo "     stop    [service]"
+    echo "     restart [service]"
+    echo "     state   service"
+    echo "     logined service"
+    echo "           --service  dyndns or noip"
+    exit 0
+}
+
+ddns_start()
+{
+    config_load "network"
+    
+    config_get type "wan" wan_type
+    interface="wan"    
+    case $type in
+        static|dhcp) interface="wan" ;;
+        *) interface="internet" ;;
+    esac
+    
+    start_daemon_for_all_ddns_sections $interface "$1"
+}
+
+ddns_stop()
+{
+    config_clear
+    [ $# -lt 1 ] && {
+        local ddns_p=$(ps|grep dynami[c]|awk '{print $1}'|xargs kill)
+        rm -rf /var/run/dynamic_dns
+        ddns_clear_state
+        return 0
+    }
+    
+    if [ -d /var/run/dynamic_dns ]; then
+        if [ -e "/var/run/dynamic_dns/${1}.pid" ]
+	    then
+		    local pid=$(cat /var/run/dynamic_dns/${1}.pid)
+		    local match=$(ps | grep "^[\t ]*$pid")
+
+		    if [ -n "$match" ]
+		    then
+			    kill $pid
+		    fi
+            
+            rm -f /var/run/dynamic_dns/${1}.*
+            ddns_clear_state "$1"
+	    fi    
+        local ddns_p=$(ps|grep dynami[c]|awk '{print $1}')
+        [ -z "$ddns_p" ] && {
+            rm -rf /var/run/dynamic_dns
+        }    
+    fi
+    return 0
+}
+
+ddns_restart()
+{
+    ddns_stop
+    ddns_start
+}
+
+ddns_state()
+{
+    local service="$1"
+    local state=$(uci_get_state ddns $service state)
+    [ -z "$state" ] && {
+        # When can not get state, then set state is not launching
+        state=1
+    }
+    echo "$state"
+}
+
+ddns_logined()
+{
+	local service="$1"
+	local logined=0
+	[ -e "/var/run/dynamic_dns/${service}.logined" ] && {
+		logined=$(cat /var/run/dynamic_dns/${service}.logined)
+	}
+	echo "$logined"
+}
+
+act="$1"
+case $act in
+    start) ddns_start "$2" ;;
+    stop) ddns_stop "$2" ;;
+    state|logined)
+        shift
+        case "$1" in
+            dyndns|noip) ;;
+            *) Usage ;;
+        esac
+        ddns_${act} "$1"    
+    ;;
+    restart) ddns_restart ;;
+    *) Usage ;;
+esac
+

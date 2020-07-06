@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Basic</title>
+</head>
+
+<body>
+<div class="content-container">
+	<div id="menu-basic" class="menu-container">
+    	<!--<ul class="menu-tree">
+        	<li class="fst" id="menu-basic-network-map-li">
+                <a class="fst" href="javascript:void(0);">
+                    <span class="icon"></span>
+                    <span class="text">Network&nbsp;Map</span>
+                </a>
+            </li>
+            <li class="fst" class="selected" id="menu-basic-internet-li">
+                <a class="fst" href="./pages/userrpm/basic_internet.html">
+                    <span class="icon"></span>
+                    <span class="text">Internet</span>
+                </a>
+            </li>
+            <li class="fst" id="menu-basic-wireless-li">
+                <a class="fst" href="./pages/userrpm/basic_wireless.html">
+                    <span class="icon"></span>
+                    <span class="text">Wireless</span>
+                </a>
+            </li>
+            <li class="fst" id="menu-basic-usb-li">
+                <a class="fst" href="javascript:void(0);">
+                    <span class="icon"></span>
+                    <span class="text">USB</span>
+                </a>
+				<ul class="sec" style="display: block;">
+					<li class="sec">
+						<a class="sec" href="./pages/userrpm/basic_folder_share.html">
+							<span class="icon"></span>
+							<span class="text">Folder Sharing</span>
+						</a>
+					</li>
+					<li class="sec">
+						<a class="sec" href="./pages/userrpm/basic_print.html">
+							<span class="icon"></span>
+							<span class="text">Print Server</span>
+						</a>
+					</li>
+				</ul>
+            </li>
+            <li class="fst" id="menu-basic-qos-li">
+                <a class="fst" href="javascript:void(0);">
+                    <span class="icon"></span>
+                    <span class="text">QoS</span>
+                </a>
+            </li>
+            <li class="fst" id="menu-basic-parental-control-li">
+                <a class="fst" href="./pages/userrpm/basic_parental_control.html">
+                    <span class="icon"></span>
+                    <span class="text">Parental&nbsp;Control</span>
+                </a>
+            </li>
+            <li class="fst" id="menu-basic-guest-network-li">
+                <a class="fst" href="./pages/userrpm/basic_guest.html">
+                    <span class="icon"></span>
+                    <span class="text">Guest&nbsp;Network</span>
+                </a>
+            </li>
+        </ul>-->
+    </div>
+    <div id="func-basic" class="function-container">
+    </div>
+</div><!-- content-container -->
+
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+var basicMenuList = {
+    "network-map": {
+        text: $.su.CHAR.MENU.NETWORK_MAP,
+        url: "basic_network.html"
+    },
+    "internet": {
+        text: $.su.CHAR.MENU.INTERNET,
+        url: "basic_internet.html"
+    },
+    "wireless": {
+        text: $.su.CHAR.MENU.WIRELESS,
+        url: "basic_wireless.html"
+    },
+    "usb": {
+        text: $.su.CHAR.MENU.USB_SETTINGS,
+        children: {
+            "g3_g4": {
+                text: $.su.CHAR.MENU.G3_G4,
+                url: "modem.html"
+            },
+            "folder-share": {
+                text: $.su.CHAR.MENU.FOLDER_SHARING,
+                url: "basic_folder_share.html"
+            },
+            "print-server": {
+                text: $.su.CHAR.MENU.PRINT_SERVER,
+                url: "basic_print.html"
+            }
+        }
+    },
+    "parental-control": {
+        text: $.su.CHAR.MENU.PARENTAL_CONTROL,
+        url: "basic_parental_control.html"
+    },
+    "guest-network": {
+        text:$.su.CHAR.MENU.GUEST_NETWORK,
+        url: "basic_guest.html"
+    }
+};
+
+$(document).ready(function(e){
+
+var menuBasic = new $.su.Menu({
+    data: $.su.url("/admin/menu?form=basic_menu"),
+    urlPath: "./pages/userrpm/",
+    container: "div#menu-basic",
+    idTag: "basic",
+    cls: "basic",
+    list: basicMenuList,
+    handlers: {
+        init: function(e){
+            this.goTo("network-map");
+        },
+        goTo: function(e, name, url){
+            //console.log("inin", $("div#func-basic"), $("div#top-wrapper"))
+            $.su.app.menuGoTo(name, url, false);
+        }
+    }
+});
+//
+
+$.su.menu = null;
+delete $.su.menu;
+$.su.menu = {};
+$.su.menu.basic = menuBasic;
+
+/*$("div#menu-basic ul.menu-tree li a").click(function(e){
+	e.preventDefault();
+	e.stopPropagation();
+
+	$("div#menu-basic ul.menu-tree li, div#menu-basic ul.menu-tree li a").removeClass("selected");
+	$(this).addClass("selected").closest("li").addClass("selected");
+
+    $("div#func-basic").load($(this).attr("href"));
+});*/
+
+});
+//]]>
+</script>
+</body>
+</html>

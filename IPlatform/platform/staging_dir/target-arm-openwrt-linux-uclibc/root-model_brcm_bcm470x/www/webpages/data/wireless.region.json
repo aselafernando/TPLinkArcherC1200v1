@@ -1,0 +1,16 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": {
+			"country": "BS",
+			"capability":{
+				"hwmode_2g": [ "b", "g", "bg", "n", "ng" ], 
+				"hwmode_5g": [ "a", "an", "na", "ac" ], 
+				"htmode_2g": [ "auto", "20", "40" ], 
+				"htmode_5g": [ "auto", "20", "40", "80" ], 
+				"channel_5g": [ 36, 40, 44, 48, 100, 120, 161, 165 ], 
+				"channel_2g": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ] 
+			}
+	}
+	
+}

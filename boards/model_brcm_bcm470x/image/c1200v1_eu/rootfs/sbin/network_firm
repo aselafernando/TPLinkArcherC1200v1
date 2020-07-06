@@ -1,0 +1,134 @@
+#!/usr/bin/lua
+
+local sys   = require "luci.sys"
+local util  = require "luci.util"
+local uci   = require "luci.model.uci"
+
+local uci_r   = uci.cursor()
+local changed = false
+
+local function get_real_ifname(ifname)
+    local tmpnms = {}
+
+    tmpnms = util.split(ifname, " ")
+    for _, v in ipairs(tmpnms) do
+        index = v:find("%.")
+        if index then
+            ifname = string.sub(v, 1, index - 1)
+        else
+            ifname = v
+        end
+        break
+    end
+
+    return ifname
+end
+
+local function get_orig_mac(iface)
+    local mac = nil
+
+    mac = sys.exec("network_get_firm " .. iface)
+    mac = mac:gsub("-", ":")
+    return mac
+end
+
+local function set_orig_mac(iface)
+    local ifname = uci_r:get("network", iface, "ifname")
+    local mac    = get_orig_mac(iface)
+    local tmpnms  = {}
+    local index   = nil
+
+    tmpnms = util.split(ifname, " ")
+    for _, v in ipairs(tmpnms) do
+            sys.fork_call("ifconfig " .. v .. " down ")
+            sys.fork_call("ifconfig " .. v .. " hw ether " .. mac)
+            sys.fork_call("ifconfig " .. v .. " up ")
+    end
+
+    if iface=="lan" or iface=="wan" then
+            ifname = get_real_ifname(ifname)
+            sys.fork_call("ifconfig " .. ifname .. " down ")
+            sys.fork_call("ifconfig " .. ifname .. " hw ether " .. mac)
+            sys.fork_call("ifconfig " .. ifname .. " up ")
+    end
+end
+
+
+local function set_iface_mac(iface)
+    local mac     = get_orig_mac(iface)
+    local secname = nil
+    local ifname  = uci_r:get("network", iface, "ifname")
+    local devname = nil
+    local realif = uci_r:get("network", iface, "ifname")
+    --local clonetype = uci_r:get("protocol", "wan", "mactype") or "default"
+
+    if iface == "lan" then
+        realif = get_real_ifname(ifname)
+    end
+
+    uci_r:foreach("network", "device",
+    function(section)
+        local name = section["name"]
+
+        if name == realif then
+            secname = section[".name"]
+            devname = name
+        end 
+    end)
+
+    if devname == nil then
+        secname = uci_r:section("network", "device", nil, {
+            name = realif, 
+            enabled = '1',
+        })
+    end
+   
+    if secname then
+        local secmac = uci_r:get("network", secname, "macaddr")
+        if secmac == nil then
+            uci_r:set("network", secname, "macaddr", mac)
+            changed = true
+        elseif iface == "lan" then
+            if mac:upper() ~= secmac:upper() then
+                uci_r:set("network", secname, "macaddr", mac)
+                changed = true
+            end    
+        --[[    
+        elseif iface == "wan" then
+            if (clonetype == "default") and (mac:upper() ~= secmac:upper()) then
+                uci_r:set("network", secname, "macaddr", mac)
+                changed = true
+            end
+        --]]
+        end
+    end
+
+    if iface == "wan" then
+        local wanmac = uci_r:get("network", "wan", "macaddr")
+        if not wanmac then
+           uci_r:set("network", "wan", "macaddr", mac)
+           changed = true 
+        --[[ 
+        else
+            if (clonetype == "default") and (mac:upper() ~= wanmac:upper()) then
+                uci_r:set("network", "wan", "macaddr", mac)
+                changed = true
+            end
+        --]]
+        end
+    end
+end
+
+function main()
+    set_iface_mac("lan")
+    set_iface_mac("wan")
+
+    set_orig_mac("lan")
+    set_orig_mac("wan")
+
+    if changed == true then
+        uci_r:commit_without_write_flash("network")
+    end
+end
+
+main()

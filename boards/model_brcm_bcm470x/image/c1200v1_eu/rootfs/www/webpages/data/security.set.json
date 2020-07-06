@@ -1,0 +1,14 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：Security setting页面中advance获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data": {
+		"icmp_level": "off",
+		"udp_level": "low",
+		"syn_level": "middle",
+		"wan_ping": "on",
+		"lan_ping": "off"
+	}
+}

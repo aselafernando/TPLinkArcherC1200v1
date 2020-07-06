@@ -1,0 +1,11 @@
+/lib/modules/iplatform/ip6t_ipv6header.ko
+/lib/modules/iplatform/ip6t_eui64.ko
+/lib/modules/iplatform/ip6t_hbh.ko
+/etc/modules.d/49-ip6tables
+/lib/modules/iplatform/ip6t_mh.ko
+/lib/modules/iplatform/ip6t_LOG.ko
+/lib/modules/iplatform/ip6_queue.ko
+/lib/modules/iplatform/ip6t_REJECT.ko
+/lib/modules/iplatform/ip6t_ah.ko
+/lib/modules/iplatform/ip6t_frag.ko
+/lib/modules/iplatform/ip6t_rt.ko

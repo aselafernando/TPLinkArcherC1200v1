@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>VPN Connections</title>
+</head>
+<body>
+<div class="func-container">
+	<div id="openvpn_connections">
+		<p  class="note"><span id="openvpn_conn"></span></p>
+		<div id="openvpn_conn_list"></div>
+	</div>
+
+	<div id="pptpvpn_connections">
+		<p  class="note"><span id="pptpvpn_conn"></span></p>
+		<div id="pptpvpn_conn_list"></div>
+	</div>
+
+	<div id="vpn_help"></div>
+<div>
+
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var VPN_CONN_LIST = $.su.url("/admin/vpnconn?form=config");
+	//var VPN_CONN_LIST = './data/vpn.connections.json';
+	//var VPN_CONN_LIST = './control.php';
+	$("div#openvpn_connections").panel({
+		title: $.su.CHAR.VPN.VPN_CONNECTIONS,
+		collapsible: false
+	});
+	$("span#openvpn_conn").html("<B>" + $.su.CHAR.VPN.OPEN_VPN_CONNECTIONS + "</B>");
+
+	var openvpn_grid = $("div#openvpn_conn_list").grid({
+		store: {
+			proxy:{
+				url: VPN_CONN_LIST
+			},
+			fields: [
+				{name: "remote_ip"},
+				{name: "ipaddr"},
+				{name: "extra"}
+			]
+		},
+		columns:[
+			{
+				text: $.su.CHAR.GRID.ID,
+				width: 40,
+				//xtype: "rownumberer",
+				renderer: function(val,index,data){
+					if(!data.ipaddr){
+						return '--';
+					}
+					else{
+						return index+1;
+					}
+				}
+			},
+			{
+				text: $.su.CHAR.VPN.REMOTE_IP,
+				width: 100,
+				dataIndex: "remote_ip"
+			},
+			{
+				text: $.su.CHAR.VPN.ASSIGNED_IP,
+				width: 100,
+				dataIndex: "ipaddr"
+			},
+			{
+				text: $.su.CHAR.INTERNET.DISCONNECT,
+				width: 100,
+				renderer: function(val,i,data){
+					var key = data[openvpn_grid.grid("getStore").keyProperty];
+					var inHTML = 	"<div class=\"button-container\">";
+						inHTML += 		"<a href=\"javascript:void(0);\" class=\"grid-content-btn btn-openvpn-disconn btn-delete\" data-index=\"" + i + "\" data-key=\""+key+"\">";
+						inHTML +=			"<span class=\"icon\"></span>";
+						inHTML += 			"<span class=\"text\">"+ $.su.CHAR.VPN.DISCONNECT + "</span>";
+						inHTML += 		"</a>";
+						inHTML += 	"</div>";
+					return inHTML;
+				}
+			}
+		]
+	});
+
+	var openvpn_store = openvpn_grid.grid("getStore");
+	openvpn_store.load({
+		"vpntype": "openvpn",
+		"operation": "list"
+	});
+	/*$.post(VPN_CONN_LIST,{"vpntype": "openvpn"},function(data){
+		var openvpn_store = openvpn_grid.grid("getStore");
+		openvpn_store.loadData(data.data);
+	},'json');*/
+
+	openvpn_grid.delegate("a.btn-openvpn-disconn", "click", function(){
+		var index = $(this).attr("data-index"),			//获得数据对应的index
+			key = $(this).attr("data-key"),
+	   		store = openvpn_grid.grid("getStore"),	//获取store
+	   		keyProperty = store.keyProperty;			//key的属性名
+
+		//var d = store.data[index],				//当前操作的数据
+   		//key = d[keyProperty];				//当前操作的key值
+	   	//d = $.su.json.toJSONString(d);		//数据格式化
+	   	//console.log("enable", dd["enable"])
+	   	if (!key){ //如果链接是非绑定，要分情况不post数据到服务端，加一个datadisable;
+	   		return;
+	   	}
+	   	else{
+	   		store.remove(key, {
+	   			"operation": "disconnect",
+	   			//"data": d, 					//添加post过去时的data值，su中tostring方法
+	   			"vpntype": "openvpn"
+	   		},function(key, data){
+	   			
+	   		})
+	   	};
+	});
+
+	$("span#pptpvpn_conn").html("<B>" + $.su.CHAR.VPN.PPTP_VPN_CONNECTIONS + "</B>");
+	var pptpvpn_grid = $("div#pptpvpn_conn_list").grid({
+		store:{
+			proxy:{
+				url: VPN_CONN_LIST
+			},
+			fields: [
+				{name: "username"},
+				{name: "ipaddr"},
+				{name: "remote_ip"},
+				{name: "extra"}
+			]
+		},
+		columns:[
+			{
+				text: $.su.CHAR.GRID.ID,
+				width: 40,
+				renderer: function(val,index,data){
+					if(!data.ipaddr){
+						return '--';
+					}
+					else{
+						return index+1;
+					}
+				}
+			},
+			{
+				text: $.su.CHAR.VPN.USER,
+				width: 100,
+				dataIndex: "username"
+			},
+			{
+				text: $.su.CHAR.VPN.REMOTE_IP,
+				width: 100,
+				dataIndex: "remote_ip"
+			},
+			{
+				text: $.su.CHAR.VPN.ASSIGNED_IP,
+				width: 100,
+				dataIndex: "ipaddr"
+			},
+			{
+				text: $.su.CHAR.INTERNET.DISCONNECT,
+				width: 100,
+				renderer: function(value,i,data){
+					var key = data[pptpvpn_grid.grid("getStore").keyProperty];
+					var inHTML = 	"<div class=\"button-container\">";
+						inHTML += 		"<a href=\"javascript:void(0);\" class=\"grid-content-btn btn-pptpvpn-disconn btn-openvpn-disconn btn-delete\" data-index=\"" + i + "\" data-key=\""+key+"\">";
+						inHTML +=			"<span class=\"icon\"></span>";
+						inHTML += 			"<span class=\"text\">"+ $.su.CHAR.VPN.DISCONNECT + "</span>";
+						inHTML += 		"</a>";
+						inHTML += 	"</div>";
+					if(!data.ipaddr){
+						return '--';
+					}
+					else{
+						return inHTML;
+					}
+				}
+			}
+		]
+	});
+
+	var pptpvpn_store = pptpvpn_grid.grid("getStore");
+	pptpvpn_store.load({
+		"vpntype": "pptp",
+		"operation": "list"
+	});
+	pptpvpn_grid.delegate("a.btn-pptpvpn-disconn", "click", function(){
+		var index = $(this).attr("data-index"),			//获得数据对应的index
+			key = $(this).attr("data-key"),
+	   		store = pptpvpn_grid.grid("getStore"),	//获取store
+	   		keyProperty = store.keyProperty;			//key的属性名
+   		//var d = store.data[index],				//当前操作的数据
+   		//key = d[keyProperty];				//当前操作的key值
+   		//d = $.su.json.toJSONString(d);		//数据格式化
+   		if (!key){ //如果链接是非绑定，要分情况不post数据到服务端，加一个datadisable;
+   			return;
+   		}
+   		else{
+   			store.remove(key, {
+   				"operation": "disconnect",
+   				//"data": d, 					//添加post过去时的data值，su中tostring方法
+   				"vpntype": "pptp"
+   			},function(key, data){
+   			
+   			})
+   		};
+	});
+
+	var helpVPN = new $.su.Help({
+		container: "div#vpn_help",
+		content: ["VPN_CONNNECTION"]
+	});
+})
+	
+</script>
+
+</body>
+</html>

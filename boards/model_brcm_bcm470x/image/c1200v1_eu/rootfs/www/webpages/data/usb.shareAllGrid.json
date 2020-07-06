@@ -1,0 +1,12 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：folder share页面中获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":
+	[
+		{"name":"hello2","path":"G:/tmp/folder 1","volumn":"volumn1","uuid":"CEF82530F82517EB","enable":"on","media_server":"off","key":"62521"}
+	]
+}
+

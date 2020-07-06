@@ -1,0 +1,25 @@
+{
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{
+		"conntype": "pppoev6",
+		
+		"username": "pppoe2342",
+		"password": "pppoe234",
+		
+		"ip6addr": "1.1.1.1",
+
+		"snd_conn": "static",
+
+		"static_pridns": "8.8.8.8",
+		"static_snddns": "9.9.9.9",
+		
+		
+		"ip_mode": "prefix",
+		
+		"specific_ip": "fe80::20a:ebff:fe13:7b00",
+		"conn_status": "connected"
+	}
+}

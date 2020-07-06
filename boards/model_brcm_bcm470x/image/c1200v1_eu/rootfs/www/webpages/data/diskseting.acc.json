@@ -1,0 +1,12 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：disk setting页面中请求账号和密码",
+	
+	"timeout": false,
+	"success": true,
+	"data": 
+	{		
+		"disk_acc_username": "admin",
+		"disk_acc_password": "admin"
+	}
+}

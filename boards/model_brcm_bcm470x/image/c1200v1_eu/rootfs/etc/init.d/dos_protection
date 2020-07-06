@@ -1,0 +1,36 @@
+#!/bin/sh /etc/rc.common
+
+START=78
+STOP=78
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+AC_LIBDIR=/lib/dos_protection
+
+dos() {
+	. $AC_LIBDIR/core.sh
+	fw_$1
+}
+
+start() {
+	service_start /usr/sbin/dosd
+	#echo $! > /var/run/dosd.pid
+	return 0
+}
+
+stop() {
+	service_stop /usr/sbin/dosd
+	#local pid
+	#pid=$(cat /var/run/dosd.pid)
+	#kill -9 $pid
+	return 0
+}
+
+restart() {
+	dos reload
+}
+
+reload() {
+	dos reload
+}

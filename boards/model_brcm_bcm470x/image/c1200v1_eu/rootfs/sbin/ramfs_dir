@@ -1,0 +1,10 @@
+#!/bin/sh
+
+for dir in $@
+do
+    tmp_dir=/tmp/`basename ${dir}`_tmp
+    cp -a ${dir} ${tmp_dir}
+    mount -t ramfs -n none ${dir}
+    cp -a ${tmp_dir}/* ${dir}
+    rm -rf ${tmp_dir} 
+done

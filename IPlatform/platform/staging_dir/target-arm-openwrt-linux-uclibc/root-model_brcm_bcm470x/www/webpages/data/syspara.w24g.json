@@ -1,0 +1,39 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：sys para页面中w24g获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":{
+		"beacon_int": "100",
+		"rts": "2346",
+		"frag": "2346",
+		"dtim_period": "1",
+		"wpa_group_rekey":"86400",
+		"wmm": "on",
+		"shortgi": "on",
+		"enable": "on",
+		"ssid": "TP-LINK_2.4GHz_137AFF",
+		"bssid": "00-1D-0F-11-22-33",
+		"wds_mode":"1",
+		"encryption": "none",
+		"wep_key1": "12345671",
+		"wep_key2": "12345672",
+		"wep_key3": "12345673",
+		"wep_key4": "12345674",
+		"psk_key": "1234567",
+		"isolate": "on",
+		"wep_format1":"hex",
+		"wep_format2":"hex",
+		"wep_format3":"hex",
+		"wep_format4":"hex",
+		
+		"extinfo": {"support_band": "2G"},
+		
+		"disabled":"off",
+		"wep_select":"2",
+		"wep_mode":"open"
+	}
+}
+
+

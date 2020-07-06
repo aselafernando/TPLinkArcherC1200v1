@@ -1,0 +1,12 @@
+/etc/config/samba
+/usr/sbin/nmbd
+/etc/samba/lognames.deny
+/etc/samba/smb.conf.template
+/etc/samba/valid.dat
+/etc/init.d/samba
+/etc/samba/upcase.dat
+/etc/samba/smbusers
+/usr/sbin/smbpasswd
+/usr/sbin/smbd
+/usr/sbin/samba_multicall
+/etc/samba/lowcase.dat

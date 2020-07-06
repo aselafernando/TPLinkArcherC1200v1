@@ -1,0 +1,14 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": 
+	{
+		"assign_type": "rdnss",
+		"dhcp_prefix": "::33",
+		"slaac_prefix": "11::22",
+		"rdnss_prefix_type":"delegated",
+		"rdnss_prefix":"22::33",
+		"release_time": "86400",
+		"address": "dfgsdfg"
+	}
+}

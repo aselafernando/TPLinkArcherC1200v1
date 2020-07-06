@@ -1,0 +1,16 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：parental control页面中获取表格数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":
+	[
+			{"name":"Jim's PC", "mac":"00-11-22-33-44-55", 
+				"calendar":"{\"Mon\":[[10,13],[18,20]],\"Tue\":[[10,13],[18,20]]}",  "enable":"on"},
+			{"name":"Jim's PC", "mac":"00-11-22-33-44-56", 
+				"calendar":"{\"Mon\":[[10,13],[18,20]],\"Tue\":[[10,13],[18,20]]}", "note":"", "enable":"off"},
+			{"name":"Jim's PC", "mac":"00-11-22-33-44-57", 
+				"calendar":"{\"Mon\":[[10,13],[18,20]],\"Tue\":[[10,13],[18,20]]}", "note":"desc of entry", "enable":"off"}
+	]
+}	

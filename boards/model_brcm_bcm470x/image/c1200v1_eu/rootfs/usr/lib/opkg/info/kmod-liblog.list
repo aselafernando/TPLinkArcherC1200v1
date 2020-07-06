@@ -1,0 +1,2 @@
+/etc/modules.d/05-liblog
+/lib/modules/iplatform/liblog.ko

@@ -1,0 +1,23 @@
+#debug
+#logfile /tmp/pptp-server.log
+auth
+name "pptp-server"
+lcp-echo-failure 3
+lcp-echo-interval 60
+default-asyncmap
+mtu 1400
+mru 1400
+nobsdcomp
+nodeflate
+#noproxyarp
+proxyarp
+#nomppc
+mppe no56,stateless
+require-mschap-v2
+require-chap
+require-mschap
+refuse-eap
+require-pap
+#ms-dns 172.16.1.1
+#plugin radius.so
+#radius-config-file /etc/radius.conf

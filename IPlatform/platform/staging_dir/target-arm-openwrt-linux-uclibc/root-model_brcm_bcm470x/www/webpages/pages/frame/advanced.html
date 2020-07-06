@@ -1,0 +1,427 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Advanced</title>
+</head>
+
+<body>
+
+<div class="content-container">
+
+<div id="menu-advanced" class="menu-container">
+	<!--<ul class="menu-tree">
+    	<li class="fst">
+        	<a class="fst none-sec" href="pages/userrpm/status.html" id="menu-advanced-status">Status</a>
+        </li>
+        <li class="fst selected">
+        	<a class="fst" href="pages/userrpm/wireless-setting.html">Wireless&nbsp;2.4GHz</a>
+            <ul>
+            	<li class="sec"><a class="sec" href="pages/userrpm/wireless-setting.html">Wireless&nbsp;Settings</a></li>
+                <li class="sec"><a class="sec" href="javascript:void(0);">WPS</a></li>
+                <li class="sec selected"><a class="sec" href="javascript:void(0);">Wireless&nbsp;MAC&nbsp;Filtering</a></li>
+                <li class="sec"><a class="sec" href="javascript:void(0);">Wireless&nbsp;Advanced</a></li>
+                <li class="sec"><a class="sec" href="javascript:void(0);">Wireless&nbsp;Statistics</a></li>
+            </ul>
+        </li>
+    </ul>-->
+</div>
+
+<div id="func-advanced" class="function-container">
+</div>
+
+</div><!-- content-container -->
+
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+/************菜单部分的响应****************/
+//菜单生成
+/*$.su.menu = $.su.menu || {};
+$.su.menu.advanced = (function(){
+	var menu = {};
+	menu.init = function(data){
+		var path = "./pages/userrpm/";
+		var inHTML = "<ul class=\"menu-tree\">";
+		for (var index = 0; index < data.length; index++){
+			var fstMenu = data[index];
+			
+			fstMenu.auth = fstMenu.auth || 1;
+			if (fstMenu.auth === 0){
+				continue;
+			};
+			
+			if (fstMenu.children){
+				var secMenus = fstMenu.children;
+				//有子菜单的情况
+				inHTML += 	"<li class=\"fst\" id=\""+"menu-advanced-"+fstMenu.name+"-li"+"\">";
+				inHTML += 		"<a class=\"fst\"  name=\""+fstMenu.name+"\" href=\""+"./pages/userrpm/"+path+secMenus[0].url+"\">";
+				inHTML += 			"<span class=\"icon\"></span>";
+				inHTML += 			"<span class=\"text\">"+$.su.CHAR.MENU[fstMenu.text]+"</span>";
+				inHTML += 		"</a>";
+
+				inHTML += 		"<ul class=\"sec\">";
+				for (var jndex = 0; jndex < secMenus.length; jndex++){
+					var secMenu = secMenus[jndex];
+					
+					secMenu.auth = secMenu.auth || 1;
+					if (secMenu.auth === 0){
+						continue;
+					};
+
+					inHTML += 		"<li class=\"sec\">";
+					inHTML +=			"<a class=\"sec\" name=\""+secMenu.name+"\" href=\""+path+secMenu.url+"\">";
+					inHTML +=				"<span class=\"icon\"></span>";
+					inHTML +=				"<span class=\"text\">"+$.su.CHAR.MENU[secMenu.text]+"</span>";
+					inHTML +=			"</a>";
+					inHTML +=		"</li>";
+				};
+
+				inHTML += 		"</ul>";
+				inHTML +=	"</li>";
+
+			}else{
+				//没有子菜单的情况
+				inHTML +=	"<li class=\"fst\" id=\""+"menu-advanced-"+fstMenu.name+"-li"+"\">";
+				inHTML +=		"<a class=\"fst none-sec\" name=\""+fstMenu.name+"\" href=\""+path+fstMenu.url+"\">";
+				inHTML +=			"<span class=\"icon\"></span>";
+				inHTML +=			"<span class=\"text\">"+$.su.CHAR.MENU[fstMenu.text]+"<span>"
+				inHTML +=		"</a>";
+				inHTML +=	"</li>";
+			}
+		};
+		
+		inHTML += "</ul>";
+		$("div#menu-advanced").empty().append($(inHTML));
+	};
+	
+	//事件绑定~
+	//一级菜单
+	$("div#menu-advanced").delegate("ul.menu-tree li.fst a.fst", "click", function(e){
+		//一级菜单事件响应
+		e.preventDefault();
+		e.stopPropagation();
+		
+		var me = $(this),
+			//name = %$
+			funcAdvanced = $("div#func-advanced"),
+			url = "javascript:void(0);";
+		
+		//li和a标签的操作
+		$("div#menu-advanced ul.menu-tree li, div#menu-advanced ul.menu-tree li a").removeClass("selected");
+		me.addClass("selected");
+		me.closest("li.fst").addClass("selected");
+		
+		//ul标签操作
+		var secMenuList = $(this).next("ul");
+		if (secMenuList.length == 0){
+			//无二级菜单
+			$("div#menu-advanced ul.menu-tree li ul").slideUp(200);
+			url = $(this).attr("href");
+		}else{
+			//有二级菜单
+			if (secMenuList.is(":hidden")){
+				//二级菜单已经隐藏
+				$("div#menu-advanced ul.menu-tree li ul").slideUp(200);
+				secMenuList.slideDown(200);
+			};
+			
+			//li标签的操作
+			secMenuList.find("li.sec, a.sec").removeClass("selected");
+			secMenuList.find("li.sec:first, li.sec a.sec:first").addClass("selected");
+			
+			url = secMenuList.find("li.sec:first a").attr("href");
+		};
+
+		$.su.app.menuChange(url);
+	});
+	
+	$("div#menu-advanced").delegate("ul.menu-tree li.sec a.sec", "click", function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		
+		var me = $(this),
+			secMenuList = me.closest("ul"),
+			funcAdvanced = $("div#func-advanced"),
+			url = me.attr("href");
+			
+		secMenuList.find("li.sec, a.sec").removeClass("selected");
+		me.addClass("selected").closest("li.sec").addClass("selected");
+
+		$.su.app.menuChange(url);
+	});	
+	
+	//初始化
+	$.ajax({
+		url: "./data/menu.advanced.json",
+		type: "GET",
+		data: {
+		},
+		dataType: "json",
+		success: function(data, status, xhr){
+			menu.init(data);
+			menu.goTo(0);
+		},
+		error:function(){
+			//console.dir(arguments);
+		}
+	});	
+
+	menu.goTo = function(name){
+		var num = parseInt(name, 10),
+			menuItem = null;
+		if (!isNaN(num)){
+			menuItem = $($("div#menu-advanced ul.menu-tree a").get(num));
+		}else{
+			menuItem = $("div#menu-advanced ul.menu-tree li a[name="+name+"]");
+		};
+		
+		if (menuItem.length != 0){
+			menuItem.trigger("click", name);
+		};
+		
+	};
+	
+	return menu;
+	
+})();*/
+
+var advMenuList = {
+ 	"status":{
+		text: $.su.CHAR.MENU.STATUS,
+		url: "status.html"		
+	},
+	"network":{		
+		text: $.su.CHAR.MENU.NETWORK,
+		children:{
+			"internet":{
+				text: $.su.CHAR.MENU.INTERNET,
+				url: "internet.html"
+			},
+			"lan":{				
+				text: $.su.CHAR.MENU.LAN,
+				url: "lan.html"
+			},
+			"iptv":{				
+				text: $.su.CHAR.MENU.IPTV,
+				url: "iptv.html"
+			},
+			"dhcp-Server":{				
+				text: $.su.CHAR.MENU.DHCP_SERVER,
+				url: "dhcpServer.html"
+			},
+			"dynamic-dns":{				
+				text: $.su.CHAR.MENU.DYNAMIC_DNS,
+				url: "dynamicDNS.html"
+			},
+			"advanced-routing":{				
+				text: $.su.CHAR.MENU.ADVANCED_ROUTING,
+				url: "advancedRouting.html"
+			}
+		}
+	},
+	"wireless":{		
+		text: $.su.CHAR.MENU.WIRELESS,
+		children:{
+			"wireless-settings":{				
+				text: $.su.CHAR.MENU.WIRELESS_SETTINGS,
+				url: "wirelessSettings.html"
+			},
+			"wps":{				
+				text: $.su.CHAR.MENU.WPS,
+				url: "wps.html"
+			},
+			"Statistics":{				
+				text: $.su.CHAR.MENU.WIRE_STATISTICS,
+				url: "statistics.html"
+			}
+		}
+	},
+	"guest-network":{		
+		text: $.su.CHAR.MENU.GUEST_NETWORK,
+		url: "guestSettings.html"
+	 },
+	 
+	"usb-settings":{		
+		text: $.su.CHAR.MENU.USB_SETTINGS,
+		children:{
+			"g3_g4":{				
+				text: $.su.CHAR.MENU.G3_G4,
+				url: "modem.advanced.html"
+			},
+			"disk-settings":{				
+				text: $.su.CHAR.MENU.DISK_SET,
+				url: "diskSetting.html"
+			},
+			"folder-sharing":{				
+				text: $.su.CHAR.MENU.FOLDER_SHARING,
+				url: "folderSharing.html"
+			},
+			"print-server":{				
+				text: $.su.CHAR.MENU.PRINT_SERVER,
+				url: "printServer.html"
+			},
+			"offline-download":{				
+				text: $.su.CHAR.MENU.OFFLINE_DOWNLOAD,
+				url: "offlineDownload.html"
+			}
+		}
+	 },
+	"parental-control":{		
+		text: $.su.CHAR.MENU.PARENTAL_CONTROL,
+		url: "parentalControl.html"
+	 },
+	 "qos":{		
+		text: $.su.CHAR.MENU.QOS,
+		children:{
+			"qos_settings":{				
+				text: $.su.CHAR.MENU.SETTINGS,
+				url: "qosSettings.html"
+			},
+			"database":{				
+				text: $.su.CHAR.MENU.DATABASE,
+				url: "qosDatabase.html"
+			}
+		}
+	 },
+	"security":{		
+		text: $.su.CHAR.MENU.SECURITY,
+		children:{
+			"settings":{				
+				text: $.su.CHAR.MENU.SETTINGS,
+				url: "securitySettings.html"
+			},
+			"access-control":{				
+				text: $.su.CHAR.MENU.ACCESS_CONTROL,
+				url: "accessControl.html"
+			},
+			"ip-mac-binding":{				
+				text: $.su.CHAR.MENU.IP_MAC_BINDING,
+				url: "iPMACBinding.html"
+			}
+		}
+	 },
+	"nat-forwarding":{		
+		text: $.su.CHAR.MENU.NAT_FORWARDING,
+		children:{
+			"nat":{				
+				text: $.su.CHAR.MENU.NAT,
+				url: "nat.html"
+			},
+			"virtual-servers":{				
+				text: $.su.CHAR.MENU.VIRTUAL_SERVERS,
+				url: "virtualServers.html"
+			},
+			"port-triggering":{				
+				text: $.su.CHAR.MENU.PORT_TRIGGERING,
+				url: "portTriggering.html"
+			},
+			"dmz":{				
+				text: $.su.CHAR.MENU.DMZ,
+				url:"dmz.html"
+			},
+			"upnp":{				
+				text: $.su.CHAR.MENU.UPNP,
+				url:"upnp.html"
+			}
+		}
+	 },
+	"ipv6":{		
+		text: $.su.CHAR.MENU.IPV6,
+		url: "ipv6.html"
+	 },
+	 "system-tools":{	
+		text: $.su.CHAR.MENU.SYSTEM_TOOLS,
+		children:{
+			"time-settings":{				
+				text: $.su.CHAR.MENU.TIME_SETTINGS,
+				url: "timeSettings.html"
+			},
+			"diagnostic":{				
+				text: $.su.CHAR.MENU.DIAGNOSTIC,
+				url: "diagnostic.html"
+			},
+			"firmware-upgrade":{				
+				text: $.su.CHAR.MENU.FIRMWARE_UPGRADE,
+				url: "firmwareUpgrade.html"
+			},
+			"backup-restore":{				
+				text: $.su.CHAR.MENU.BACKUP_RESTORE,
+				url: "backupRestore.html"
+			},
+			"administration":{				
+				text: $.su.CHAR.MENU.ADMINISTRATION,
+				url: "password.html"
+			},
+			"system-log":{				
+				text: $.su.CHAR.MENU.SYSTEM_LOG,
+				url: "systemLog.html"
+			},
+			"sysstatistics":{				
+				text: $.su.CHAR.MENU.STATISTICS,
+				url: "sysStatistics.html"
+			},
+			"system-parameters":{				
+				text: $.su.CHAR.MENU.SYSTEM_PARAMETERS,
+				url: "systemParameters.html"
+			 }			
+		}
+	 },
+	 "vpn":{
+		text: $.su.CHAR.MENU.VPN,
+		children:{
+			"openvpn":{
+				text: $.su.CHAR.MENU.OPEN_VPN,
+				url: "openvpn.html"
+			},
+			"pptpvpn":{
+				text: $.su.CHAR.MENU.PPTP_VPN,
+				url: "pptp_vpn.html"
+			},
+			"vpnconnections":{
+				text: $.su.CHAR.MENU.VPN_CONNECTIONS,
+				url: "vpn_connections.html"
+			}
+		}
+	 }
+ };
+
+var menuAdvanced = new $.su.Menu({
+    data: $.su.url("/admin/menu?form=advanced_menu"),
+    urlPath: "./pages/userrpm/",
+    container: "div#menu-advanced",
+    list: advMenuList,
+    idTag: "advanced",
+    cls: "advanced",
+    handlers: {
+        init: function(e){
+			if(($.su.app.jumpPage == "network-map")||(typeof $.su.app.jumpPage == "undefined"))
+			{
+				$.su.app.jumpPage = "status";
+			}
+            a = this.goTo($.su.app.jumpPage);
+        },
+        goTo: function(e, name, url){
+        	$.su.app.menuGoTo(name, url, true);
+			$.su.app.jumpPage = "status";
+        }
+    }
+});
+//
+
+$.su.menu = null;
+delete $.su.menu;
+$.su.menu = {};
+$.su.menu.advanced = menuAdvanced;
+
+});
+//]]>
+</script>
+</body>
+</html>

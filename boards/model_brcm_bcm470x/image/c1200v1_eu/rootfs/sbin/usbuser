@@ -1,0 +1,34 @@
+#!/bin/sh
+# Copyright(c) 2011-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+# file     usbuser
+# brief    
+# author   Zhu Xianfeng<zhuxianfeng@tp-link.net>
+# version  1.0.0
+# date     29Apr14
+# history  arg 1.0.0, 29Apr14, Zhu Xianfeng, Create the file. 
+
+if [ $# -ne 2 ]; then
+    return
+fi
+
+local username=$1
+local password=$2
+
+# smbpasswd
+if [ ! -e /etc/samba/smbpasswd ]; then
+    touch /etc/samba/smbpasswd
+fi
+echo -e $password'\n'$password'\n' | smbpasswd -s -a admin 1>/dev/console 2>&1 
+
+# change Linux user passwd for proftpd
+echo -e $password'\n'$password'\n' | passwd admin 1>/dev/null 2>&1
+
+echo "# admin = alias" > /etc/samba/smbusers
+echo "" > /etc/samba/lognames.deny
+ftp_alias stop "$username" admin
+
+if [ "$username" != "admin" ]; then
+    echo -e "admin = $username" > /etc/samba/smbusers
+    echo -e "admin" > /etc/samba/lognames.deny
+    ftp_alias start "$username" admin
+fi

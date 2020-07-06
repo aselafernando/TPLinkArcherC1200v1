@@ -1,0 +1,21 @@
+#!/bin/sh
+[ -z "$1" ] && echo "Error: should be run by udhcpc" && exit 1
+
+setup_interface() {
+    ip addr add $ip/${mask:-24} broadcast ${broadcast:-+} label $interface dev $interface
+    echo $dns > /tmp/autodetect-dns
+}
+
+case "$1" in
+    deconfig)
+        ip addr flush dev "$interface" label "$interface"
+        ;;
+    renew)
+        setup_interface update
+        ;;
+    bound)
+        setup_interface ifup
+        ;;
+esac
+
+exit 0

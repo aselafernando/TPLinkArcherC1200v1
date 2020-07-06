@@ -1,0 +1,17 @@
+Package: conntrack-tools
+Version: 1.0.0-1
+Depends: libnetfilter-conntrack
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/opensource/conntrack-tools
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 95198
+Description:  The conntrack-tools are a set of free software userspace tools for Linux
+ that allow system administrators interact with the Connection Tracking
+ System, which is the module that provides stateful packet inspection for
+ iptables. The conntrack-tools are the userspace daemon conntrackd and the
+ command line interface conntrack.

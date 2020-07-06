@@ -1,0 +1,7 @@
+{
+			"timeout": false,
+			"success": true,
+			"data": 
+				{"status": "1","up_band": "100","down_band": "100", "up_unit":"kbps","down_unit":"mbps", "high":"60", "middle":"20", "low":"20"}
+
+}

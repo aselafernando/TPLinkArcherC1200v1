@@ -1,0 +1,12 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：web页面中recover获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":{
+	    "enable":"on",
+		"port": "90",
+		"ipaddr": "192.168.1.111"
+	}
+}

@@ -1,0 +1,702 @@
+{
+    "success": true,
+    "errCode": false,
+    "data": {
+        "policydb:policies:break_app/break_video": {
+            "emit": "break_video",
+            "type": "streaming"
+        },
+        "policydb:policies:abcvideo": {
+            "emit": "abcvideo",
+            "type": "streaming"
+        },
+        "policydb:policies:nbcnews_video/nbcnews_flv/msnbc_flv/msnbc_mp4/msnbc_video/nbcvi": {
+            "emit": "nbcvideo",
+            "type": "streaming"
+        },
+        "policydb:policies:planetside2_gameb": {
+            "emit": "planetside2_gameb",
+            "type": "interactive"
+        },
+        "policydb:policies:fc2_flv": {
+            "emit": "fc2",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmp_240_flv/rtmp_248_flv/rtmp_256_flv": {
+            "emit": "rtmp_240",
+            "type": "streaming"
+        },
+        "policydb:policies:koldcast_video": {
+            "emit": "koldcast_video",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmp_480_flv/rtmp_478_flv/rtmp_464_flv/rtmp_448_flv": {
+            "emit": "rtmp_480",
+            "type": "streaming"
+        },
+        "policydb:policies:tvguide_video": {
+            "emit": "tvguide_video",
+            "type": "streaming"
+        },
+        "policydb:policies:youtube_160_mp4": {
+            "emit": "youtube_144",
+            "type": "streaming"
+        },
+        "policydb:policies:epix/epix_video/epix_image": {
+            "emit": "epix",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmp_1050_flv": {
+            "emit": "rtmp_1050",
+            "type": "streaming"
+        },
+        "policydb:policies:starcraft2_game": {
+            "emit": "starcraft2_game",
+            "type": "conversational"
+        },
+        "policydb:policies:farcry3_game/farcry3_comm": {
+            "emit": "farcry3",
+            "type": "conversational"
+        },
+        "policydb:policies:vudu_mp2t/vudu_app/vudu_hd/vudu_sdrent/vudu_text": {
+            "emit": "vudu",
+            "type": "streaming"
+        },
+        "policydb:policies:left4dead2": {
+            "emit": "left4dead2",
+            "type": "conversational"
+        },
+        "policydb:policies:rtmp_320_flv/rtmp_336_flv": {
+            "emit": "rtmp_320",
+            "type": "streaming"
+        },
+        "policydb:policies:twitter": {
+            "emit": "twitter",
+            "type": "interactive"
+        },
+        "policydb:policies:showtime_video/showtime_app": {
+            "emit": "showtime_video",
+            "type": "streaming"
+        },
+        "policydb:policies:teamfortress2": {
+            "emit": "teamfortress2",
+            "type": "conversational"
+        },
+        "policydb:policies:tmz_mp4": {
+            "emit": "tmz_mp4",
+            "type": "streaming"
+        },
+        "policydb:policies:farmville": {
+            "emit": "farmville",
+            "type": "interactive"
+        },
+        "policydb:policies:pplive/ppstream": {
+            "emit": "ppstream",
+            "type": "streaming"
+        },
+        "policydb:policies:generic_audio": {
+            "emit": "web_audio",
+            "type": "streaming"
+        },
+        "policydb:policies:macappstore": {
+            "emit": "macappstore",
+            "type": "interactive"
+        },
+        "policydb:policies:cnnvideo/cnnapp": {
+            "emit": "cnnvideo",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmp_208_flv": {
+            "emit": "rtmp_208",
+            "type": "streaming"
+        },
+        "policydb:policies:skype_video/skype": {
+            "emit": "skype_video",
+            "type": "conversational"
+        },
+        "policydb:policies:ppstv": {
+            "emit": "ppstv",
+            "type": "streaming"
+        },
+        "policydb:policies:amazonvideo_ism/amazonvideo_app/amazonvideo_video/amazonvideo_s": {
+            "emit": "amazonvideo",
+            "type": "streaming"
+        },
+        "policydb:policies:data_transfer": {
+            "emit": "ftp_transfer",
+            "type": "background"
+        },
+        "policydb:policies:planetside2_gamea": {
+            "emit": "planetside2_gamea",
+            "type": "conversational"
+        },
+        "policydb:policies:guildwars2_update": {
+            "emit": "guildwars2_update",
+            "type": "background"
+        },
+        "policydb:policies:default": {
+            "emit": "default",
+            "type": "interactive"
+        },
+        "policydb:policies:hirez_patch": {
+            "emit": "tribesascend_patch",
+            "type": "background"
+        },
+        "policydb:policies:itunes_audio/itunes_video": {
+            "emit": "itunes",
+            "type": "background"
+        },
+        "policydb:policies:ventrilo": {
+            "emit": "ventrilo",
+            "type": "conversational"
+        },
+        "policydb:policies:slacker_audio": {
+            "emit": "slacker_radio",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmp_168_flv": {
+            "emit": "rtmp_168",
+            "type": "streaming"
+        },
+        "policydb:policies:twitchtv_mp2t": {
+            "emit": "twitchtv",
+            "type": "streaming"
+        },
+        "policydb:policies:instagram_image/instagram_upload": {
+            "emit": "instagram",
+            "type": "interactive"
+        },
+        "policydb:policies:youtube_270_flv": {
+            "emit": "youtube_270",
+            "type": "streaming"
+        },
+        "policydb:policies:skymovies_app": {
+            "emit": "skymovies",
+            "type": "streaming"
+        },
+        "policydb:policies:foxtv_video": {
+            "emit": "foxvideo",
+            "type": "streaming"
+        },
+        "policydb:policies:youtube_136_mp4/youtube_720_webm/youtube_720_mp4/youtube_3d720_": {
+            "emit": "youtube_720",
+            "type": "streaming"
+        },
+        "policydb:policies:spotify": {
+            "emit": "spotify",
+            "type": "interactive"
+        },
+        "policydb:policies:collegehumor_video": {
+            "emit": "collegehumor_video",
+            "type": "streaming"
+        },
+        "policydb:policies:eveonline_update": {
+            "emit": "eveonline_update",
+            "type": "background"
+        },
+        "policydb:policies:adobeupdate": {
+            "emit": "adobeupdate",
+            "type": "background"
+        },
+        "policydb:policies:worldofwarcraft_game/worldofwarcraft_connection": {
+            "emit": "worldofwarcraft_game",
+            "type": "conversational"
+        },
+        "policydb:policies:generic_app/generic_image/generic_text/generic_application": {
+            "emit": "web",
+            "type": "interactive"
+        },
+        "policydb:policies:xbox_audio": {
+            "emit": "xbox_audio",
+            "type": "streaming"
+        },
+        "policydb:policies:netflix_akamai/netflix_limelight/netflix_netflixcdn/netflix_aac": {
+            "emit": "netflix",
+            "type": "streaming"
+        },
+        "policydb:policies:youtube_137_mp4/youtube_1080_mp4/youtube_1080_webm": {
+            "emit": "youtube_1080",
+            "type": "streaming"
+        },
+        "policydb:policies:tudou_f4v": {
+            "emit": "tudou",
+            "type": "streaming"
+        },
+        "policydb:policies:tedtalk_video": {
+            "emit": "tedtalk_video",
+            "type": "streaming"
+        },
+        "policydb:policies:eveonline_game": {
+            "emit": "eveonline_game",
+            "type": "conversational"
+        },
+        "policydb:policies:transworld_video": {
+            "emit": "transworld_video",
+            "type": "streaming"
+        },
+        "policydb:policies:guardian_mp4": {
+            "emit": "guardian",
+            "type": "streaming"
+        },
+        "policydb:policies:leagueoflegends_client": {
+            "emit": "leagueoflegends_client",
+            "type": "conversational"
+        },
+        "policydb:policies:crunchyroll_video": {
+            "emit": "crunchyroll_video",
+            "type": "streaming"
+        },
+        "policydb:policies:battlefield3_pc": {
+            "emit": "battlefield3",
+            "type": "conversational"
+        },
+        "policydb:policies:foxnews_video": {
+            "emit": "foxnews",
+            "type": "streaming"
+        },
+        "policydb:policies:clashofclans": {
+            "emit": "clashofclans",
+            "type": "conversational"
+        },
+        "policydb:policies:diablo3_game": {
+            "emit": "diablo3_game",
+            "type": "conversational"
+        },
+        "policydb:policies:appleupdate": {
+            "emit": "appleupdate",
+            "type": "interactive"
+        },
+        "policydb:policies:rtmp_360_flv/rtmp_352_flv": {
+            "emit": "rtmp_360",
+            "type": "streaming"
+        },
+        "policydb:policies:repubblica_mp4": {
+            "emit": "repubblica",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmp_540_flv/rtmp_512_flv/rtmp_592_flv": {
+            "emit": "rtmp_540",
+            "type": "streaming"
+        },
+        "policydb:policies:pandora_mp4/pandora_mpeg/pandora_audio/pandora_app": {
+            "emit": "pandora",
+            "type": "streaming"
+        },
+        "policydb:policies:youtube_134_mp4/youtube_360_mp4/youtube_360_flv/youtube_360_web": {
+            "emit": "youtube_360",
+            "type": "streaming"
+        },
+        "policydb:policies:flickr_image/flickr_upload": {
+            "emit": "flickr",
+            "type": "interactive"
+        },
+        "policydb:policies:diablo3_content": {
+            "emit": "diablo3_content",
+            "type": "streaming"
+        },
+        "policydb:policies:lastfm": {
+            "emit": "lastfm",
+            "type": "streaming"
+        },
+        "policydb:policies:wikimedia_app/wikimedia_audio/wikimedia_video/wikimedia_ogg": {
+            "emit": "wikimedia_ogg",
+            "type": "streaming"
+        },
+        "policydb:policies:xbox_game": {
+            "emit": "xbox_game",
+            "type": "conversational"
+        },
+        "policydb:policies:pando": {
+            "emit": "pando",
+            "type": "background"
+        },
+        "policydb:policies:stun": {
+            "emit": "stun",
+            "type": "conversational"
+        },
+        "policydb:policies:skifta_upvideo": {
+            "emit": "skifta_upvideo",
+            "type": "streaming"
+        },
+        "policydb:policies:qiyi": {
+            "emit": "qiyi",
+            "type": "streaming"
+        },
+        "policydb:policies:shoutcast": {
+            "emit": "shoutcast",
+            "type": "streaming"
+        },
+        "policydb:policies:starcraft2_content": {
+            "emit": "starcraft2_content",
+            "type": "interactive"
+        },
+        "policydb:policies:nytimes_mp4": {
+            "emit": "nytimes",
+            "type": "streaming"
+        },
+        "policydb:policies:tmz_ism": {
+            "emit": "tmz_ism",
+            "type": "streaming"
+        },
+        "policydb:policies:leagueoflegends_update": {
+            "emit": "leagueoflegends_update",
+            "type": "background"
+        },
+        "policydb:policies:msn_video": {
+            "emit": "msnvideo",
+            "type": "streaming"
+        },
+        "policydb:policies:qq_udpvideo/qq_tcpvideo": {
+            "emit": "qq_video",
+            "type": "conversational"
+        },
+        "policydb:policies:leagueoflegends_spectate": {
+            "emit": "leagueoflegends_spectate",
+            "type": "streaming"
+        },
+        "policydb:policies:youview_app/youview_text/youview_video": {
+            "emit": "youview",
+            "type": "streaming"
+        },
+        "policydb:policies:globo_mp4": {
+            "emit": "globo",
+            "type": "streaming"
+        },
+        "policydb:policies:youtube_139_mp4/youtube_140_mp4/youtube_141_mp4": {
+            "emit": "youtube_audio",
+            "type": "streaming"
+        },
+        "policydb:policies:sohu_mp4": {
+            "emit": "sohu",
+            "type": "streaming"
+        },
+        "policydb:policies:guildwars2_game": {
+            "emit": "guildwars2_game",
+            "type": "conversational"
+        },
+        "policydb:policies:dota2": {
+            "emit": "dota2",
+            "type": "conversational"
+        },
+        "policydb:policies:yahoo_flv": {
+            "emit": "yahoo_flv",
+            "type": "streaming"
+        },
+        "policydb:policies:starcraft2hots_game": {
+            "emit": "starcraft2hots",
+            "type": "conversational"
+        },
+        "policydb:policies:bbcnews_mp4": {
+            "emit": "bbcnews",
+            "type": "streaming"
+        },
+        "policydb:policies:hulu_app/hulu_video": {
+            "emit": "hulu",
+            "type": "streaming"
+        },
+        "policydb:policies:youtube_135_mp4/youtube_480_mp4/youtube_480_webm/youtube_480_fl": {
+            "emit": "youtube_480",
+            "type": "streaming"
+        },
+        "policydb:policies:planetside2_gamec": {
+            "emit": "planetside2_gamec",
+            "type": "conversational"
+        },
+        "policydb:policies:ftp_control": {
+            "emit": "ftp_control",
+            "type": "interactive"
+        },
+        "policydb:policies:vimeo": {
+            "emit": "vimeo",
+            "type": "streaming"
+        },
+        "policydb:policies:youtube_133_mp4/youtube_240_3gp/youtube_240_flv/youtube_240_mp4": {
+            "emit": "youtube_240",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmpe": {
+            "emit": "rtmpe",
+            "type": "streaming"
+        },
+        "policydb:policies:youtube_3072_mp4": {
+            "emit": "youtube_3072",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmp_406_flv/rtmp_400_flv/rtmp_432_flv": {
+            "emit": "rtmp_406",
+            "type": "streaming"
+        },
+        "policydb:policies:rtp_call": {
+            "emit": "rtp",
+            "type": "conversational"
+        },
+        "policydb:policies:bliptv_mp4": {
+            "emit": "bliptv_mp4",
+            "type": "streaming"
+        },
+        "policydb:policies:ps3_update": {
+            "emit": "ps3_update",
+            "type": "background"
+        },
+        "policydb:policies:eluniversal": {
+            "emit": "eluniversal",
+            "type": "streaming"
+        },
+        "policydb:policies:youtube_520_mp4": {
+            "emit": "youtube_520",
+            "type": "streaming"
+        },
+        "policydb:policies:codmw3/codmw3_pc/cod_game": {
+            "emit": "cod_game",
+            "type": "conversational"
+        },
+        "policydb:policies:spiegel": {
+            "emit": "spiegel",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmp_284_flv": {
+            "emit": "rtmp_284",
+            "type": "streaming"
+        },
+        "policydb:policies:counterstrike16": {
+            "emit": "counterstrike16",
+            "type": "conversational"
+        },
+        "policydb:policies:hbogo_ism/hbogo/hbogo_audio/hbogo_mp2t": {
+            "emit": "hbogo",
+            "type": "streaming"
+        },
+        "policydb:policies:bittorrent_plain_tcp/bittorrent_plain_udp/bittorrent_encrypted": {
+            "emit": "bittorrent",
+            "type": "background"
+        },
+        "policydb:policies:aimchat": {
+            "emit": "aimchat",
+            "type": "interactive"
+        },
+        "policydb:policies:rtmp_other": {
+            "emit": "rtmp",
+            "type": "streaming"
+        },
+        "policydb:policies:worldoftanks": {
+            "emit": "worldoftanks",
+            "type": "conversational"
+        },
+        "policydb:policies:counterstrikesource": {
+            "emit": "counterstrikesource",
+            "type": "conversational"
+        },
+        "policydb:policies:codbo_pc": {
+            "emit": "codbo_pc",
+            "type": "conversational"
+        },
+        "policydb:policies:rift_game": {
+            "emit": "rift_game",
+            "type": "conversational"
+        },
+        "policydb:policies:steam_friends": {
+            "emit": "steam_friends",
+            "type": "interactive"
+        },
+        "policydb:policies:tls": {
+            "emit": "tls",
+            "type": "interactive"
+        },
+        "policydb:policies:steam_dl/steam_gamedl": {
+            "emit": "steam_dl",
+            "type": "background"
+        },
+        "policydb:policies:dailymotion_video": {
+            "emit": "dailymotion",
+            "type": "streaming"
+        },
+        "policydb:policies:source_content": {
+            "emit": "source_content",
+            "type": "interactive"
+        },
+        "policydb:policies:skifta_downvideo": {
+            "emit": "skifta_downvideo",
+            "type": "streaming"
+        },
+        "policydb:policies:skifta_downaudio": {
+            "emit": "skifta_downaudio",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmp_270_flv/rtmp_272_flv/rtmp_288_flv": {
+            "emit": "rtmp_270",
+            "type": "streaming"
+        },
+        "policydb:policies:fitnessmag_video": {
+            "emit": "fitnessmag_video",
+            "type": "streaming"
+        },
+        "policydb:policies:microsoftupdate_tcp80/microsoftupdate_tcp443": {
+            "emit": "microsoftupdate",
+            "type": "background"
+        },
+        "policydb:policies:generic_video": {
+            "emit": "web_video",
+            "type": "streaming"
+        },
+        "policydb:policies:rift_patch": {
+            "emit": "rift_patch",
+            "type": "background"
+        },
+        "policydb:policies:youtube_3gp": {
+            "emit": "youtube_3gp",
+            "type": "streaming"
+        },
+        "policydb:policies:facetime": {
+            "emit": "facetime",
+            "type": "conversational"
+        },
+        "policydb:policies:grooveshark_mpeg": {
+            "emit": "grooveshark",
+            "type": "streaming"
+        },
+        "policydb:policies:borderlands2_game": {
+            "emit": "borderlands2",
+            "type": "conversational"
+        },
+        "policydb:policies:imaps": {
+            "emit": "email",
+            "type": "interactive"
+        },
+        "policydb:policies:youku_flv/youku_mp4": {
+            "emit": "youku",
+            "type": "streaming"
+        },
+        "policydb:policies:worldofwarcraft_content": {
+            "emit": "worldofwarcraft_content",
+            "type": "streaming"
+        },
+        "policydb:policies:skifta_upaudio": {
+            "emit": "skifta_upaudio",
+            "type": "streaming"
+        },
+        "policydb:policies:youtube_540_webm": {
+            "emit": "youtube_540",
+            "type": "streaming"
+        },
+        "policydb:policies:cntv_mp4": {
+            "emit": "cntv",
+            "type": "streaming"
+        },
+        "policydb:policies:nicovideo_video": {
+            "emit": "nicovideo",
+            "type": "streaming"
+        },
+        "policydb:policies:dropbox": {
+            "emit": "dropbox",
+            "type": "background"
+        },
+        "policydb:policies:generic_game": {
+            "emit": "game",
+            "type": "convesational"
+        },
+        "policydb:policies:generic_teredo": {
+            "emit": "generic_teredo",
+            "type": "interactive"
+        },
+        "policydb:policies:gomtv": {
+            "emit": "gomtv",
+            "type": "streaming"
+        },
+        "policydb:policies:ios_appdl": {
+            "emit": "ios_appdl",
+            "type": "background"
+        },
+        "policydb:policies:itunes_movietrailers": {
+            "emit": "itunes_trailer",
+            "type": "streaming"
+        },
+        "policydb:policies:minecraft": {
+            "emit": "minecraft",
+            "type": "conversational"
+        },
+        "policydb:policies:xbox_download/xbox_update": {
+            "emit": "xbox_download",
+            "type": "background"
+        },
+        "policydb:policies:rtmp_720_flv/rtmp_700_flv": {
+            "emit": "rtmp_720",
+            "type": "streaming"
+        },
+        "policydb:policies:xbox_video": {
+            "emit": "xbox_video",
+            "type": "streaming"
+        },
+        "policydb:policies:killzone3_udp": {
+            "emit": "killzone3_udp",
+            "type": "conversational"
+        },
+        "policydb:policies:crackle": {
+            "emit": "crackle",
+            "type": "streaming"
+        },
+        "policydb:policies:appletv_video": {
+            "emit": "appletv_video",
+            "type": "streaming"
+        },
+        "policydb:policies:rtmp_224_flv/rtmp_216_flv": {
+            "emit": "rtmp_224",
+            "type": "streaming"
+        },
+        "policydb:policies:pandora_video": {
+            "emit": "pandora_video",
+            "type": "streaming"
+        },
+        "policydb:policies:skype_audio": {
+            "emit": "skype_audio",
+            "type": "conversational"
+        },
+        "policydb:policies:steam_client": {
+            "emit": "steam_client",
+            "type": "interactive"
+        },
+        "policydb:policies:counterstrikego": {
+            "emit": "counterstrikego",
+            "type": "conversational"
+        },
+        "policydb:policies:mlbtv_mp4": {
+            "emit": "mlbtv",
+            "type": "streaming"
+        },
+        "policydb:policies:oovoo": {
+            "emit": "oovoo",
+            "type": "conversational"
+        },
+        "policydb:policies:ssh": {
+            "emit": "ssh",
+            "type": "conversational"
+        },
+        "policydb:policies:rtmp_329_flv": {
+            "emit": "rtmp_329",
+            "type": "streaming"
+        },
+        "policydb:policies:tribesascend": {
+            "emit": "tribesascend",
+            "type": "conversational"
+        },
+        "policydb:policies:granturismo5": {
+            "emit": "granturismo5",
+            "type": "conversational"
+        },
+        "policydb:policies:rtmp_1080_flv": {
+            "emit": "rtmp_1080",
+            "type": "streaming"
+        },
+        "policydb:policies:imgur_image": {
+            "emit": "imgur",
+            "type": "interactive"
+        },
+        "policydb:policies:teamspeak": {
+            "emit": "teamspeak3",
+            "type": "conversational"
+        },
+        "policydb:policies:facebook_upload": {
+            "emit": "facebook",
+            "type": "interactive"
+        }
+    }
+}

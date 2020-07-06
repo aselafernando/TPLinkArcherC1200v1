@@ -1,0 +1,3 @@
+/sbin/uci
+/lib/config/uci.sh
+/sbin/uci_commit_flash

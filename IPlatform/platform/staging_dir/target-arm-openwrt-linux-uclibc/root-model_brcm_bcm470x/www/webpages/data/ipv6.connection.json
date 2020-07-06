@@ -1,0 +1,14 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": [
+		{"value": "dhcpv6", "name": "DYNAMIC_IP" },
+		{"value": "staticv6", "name": "STATIC_IP" },
+		{"value": "6to4", "name": "TUNNEL_6TO4" },
+		{"value": "pppoev6", "name": "PPPOE" },
+		{"value": "6rd", "name": "RD6" },
+		{"value": "dslite", "name": "DSLITE" },
+		{"value": "passthrough", "name": "PASS_THROUGH" }
+	]
+
+}

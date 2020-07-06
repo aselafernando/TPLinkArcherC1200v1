@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+</head>
+
+<body>
+<div class="func-container">
+	 <div id="ftp">
+	 	<form id="ftp-setting">
+	    	<input type="text"  id="status" name="status" value="" />
+	    	<input type="text"  id="access" name="access" value="" />
+	    	<input type="text"  id="port" name="port" value="" />
+	    </form>
+	 </div>
+
+
+
+	 <div id="folder">
+	 	<div id="folderGrid">
+	     		
+		</div>
+	 </div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	$("div.func-container").page({
+		title: $.su.CHAR.FTPSERVER.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$("div#ftp").panel({
+		title: $.su.CHAR.FTPSERVER.TITLE,
+		collapsible: false
+	});
+
+	$("input#status").switchbutton({
+		fieldLabel: $.su.CHAR.FTPSERVER.STATUS
+	});
+
+	$("input#access").switchbutton({
+		fieldLabel: $.su.CHAR.FTPSERVER.ACCESS
+	});
+
+	$("input#port").textbox({
+		fieldLabel: $.su.CHAR.FTPSERVER.PORT,
+		tips:$.su.CHAR.FTPSERVER.NOTE
+	});
+	
+	//这里多个表格调用一个proxy，proxy需要单独定义！
+	var ipv4Proxy = new $.su.Proxy({
+		url: "./data/usb.ftp.json"
+	});
+
+
+	$("form#ftp-setting").form({
+		proxy: ipv4Proxy,
+		fields: [
+			{name: "status", mapping: "status"},
+			{name: "access", mapping: "access"},
+			{name: "port", mapping: "port"}
+		],
+		submitBtn: "default"
+	});
+
+
+	$("div#folder").panel({
+		title: $.su.CHAR.FTPSERVER.FOLDERS,
+		collapsible: true
+	});
+
+
+	var storeTest = new $.su.Store({
+		proxy: {
+			url: "./data/usb.ftpFolder.json"
+		},
+		fields: [
+			{name: "name"},
+			{name: "partition"},
+			{name: "access"},
+			{name: "folder"}
+		],
+		autoLoad: true
+	});
+
+
+	$("div#folderGrid").grid({
+		store:storeTest,
+		minLines:0,
+		columns: [
+			{
+				text: "ID", 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.FTPSERVER.NAME, 
+				width:100,
+				dataIndex: "name"
+			},
+			{
+				text: $.su.CHAR.FTPSERVER.PART, 
+				width:160,
+				dataIndex: "partition"
+			},
+			{
+				text: $.su.CHAR.FTPSERVER.FOLDER, 
+				width:100,
+				dataIndex: "folder"
+			},
+			{
+				text: $.su.CHAR.FTPSERVER.USER, 
+				width:100,
+				dataIndex: "accsee"
+			},
+			{
+				xtype: "settings"
+			}
+		],
+		operation: [{xtype: "button", text: $.su.CHAR.USB.ADD},"search"]
+	});
+
+
+
+
+});
+</script>
+</body>
+
+</html>

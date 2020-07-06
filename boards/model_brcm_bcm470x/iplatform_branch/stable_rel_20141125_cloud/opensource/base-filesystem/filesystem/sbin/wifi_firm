@@ -1,0 +1,81 @@
+#!/bin/sh
+. /lib/functions.sh
+. /lib/wifi/qcawifi.sh
+
+STDOUT="/dev/null"
+DEV_NUM=2
+inc_mac(){
+	echo $1 | awk 'BEGIN{FS="-";add=1}{for(i=6;i>0;i--){j="0x"$i;\
+	if(i>3){if(j+add>255){j=j+add-256;add=1;}else{j=j+add;add=0;}}printf("%02x",j);printf "-"}}' \
+	| awk 'BEGIN{FS="-"}{for(i=6;i>0;i--){printf $i;if(i>1){printf "-"}}}'
+}
+
+wifi_firm_info(){
+	local mac=""
+	local wps_pin=""
+	local ssid=""
+	for i in $(seq $DEV_NUM); do
+		if [ -z "$(config_get wifi$(($i-1)) macaddr)" ]; then
+			if [ -z "$mac" ]; then
+				mac="$(getfirm MAC)"
+			fi
+			mac=$(inc_mac $mac)
+			uci set wireless.wifi$(($i-1)).macaddr=$mac
+		fi
+		if [ -z "$(config_get ath$(($i-1)) wps_pin)" ]; then
+			if [ -z "$wps_pin" ]; then
+				wps_pin="$(getfirm PIN)"
+			fi
+			if [ "$(config_get ath$(($i-1)) device)" = "wifi$(($i-1))" ]; then
+				uci set wireless.ath$(($i-1)).wps_pin=${wps_pin}
+				uci set wireless.ath$(($i-1)).encryption="psk"
+				uci set wireless.ath$(($i-1)).psk_key=${wps_pin}
+			fi
+			#default security of guest network is none.
+			if [ "$(config_get ath$(($i-1))1 device)" = "wifi$(($i-1))" ]; then
+				uci set wireless.ath$(($i-1))1.encryption="none"
+			fi
+		fi
+	done
+	
+	local idx=0
+	cd /sys/class/net/
+	[ -d wifi0 ] || load_qcawifi
+	for dev in $(ls -d wifi* 2>$STDOUT); do
+		case "$(cat ${dev}/hwcaps)" in
+			*11bgn) mode_11=ng;band="2g";;
+			*11abgn) mode_11=ng;band="2g";;
+			*11an) mode_11=na;band="5g";;
+			*11an/ac) mode_11=ac;band="5g";;
+			*11abgn/ac) mode_11=ac;band="5g";;
+		esac
+		if [ -z "$(config_get wifi${idx} band)" -o "$(config_get wifi${idx} band)" != ${band} ]; then
+			uci set wireless.wifi${idx}.hwmode=${mode_11}
+			uci set wireless.wifi${idx}.band=${band}
+			if [ -z "$ssid" ]; then
+				ssid="$(getfirm SSID)"
+			fi
+			if [ "$(config_get ath${idx} device)" = "wifi${idx}" ]; then
+				uci set wireless.ath${idx}.ssid="${ssid}_HOME_${band//g/G}"
+			fi
+			if [ "$(config_get ath${idx}1 device)" = "wifi${idx}" ]; then
+				uci set wireless.ath${idx}1.ssid="${ssid}_GUEST_${band//g/G}"
+			fi
+		fi
+		idx=$(($idx+1))
+	done
+	if [ -z "$(config_get wps model_name)" ]; then
+		local model="$(getfirm MODEL)"
+		uci set wireless.wps.model_name=${model}
+	fi
+	if [ -z "$(config_get wps wps_manufacturer)" -o -z "$(config_get wps wps_manufacturer_url)" ]; then
+		local firm="$(getfirm FIRM)"
+		local website="$(getfirm WEBSITE)"
+		uci set wireless.wps.wps_manufacturer=${firm}
+		uci set wireless.wps.wps_manufacturer_url=${website}
+	fi
+	wifi_commit
+}
+
+config_load wireless
+wifi_firm_info

@@ -1,0 +1,4 @@
+#!/usr/bin/lua
+
+config = require "luci.sys.config"
+config.reload_profile()

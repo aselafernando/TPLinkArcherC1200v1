@@ -1,0 +1,13 @@
+Package: kmod-pppoe
+Version: -
+Depends: kernel (=--unknown), kmod-ppp, kmod-pppox
+Provides: 
+Source: package/kernel
+Section: kernel
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 7239
+Description:  Kernel module for PPPoE (PPP over Ethernet) support

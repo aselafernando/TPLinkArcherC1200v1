@@ -1,0 +1,582 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" manifest="app.manifest">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<link rel="shortcut icon" href="favicon.ico"/>
+<!-- <link type="text/css" href="css/reset.css" rel="stylesheet" /> -->
+<link type="text/css" href="css/widget.css" rel="stylesheet" />
+
+<link type="text/css" href="themes/blue/css/widget.css" rel="stylesheet" />
+<link type="text/css" href="themes/blue/css/style.css" rel="stylesheet" />
+
+<!--[if lte IE 8]>
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<link href="themes/blue/css/ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<!--[if lte IE 7]>
+<link href="themes/blue/css/ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<!--[if lte IE 6]>
+<link href="themes/blue/css/ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<title>Opening...</title>
+
+</head>
+
+<body id="init-body">
+
+<noscript>
+    <meta http-equiv="refresh" content="0; url=error.html"/>
+</noscript>
+
+<div class="top" id="init-main">
+
+   <!--  <div class="top-main">
+        <div class="top-main-wrap"> -->
+        <div class="top-header">
+        <div class="top-header-wrap">
+            <h1 id="product-tag">Wireless Router Archer C1200</h1>
+            <div class="top-content">
+                <div class="top-content-wrap" id="top-content">
+                    <p id="init-note-title" class="text"></p>
+                    <p id="init-note-content" class="text"></p>
+                    <form id="form-init" method="post" action="/cgi-bin/luci">
+                        <!-- <div class="init-field">
+                            <label id="login-username-label">
+                                <span class="icon"></span>
+                                <span class="text"></span>
+                            </label>
+                            <input id="login-username"   tabindex="1" name="username" type="text" />
+                        </div> -->
+
+                        <div class="init-field">
+                            <label id="init-password-label">
+                                <span class="icon"></span>
+                                <span class="text"></span>
+                            </label>
+                            <input id="init-password" tabindex="2" name="password" type="password" />
+                        </div>
+                        <div >
+                            <label id="init-confirm-label">
+                                <span class="icon"></span>
+                                <span class="text"></span>
+                            </label>
+                            <input id="init-confirm" tabindex="3" name="confirm" type="password" />
+                            <input class="pwd_status"  value="" />
+                        </div>
+                        
+                        <!--<div>
+                            <input id="show-characters" />
+                        </div>-->
+                        <button id="begin-btn" type="button"></button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<!-- user confilct 内容 -->
+<div id="user-conflict-msg-container" class="conflict-situation">
+    <div>
+        <h4 class="title">
+            <span class="icon"></span>
+            <span class="text" id="user-conflict-situation"></span>
+        </h4>
+        <div class="content">
+            <span id="user-conflict-situation-info"></span>
+        </div>
+    </div>
+</div>
+
+<!-- ip conflict 内容 -->
+<div id="ip-conflict-msg-container">
+
+    <div id="ip-conflict-situation-0" class="conflict-situation">
+        <h4 class="title">
+            <span class="icon"></span>
+            <span class="text" id="ip-conflict-situation-0-title"></span>
+        </h4>
+        <div class="content">
+            <span id="ip-conflict-situation-0-info"></span>
+            <a class="link" id="ip-conflict-situation-0-new" href="javascript:void(0);"></a>
+            <span id="ip-conflict-situation-0-end"></span>
+        </div>
+
+        <button type="button" id="ip-conflict-situation-0-btn-continue"></button>
+    </div>
+
+    <div id="ip-conflict-situation-1" class="conflict-situation">
+        <h4 class="title">
+            <span class="icon"></span>
+            <span class="text" id="ip-conflict-situation-1-title"></span>
+        </h4>
+        <div class="content">
+            <span id="ip-conflict-situation-1-info"></span>
+            <a class="link" id="ip-conflict-situation-1-new" href="javascript:void(0);"></a>
+            <span id="ip-conflict-situation-1-or"></span>
+            <a class="link" id="ip-conflict-situation-1-dst" href="javascript:void(0);"></a>
+            <span id="ip-conflict-situation-1-end"></span>
+        </div>
+    </div>
+
+</div>
+
+<!-- 无开cookie的操作提示 -->
+<div id="no-cookie-msg-container" class="hidden warning">
+    <h4 class="title">
+        <span class="icon"></span>
+        <span class="text" id="no-cookie-text"></span>
+    </h4>
+</div>
+
+<!-- 最长尝试次数超时 -->
+<div id="max-attempts-msg-container" class="hidden warning">
+    <h4 class="title">
+        <span class="icon"></span>
+        <span class="text" id="max-attempts-text"></span>
+    </h4>    
+</div>
+
+
+<!-- 剩余尝试次数 -->
+<div id="left-attempts-msg-container" class="hidden warning">
+    <h4 class="title">
+        <span class="icon"></span>
+        <span class="text" id="left-attempts-text"></span>
+    </h4>    
+</div>
+
+
+<script type="text/javascript" src="js/libs/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/su/locale.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+    try{
+        $.su.locale.URL_LAN_CHECK =  $.su.url("/locale?form=lang");//"./data/lan.json";
+        $.su.locale.get();
+    }catch(error){
+        location.href = "./error.html";
+    };
+//]]>
+</script>
+<!--<script type="text/javascript" src="http://192.168.1.101:1070/target/target-script-min.js#anonymous"></script>-->
+<script type="text/javascript" src="js/libs/encrypt.js"></script>
+<!--<script type="text/javascript" src="js/su/su.full.min.js"></script>-->
+
+
+<script type="text/javascript" src="js/su/su.js"></script>
+<script type="text/javascript" src="js/libs/encrypt.js"></script>
+
+<script type="text/javascript" src="js/su/data/proxy.js"></script>
+<script type="text/javascript" src="js/su/widget/widget.js"></script>
+<script type="text/javascript" src="js/su/widget/window/msg.js"></script>
+
+<script type="text/javascript" src="js/su/widget/form/form.js"></script>
+<script type="text/javascript" src="js/su/widget/form/combobox.js"></script>
+<script type="text/javascript" src="js/su/widget/form/textbox.js"></script>
+<script type="text/javascript" src="js/su/widget/form/password.js"></script>
+<script type="text/javascript" src="js/su/widget/form/checkbox.js"></script>
+<script type="text/javascript" src="js/su/widget/form/button.js"></script>
+<script type="text/javascript" src="js/su/widget/form/status.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+    try{
+        $.su.locale.URL_LAN_CHECK = $.su.url("/locale?form=lang");//"./data/lan.json";
+        $.su.locale.get();
+    }catch(error){
+        location.href = "./error.html";
+    };
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(e){
+    document.title = $.su.locale.model;
+    $("h1#product-tag").text($.su.locale.model);
+    var URL_IP_CONFLICT = $.su.url("/domain_login?form=dlogin");
+    var URL_USER_CONFLICT = $.su.url("/login?form=limit");
+
+    var URL_INIT = $.su.url("/cloud_account?form=login");
+
+
+    var pwd_validate = false;
+    /*var URL_IP_CONFLICT = "./data/login.json";
+    var URL_USER_CONFLICT = "./data/login.json";
+    var URL_FORGET_PASSWORD = "./data/login.json";
+    var URL_VERIFY_CODE = "./data/login.json";
+    var URL_INIT = "./data/login.json";*/
+
+
+    //ip冲突部分内容
+    var ipConflictProxy = new $.su.Proxy({
+        url: URL_IP_CONFLICT,
+        autoLoad: false
+    });
+
+    var ipConflictMsg = $("div#ip-conflict-msg-container").msg({
+        closeBtn: false,
+        type: "window",
+        cls: "l"
+    });
+
+    $("button#ip-conflict-situation-0-btn-continue").button({
+        text: $.su.CHAR.INIT.CONTINUE,
+        handler: function(){
+            ipConflictMsg.msg("close");
+            initMain.fadeIn(200);
+        },
+        cls: "submit btn-continue-conflict"
+    });
+
+    $("span#ip-conflict-situation-0-title").html($.su.CHAR.INIT.IMPORTANT_NOTICE);
+    $("span#ip-conflict-situation-0-info").html($.su.CHAR.INIT.IMPORTANT_UPDATE_INFO);
+    $("span#ip-conflict-situation-0-end").html($.su.CHAR.INIT.END);
+
+    $("span#ip-conflict-situation-1-title").html($.su.CHAR.INIT.IMPORTANT_NOTICE);
+    $("span#ip-conflict-situation-1-info").html($.su.CHAR.INIT.IMPORTANT_UPDATE_INFO);
+    $("span#ip-conflict-situation-1-or").html($.su.CHAR.INIT.OR);
+    $("span#ip-conflict-situation-1-end").html($.su.CHAR.INIT.END2);
+
+    $("a#ip-conflict-situation-1-new").on("click", function(e){
+        ipConflictMsg.msg("close");
+        initMain.fadeIn(200);
+    });
+
+    //用户登录冲突部分
+    var userConflictMsg = $("div#user-conflict-msg-container").msg({
+        closeBtn: false,
+        cls: "l",
+        type: "alert",
+        okHandler: function(){
+            $("button#begin-btn").button("enable");
+        }
+    });
+
+    //主页面内容部分
+    var initMain = $("div#init-main");
+    document.title = $.su.locale.model;
+    $("p#init-note-title").html($.su.CHAR.INIT.INIT_NOTE_TITLE);
+    $("p#init-note-content").html($.su.CHAR.INIT.INIT_NOTE_CONTENT);
+    var passwordCheck = function(new_pwd, cfm_val, pwd_status){
+        
+        if(cfm_val == new_pwd){
+            pwd_status.status("setSuccess");
+            $("button#begin-btn").button("enable");
+            return true;
+        }else{
+            pwd_status.status("setFailed");
+            $("button#begin-btn").button("disable");
+            return false;
+        };
+    };
+    $(".pwd_status").status({
+        cls:"inline"
+        // fieldLabel: $.su.CHAR.FOLDER.CONFIRM,
+        // vtype:"string_visible"
+    });
+
+    $("input#init-password").password({
+        showLevel: true,
+        hint: $.su.CHAR.INIT.PASSWORD,
+        fieldLabel: null,
+        maxLength: 15,
+        minLength: 1,
+        allowBlank: false,
+        // allowVisible: true,
+        vtype:"ascii_visible",
+        cls: "inline-block init-text"
+    }).on("ev_change", function(e, value, key, keyCode){
+        // if (key == "Enter" || keyCode == 13){
+        //     if(!$("button#begin-btn").prop('disabled')){
+        //         $("button#begin-btn").button("disable");
+        //         $("input#init-password").password("doEncrypt");
+        //         if (checkCookie()){
+        //             doLogin();
+        //         };
+        //     }
+        // }
+        // else{
+        //     pwd_validate = $(this).password("validate",false);
+        //     if(pwd_validate === true){
+        //         $("button#begin-btn").button("enable");
+        //     }
+        //     else{
+        //         $("button#begin-btn").button("disable");
+        //     }
+        // }
+        $("form input.pwd_status").status("setNormal");
+        $("input#init-confirm").password("setNormal");
+        
+        var new_pwd = $("input#init-password").password("getValue");
+        var cfm_val = $("input#init-confirm").password("getValue");
+        if (cfm_val){
+            passwordCheck(new_pwd, cfm_val, $("form input.pwd_status"));
+        }
+    }).on("ev_validatechange", function(item, data){
+        var new_pwd = $("input#init-password").password("getValue");
+        var cfm_val = $("input#init-confirm").password("getValue");
+
+        if( cfm_val=="" ){
+            $("form input.pwd_status").status("setNormal");
+            return true;
+        }else{
+            passwordCheck(new_pwd, cfm_val, $("form input.pwd_status"));
+        };
+    });
+
+
+    $("input#init-confirm").password({
+        hint: $.su.CHAR.INIT.PASSWORD,
+        cls:"inline-block init-text",
+        fieldLabel: null,
+        vtype: "ascii_visible",
+        allowBlank: false,
+        showLevel:false,
+        minLength: 1,
+        maxLength: 15
+    }).on("ev_change ev_validatechange", function(){
+        var new_pwd = $("input#init-password").password("getValue");
+        var cfm_val = $("input#init-confirm").password("getValue");
+        
+        if (new_pwd == ""){
+            if ( cfm_val == "" ){
+                $("form input.pwd_status").status("setNormal");
+            }else{
+                if (!passwordCheck(new_pwd, cfm_val, $("form input.pwd_status"))){
+                    $("input#init-confirm").password("setError");
+                };
+            }
+        }else{
+            if (!passwordCheck(new_pwd, cfm_val, $("form input.pwd_status"))){
+                $("input#init-confirm").password("setError");
+            }
+        }
+    });
+
+
+
+    var initProxy = new $.su.Proxy({
+        url: URL_INIT,
+        autoLoad: false
+    });
+
+    var initForm = $("form#form-init").form({
+        proxy: initProxy,
+        showPrompt: false,
+        fields: [
+            {name: "password"}
+        ]
+    });
+
+    var doLogin = function(){
+        initForm.form("submit", {
+            "operation": "login"
+        }, function(data, status, xhr){
+            var token = data.stok || (function(){
+                var stok = "12345",
+                    href = top.location.href;
+                var stokPos = href.indexOf("stok=");
+                if (stokPos >= 0){
+                    stok = href.substring(stokPos+5);
+                };
+                return stok;
+            })();
+
+            if (localStorage){
+                localStorage.setItem("token", token);
+                location.href = "./index.html";
+            };
+            
+        }, function(errorcode, others, data){
+            switch (errorcode){
+                case "user conflict":
+                    $("span#user-conflict-situation").html($.su.CHAR.INIT.USER_CONFLICT);
+                    if(data.logined_remote)
+                    {
+                        var c = $.su.CHAR.INIT.USER_CONFLICT_INFO_2.replace("%USER%", data.logined_user).replace("%IP%", data.logined_ip)
+                    }
+                    else
+                    {
+                        
+                    var c = $.su.CHAR.INIT.USER_CONFLICT_INFO.replace("%USER%", data.logined_user).replace("%HOST%", data.logined_host).replace("%IP%", data.logined_ip).replace("%MAC%", data.logined_mac);
+                    }
+                    
+                    $("span#user-conflict-situation-info").html(c)
+                    userConflictMsg.msg("show");
+                    break;
+                case "login failed":
+                    var num1 = data.failureCount;
+                    var num2 = data.attemptsAllowed;
+                    var num3 = num2 + num1;
+                    if(num1 >= num2)
+                    {
+                        var str = $.su.CHAR.INIT.LOGIN_FAILED_COUNT.replace("%num1", num1);
+                        str = str.replace("%num2", num2);
+                        // initForm.form("prompt", false, str, 4000);
+                        $("span#left-attempts-text").html(str);
+                        leftAttemptsMsg.msg("show");
+                    }
+                    else
+                    {
+                    initForm.form("prompt", false, $.su.CHAR.INIT.LOGIN_FAILED);
+                    //$("button#begin-btn").button("enable");
+                    }
+                    
+                    break;
+                case "exceeded max attempts":
+                    var num1 = data.failureCount;
+                    var num2 = data.attemptsAllowed;
+                    var num3 = num2 + num1;
+                    var str = $.su.CHAR.ERROR["00000089"].replace("%num", num3);
+                    $("span#max-attempts-text").html(str);
+                    maxAttemptsMsg.msg("show");
+                    break;
+                default:
+                
+            };
+        });
+    };
+
+
+    $("button#begin-btn").button({
+        text: $.su.CHAR.INIT.BEGIN,
+        handler: function(e){
+            $("button#begin-btn").button("disable");
+            if (checkCookie()){
+                doLogin();
+            };
+            setTimeout(function(){
+                $("button#begin-btn").button("enable");
+            },500);
+        },
+        cls: "submit begin-btn inline-block"
+    });/*.on("mousedown",function(){
+         $("button#begin-btn").button("disable");
+            if (checkCookie()){
+                doLogin();
+            };
+            setTimeout(function(){
+                $("button#begin-btn").button("enable");
+            },500);
+    });*/
+    $("button#begin-btn").button("disable");
+
+    initProxy.write({"operation":"init"},function(){
+
+    }, function(e){
+    },function(e){
+
+    });
+
+
+    //登录流程
+    ipConflictProxy.read({}, function(data){
+        if (data && data.conflict === true){
+            var sit0 = $("div#ip-conflict-situation-0");
+            var sit1 = $("div#ip-conflict-situation-1");
+            switch (data.mode){
+                case 0:
+                    sit0.css("display", "block");
+                    sit1.css("display", "none");
+
+                    $("a#ip-conflict-situation-0-new").html(data.new_addr);
+                    break;
+                case 1:
+                    sit0.css("display", "none");
+                    sit1.css("display", "block");
+
+                    $("a#ip-conflict-situation-1-dst").html(data.dst_addr).attr("href", "http://" + data.dst_addr + data.dst_webpath);
+                    $("a#ip-conflict-situation-1-new").html(data.new_addr);
+                    break;
+            };
+            initMain.css("display", "none");
+            ipConflictMsg.msg("show");
+        }else{
+            ipConflictMsg.msg("close");
+            initMain.fadeIn(200);
+        };
+
+        //console.log(data.redirect)
+
+        if (data && data.redirect){
+            location.href = data.redirect;
+        };
+
+    }, function(e){
+        ipConflictMsg.msg("close");
+        initMain.fadeIn(200);
+    }, function(e){
+        ipConflictMsg.msg("close");
+        initMain.fadeIn(200);
+    });
+
+    
+    /*cookie check*/
+    $("span#no-cookie-text").html($.su.CHAR.INIT.NO_COOKIE);
+    var noCookieMsg = $("div#no-cookie-msg-container").msg({
+        type: "alert",
+        cls: "m",
+        closeBtn: false,
+        okHandler: function(){
+            $("button#begin-btn").button("enable");
+        }
+    });
+
+    /*max attempt*/
+    //$("span#max-attempts-text").html($.su.CHAR.ERROR["00000089"]);
+    var maxAttemptsMsg = $("div#max-attempts-msg-container").msg({
+        type: "alert",
+        cls: "m",
+        closeBtn: false,
+        okHandler: function(){
+            $("button#begin-btn").button("enable");
+        }
+    })
+
+    /*left attempt*/
+    // $("span#left-attempts-text").html($.su.CHAR.ERROR.LOGIN_FAILED_COUNT);
+    var leftAttemptsMsg = $("div#left-attempts-msg-container").msg({
+        type: "alert",
+        cls: "m",
+        closeBtn: false,
+        okHandler: function(){
+            $("button#begin-btn").button("enable");
+        }
+    })
+
+
+    var checkCookie = function(){
+        try{
+            localStorage.setItem("private", 100);
+            if (!navigator.cookieEnabled){
+                noCookieMsg.msg("show");
+                return false;
+            };
+        }catch(e){
+            noCookieMsg.msg("show");
+            return false;
+        };
+        noCookieMsg.msg("close");
+        return true;
+
+    };
+
+    checkCookie();
+
+    //$.su.loading.show();
+    $.su.loading.hide();
+    
+});
+//]]>
+</script>
+</body>
+</html>

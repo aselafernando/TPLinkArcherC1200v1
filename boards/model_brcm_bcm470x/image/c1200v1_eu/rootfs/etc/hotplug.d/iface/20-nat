@@ -1,0 +1,25 @@
+#!/bin/sh
+# Copyright(c) 2011-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+# file     nat.hotplug
+# brief    
+# author   Guo Dongxian
+# version  1.0.0
+# date     26Feb14
+# history   arg 1.0.0, 26Feb14, Guo Dongxian, Create the file. 
+
+[ "$DEVICE" == "lo" ] && exit 0
+
+. /lib/functions.sh
+. /lib/nat/nat_core.sh
+
+nat_is_enable || exit 0
+
+case "$ACTION" in
+	ifup)
+		nat_event network "$INTERFACE" ifup "$DEVICE" &
+	;;
+	ifdown)
+		nat_event network "$INTERFACE" ifdown "$DEVICE"
+	;;
+esac
+

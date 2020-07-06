@@ -1,0 +1,50 @@
+#!/bin/sh
+# Copyright(c) 2011-2014 Shenzhen TP-LINK Technologies Co.Ltd.
+# file     ftpex
+# brief    
+# author   Zhu Xianfeng<zhuxianfeng@tp-link.net>
+# version  1.0.0
+# date     25Jun14
+# history  arg 1.0.0, 25Jun14, Zhu Xianfeng, Create the file. 
+
+. /lib/switch/core_phy.sh
+
+if [ $# -ne 4 ]; then
+    exit 0
+fi
+
+local port=$1
+local speed=$2
+local duplex=$3
+local autoneg=$4
+
+case $speed in
+    1000)
+        ;;
+    100)
+        ;;
+    10)
+        ;;
+    *)
+        exit 1
+        ;;
+esac
+
+if [ "$duplex" != "full" -a "$duplex" != "half" ]; then
+    exit 1
+fi
+if [ "$autoneg" != "on" -a "$autoneg" != "off" ]; then
+    exit 1
+fi
+
+#if [ "$speed" = "1000" -o "$autoneg" = "on" ]; then
+#    ssdk_sh port autoNeg restart $1
+#    exit 0
+#else
+#    ssdk_sh port speed set $1 $speed
+#    ssdk_sh port duplex set $1 $duplex
+#    exit 0
+#fi
+
+set_port_duplex $port $speed $duplex $autoneg
+exit 0

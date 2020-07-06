@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PPTP VPN</title>
+</head>
+<body>
+<div class="func-container">
+	<div id="pptp_vpn">
+		<input type="text" id="enable_vpn_server" name="enabled" />
+		<!-- <input type="text" id="remoteip" name="remoteip" />  -->
+		<div id="ip_addr_setting">
+			<input type="text" id="from_ip_addr" name="from_ip_addr" />
+			<input type="text" id="remoteip" name="remoteip" />
+			<p class="inline-block"><span id="to_ip_addr_note"></span></p>
+			<input type="text" id="to_ip_addr" name="to_ip_addr" />
+			<p class="inline-block"><span id="client_ip_note"></span></p>
+		</div>
+		<div id="pptp_adv_btn" class="advanced-block part-seperate" type="button">
+			<span class="advanced-icon"></span>
+			<span class="advanced-text"></span>
+		</div>
+		<div id="pptp_basic_btn" class="basic-block part-seperate hidden" type="button">
+			<span class="basic-icon"></span>
+			<span class="basic-text"></span>
+		</div>
+		<div id="pptpvpn_adv" class="hidden">
+			<div id="pptpvpn_adv_form">
+				<input id="allow_samba" name="samba_access"></input>
+				<input id="allow_netbios" name="netbios_pass"></input>
+				<input id="allow_unencrypted_conn" name="unencrypted_access"></input>
+			</div>
+		</div>
+	</div>
+
+	<div id="account_list">
+		<div id="acount_list_grid"></div>
+		<div id="add_account_cnt">
+			<input type="text" id="account_username" name="username" />
+			<input type="text" id="account_password" name="password" />
+		</div>
+	</div>
+
+	<div id="vpn_help"></div>
+<div>
+
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var VPN_PPTPD_URL = $.su.url("/admin/pptpd?form=config");
+	var VPN_ACCOUNT_URL = $.su.url("/admin/pptpd?form=accounts");
+
+	// var lan_ipv4_addr = "";
+	// var lan_ipv4_mask = "";
+	// var lanProxy = new $.su.Proxy({
+	// 	url: $.su.url('/admin/network?form=status_ipv4')
+	// });
+	// lanProxy.read({},function(data){
+	// 	lan_ipv4_addr = data.lan_ipv4_ipaddr;
+	// 	lan_ipv4_mask = data.lan_ipv4_netmask;
+	// });
+
+	var dhcp_ip_start = "";
+	var dhcp_ip_end = "";
+	var dhcpSettingProxy = new $.su.Proxy({
+		url: $.su.url('/admin/dhcps?form=setting')
+	});
+	dhcpSettingProxy.read({},function(data){
+		dhcp_ip_start = data.ipaddr_start;
+		dhcp_ip_end = data.ipaddr_end;
+	});
+
+	var openvpn_ip_start = "";
+	var openvpn_ip_end = "";
+	var openvpnSettingProxy = new $.su.Proxy({
+		url: $.su.url('/admin/openvpn?form=config')
+	});
+	openvpnSettingProxy.read({},function(data){
+		openvpn_ip_start = data.ipaddr_start;
+		openvpn_ip_end = data.ipaddr_end;
+	});
+
+	var dhcp_reservation = "";
+	var dhcpReservationProxy = new $.su.Proxy({
+		url: $.su.url('/admin/dhcps?form=reservation')
+	});
+	dhcpReservationProxy.read({},function(data){
+		dhcp_reservation = data;
+	});
+
+	var openvpn_subnet = "";
+	var openvpn_mask = "";
+	var openvpnProxy = new $.su.Proxy({
+		url: $.su.url('/admin/openvpn?form=config')
+	});
+	openvpnProxy.read({},function(data){
+		openvpn_subnet = data.serverip;
+		openvpn_mask = data.mask;
+	});
+
+	$("span.advanced-text").html($.su.CHAR.VPN.ADVANCED_SETTING);
+	$("span.basic-text").html($.su.CHAR.VPN.ADVANCED_SETTING);
+
+	$("div#pptp_vpn").panel({
+		title: $.su.CHAR.VPN.PPTPVPN,
+		collapsible: false
+	});
+
+	var pptpvpn_config_proxy = new $.su.Proxy({
+		url: VPN_PPTPD_URL
+	});
+	$("div#pptp_vpn").form({
+		proxy: pptpvpn_config_proxy,
+		fields: [
+			{ name:"enabled", mapping:"enabled"},
+			{ name:"remoteip", mapping:"remoteip"},
+			{ name:"from_ip_addr"},
+			{ name:"to_ip_addr"},
+			{ name:"samba_access"},
+			{ name:"netbios_pass"},
+			{ name: "unencrypted_access"}
+		],
+		submitBtn: 'default',
+		validator: function(){
+			var ip_start = $("input#from_ip_addr").val();
+			var end = $("input#to_ip_addr").val();
+			var ip_end = ip_start.substr(0, ip_start.lastIndexOf ('.')+1) + end;
+
+			$("input#remoteip").val(ip_start + '-' + end);
+			
+			if($.su.func.ipToInt(ip_start) >= $.su.func.ipToInt(dhcp_ip_start) && $.su.func.ipToInt(ip_start) <= $.su.func.ipToInt(dhcp_ip_end)){
+				$("div#pptp_vpn").form('setError',  $.su.CHAR.VPN.CONFLICT_WITH_DHCP);
+				$("input#from_ip_addr").textbox('setError');
+			 	return false;
+			}
+			if($.su.func.ipToInt(ip_end) >= $.su.func.ipToInt(dhcp_ip_start) && $.su.func.ipToInt(ip_end) <= $.su.func.ipToInt(dhcp_ip_end)){
+				$("div#pptp_vpn").form('setError',  $.su.CHAR.VPN.CONFLICT_WITH_DHCP);
+				$("input#from_ip_addr").textbox('setError');
+			 	return false;
+			}
+			for(var i = 0; i < dhcp_reservation.length; ++i){
+				if($.su.func.ipToInt(dhcp_reservation[i].ip) >= $.su.func.ipToInt(ip_start) && $.su.func.ipToInt(dhcp_reservation[i].ip) <= $.su.func.ipToInt(ip_end)){
+					$("div#pptp_vpn").form('setError',  $.su.CHAR.VPN.CONFLICT_WITH_RESERVED);
+					$("input#from_ip_addr").textbox('setError');
+				 	return false;
+				}
+			}
+
+			if($.su.func.isSameNet(ip_start, openvpn_subnet, openvpn_mask)){
+				$("div#pptp_vpn").form('setError',  $.su.CHAR.VPN.CONFLICT_WITH_OPENVPN);
+				$("input#from_ip_addr").textbox('setError');
+				return false;
+			}
+			if($.su.func.isSameNet(ip_end, openvpn_subnet, openvpn_mask)){
+				$("div#pptp_vpn").form('setError',  $.su.CHAR.VPN.CONFLICT_WITH_OPENVPN);
+				$("input#from_ip_addr").textbox('setError');
+				return false;
+			}
+			return true;
+		}
+	}).on("ev_loadData", function(e, data){
+		if (data && data.remoteip){
+			var ip_start = data.remoteip.split('-')[0]?data.remoteip.split('-')[0]:data.remoteip;
+			var ip_end = data.remoteip.split('-')[1]?data.remoteip.split('-')[1]:"";
+			$("input#from_ip_addr").val(ip_start);
+			$("input#to_ip_addr").val(ip_end);
+			var value = $("input#from_ip_addr").val().split('.');
+			var ip_addr = "";
+			for(var i=0; i<3; ++ i){
+				ip_addr += value[i] + '.';
+			}
+			$("span#to_ip_addr_note").html('-' + ip_addr);
+		};
+	});
+	$("input#enable_vpn_server").checkbox({
+		fieldLabel: "",
+		tips:"",
+		cls:"",
+		items: [
+			{boxlabel: $.su.CHAR.VPN.ENABLE_VPN_SERVER, uncheckedValue:"off", inputValue: "on", id: "chk_enable_vpn_server"}
+		]
+	});
+	$("input#from_ip_addr").textbox({
+		fieldLabel: $.su.CHAR.VPN.CLIENT_IP_ADDRESS,
+		cls: "inline-block",
+		inputCls: "m",
+		allowBlank: false,
+		vtype: "ip",
+		textFormat: $.su.format.ip,
+        validator : function(val){
+        	
+			var last_val = val.split('.')[3];
+			var to_last_val = $("input#to_ip_addr").textbox("getValue");
+			if( to_last_val){
+				if(to_last_val - last_val < 10 && to_last_val - last_val >= 0){
+					$("input#to_ip_addr").textbox("setValid");
+				}
+				else{
+					$("input#to_ip_addr").textbox("setError");
+				}
+			}
+        	return true;
+        }
+	}).on("ev_validatechange", function(e, value, key, keyCode){
+		if(value == true){
+			value = $("input#from_ip_addr").val().split('.');
+			var ip_addr = "";
+			for(var i=0; i<3; ++ i){
+				ip_addr += value[i] + '.';
+			}
+			$("span#to_ip_addr_note").html(' - ' + ip_addr);
+		}
+		else{
+			$("input#to_ip_addr").textbox("setValid");
+		}
+	});
+	$("input#to_ip_addr").textbox({
+		fieldLabel:null,
+		cls: "inline-block",
+		inputCls: "xxs",
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		vtype: "number",
+        validator : function(val){
+        	var last_val = $("input#from_ip_addr").textbox("getValue").split('.')[3];
+        	if(last_val != undefined && parseInt(last_val)){
+        		if(val - last_val < 10 && val - last_val >= 0){
+					return true;
+				}
+				else{
+					return false;
+				}
+        	}
+        	return true;
+        }
+	});
+	$("span#client_ip_note").html($.su.CHAR.VPN.CLIENT_IP_NOTE);
+
+	$("#account_list").panel({
+		title: $.su.CHAR.VPN.ACCOUNT_LIST,
+		collapsible: false
+	});
+
+	$("#account_username").textbox({
+		fieldLabel: $.su.CHAR.VPN.ACCOUNT_USERNAME,
+		allowBlank: false,
+		vtype: "name_in_vpn"
+	});
+	$("#account_password").textbox({
+		fieldLabel: $.su.CHAR.VPN.ACCOUNT_PASSWORD,
+		allowBlank: false,
+        vtype: "pwd_in_vpn"
+	});
+
+	$("#acount_list_grid").grid({
+		store: {
+			proxy: {
+				url: VPN_ACCOUNT_URL
+			},
+			fields: [
+				{name: "username"},
+				{name: "password"}
+			],
+			autoLoad: true
+		},
+		columns: [
+			{
+				xtype: "checkcolumn",
+				width: 40
+			},
+			{
+				text: $.su.CHAR.OPERATION.ID,
+				xtype: "rownumberer",
+				dataIndex: "id",
+				width: 40
+			},
+			{
+				text: $.su.CHAR.VPN.ACCOUNT_USERNAME,
+				dataIndex: "username"
+			},
+			{
+				text: $.su.CHAR.VPN.ACCOUNT_PASSWORD,
+				dataIndex: "password"
+			},
+			{
+				xtype: "settings"
+			}
+		],
+		editor: {
+			content: "#add_account_cnt",
+			fields: [
+				{name: "username"},
+				{name: "password"}
+			],
+			validator: function(){
+				var grid_editor = $($("#acount_list_grid").grid("getEditor"));
+				var grid_data = $("#acount_list_grid").grid("getStore").data;
+				var edit_index = $("#acount_list_grid").get(0).editor.editingIndex;
+				var edit_username = $("#account_username").textbox("getValue");
+				for(var i = 0; i < grid_data.length; ++i){
+					if(edit_index != i && edit_username == grid_data[i].username){
+						$("#account_username").textbox("setError");
+						grid_editor.form("setError",$.su.CHAR.VPN.USERNAME_CONFLICT);
+						return false;
+					}
+				}
+				return true;
+			}
+		},
+		paging: {},
+		maxRulesProperty: "max_accounts",
+		operation: "add|delete"
+	});
+
+	$("#allow_samba").checkbox({
+		fieldLabel: $.su.CHAR.VPN.ALLOW_SAMBA,
+		labelCls: "xxl",
+		items: [
+			{
+				boxlabel: "",
+				uncheckedValue: "off",
+				inputValue: "on",
+				id: "chk_allow_samba"
+			}
+		]
+	});
+	$("#allow_netbios").checkbox({
+		fieldLabel: $.su.CHAR.VPN.ALLOW_NETBIOS,
+		labelCls: "xxl",
+		items: [
+			{
+				boxlabel: "",
+				uncheckedValue: "off",
+				inputValue: "on",
+				id: "chk_allow_netbios"
+			}
+		]
+	});
+	$("#allow_unencrypted_conn").checkbox({
+		fieldLabel: $.su.CHAR.VPN.ALLOW_UNENCRYPTED_CONN,
+		labelCls: "xxl",
+		items: [
+			{
+				boxlabel: "",
+				uncheckedValue: "off",
+				inputValue: "on",
+				id: "chk_allow_unencrypted_conn"
+			}
+		]
+	});
+
+	$("#pptpvpn_adv").fieldset({
+		fields: [
+			{name: "samba_access"},
+			{name: "netbios_pass"},
+			{name: "unencrypted_access"}
+		]
+	});
+
+	$("div#pptp_adv_btn").on('click',function(){
+		$('#pptpvpn_adv').fieldset('show');
+		$(this).hide();
+		$('#pptp_basic_btn').css('display', 'inline-block');
+	});
+	$("div#pptp_basic_btn").on('click',function(){
+		$('#pptpvpn_adv').fieldset('hide');
+		$(this).hide();
+		$('#pptp_adv_btn').css('display', 'inline-block');
+	});
+
+	var helpVPN = new $.su.Help({
+		container: "div#vpn_help",
+		content: ["PPTP_VPN", "PPTP_ACCOUNT_LIST", "PPTP_VPN_GUIDE"]
+	});
+})
+	
+</script>
+
+</body>
+</html>

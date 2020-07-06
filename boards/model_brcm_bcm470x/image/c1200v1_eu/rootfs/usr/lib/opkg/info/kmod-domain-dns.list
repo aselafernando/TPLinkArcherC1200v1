@@ -1,0 +1,4 @@
+/etc/hotplug.d/iface/65-domain_login
+/etc/config/domain_login
+/lib/modules/iplatform/domain_dns.ko
+/lib/domain_login/domain_login_core.sh

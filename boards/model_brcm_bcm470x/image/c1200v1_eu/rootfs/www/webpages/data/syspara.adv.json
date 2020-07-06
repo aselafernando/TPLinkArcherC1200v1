@@ -1,0 +1,8 @@
+{
+	"syspara_adv_icmp": "on",
+	"syspara_adv_udp": "on",
+	"syspara_adv_tcp": "on",
+	"syspara_adv_icmpPkt": "50",
+	"syspara_adv_udpPkt": "50",
+	"syspara_adv_tcpPkt": "50"
+}

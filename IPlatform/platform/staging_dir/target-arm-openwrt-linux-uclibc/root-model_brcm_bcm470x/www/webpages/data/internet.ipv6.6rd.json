@@ -1,0 +1,16 @@
+{
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{	
+		"conntype": "tunnel_6rd",
+		"configuration_type": "0",
+		"ipv4_mask_len": "24",
+		"6rd_prefix": "fe80::20a:ebff:fe13:7b00/64",
+		"relay_ipv4_addr": "2.2.2.2",
+		"ip_mode":"manual",
+		
+		"conn_status": "connected"
+	}
+}

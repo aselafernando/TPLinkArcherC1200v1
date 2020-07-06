@@ -1,0 +1,93 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2010 OpenWrt.org
+
+START=50
+NOLOCK=1
+
+BIN=/usr/sbin/proftpd
+HOME=/tmp/ftp
+RUN_D=/var
+PID_F=$RUN_D/proftpd.pid
+RUN_USER=guest
+RUN_GROUP=$RUN_USER
+
+EXTRA_COMMANDS="suspend resume"
+EXTRA_HELP="	suspend	Suspend the service
+	resume	Resume the service"
+
+PROFTPD_CFG_FILE="/etc/proftpd/proftpd.conf"
+PROFTPD_CFG_ORIG="/etc/proftpd/proftpd.conf.orig"
+
+boot() {
+    if [ -f $PROFTPD_CFG_ORIG ]
+    then
+        cp -f $PROFTPD_CFG_ORIG $PROFTPD_CFG_FILE
+    fi
+}
+
+ftp_check_enable() {
+	local ftp_en="$(uci_get usbshare.global.ftp)"
+
+	[ -n "$ftp_en" -a "$ftp_en" = "off" ] && return 1
+	return 0
+}
+
+start() {
+	mount | grep /mnt/sd > /dev/null 2>&1 || return 1
+    local tmpfile=`mktemp -t tmp.XXXXXX`
+    local hostname="$(uci_get usbshare.global.svrname)"
+
+    usbshare export ftp -o $tmpfile
+    if [ $? -eq 0 ]
+    then
+        sed -e "s#|HOSTNAME|#$hostname#g" $PROFTPD_CFG_ORIG > $PROFTPD_CFG_FILE
+        cat $tmpfile >> $PROFTPD_CFG_FILE
+        rm -f $tmpfile
+    else
+        echo "usbshare export ftp failed. ProFTPD will start with default configuration."
+        rm -f $tmpfile
+    fi
+
+	[ -d $HOME ] || ( mkdir -p $HOME && chown $RUN_USER:$RUN_GROUP $HOME )
+
+	if [ -f $PID_F ] 
+    then 
+        # case stop function didn't kill process
+        TMP_PID=$(cat $PID_F)
+        kill -9 $TMP_PID 1>/dev/null 2>&1
+        rm -f $PID_F
+    fi
+
+    ftp_alias start anonymous guest
+
+    [ "$(uci get usbshare.global.share_all)" == "on" ] && {
+        [ "$(uci get usbshare.global.auth_all)" == "on" ] && {
+    	    ftp_alias stop anonymous guest
+        }
+    }
+
+    ftp_check_enable || return 1
+    $BIN
+}
+
+stop() {
+	ftp_alias stop anonymous guest
+
+	[ -f $PID_F ] && kill $(cat $PID_F)
+}
+
+reload() {
+	[ -f $PID_F ] && kill -HUP $(cat $PID_F)
+}
+
+suspend() {
+	echo "Suspending NOW"
+	ftpshut now "Maintenance in progress"
+}
+
+resume() {
+	[ -f /etc/shutmsg ] && {
+		echo "Allowing sessions again"
+		ftpshut -R > /dev/null
+	}
+}

@@ -1,0 +1,9 @@
+/etc/hotplug.d/switch/65-iptv
+/etc/hotplug.d/iface/65-iptv
+/lib/iptv/iptv_config.lua
+/lib/iptv/iptv_network.sh
+/etc/hotplug.d/firewall/65-iptv
+/etc/init.d/iptv
+/lib/modules/iplatform/iptvx.ko
+/lib/iptv/iptv_core.sh
+/etc/config/iptv

@@ -1,0 +1,13 @@
+Package: radvdctl
+Version: 1.0-1
+Depends: radvd
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/radvdctl
+Section: ipv6
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 6154
+Description:  radvdctl is a TP-LINK tool to control radvd

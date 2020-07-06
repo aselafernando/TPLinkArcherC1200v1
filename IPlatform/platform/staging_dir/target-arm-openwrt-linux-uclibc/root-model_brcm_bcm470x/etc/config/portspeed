@@ -1,0 +1,5 @@
+config portport 'wan'
+    option port '5'
+    option supported 'auto,1000F,100F,100H,10F,10H'
+    option current 'auto'
+

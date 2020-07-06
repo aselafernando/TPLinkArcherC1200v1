@@ -1,0 +1,13 @@
+#!/bin/sh
+SAMBA="/etc/init.d/samba"
+PROFTPD="/etc/init.d/proftpd"
+MINIDLNAD="/etc/init.d/minidlna"
+
+service_stop() {
+	$SAMBA "stop"
+	$PROFTPD "stop"
+	$MINIDLNAD "stop"
+}
+
+service_stop && usbshare umount all
+rm -f /etc/rc.d/K*

@@ -1,0 +1,7 @@
+config default 'dnsproxy'
+	option enable 'on'
+	option retry_times '3'
+	option check_interval '30'
+	option query_timeout '5'
+	option domains 'a.root-servers.net www.tp-link.com'
+	

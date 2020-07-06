@@ -1,0 +1,35 @@
+#!/bin/sh
+# Copyright(c) 2011-2013 Shenzhen TP-LINK Technologies Co.Ltd.
+# file     ftpex
+# brief    
+# author   Zhu Xianfeng<zhuxianfeng@tp-link.net>
+# version  1.0.0
+# date     15Apr14
+# history  arg 1.0.0, 15Apr14, Zhu Xianfeng, Create the file. 
+
+if [ $# -ne 2 ]; then
+    return
+fi
+
+local action=$1
+local port=$2
+
+case $action in
+    add)
+        # iptables -t nat -A prerouting_rule_ftp -i eth0 -p tcp --dport $port -j REDIRECT --to-port 21
+        # iptables -t filter -I zone_wan 1 -i eth0 -p tcp --dport 21 -j ACCEPT
+        # if [ $port -ne 21 ]; then
+        #     iptables -t raw -A PREROUTING -p tcp --dport 21 -j DROP 
+        # fi
+        nat add ftp { $port }
+        fw ftp_access $port
+        ;;
+    del)
+        nat del ftp
+        fw ftp_block all
+        ;;
+    *)
+        return
+        ;;
+esac
+

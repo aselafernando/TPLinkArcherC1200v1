@@ -1,0 +1,11 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：log页面中grid获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":[
+		{"mac":"00-11-22-33-44-51", "host":true, "description": "TP-LINK Homepage one","key":"001", "enable":"on"},
+		{"mac":"00-11-22-33-44-53", "host":false, "description": "TP-LINK Homepage two","key":"002", "enable":"on"}
+	]	
+}

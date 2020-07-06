@@ -1,0 +1,14 @@
+Package: alsa-lib
+Version: 1.0.24.1-1
+Depends: libpthread, librt
+Provides: 
+Source: package/alsa-lib
+Section: libs
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 332271
+Description:  This is the library package for alsa, needed by some userspace programs.
+ You must have enabled the ALSA support in the kernel.

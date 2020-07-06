@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Nat</title>
+</head>
+
+<body>
+<div class="func-container">
+
+	<!-- <div id="nat_settings">
+		<input type="text"  id="status_nat" name="enable" value="" />
+	</div> -->
+
+	<div id="alg_settings">
+		<form id="alg_set">
+			<input id="alg_ftp" name="ftp" type="checkbox"/>
+			<input id="alg_tftp" name="tftp" type="checkbox"/>
+			<input id="alg_h323" name="h323" type="checkbox"/>
+			<input id="alg_rtsp" name="rtsp" type="checkbox"/>
+			<input id="alg_pptp" name="pptp" type="checkbox"/>
+			<input id="alg_l2tp" name="l2tp" type="checkbox"/>
+			<input id="alg_ipsec" name="ipsec" type="checkbox"/>
+			<br/>
+			<span id="nat_notice" class="hidden"></span>
+		</form>
+	</div>
+
+	<div id="nat_help"></div>
+	
+</div>
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+
+	var URL_NAT = $.su.url("/admin/nat?form=setting"); //nat.nat.json
+	var URL_NAT_ALG = $.su.url("/admin/nat?form=alg"); //nat.alg.json
+
+	$("div.func-container").page({
+		title: $.su.CHAR.NAT.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+	$("span#nat_notice").html($.su.CHAR.NAT.NAT_ENABLE_NOTICE);
+
+	$("div#alg_settings").panel({
+		title: $.su.CHAR.NAT.ALG_TITLE,
+		collapsible: false
+	});
+
+	$("input#alg_ftp").checkbox({
+		fieldLabel: null,
+		labelCls: 'm',
+		//cls: "inline",
+		items: [
+			{boxlabel: $.su.CHAR.NAT.ENABLE_FTP_ALG, inputValue: "on", uncheckedValue: "off", checked:false}
+		]
+	});
+
+	$("input#alg_tftp").checkbox({
+		fieldLabel: null,
+		labelCls: 'm',
+		//cls: "inline",
+		items: [
+			{boxlabel: $.su.CHAR.NAT.ENABLE_TFTP_ALG, inputValue: "on", uncheckedValue: "off", checked:false}
+		]
+	});
+	
+	$("input#alg_h323").checkbox({
+		fieldLabel: null,
+		labelCls: 'm',
+		//cls: "inline",
+		items: [
+			{boxlabel: $.su.CHAR.NAT.ENABLE_H323_ALG, inputValue: "on", uncheckedValue: "off", checked:false}
+		]
+	});
+	
+	$("input#alg_rtsp").checkbox({
+		fieldLabel: null,
+		labelCls: 'm',
+		//cls: "inline",
+		items: [
+			{boxlabel: $.su.CHAR.NAT.ENABLE_RTSP_ALG, inputValue: "on", uncheckedValue: "off", checked:false}
+		]
+	});
+	
+	$("input#alg_pptp").checkbox({
+		fieldLabel: null,
+		labelCls: 'm',
+		//cls: "inline",
+		items: [
+			{boxlabel: $.su.CHAR.NAT.ENABLE_PPTP_ALG, inputValue: "on", uncheckedValue: "off", checked:false}
+		]
+	});
+
+	$("input#alg_l2tp").checkbox({
+		fieldLabel: null,
+		labelCls: 'm',
+		//cls: "inline",
+		items: [
+			{boxlabel: $.su.CHAR.NAT.ENABLE_L2TP_ALG, inputValue: "on", uncheckedValue: "off", checked:false}
+		]
+	});
+	
+	$("input#alg_ipsec").checkbox({
+		fieldLabel: null,
+		labelCls: 'm',
+		//cls: "inline",
+		items: [
+			{boxlabel: $.su.CHAR.NAT.ENABLE_IPSEC_ALG, inputValue: "on", uncheckedValue: "off", checked:false}
+		]
+	});
+
+	var natAlgProxy = new $.su.Proxy({
+		url: URL_NAT_ALG
+	}); 
+	
+	$("form#alg_set").form({
+		proxy: natAlgProxy,
+		fields: [
+			{name: "ftp", mapping: "ftp"},
+			{name: "tftp", mapping: "tftp"},
+			{name: "h323", mapping: "h323"},
+			{name: "rtsp", mapping: "rtsp"},
+			{name: "pptp", mapping: "pptp"},
+			{name: "l2tp", mapping: "l2tp"},
+			{name: "ipsec", mapping: "ipsec"}
+		],
+		submitBtn: "default"
+	});
+
+	var natProxy = new $.su.Proxy({
+		url: $.su.url('/admin/nat?form=setting')
+	});
+
+	natProxy.read({}, function(data){
+		if(data.enable == 'off'){
+			$("span#nat_notice").show();
+		}
+		else{
+			$("span#nat_notice").hide();
+		}
+	});
+
+	var helpNAT = new $.su.Help({
+		container: "div#nat_help",
+		content: "NAT"
+	});
+
+});
+</script>
+</body>
+</html>

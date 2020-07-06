@@ -1,0 +1,12 @@
+{
+	"timeout": false,
+	"success": true,
+	"data":{
+		"username": "username_ddns",
+		"password": "12235",
+		"domain": "www.domain.com",
+		"update_time":"1h",
+		"logined":"1",
+		"status": "1"
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：sys paras页面中survey获取所有条目数据",
+	
+	"timeout": false,
+	"success": true,
+	"data":[
+		{"bssid":"C4-6A-B7-4A-46-43", "ssid": "TP-LINK-5G-APP1", "signal":"-115dbm", "channel":"6", "encryption":"WPA2-PSK",  "key":"001"},
+		{"bssid":"C4-6A-B7-4A-46-44", "ssid": "TP-LINK-5G-APP2", "signal":"-145dbm", "channel":"4", "encryption":"WPA2-PSK",  "key":"002"},
+		{"bssid":"C4-6A-B7-4A-46-45", "ssid": "TP-LINK-5G-APP3", "signal":"-175dbm", "channel":"7", "encryption":"WPA2-PSK",  "key":"003"},
+		{"bssid":"C4-6A-B7-4A-46-46", "ssid": "TP-LINK-5G-APP4", "signal":"-125dbm", "channel":"2", "encryption":"WPA2-PSK",  "key":"004"}
+	]	
+}

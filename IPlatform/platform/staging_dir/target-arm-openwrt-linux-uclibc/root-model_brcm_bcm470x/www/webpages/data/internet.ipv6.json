@@ -1,0 +1,11 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": {
+		"conntype": "pppoev6",
+		
+		"enable": "on",
+		"conn_status": "connected"
+	}
+
+}

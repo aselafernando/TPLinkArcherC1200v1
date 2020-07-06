@@ -1,0 +1,13 @@
+Package: librt
+Version: -1
+Depends: libpthread
+Provides: 
+Source: package/toolchain
+Section: libs
+Status: unknown hold not-installed
+Essential: yes
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 1876
+Description:  POSIX.1b RealTime extension library

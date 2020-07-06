@@ -1,0 +1,13 @@
+Package: traffic-stats
+Version: 1.0-1
+Depends: libubus, libubox, ubus, ubusd, libpthread
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/traffic-stats
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: TP-LINK
+Architecture: model_brcm_bcm470x
+Installed-Size: 8331
+Description:  Traffic statistics for TP-LINK

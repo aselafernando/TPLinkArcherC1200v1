@@ -1,0 +1,4 @@
+/lib/modules/iplatform/xt_owner.ko
+/lib/modules/iplatform/xt_quota.ko
+/lib/modules/iplatform/xt_pkttype.ko
+/etc/modules.d/45-ipt-extra

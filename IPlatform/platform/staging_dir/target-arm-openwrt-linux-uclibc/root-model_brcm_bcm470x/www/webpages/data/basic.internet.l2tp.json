@@ -1,0 +1,23 @@
+{
+
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：internet ipv4页面中当前拨号类型是L2TP时，则请求该数据",
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{		
+		"l2tp_username": "username",
+		"l2tp_password": "password",
+
+		"l2tp_snd_conn": "dynamic",
+		"l2tp_dyn_svr_ip": "3.3.3.3",
+
+		"l2tp_static_svr_ip": "",
+		"l2tp_static_ip": "4.4.4.4",
+		"l2tp_static_submask": "255.0.0.0",
+		"l2tp_static_gateway": "4.4.4.4",
+		"l2tp_static_pri_dns": "0.0.0.0",
+		"l2tp_static_snd_dns": "1.1.1.1"
+	}
+}

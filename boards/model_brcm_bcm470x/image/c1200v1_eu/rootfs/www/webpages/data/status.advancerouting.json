@@ -1,0 +1,17 @@
+{
+	"errCode": false,
+	"success": true,
+	"data":{
+		"wan_macaddr": "11-22-33-44-55-66",
+		"wan_ipv4_ipaddr": "192.168.0.1",
+		"wan_ipv4_netmask": "255.255.0.0", 
+		"wan_ipv4_gateway": "0.0.0.0",
+		"wan_ipv4_pridns": "1.1.1.1",
+		"wan_ipv4_snddns": "2.2.2.2",
+		"wan_ipv4_conntype": "static",
+		
+		"lan_macaddr": "11-22-33-44-55-66",
+		"lan_ipv4_ipaddr": "192.168.2.5",
+		"lan_ipv4_netmask": "255.255.255.0"
+	}
+}

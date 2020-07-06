@@ -1,0 +1,13 @@
+Package: luci-lib-sys
+Version: 0.11.1-1
+Depends: 
+Provides: 
+Source: ibase/luci
+Section: luci
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: LuCI Development Team <luci@lists.subsignal.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 16213
+Description:  LuCI Linux/POSIX system library

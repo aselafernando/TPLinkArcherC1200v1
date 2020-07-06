@@ -1,0 +1,39 @@
+#!/bin/sh
+usage() {
+    echo $0 "ac get_enbale | get_maclist | get_mode"
+    exit 0
+}
+
+ac_get_enable() {
+    uci get access_control.settings.enable
+}
+
+ac_get_maclist() {
+    cat /tmp/state/access_control
+}
+
+ac_get_mode() {
+    uci get access_control.settings.access_mode
+}
+
+cmd=$1
+shift
+case "$cmd" in
+    --help|help) usage ;;
+
+    get_enable)
+        ac_$cmd 
+        exit $?
+    ;;
+
+    get_maclist)
+        ac_$cmd 
+        exit $?
+    ;;
+
+    get_mode)
+        ac_$cmd 
+        exit $?
+    ;;
+esac
+exit $?

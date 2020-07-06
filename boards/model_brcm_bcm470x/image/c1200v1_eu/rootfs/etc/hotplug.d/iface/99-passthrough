@@ -1,0 +1,18 @@
+#!/bin/sh
+
+include /lib/network
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+. /usr/share/libubox/jshn.sh
+. /lib/netifd/netifd-proto.sh
+
+local proto
+config_load network
+config_get proto wanv6 proto
+[ "$proto" == "passthrough" ] && {
+        local ifname
+        config_load protocol
+        config_get ifname passthrough ifname
+        et -i $ifname promisc 1
+}

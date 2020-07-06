@@ -1,0 +1,1671 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>QoS</title>
+</head>
+
+<body>
+<div class="func-container">
+	 
+
+	<div id="qosset">
+		<form id="qos-setting">
+
+			<input type="text"  id="enable" name="enable" value="" />
+
+
+			<div class="widget-container">
+				<input type="text"  id="up_band" name="up_band" value="" />
+				<input id="up_unit" name="up_unit" />
+			</div>
+			
+			<!-- <button type="button" id="speed-test" name="speed-test"></button> -->
+			<div class="widget-container">
+				<input type="text"  id="down_band" name="down_band" value="" />
+				<input id="down_unit" name="down_unit" />	 
+			</div>
+
+			<div id="adv_btn" class="advanced-block part-seperate" type="button">
+				<span class="advanced-icon"></span>
+				<span class="advanced-text"></span>
+			</div>
+			<div id="basic_btn" class="basic-block part-seperate hidden" type="button">
+				<span class="basic-icon"></span>
+				<span class="basic-text"></span>
+			</div>
+
+			<div id="qos_adv" class="">
+				<input type="text"  id="high" name="high" value="" />
+				<input type="text"  id="middle" name="middle" value="" />
+				<input type="text"  id="low" name="low" value="" />
+			</div>
+			
+			
+			<button type="button" id="submit_btn"> </button>
+
+		</form>   	
+	</div>
+
+
+	<div id="qoslist">
+
+		 <div id="high_panel"  class="status-panel qos-panel access-wired-panel access-priority-panel">
+	     	<h4 class="status" id="high_status">
+	     		 <!-- <input type="text" id="high_priority_val" /> -->
+	     	</h4>
+
+	     	<div id="access-panel" class="status-panel-main status-panel-main-pad access-panel-left">
+		  		<div class="status-access-block wired-block">
+		  			
+
+		  			<div id="high_list" class="access-client-list">
+		  			</div>
+
+		  		</div>
+		  		<button id="add_btn_high" class="add_btn" type="button"></button>
+		    </div>
+
+		    
+	     </div>
+
+	      <div id="middle_panel"  class="status-panel qos-panel access-wired-panel access-priority-panel">
+	     	<h4 class="status"  id="middle_status">
+	     		
+	     	</h4>
+
+	     	<div id="access-panel" class="status-panel-main status-panel-main-pad access-panel-left">
+		  		<div class="status-access-block wired-block">
+		  			
+
+		  			<div id="middle_list" class="access-client-list">
+		  			</div>
+
+		  		</div>
+		  		<button id="add_btn_middle" class="add_btn"  type="button"></button>
+		    </div>
+		   
+	     </div>
+
+	     <div id="low_panel"  class="status-panel qos-panel access-wired-panel  access-priority-panel">
+	     	<h4 class="status"   id="low_status">
+	     		
+	     	</h4>
+
+	     	<div id="access-panel" class="status-panel-main status-panel-main-pad access-panel-left">
+		  		<div class="status-access-block wired-block">
+		  			
+
+		  			<div id="low_list" class="access-client-list">
+		  			</div>
+
+		  		</div>
+		  		<button id="add_btn_low" class="add_btn" type="button"></button>
+		    </div>
+		    
+	     </div>
+
+	</div>
+
+	
+
+	<div id="app_list_content">
+	<form id="add_item">
+	   <div id="app_list_all_container">
+	   	  <input type="text" id="method_rd" name="method" />
+	   	  <div id="device_cnt">
+	   	  	<input id="device_name" name="device_name">
+			<button   type="button"  id="device_view"></button>
+			<input id="mac_addr" name="mac">
+	   	  </div>
+
+
+	   	  <div id="phy_cnt"  class="">
+	   	  	<input type="text"  id="rule_phy" name="phy" value="" />
+	   	  </div>
+
+			<div id="app_cnt"  class="">
+				<div id="app_list_container">
+				   <input type="hidden" name="rule_app" id="rule_app" />
+				</div>
+				<!-- <div id="custom_cnt">
+					<input id="custom_name" name="custom_name" />
+					<input id="rule_proto" name="proto">
+					<input  type="text"   id="rule_port_list" name="port">	
+				</div> -->
+				
+			</div>
+	   </div>
+	   <input type="hidden" name="priority" id="rule_priority" />
+	</form>
+	</div>
+
+
+	<div id="upgrade_alert_cnt">
+		<!-- <<h4 class="title" id="confirm_cnt">
+			<span class="icon"></span>
+	 		<span class="text" id="confirm_content"></span>
+	 	</h4> -->
+
+	 	<div id="upload_loading_msg" class="reboot-loading-msg">
+    		      <p id="note" class="reboot-progressbar-text"></p>
+	    	      <input id="pro_bar" type="text" />
+	    </div>
+	</div>
+
+	<div id="device_survey">
+ 		<div id="device_result">	
+		</div>
+ 	</div>	
+	
+	<div id="help_qos"></div>
+</div>
+
+<script type="text/javascript">
+var URL_QOS_STATUS_NEW = $.su.url("/admin/qos?form=enable"); //./data/qos.enable.json
+var URL_QOS_SET_NEW = $.su.url("/admin/qos?form=settings"); //"./data/qos.set.json"
+var URL_QOS_ADD_NEW = $.su.url("/admin/qos?form=add"); //"./data/qos.set.json"
+var URL_QOS_LIST_NEW = $.su.url("/admin/qos?form=list"); //"./data/qosApplication.grid.json"
+var URL_QOS_APP_LIST_NEW = $.su.url("/admin/qos?form=applist"); //"./data/qos.applist.json"
+
+var URL_ONLINE_BLACK = $.su.url("/admin/access_control?form=black_devices");
+
+var UPGRADE_URL = "./data/qos.upgrade.json";
+var UPGRADE_URL_NEW = $.su.url("/admin/qos?form=upgrade"); 
+
+var SYS_NAT_URL_NEW = $.su.url("/admin/nat?form=setting");
+
+
+
+var sysNatProxy = new $.su.Proxy({
+	url: SYS_NAT_URL_NEW
+});
+
+
+var query_proxy = new $.su.Proxy({
+	url: UPGRADE_URL_NEW
+});
+
+var appIdList = {};
+var typeIdList = {};
+
+var highCount = 0;
+var middleCount = 0;
+var lowCount = 0;
+
+var scrollCount = 3;
+
+var usedDeviceItem = [];
+var usedPhsicalPortItem = [];
+var usedAppItem = [];
+var usedCustomItem = [];
+
+var wait_time = 1000;
+
+var max_items = 32;
+var current_items = 0;
+
+
+var iptv_enable = false;
+var IPTV_URL_NEW = $.su.url("/admin/iptv?form=setting"); 
+
+var iptvProxy = new $.su.Proxy({
+	url: IPTV_URL_NEW
+});
+
+	var oldAction = "";
+
+	var lanIP = 0;
+	var lanMask = 0;
+
+	var lanProxy = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=lan_ipv4')
+	});
+
+	lanProxy.read({}, function(data){
+		lanIP = data.ipaddr;
+		lanMask = data.mask_type;
+	})
+
+
+
+$(document).ready(function(e){
+	function changeRange(index, newValue, oldValue)
+	{
+		var highValue = $("#high").slider("getValue");
+		var middleValue = $("#middle").slider("getValue");
+		var lowValue = $("#low").slider("getValue");
+		if(highValue - 5 < middleValue)
+		{
+			$("#middle").slider("setValue", highValue - 5);
+			middleValue = $("#middle").slider("getValue");
+		}
+		if(middleValue - 5 < lowValue)
+		{
+			$("#low").slider("setValue", middleValue - 5);
+			lowValue = $("#low").slider("getValue");
+		}
+		var max = 100;
+		if(index == "high")
+		{
+			max = 100 - highValue - middleValue;
+			$("#low").slider("setRange", [0,max]);
+			max = 100 - highValue - lowValue;
+			$("#middle").slider("setRange", [0,max]);
+		}
+		if(index == "middle")
+		{
+			max = 100 - highValue - middleValue;
+			$("#low").slider("setRange", [0,max]);
+			max = 100 - middleValue - lowValue;
+			$("#high").slider("setRange", [0,max]);
+		}
+		if(index == "low")
+		{
+			max = 100 - lowValue - middleValue;
+			$("#high").slider("setRange", [0,max]);
+			max = 100 - highValue - lowValue;
+			$("#middle").slider("setRange", [0,max]);
+		}
+	}
+
+	$("#qos_adv").fieldset({
+		fields: [
+			{name: "low"},
+			{name: "middle"},
+			{name: "high"}
+		]
+	});
+
+	$("#qos_adv").fieldset('hide');
+
+	$("#adv_btn").on('click',function(){
+		$('#qos_adv').fieldset('show');
+		$(this).hide();
+		$('#basic_btn').css({
+			"display":"inline-block"
+		});
+	});
+	$("#basic_btn").on('click',function(){
+		$('#qos_adv').fieldset('hide');
+		$(this).hide();
+		$('#adv_btn').css({
+			"display":"inline-block"
+		});
+	});
+
+
+	$("span.advanced-text").html($.su.CHAR.INTERNET.ADVANCED);
+	$("span.basic-text").html($.su.CHAR.INTERNET.ADVANCED);
+	
+
+
+	$("div.func-container").page({
+		title: $.su.CHAR.QOS.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+
+	$("input#enable").checkbox({
+		fieldLabel: $.su.CHAR.QOS.TITLE,
+		tips:"",
+		items: [
+			{boxlabel: $.su.CHAR.QOS.STATUS, inputValue: "on", uncheckedValue: 'off'}
+		]
+	});
+
+	$("div#qosset").panel({
+		title: $.su.CHAR.QOS.TITLE,
+		collapsible: false
+	});
+
+	$("input#up_band").textbox({
+		fieldLabel: $.su.CHAR.QOS.UPBANDWIDTH,
+		inputCls:'m',
+		maxLength:4,
+		vtype:{
+			vtype:'number',
+			min:0,
+			max:1000
+		},
+		allowBlank:false,
+		cls:"inline-block",
+		//tips:$.su.CHAR.QOS.UNIT
+	});
+
+	$("input#up_unit").combobox({
+		fieldLabel:null,
+		inputCls:'s',
+		cls:"inline-block",
+		    items: [
+       {value: "mbps", name: $.su.CHAR.QOS.SPEED_M, selected: "selected"},
+       {value: "kbps", name: $.su.CHAR.QOS.SPEED_K}
+    ]
+	});
+
+	// $("button#speed-test").button({
+	//  	text: $.su.CHAR.QOS.TEST,	
+	//  	cls:"inline"
+	//  });
+
+	$("input#down_band").textbox({
+		fieldLabel: $.su.CHAR.QOS.DOWNBANDWIDTH,
+		inputCls:'m',
+		maxLength:4,
+		cls:"inline-block",
+		vtype:{
+			vtype:'number',
+			min:0,
+			max:1000
+		},
+		allowBlank:false
+		//tips:$.su.CHAR.QOS.UNIT
+	});
+
+	$("input#down_unit").combobox({
+		fieldLabel:null,
+		inputCls:'s',
+		cls:"inline-block",
+		    items: [
+        {value: "mbps", name: $.su.CHAR.QOS.SPEED_M, selected: "selected"},
+       {value: "kbps", name: $.su.CHAR.QOS.SPEED_K}
+    ]
+	});
+
+	$("input#high").slider({
+		fieldLabel: $.su.CHAR.QOS.HIGH_PRIORITY,
+		minValue:15
+	}).on("ev_change", function(e, oldValue, newValue){
+		changeRange("high", newValue, oldValue);
+	});
+
+
+	$("input#middle").slider({
+		fieldLabel: $.su.CHAR.QOS.MIDDLE_PRIORITY,
+		minValue:10
+	}).on("ev_change", function(e, oldValue, newValue){
+		changeRange("middle", newValue, oldValue);
+	});
+
+	$("input#low").slider({
+		fieldLabel: $.su.CHAR.QOS.LOW_PRIORITY,
+		minValue:5
+	}).on("ev_change", function(e, oldValue, newValue){
+		changeRange("low", newValue, oldValue);
+	});
+
+
+	$("#upgrade_alert_cnt").msg({
+		cls: 'warning reboot-confirm-size',
+   	    closeBtn: false,
+		type: "window"
+	});
+
+
+	$('#note').html($.su.CHAR.QOS.SERVICE_RESTART)
+
+
+	var pro_bar  = $('#pro_bar').progressbar({
+		fieldLabel: null,
+		cls: 'inline',
+		width: 300,
+		height: 6,
+		value: 0
+	});	
+
+
+	$("#submit_btn").button({
+		text: $.su.CHAR.OPERATION.SAVE,
+		cls:"submit",
+		handler:function(){
+			if(!$("form#qos-setting").form("validate"))
+			{
+				return false;
+			}
+			$("form#qos-setting").form("submit", {}, function(){
+
+			},null,null,false);
+			pro_bar.progressbar("animate", 0, 1, wait_time, function(){
+				 $("#upgrade_alert_cnt").msg("close");
+				 $("form#qos-setting").form("prompt", true);
+			});
+			$("#upgrade_alert_cnt").msg("show");
+
+		}
+	})
+
+
+
+
+	
+	//这里多个表格调用一个proxy，proxy需要单独定义！
+	var ipv4Proxy = new $.su.Proxy({
+		url: URL_QOS_SET_NEW
+	});
+
+
+	$("form#qos-setting").form({
+		proxy: ipv4Proxy,
+		fields: [
+			{name: "enable", mapping: "enable"},
+			{name: "up_band", mapping: "up_band"},
+			{name: "down_band", mapping: "down_band"},
+			{name: "up_unit", mapping: "up_unit"},
+			{name: "down_unit", mapping: "down_unit"},
+			{name: "high", mapping: "high"},
+			{name: "middle", mapping: "middle"},
+			{name: "low", mapping: "low"},
+			//{name: "mode", mapping: "mode"}
+		],
+		submitBtn: "#submit_btn"
+	}).on("ev_loadData", function(e, data){
+		wait_time = data.time*1000 || wait_time;
+		$("#high_status").html($.su.CHAR.QOS.HIGH_PRIORITY_LBL+data.high+
+			"%");
+		$("#middle_status").html($.su.CHAR.QOS.MIDDLE_PRIORITY_LBL+data.middle+
+			"%");
+		$("#low_status").html($.su.CHAR.QOS.LOW_PRIORITY_LBL+data.low+
+			"%");
+
+	}).one("ev_loadData", function(e, data){
+		enable_app = data.enable_app;
+		enable_phy = data.enable_phy;
+
+		var itemArr = [];
+		itemArr.push({boxlabel: $.su.CHAR.QOS.BY_DEVICE, inputValue: 'device', checked:true});
+		if(enable_app == "on")
+		{
+			itemArr.push({boxlabel: $.su.CHAR.QOS.BY_APP, inputValue: 'app'});
+		}
+		if(enable_phy == "on")
+		{
+			itemArr.push({boxlabel: $.su.CHAR.QOS.BY_PHY, inputValue: 'phy'});
+		}
+
+		$("#method_rd").radio({
+		fieldLabel: $.su.CHAR.QOS.TYPE,
+		labelCls:"s",
+		columns: 3,
+		allowBlank:false,
+		items:itemArr
+	}).on("ev_change", function(e, oldValue, newValue){
+		if(newValue == "device")
+		{
+			$("#device_cnt").fieldset('show');
+			$("#phy_cnt").fieldset('hide');
+			$("#app_cnt").fieldset('hide');
+
+		}
+		if(newValue == "app")
+		{
+			$("#device_cnt").fieldset('hide');
+			$("#phy_cnt").fieldset('hide');
+			$("#app_cnt").fieldset('show');
+
+			$("#custom_cnt").fieldset('hide');
+		}
+		if(newValue == "phy")
+		{
+			$("#device_cnt").fieldset('hide');
+			$("#phy_cnt").fieldset('show');
+			$("#app_cnt").fieldset('hide');
+		}
+		$("#app_list_content").msg("setPosition", "center", "center");
+	});
+	});
+
+	var addItemProxy =  new $.su.Proxy({
+		url: URL_QOS_ADD_NEW,
+		autoLoad:false
+	});
+
+	
+
+
+	
+
+
+	$("div#qoslist").panel({
+		title: $.su.CHAR.QOS.RULE_LIST,
+		collapsible: false
+	});
+
+
+	$("#rule_name").textbox({
+		fieldLabel: $.su.CHAR.QOS.NAME,
+		// inputCls:'m',
+		labelCls:"s",
+		vtype:"string_visible_allow_blank",
+		minLength:0,
+		maxLength:32,
+		allowBlank:true
+	});
+
+
+
+		
+
+	// $("#rule_application").textbox({
+	// 	fieldLabel: $.su.CHAR.QOS.APPLICATION,
+	// });
+
+	
+
+
+
+	
+
+
+	function is_portcharacter(port_string,ch)
+	{
+		var c;
+		for (var i = 0; i < port_string.length; i++)
+		{
+			c = port_string.charAt(i);
+			if (ch.indexOf(c) == -1)
+				return false;
+		}
+		return true;
+	}
+	
+	function portverify(port_string)
+	{
+
+		if(!is_portcharacter(port_string,"0123456789"))
+		{
+			return false;
+		}
+		if (parseInt(port_string,10) <= 0 || parseInt(port_string,10) > 65535)
+		{
+			return false;
+		}
+		return true;
+	}
+
+
+	function is_port(port_string)
+	{
+		if (!portverify(port_string))
+		{
+			return false;
+		}
+		return true;
+	}
+
+
+	function sub_is_port(port_string)
+	{
+		
+
+		if (!is_portcharacter(port_string,ch=",-0123456789"))
+		{
+			return false;
+		}
+		var sub_port_array;
+		var single_port_array;
+		var re;
+		var sub_re;
+
+		re = new RegExp(",");
+		sub_re = new RegExp("-");
+		sub_port_array = port_string.split(re);
+
+		if (sub_port_array.length > 5 || sub_port_array.length < 1 )
+		{
+			return false;
+		}
+
+		for (var i = 0; i < sub_port_array.length; i++)
+		{
+			if (sub_port_array[i] == "" )
+			{
+				return false;
+			}
+			for (var k = i+1; k < sub_port_array.length; k++) {
+				if (sub_port_array[i] == sub_port_array[k]){
+					return false;
+				}
+			}
+
+			single_port_array = sub_port_array[i].split(sub_re);
+
+			if (single_port_array.length != 1 && single_port_array.length != 2)
+			{
+
+				return false;
+			}
+
+
+			for (var j = 0;j < single_port_array.length; ++j )
+			{
+				if (single_port_array[j] == "" )
+				{
+
+					return false;
+				}
+
+				if (!is_port(single_port_array[j]))
+				{
+					return false;
+				}
+			}			
+		}
+		return true;
+	}
+
+
+	
+
+
+	$("#rule_mac").textbox({
+		fieldLabel: $.su.CHAR.QOS.MAC_ADDR,
+		// inputCls:'m',
+		labelCls:"s",
+		vtype:"mac",
+		maxLength:17,
+		allowBlank:false
+	});
+
+	$("#rule_ip_start").textbox({
+		fieldLabel: $.su.CHAR.QOS.IP_ADDR,
+		// inputCls:'m',
+		vtype:"ip",
+		maxLength:15,
+		textFormat:$.su.format.ip,
+		labelCls:"s",
+		cls:"inline-block",
+		allowBlank:false
+	});
+
+
+	$("#rule_ip_end").textbox({
+		fieldLabel: null,
+		// inputCls:'m',
+		cls:"inline-block",
+		vtype:"ip",
+		maxLength:15,
+		textFormat:$.su.format.ip,
+		allowBlank:false
+	});
+
+	
+
+
+
+
+
+	
+
+
+	
+
+	function is_portcharacter(port_string,ch)
+	{
+		var c;
+		for (var i = 0; i < port_string.length; i++)
+		{
+			c = port_string.charAt(i);
+			if (ch.indexOf(c) == -1)
+				return false;
+		}
+		return true;
+	}
+	
+	function portverify(port_string)
+	{
+
+		if(!is_portcharacter(port_string,"0123456789"))
+		{
+			return false;
+		}
+		if (parseInt(port_string,10) <= 0 || parseInt(port_string,10) > 65535)
+		{
+			return false;
+		}
+		return true;
+	}
+
+
+	function is_port(port_string)
+	{
+		if (!portverify(port_string))
+		{
+			return false;
+		}
+		return true;
+	}
+
+
+	function sub_is_port(port_string)
+	{
+		
+
+		if (!is_portcharacter(port_string,ch=",-0123456789"))
+		{
+			return false;
+		}
+		var sub_port_array;
+		var single_port_array;
+		var re;
+		var sub_re;
+
+		re = new RegExp(",");
+		sub_re = new RegExp("-");
+		sub_port_array = port_string.split(re);
+
+		if (sub_port_array.length > 5 || sub_port_array.length < 1 )
+		{
+			return false;
+		}
+
+		for (var i = 0; i < sub_port_array.length; i++)
+		{
+			if (sub_port_array[i] == "" )
+			{
+				return false;
+			}
+			for (var k = i+1; k < sub_port_array.length; k++) {
+				if (sub_port_array[i] == sub_port_array[k]){
+					return false;
+				}
+			}
+
+			single_port_array = sub_port_array[i].split(sub_re);
+
+			if (single_port_array.length != 1 && single_port_array.length != 2)
+			{
+
+				return false;
+			}
+
+
+			for (var j = 0;j < single_port_array.length; ++j )
+			{
+				if (single_port_array[j] == "" )
+				{
+
+					return false;
+				}
+
+				if (!is_port(single_port_array[j]))
+				{
+					return false;
+				}
+			}			
+		}
+		return true;
+	}
+
+
+	$("#rule_port_list").textbox({
+		fieldLabel: $.su.CHAR.QOS.PORT,
+		labelCls:"xxxs",
+		inputCls:'m',
+		cls:"inline-block",
+		validator:function(value){
+			return sub_is_port(value);
+		}
+		// allowBlank:false
+	});
+
+
+
+	var totalProxy = new $.su.Proxy({
+		url:URL_QOS_LIST_NEW
+	});
+
+	
+
+	
+
+	
+
+	function conflictDevice(deviceItem, mac)
+	{
+		var len = deviceItem.length;
+		for (var i = 0; i < len; i++) {
+			// console.log(deviceItem[i].mac, mac);
+			if(mac.toUpperCase() == deviceItem[i].mac.toUpperCase())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function inAppArr(arr, val)
+	{
+		var len = arr.length;
+		for (var i = 0; i < len; i++) {
+			if(val == arr[i].id)
+			{
+				return true;
+			}
+		};
+		return false;
+	}
+
+	function conflictProtocal(proto1, proto2)
+	{
+
+		if(proto1.toUpperCase() == "ALL")
+		{
+			return true;
+		}
+		if(proto2.toUpperCase() == "ALL")
+		{
+			return true;
+		}
+		if(proto1.toUpperCase() == proto2.toUpperCase())
+		{
+			return true;
+		}
+		return false;
+	}
+
+
+	function conflictApp(usedAppItem, usedCustomItem, app, custom_name, proto, port)
+	{
+
+		var appArr = app.split(",");
+		var len =  appArr.length;
+		var priority =  $("#rule_priority").val();
+		for (var i = 0; i < len; i++) {
+			if(inAppArr(usedAppItem, appArr[i]))
+			{
+				return true;
+			}
+		};
+
+		if($("h5.type_collapse span").hasClass("collapsed"))
+		{
+
+			var custom_name =  $("#custom_name").textbox("getValue");
+			var proto = $("#rule_proto").combobox("getValue");
+			var port = $("#rule_port_list").textbox("getValue");
+			var len = usedCustomItem.length;
+			
+			for (var i = 0; i < len; i++) {
+				if(custom_name.toUpperCase() == usedCustomItem[i].name.toUpperCase())
+				{
+					return true;
+				}
+				if( conflictProtocal(proto[0], usedCustomItem[i].proto) && (port == usedCustomItem[i].port) )
+				{
+					return true;
+				}
+			};
+		}
+		
+		return false;
+	}
+
+
+	function conflictPhy(phyItem, phy)
+	{
+		var len = phyItem.length;
+		for (var i = 0; i < len; i++) {
+			// console.log(phyItem[i].port, phy);
+			if(phy.toUpperCase() == phyItem[i].port.toUpperCase())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+
+	
+
+	$("#high_status").html($.su.CHAR.QOS.HIGH_PRIORITY_LBL);
+	$("#middle_status").html($.su.CHAR.QOS.MIDDLE_PRIORITY_LBL);
+	$("#low_status").html($.su.CHAR.QOS.LOW_PRIORITY_LBL);
+	
+
+	function renderAppList(applist){
+		var arr = applist.split(",");
+
+		var len = arr.length;
+		for(var key in typeIdList){
+			var valArr = [];
+			var id = "type_" + key + "_list";
+			// console.log(id);
+			$(arr).each(function(index,val){
+				valArr.push(key+"_"+val);
+				return key+"_"+val;
+			});
+
+			// console.dir(valArr);
+			// console.dir($("#"+id));
+			$("#"+id).checkbox("setValue", valArr);
+		}
+	}
+
+	function resetAppList()
+	{
+		// console.log(33);
+		for (var key in typeIdList) {
+			var id = "type_" + key + "_list";
+			$("#"+id).checkbox("setValue", []);
+
+		};
+	}
+
+	function resetAppListContent()
+	{
+
+		$("#method_rd").radio("setValue", "device");
+		$("#device_name").textbox("setValue", "");
+		$("#mac_addr").textbox("setValue", "");
+
+		$("#rule_phy").radio("setValue", "wireless");
+
+		resetAppList();
+		$("h5.type_collapse span.icon").removeClass("collapsed");
+		$("#custom_cnt").fieldset('hide');
+		$("#custom_name").textbox("setValue", "");
+		$("#rule_proto").combobox("setValue", "all");
+		$("#rule_port_list").textbox("setValue", "");
+	}
+
+	$("#app_list_content").msg({
+		autoshow:false,
+		title:$.su.CHAR.QOS.RULE,
+		cls:"qos-width",
+		okHandler: function(){
+			$("div.msg-btn-wrap span.form-error-tips").html("");
+			if(current_items >= max_items){
+				return false;
+			};
+
+			var val = "";
+			var typeValArr = [];//每类的值字符串
+			for(var key in typeIdList){
+				var id = "type_" + key + "_list";
+				var tempArr = [];
+				container = $("#"+id).checkbox("getContainer"),
+
+
+				container.find("input[type=checkbox]").each(function(i, obj){
+					if (obj.checked){
+						var result = obj.value.split("_");
+						typeValArr.push(result[1]);
+					};
+				});
+				
+			}
+			$("#rule_app").val(typeValArr);
+
+			var method = $("#method_rd").radio("getValue");
+			// console.log(method);
+			if(method == "device")
+			{
+				var device_name = $("#device_name").textbox("getValue");
+				var mac = $("#mac_addr").textbox("getValue");
+				if(conflictDevice(usedDeviceItem, mac))
+				{
+					$("#mac_addr").textbox("setError");
+					$("div.msg-btn-wrap span.form-error-tips").html($.su.CHAR.ERROR['00000065']).fadeIn(150);
+					return false;
+				}
+
+			}
+			
+			if(method == "app")
+			{
+				var app =  $("#rule_app").val();
+				var custom_name = $("#custom_name").textbox("getValue");
+				var proto =  $("#rule_proto").combobox("getValue");
+				var port =  $("#rule_port_list").textbox("getValue");
+
+				if(conflictApp(usedAppItem, usedCustomItem, app, custom_name, proto, port))
+				{
+
+					$("div.msg-btn-wrap span.form-error-tips").html($.su.CHAR.ERROR['00000065']).fadeIn(150);
+					return false;
+				}
+			}
+			if(method == "phy")
+			{
+				var phy = $("#rule_phy").textbox("getValue");
+				if(conflictPhy(usedPhsicalPortItem,phy))
+				{
+					$("#rule_phy").textbox("setError");
+					$("div.msg-btn-wrap span.form-error-tips").html($.su.CHAR.ERROR['00000065']).fadeIn(150);
+					return false;
+				}
+			}
+
+			
+			if(!$("form#add_item").form("validate"))
+			{
+				return false;
+			}
+			$("form#add_item").form("submit", {"operation":"add"}, function(data){
+				$("div.msg-btn-wrap span.form-error-tips").html("");
+				initAllPanel(data);
+				resetAppListContent();
+				$("div.msg-btn-wrap span.form-error-tips").html();
+
+			})
+		},
+		cancelHandler:function(){
+			$("#device_name").textbox("reset").textbox("setNormal");
+			$("#mac_addr").textbox("reset").textbox("setNormal");
+			var val = $("#rule_app").val();
+			$("div.msg-btn-wrap span.form-error-tips").html("");
+			renderAppList(val);
+		},
+		type: "prompt"
+	});	
+
+    $("div.msg-btn-wrap .btn-msg-cancel").before("<span class=\"form-error-tips custom-xl\" style=\"display: none;\"></span>");
+
+
+	var addForm = $("form#add_item").form({
+		proxy: addItemProxy,
+		fields: [
+			{name: "method", mapping: "method"},
+			{name: "device_name", mapping: "device_name"},
+			{name: "mac", mapping: "mac"},
+			{name: "phy", mapping: "phy"},
+			{name: "rule_app", mapping: "rule_app"},
+			{name: "custom_name", mapping: "custom_name"},
+			{name: "proto", mapping: "proto"},
+			{name: "port", mapping: "port"}
+		],
+		autoLoad:false,
+		submitBtn: null
+	});
+
+	$("#add_btn_high").button({
+		text: $.su.CHAR.OPERATION.ADD,
+		cls:"right-pos",
+		handler:function(){
+			 $("#app_list_content").msg("show");
+			 $("#rule_priority").val("high");
+		}
+	});
+
+	$("#add_btn_middle").button({
+		text: $.su.CHAR.OPERATION.ADD,
+		cls:"right-pos",
+		handler:function(){
+			 $("#app_list_content").msg("show");
+			 $("#rule_priority").val("middle");
+		}
+	});
+
+	$("#add_btn_low").button({
+		text: $.su.CHAR.OPERATION.ADD,
+		cls:"right-pos",
+
+		handler:function(){
+			 $("#app_list_content").msg("show");
+			 $("#rule_priority").val("low");
+		}
+	});
+
+	function initAllPanel(data){
+		usedDeviceItem = [];
+		usedPhsicalPortItem = [];
+		usedAppItem = [];
+		usedCustomItem = [];
+
+		highCount = 0;
+		middleCount = 0;
+		lowCount = 0;
+		if(!data)
+		{
+			$('div#high_list').html("");
+			$('div#middle_list').html("");
+			$('div#low_list').html("");
+			return;
+		}
+		var len = data.length;
+		current_items = len;
+		var highStr = "";
+		var middleStr = "";
+		var lowStr = "";
+		var high_flag = false;
+		var middle_flag =false;
+		var low_flag = false;
+
+		for (var i = 0; i < len; i++) {
+			var item = data[i];
+			if(item.priority == "high")
+			{
+				high_flag = true;
+				highCount++;
+				if(item.type == "device")
+				{
+
+					highStr += '<p class="access-client-list-p qos-list-p"><span title="'+item.name+'" class="qos-display-name" >'+ $.su.func.breakWordWithLen(item.name,15) +'</span><span class="access-client-list-icon list-icon-pos"><span class="icon-del" index='+i+'></span></span></p>';
+							highStr += '<div class="access-client-detail qos-item-detail hidden"><p class="cfg_status"><label class="label_status_sss">'+$.su.CHAR.QOS.MAC_ADDR_P+'</label><span class="cfg_value">'+item.mac+'</span></p><p class="cfg_status"><label class="label_status_sss">'+$.su.CHAR.QOS.IP_P+'</label><span class="cfg_value">'+item.ip+'</span></p></div>';
+					usedDeviceItem.push({"name":$.su.func.breakWordWithLen(item.name,15), mac:item.mac});
+
+				}
+				if(item.type == "port")
+				{
+					highStr += '<p class="access-client-list-pp">'+ phyRender[item.phy] +'<span class="icon-del" index='+i+'></span></p>';
+					usedPhsicalPortItem.push({"port":item.phy});		
+				}
+				if(item.type == "app")
+				{
+					if(item.custom)
+					{
+						highStr += '<p class="access-client-list-p qos-list-p"><span title="'+item.name+'" class="qos-display-name" >'+ $.su.func.breakWordWithLen(item.name,15) +'</span><span class="access-client-list-icon  list-icon-pos"><span class="icon-del" index='+i+'></span></span></p>';
+								highStr += '<div class="access-client-detail  qos-item-detail hidden"><p class="cfg_status"><label class="label_status_ss">'+$.su.CHAR.QOS.PROTO_P+'</label><span class="cfg_value">'+item.proto+'</span></p><p class="cfg_status"><label class="label_status_ss">'+$.su.CHAR.QOS.PORT_P+'</label><span class="cfg_value">'+item.port+'</span></p></div>';
+						usedCustomItem.push({"name":$.su.func.breakWordWithLen(item.name,15), "proto":item.proto, "port":item.port});
+
+					}
+					else
+					{
+
+						var val = item.app;
+						var name = appIdList[val];
+						var appName = $.su.CHAR.APPLIST[name]?$.su.CHAR.APPLIST[name]:name;
+						highStr += '<p class="access-client-list-pp"><span title="'+item.name+'" class="qos-display-name" >'+ appName +'</span><span class="icon-del" index='+i+'></p>';
+						usedAppItem.push({"id":item.app});
+					}
+					
+				}
+				$('div#high_list').html(highStr);
+			}
+			if(item.priority == "middle")
+			{
+				middle_flag = true;
+				middleCount++;
+				if(item.type == "device")
+				{
+
+					middleStr += '<p class="access-client-list-p qos-list-p"><span title="'+item.name+'" class="qos-display-name" >'+ $.su.func.breakWordWithLen(item.name,15) +'</span><span class="access-client-list-icon list-icon-pos"><span class="icon-del" index='+i+'></span></span></p>';
+							middleStr += '<div class="access-client-detail qos-item-detail hidden"><p class="cfg_status"><label class="label_status_sss">'+$.su.CHAR.QOS.MAC_ADDR_P+'</label><span class="cfg_value">'+item.mac+'</span></p><p class="cfg_status"><label class="label_status_sss">'+$.su.CHAR.QOS.IP_P+'</label><span class="cfg_value">'+item.ip+'</span></p></div>';
+					usedDeviceItem.push({"name":$.su.func.breakWordWithLen(item.name,15), mac:item.mac});
+
+				}
+				if(item.type == "port")
+				{
+					middleStr += '<p class="access-client-list-pp">'+ phyRender[item.phy] +'<span class="icon-del" index='+i+'></span></p>';
+					usedPhsicalPortItem.push({"port":item.phy});		
+				}
+				if(item.type == "app")
+				{
+					if(item.custom)
+					{
+						middleStr += '<p class="access-client-list-p qos-list-p"><span title="'+item.name+'" class="qos-display-name" >'+ $.su.func.breakWordWithLen(item.name,15) +'</span><span class="access-client-list-icon  list-icon-pos"><span class="icon-del" index='+i+'></span></span></p>';
+								middleStr += '<div class="access-client-detail  qos-item-detail hidden"><p class="cfg_status"><label class="label_status_ss">'+$.su.CHAR.QOS.PROTO_P+'</label><span class="cfg_value">'+item.proto+'</span></p><p class="cfg_status"><label class="label_status_ss">'+$.su.CHAR.QOS.PORT_P+'</label><span class="cfg_value">'+item.port+'</span></p></div>';
+						usedCustomItem.push({"name":$.su.func.breakWordWithLen(item.name,15), "proto":item.proto, "port":item.port});
+
+					}
+					else
+					{
+
+						var val = item.app;
+						var name = appIdList[val];
+						var appName = $.su.CHAR.APPLIST[name]?$.su.CHAR.APPLIST[name]:name;
+						middleStr += '<p class="access-client-list-pp"><span title="'+item.name+'" class="qos-display-name" >'+ appName +'</span><span class="icon-del" index='+i+'></p>';
+						usedAppItem.push({"id":item.app});
+					}
+					
+				}
+				$('div#middle_list').html(middleStr);
+			}
+			if(item.priority == "low")
+			{
+				low_flag = true;
+				lowCount++;
+				if(item.type == "device")
+				{
+
+					lowStr += '<p class="access-client-list-p qos-list-p"><span title="'+item.name+'" class="qos-display-name" >'+ $.su.func.breakWordWithLen(item.name,15) +'</span><span class="access-client-list-icon list-icon-pos"><span class="icon-del" index='+i+'></span></span></p>';
+							lowStr += '<div class="access-client-detail qos-item-detail hidden"><p class="cfg_status"><label class="label_status_sss">'+$.su.CHAR.QOS.MAC_ADDR_P+'</label><span class="cfg_value">'+item.mac+'</span></p><p class="cfg_status"><label class="label_status_sss">'+$.su.CHAR.QOS.IP_P+'</label><span class="cfg_value">'+item.ip+'</span></p></div>';
+					usedDeviceItem.push({"name":$.su.func.breakWordWithLen(item.name,15), mac:item.mac});
+
+				}
+				if(item.type == "port")
+				{
+					lowStr += '<p class="access-client-list-pp">'+ phyRender[item.phy] +'<span class="icon-del" index='+i+'></span></p>';
+					usedPhsicalPortItem.push({"port":item.phy});		
+				}
+				if(item.type == "app")
+				{
+					if(item.custom)
+					{
+						lowStr += '<p class="access-client-list-p qos-list-p"><span title="'+item.name+'" class="qos-display-name" >'+ $.su.func.breakWordWithLen(item.name,15) +'</span><span class="access-client-list-icon  list-icon-pos"><span class="icon-del" index='+i+'></span></span></p>';
+								lowStr += '<div class="access-client-detail  qos-item-detail hidden"><p class="cfg_status"><label class="label_status_ss">'+$.su.CHAR.QOS.PROTO_P+'</label><span class="cfg_value">'+item.proto+'</span></p><p class="cfg_status"><label class="label_status_ss">'+$.su.CHAR.QOS.PORT_P+'</label><span class="cfg_value">'+item.port+'</span></p></div>';
+						usedCustomItem.push({"name":$.su.func.breakWordWithLen(item.name,15), "proto":item.proto, "port":item.port});
+
+					}
+					else
+					{
+
+						var val = item.app;
+						var name = appIdList[val];
+						var appName = $.su.CHAR.APPLIST[name]?$.su.CHAR.APPLIST[name]:name;
+						lowStr += '<p class="access-client-list-pp"><span title="'+item.name+'" class="qos-display-name" >'+ appName +'</span><span class="icon-del" index='+i+'></p>';
+						usedAppItem.push({"id":item.app});
+					}
+					
+				}
+				$('div#low_list').html(lowStr);
+			}
+
+		};
+		if(!high_flag){
+			$('div#high_list').html(highStr);
+		}
+		if(!middle_flag){
+			$('div#middle_list').html(middleStr);
+		}
+		if(!low_flag){
+			$('div#low_list').html(lowStr);
+		}
+
+		$('p.access-client-list-pp').delegate('span.icon-del', 'click', function(e){
+			// console.log("p.access-client-list-pp");
+			var index =  $(this).attr("index");
+			totalProxy.write({"operation":"del","index":index}, function(data){
+				// console.dir(arguments);
+				// console.dir(data);
+				initAllPanel(data);
+			});
+		});
+
+	}
+
+	$("#device_cnt").fieldset({
+		fields: [
+			{name: "device_name"},
+			{name: "mac"}
+		]
+	});
+
+	$("#phy_cnt").fieldset({
+		fields: [
+			{name: "phy"}
+		]
+	});
+
+	$("#app_cnt").fieldset({
+		fields: [
+			{name: "rule_app"},
+			{name: "custom_name"},
+			{name: "proto"},
+			{name: "port"}
+		]
+	});
+
+	
+	$("#phy_cnt").fieldset('hide');
+	$("#app_cnt").fieldset('hide');
+	
+
+
+
+
+
+
+	$("#rule_phy").radio({
+		fieldLabel: $.su.CHAR.QOS.PORT,
+		labelCls:"s",
+		columns:3,
+		allowBlank:false,
+		items:[
+			{boxlabel: $.su.CHAR.QOS.WIFI_HOME, inputValue: 'wireless'},
+			{boxlabel: $.su.CHAR.QOS.WIFI_GUEST, inputValue: 'guest'},
+			{boxlabel: $.su.CHAR.QOS.PORT1, inputValue: 'port1'},
+			{boxlabel: $.su.CHAR.QOS.PORT2, inputValue: 'port2'},
+			{boxlabel: $.su.CHAR.QOS.PORT3, inputValue: 'port3'},
+			{boxlabel: $.su.CHAR.QOS.PORT4, inputValue: 'port4'}
+		]
+	});
+
+	$("input#device_name").textbox({
+		fieldLabel: $.su.CHAR.PARENTAL_CTR.DEVICE,
+		vtype:"string_visible_allow_blank",
+		minLength:0,
+		maxLength:32,
+		labelCls:"s",
+		tipsCls:"after-button xl",
+		allowBlank:false,
+		cls: 'inline-block '
+	});
+
+	var blackOnlineProxy = new $.su.Proxy({
+		url: URL_ONLINE_BLACK
+	});
+
+	var result_store = new $.su.Store({
+		proxy: blackOnlineProxy,//ACCESS_CTR的json文件；
+		fields: [
+			{name: "name"},
+		 	{name: "ipaddr"},
+		 	{name: "mac"}
+		],
+		autoLoad: false
+	});
+
+
+	$("#device_view").button({
+		text: $.su.CHAR.PARENTAL_CTR.BTN_VIEW,
+		cls: 'inline-block ml5',
+		handler:function(){
+			$("div#device_survey").msg("show");
+			result_store.load();
+		}
+	});
+
+	var existingService = $("div#device_survey").msg({
+		autoshow:false,
+		title:$.su.CHAR.PARENTAL_CTR.ACCESS_DEVICES_LIST,
+		type: "window"
+	});
+
+
+	var result_grid = $("div#device_result").grid({
+		store: result_store,
+		maxLines:5,
+		// paging: {},
+		columns: [
+					{
+						text: $.su.CHAR.ACCESS_CTR.ID, 
+						xtype: "rownumberer",
+						width:40
+					},
+					{
+						text: $.su.CHAR.ACCESS_CTR.NAME, 
+						width:150,
+						dataIndex: "name"
+					},
+					{
+						text: $.su.CHAR.ACCESS_CTR.IP_ADDRESS, 
+						width:150,
+						dataIndex: "ipaddr"
+					},
+					{
+						text: $.su.CHAR.ACCESS_CTR.MAC_ADDRESS, 
+						width:170,
+						dataIndex: "mac"
+					},
+					{
+						text: $.su.CHAR.GRID.OPERATION, 
+						renderer:function(data, index){
+							return "<a href=\"javascript:void(0);\" data-index=\""+index+"\" class=\"choose-existing-service choose\" >"+$.su.CHAR.OPERATION.CHOOSE+"</a>"
+						}
+					}
+				]
+	});
+
+	$(result_grid).delegate("a.choose-existing-service", "click", function(e){
+		e.preventDefault();
+		var store = result_grid.grid("getStore"),
+			index = $(this).attr("data-index"),
+			data = store.data[index] || undefined;
+		if (data){
+			$("input#device_name").textbox("setValue", data["name"]);
+			$("input#mac_addr").textbox("setValue", data["mac"]);
+		};
+	
+		existingService.msg("close");
+    });
+
+	$("input#mac_addr").textbox({
+		fieldLabel: $.su.CHAR.PARENTAL_CTR.MAC_ADDRESS,
+		vtype:"mac",
+		maxLength:17,
+		labelCls:"s",
+		allowBlank:false,
+		vtype:"mac"
+	});
+
+	
+
+	function initAppList(data){
+		var len =  data.length;
+		var childrenLen = 0;
+		var htmlStr = "";
+		var itemObj = {};
+		var items = [];
+		var typeName = "";
+		// console.log(len);
+		for (var i = 0; i < len; i++) {
+			htmlStr = "";
+			var typeObj =  data[i];
+			typeIdList[typeObj["id"]] = typeObj["name"];
+			if(typeObj.children){
+				childrenLen = typeObj.children.length;
+			}
+			typeName = $.su.CHAR.APPLIST[typeObj["name"]];
+			htmlStr += "<h5 class=\"type_title\">"+typeName+"</h5>";
+			// htmlStr += "<hr class=\"type_separator\">";
+			var id = "type_" + typeObj["id"] + "_list";
+			htmlStr += "<input id="+id+" />";
+			$("#app_list_container").append(htmlStr);
+			items = [];
+			for (var j = 0; j < childrenLen; j++) {
+				
+				itemObj = {};
+				itemObj["boxlabel"] = $.su.CHAR.APPLIST[typeObj.children[j].name]?$.su.CHAR.APPLIST[typeObj.children[j].name]:typeObj.children[j].name;
+				// itemObj["uncheckedValue"] = "off";
+				// itemObj["inputValue"] = "on";
+				// itemObj["name"] = typeObj["id"]+"_"+typeObj.children[j].id;
+				itemObj["uncheckedValue"] = "off";
+				itemObj["inputValue"] = typeObj["id"]+"_"+typeObj.children[j].id;
+				itemObj["name"] = "app_list";
+				itemObj["itemCls"] = "app_name_info";
+				itemObj["id"] = typeObj["id"]+"_"+typeObj.children[j].id;
+				appIdList[typeObj.children[j].id] = typeObj.children[j].name;
+				items.push(itemObj); 
+			};
+			$("#"+id).checkbox({
+				fieldLabel:null,
+				defaultValue:"",
+				cls:"app_info_cnt",
+				columns:3,
+				items: items
+					
+			});
+
+		};
+		var custom_title = $.su.CHAR.QOS.CUSTOM_APP;
+		htmlStr = "<h5 class=\"type_title type_collapse\">"+"<span class=\"text\">"+custom_title+"</span>"+"<span class=\"icon\"></span></h5>";
+		htmlStr +="<div id=\"custom_cnt\"><input id=\"custom_name\" name=\"custom_name\" />";
+		htmlStr +="<input id=\"rule_proto\" name=\"proto\" >";
+		htmlStr +="<input  type=\"text\"   id=\"rule_port_list\" name=\"port\"></div>";	
+		$("#app_list_container").append(htmlStr);
+
+
+		$("#rule_custom_lbl").html($.su.CHAR.QOS.CUSTOM);
+
+		$("#custom_name").textbox({
+			fieldLabel: $.su.CHAR.QOS.NAME,
+			allowBlank:false,
+			maxLength:32,
+			vtype:"name"
+			// labelCls:"xxs",
+			// inputCls:'m'
+		});
+		 
+
+		$("#rule_proto").combobox({
+			fieldLabel: $.su.CHAR.QOS.PROTO,
+			// inputCls:'xs',
+			// labelCls:"xs",
+			// cls:"inline-block ml12",
+			defaultValue:["all"],
+			items: [
+				{name:$.su.CHAR.QOS.ALL, value:"all"},
+				{name:$.su.CHAR.QOS.TCP, value:"tcp"},
+				{name:$.su.CHAR.QOS.UDP, value:"udp"}
+			]
+		});	
+
+		$("#rule_proto").combobox("setValue", "all");
+
+		$("#rule_port_list").textbox({
+			fieldLabel: $.su.CHAR.QOS.PORT,
+
+			validator:function(value){
+				return sub_is_port(value);
+			},
+			allowBlank:false
+		});	
+
+		$("#custom_cnt").fieldset({
+			fields: [
+				{name: "custom_name"},
+				{name: "proto"},
+				{name: "port"}
+			]
+		});
+
+		$("#custom_cnt").fieldset('hide');
+	}
+
+	
+
+
+	$.post(URL_QOS_APP_LIST_NEW,{"operation":"load"},function(data, textStatus, jqXHR){
+		// console.dir(data);
+		if(data.data)
+		{
+			initAppList(data.data);
+		}
+		totalProxy.read({}, function(data, other){
+			initAllPanel(data);
+			max_items =  other.max_rules || max_items;
+			// current_items = data.length;
+		});
+	},"json");
+
+
+	var phyRender = {
+						"wireless":$.su.CHAR.QOS.WIFI_HOME, 
+						"guest":$.su.CHAR.QOS.WIFI_GUEST, 
+						"port1":$.su.CHAR.QOS.PORT1,
+						"port2":$.su.CHAR.QOS.PORT2,
+						"port3":$.su.CHAR.QOS.PORT3,
+						"port4":$.su.CHAR.QOS.PORT4
+					};
+	var protocalRender = {
+						"all":$.su.CHAR.QOS.TCP_UDP, 
+						"tcp":$.su.CHAR.QOS.TCP, 
+						"udp":$.su.CHAR.QOS.UDP
+					};
+
+
+	
+	
+
+	$('#app_list_container').delegate('.type_collapse', 'click', function(){	
+		
+		if($("h5.type_collapse span.icon").hasClass("collapsed"))
+		{
+			$("h5.type_collapse span.icon").removeClass("collapsed");
+			$("#custom_cnt").fieldset('hide');
+		}
+		else
+		{
+			$("h5.type_collapse span.icon").addClass("collapsed");
+			$("#custom_cnt").fieldset('show');
+		}
+		// $("#custom_cnt").toggle();
+	});	
+
+
+
+
+
+
+	$('.access-client-list').delegate('p.access-client-list-p', 'click', function(e){
+		e = e ? e : window.event;
+		var getRelatedTarget = function(event){
+			if(event.relatedTarget){
+				return event.relatedTarget;
+			}
+			else if(event.toElement){
+				return event.toElement;
+			}
+			else if(event.fromElement){
+				return event.fromElement;
+			}
+			else if(event.target){
+				return event.target;
+			}
+			else{
+				return null;
+			}
+		};
+		if( (getRelatedTarget(e).tagName.toUpperCase() == "SPAN") && (getRelatedTarget(e).className == "icon-del"))
+		{
+			var index =  $(getRelatedTarget(e)).attr("index");
+			totalProxy.write({"operation":"del","index":index}, function(data){
+				// console.dir(arguments);
+				// console.dir(data);
+				initAllPanel(data);
+			});
+			
+			
+		}
+		else
+		{
+			if($(this).hasClass('selected-list-p')){
+	  			accessLeftFlag = true;
+		  		$(this).removeClass('selected-list-p');
+		  		$(this).next('div.access-client-detail').hide();
+		  	}else{
+	  			accessLeftFlag = false;
+		  		$('div#access_wired_list').find('p.access-client-list-p qos-list-p').removeClass('selected-list-p');
+		  		$('div#access_wired_list').find('p.access-client-list-p qos-list-p').next('div.access-client-detail').hide();	
+		  		
+		  		$(this).addClass('selected-list-p');
+		  		$(this).next('div.access-client-detail').fadeIn(150);  		
+		  	}
+		}
+	  	
+
+  });
+
+
+
+
+	
+
+	// iptvProxy.read({}, function(data){
+	// 	// console.dir(data);
+	// 	iptv_enable = data.enable;
+	// 	if(iptv_enable == "on")
+	// 	{
+	// 		$("input#enable").checkbox("disable");
+	// 		$("input#enable").checkbox("setTips", $.su.CHAR.ERROR["00000105"]);
+	// 	}
+	// 	else
+	// 	{
+			
+	// 	}
+	// });
+	
+	sysNatProxy.read({}, function(data){
+		var boost_enable = data.hw_enable;
+		if(boost_enable == "on")
+		{
+			$("input#enable").checkbox("disable");
+			$("input#enable").checkbox("setTips", $.su.CHAR.ERROR["00000111"]);
+		}
+		else
+		{
+			
+		}
+	});
+	
+	var helpQos = new $.su.Help({
+		container: "div#help_qos",
+		content: ["QOS", "QOS_RULE"]
+	});
+
+});
+</script>
+</body>
+
+</html>

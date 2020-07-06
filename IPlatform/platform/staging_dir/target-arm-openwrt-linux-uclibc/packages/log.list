@@ -1,0 +1,7 @@
+./
+./usr
+./usr/lib
+./usr/lib/liblog.so
+./usr/include
+./usr/include/log.h
+./host

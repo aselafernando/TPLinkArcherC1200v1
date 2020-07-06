@@ -1,0 +1,7 @@
+/lib/modules/iplatform/domain_tip.ko
+/etc/init.d/domain_login
+/lib/domain_login/domain_login_log.sh
+/lib/domain_login/domain_login_tools.lua
+/lib/domain_login/domain_login_config.lua
+/usr/sbin/domain_login
+/etc/hotplug.d/firewall/65-domain_login

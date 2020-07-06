@@ -1,0 +1,14 @@
+{
+
+
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：internet ipv4页面中当前拨号类型是PPPoE时，以及点击Connect/Disconnect则请求该数据",
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{
+		"pppoe_username": "pppoe username",
+		"pppoe_password": "pppoe password"
+	}
+}

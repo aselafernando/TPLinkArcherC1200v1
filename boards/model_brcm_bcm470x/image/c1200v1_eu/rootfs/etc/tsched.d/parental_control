@@ -1,0 +1,24 @@
+#!/bin/sh
+PC_LIBDIR=/lib/parental_control
+
+cmd=$1
+shift
+
+case $cmd in
+    *ACTIVE) 
+        local mac=$(echo $1 | tr [a-z] [A-Z])
+        local rule="-m mac --mac-source ${mac//-/:}"
+        fw s_add i f parental_ctrl_list parental_ctrl { "$rule" } &
+    ;;
+
+    *DORM)
+        local mac=$(echo $1 | tr [a-z] [A-Z])
+        local rule="-m mac --mac-source ${mac//-/:}"
+        fw s_del i f parental_ctrl_list parental_ctrl { "$rule" }      
+    ;;
+
+    *RESET) 
+        fw flush i f parental_ctrl_list
+        ;;
+esac
+

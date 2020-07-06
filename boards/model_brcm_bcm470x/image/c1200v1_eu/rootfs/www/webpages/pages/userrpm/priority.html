@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Priority</title>
+<script src="./js/libs/jquery.json-2.4.min.js"></script>
+<style type="text/css">
+	div.container.widget-container.text-container.offset{
+		position: absolute;
+		top:200px;
+		left:540px;
+	}
+</style>
+
+</head>
+
+<body>
+<div class="func-container">
+
+	 <div id="priority_panel">
+
+	 	<p id="priority_tip" class="note"></p>
+
+	 	<input id="priority_type" type="text"/>
+
+	 	<div id="priority_grid"></div>
+
+	 	<button id="priority_submit"></button>
+
+	 </div>
+
+	 <div id="priority_help"></div>
+
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	$("div.func-container").page({
+		title: '',
+		help: ""
+	});
+
+////////////////////////////////////////////
+
+	var submitPriorityData = [];
+
+	$("div#priority_panel").panel({
+		title: $.su.CHAR.PRIORITY.PRIORITY,
+		collapsible: false
+	});
+
+	$('p#priority_tip').html($.su.CHAR.PRIORITY.PRIORITY_TIPS);
+
+
+	$("input#priority_type").radio({
+		fieldLabel: null,
+		columns: 2,
+		items:[
+			{boxlabel: $.su.CHAR.PRIORITY.ALL_DEVICE, name:'type', inputValue:'all', checked:true},
+			{boxlabel: $.su.CHAR.PRIORITY.ACTIVE_DEVICE, name:'type', inputValue: 'active'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){
+		if(newValue=='all'){
+
+		}
+		else if(newValue=='active'){
+
+		}
+		
+	});
+
+
+	$("button#priority_submit").button({
+		fieldLabel: null,
+		text: $.su.CHAR.PRIORITY.SAVE,
+		cls: 'submit',
+		handler: function(){
+			for(var m=0; m<submitPriorityData.length; m++){
+
+				var jsonData =  $.toJSON( submitPriorityData[m] );
+				var url_nodes = $.su.ozkerurl("/api/nodes")
+				 $.ajax({ 
+				 	url: url_nodes, 
+				 	type: 'PUT',
+				 	dataType: 'JSON',
+				 	data: jsonData,
+				 	success: function(){
+
+					}
+				});
+
+				nodesProxy.read({}, function(data, status, xhr){
+					reorderList(data.nodes);
+				});
+
+			}
+		}
+	});
+	
+
+
+	var gridStore = new $.su.Store({
+			proxy: null,
+		preventErrorDefault: true,
+			fields: [
+				{name: "name"},
+				{name: "type"},
+				{name: "mac_addr"},
+				{name: "stick"},
+				{name: "priority"}
+			],
+			keyProperty: 'mac_addr',
+			autoLoad: false
+		});
+
+
+	$("div#priority_grid").grid({
+		store: gridStore,
+		minLines: 0,
+		columns: [
+			{
+				text: $.su.CHAR.PRIORITY.ID, 
+				xtype: "rownumberer",
+				width: 40
+			},
+			{
+				text: $.su.CHAR.PRIORITY.DEVICE, 
+				dataIndex: "name",
+				width: 100
+			},
+			{
+				text: $.su.CHAR.PRIORITY.TYPE,
+				width: 100,
+				dataIndex: "type"
+			},
+			{
+				text: $.su.CHAR.PRIORITY.MAC_ADDRESS, 
+				width: 180,
+				dataIndex: "mac_addr"
+			},
+			{
+				text: $.su.CHAR.PRIORITY.STICK,
+				xtype: "actioncolumn",
+				width: 100,
+				items: [
+					{
+						xtype: 'html',
+						dataIndex: "stick",
+						renderer: function(value, list){
+							var mac = list.mac_addr;
+							switch(value){
+								case 0:
+									return '<span class=""></span>';
+								case 3:
+									return '<span class=""></span>';
+								default:
+									return '<span class="stick-top" mac="'+mac+'">TOP</span><span class="stick-top-text">top</span>';
+							}
+
+
+						}
+					}
+				]
+			},
+			{
+				text: $.su.CHAR.PRIORITY.PRIORITY, 
+				xtype: "actioncolumn",
+				items: [
+					{
+						xtype: 'html',
+						dataIndex: "priority",
+						renderer: function(value, list){
+							var mac = list.mac_addr;
+							switch(value){
+								case 0:
+									return '<span class="priority-down" mac="'+mac+'">DOWN</span><span class="priority-down-text">down</span>';
+								case 1:
+									return '<span class="priority-up" mac="'+mac+'">UP</span><span class="priority-up-text">up</span><span class="priority-down" mac="'+mac+'">DOWN</span><span class="priority-down-text">down</span>';
+								case 2:
+									return '<span class="priority-up" mac="'+mac+'">UP</span><span class="priority-up-text">up</span>';
+								case 3:
+									return '<span class=""></span><span class=""></span>';
+							}
+						}
+					}
+				]
+			}
+		]
+
+	}).delegate("span.stick-top", "click", function(e){
+		var key_mac = $(this).attr('mac');
+		var top_list = gridStore.getData( key_mac );
+		gridStore.removeDataByKey( key_mac );
+		gridStore.insertData( 0, top_list );
+
+		submitPriorityData = convertToNodes(gridStore.data);
+
+		reorderList( submitPriorityData );
+
+	}).delegate("span.priority-up", "click", function(e){
+		var key_mac = $(this).attr('mac');
+		var up_list = gridStore.getData( key_mac );
+		var up_index = gridStore.getIndex( key_mac );
+		gridStore.removeDataByKey( key_mac );
+		gridStore.insertData( up_index-1, up_list );
+
+		submitPriorityData = convertToNodes(gridStore.data);
+
+		reorderList( submitPriorityData );
+		
+	}).delegate("span.priority-down", "click", function(e){
+		var key_mac = $(this).attr('mac');
+		var up_list = gridStore.getData( key_mac );
+		var up_index = gridStore.getIndex( key_mac );
+		gridStore.removeDataByKey( key_mac );
+		gridStore.insertData( up_index+1, up_list );
+
+		submitPriorityData = convertToNodes(gridStore.data);
+
+		reorderList( submitPriorityData );	
+	});
+
+
+	var url_nodes = $.su.ozkerurl("/api/nodes")
+	var nodesProxy = new $.su.Proxy({
+		url:url_nodes,
+		preventErrorDefault: true,
+		reader: {
+			root: "data",
+			type: 'GET'
+		},
+		writer: {
+			root: "data",
+			type: 'GET'
+		}
+	});
+
+	function convertToNodes(gridData){
+		var tempNodesData = [];
+		for(var i=0; i<gridData.length; i++){
+			tempNodesData.push( { Pipeline:gridData[i], UI:{ priority:i+1 } } );
+		}
+		return tempNodesData;
+	}
+
+	function reorderList(nodesData){
+
+		var orderList = [];
+		var unorderList = [];
+		var gridData = [];
+		var count = 0;
+
+		for(var i=0; i<nodesData.length; i++){
+			if( nodesData[i].UI.priority ==undefined ){
+				unorderList.push(nodesData[i]);
+			}else{
+				orderList[nodesData[i].UI.priority] = nodesData[i];
+			}
+		}
+
+		orderList = orderList.concat(unorderList);
+
+		for(var e in orderList ){
+			count++;
+
+			if(orderList[e].Pipeline.name == undefined){
+				orderList[e].Pipeline.name = orderList[e].Pipeline.ip_addr;
+			}
+			orderList[e].Pipeline.stick = 1;
+			orderList[e].Pipeline.priority = 1;
+			gridData.push(orderList[e].Pipeline);
+		}
+
+	//如果只有一条数据
+		count==0?1:(gridData[0].stick=0,gridData[0].priority=0);
+
+		count==1?(gridData[0].stick=3,gridData[0].priority=3):1;
+
+		count>1?(gridData[count-1].stick=2,gridData[count-1].priority=2):1;
+
+		gridStore.loadData( gridData );
+
+		submitPriorityData = convertToNodes(gridData);
+	}
+
+	nodesProxy.read({}, function(data, status, xhr){
+		reorderList(data.nodes);
+	});
+
+	var helpPriority = new $.su.Help({
+		container: "div#priority_help",
+		content: "STREAM_BOOST_PRIORITY"
+	});
+
+
+
+});
+</script>
+</body>
+
+</html>

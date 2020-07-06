@@ -1,0 +1,14 @@
+Package: kmod-appid-ext-spf
+Version: +1.1.0-1
+Depends: kernel (=--unknown), kmod-appidentify
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/tl-iqos-appidentify
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Hu Luyao <huluyao@tp-link.net>
+Architecture: all
+Installed-Size: 3426
+Description:  spf (small packet first) is a common game data recongnize
+ module for appidentify

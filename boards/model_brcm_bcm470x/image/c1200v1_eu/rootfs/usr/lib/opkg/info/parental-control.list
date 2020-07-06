@@ -1,0 +1,9 @@
+/etc/tsched.d/parental_control
+/lib/parental_control/core_log.sh
+/etc/hotplug.d/firewall/21-parental_control
+/lib/parental_control/config.sh
+/etc/init.d/parental_control
+/lib/parental_control/core.sh
+/etc/config/parental_control
+/lib/upgrade/keep.d/parental-control
+/lib/parental_control/core_parental_ctrl.sh

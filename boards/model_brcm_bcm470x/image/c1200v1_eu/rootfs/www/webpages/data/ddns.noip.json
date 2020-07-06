@@ -1,0 +1,10 @@
+{
+	"timeout": false,
+	"success": true,
+	"data":{
+		"username": "username_noip",
+		"password": "12235",
+		"domain": "www.baidu.com",
+		"status": "2"
+	}
+}

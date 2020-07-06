@@ -1,0 +1,14 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+
+cycle()
+{
+	sleep 1
+	ledcli STATUS_ON
+}
+
+start()
+{
+	cycle &
+}

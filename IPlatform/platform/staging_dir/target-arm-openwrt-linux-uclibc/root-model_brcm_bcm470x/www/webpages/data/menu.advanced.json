@@ -1,0 +1,96 @@
+{
+	"success": "true",
+	"data":{
+		"model": "ac2500",
+		"page": "advanced",
+		"menu":[
+				{ "name": "status" },
+				{ 
+					"name": "network",
+					"children": [
+						{ "name": "internet" },
+						{ "name": "lan" },
+						{ "name":"iptv" },
+						{ "name":"dhcp-Server" },
+						{ "name":"dynamic-dns" },
+						{ "name":"advanced-routing" }
+					]
+				},
+				{ 
+					"name": "wireless",
+					"children":[
+						{ "name":"wireless-settings" },
+						{ "name":"wps" },
+						{ "name":"Statistics" }
+					]
+				},
+				{
+					"name":"guest-network"
+				},
+				 {
+					"name":"usb-settings",
+					"children":[
+						{ "name":"disk-settings" },
+						{ "name":"folder-sharing" },
+						{ "name":"print-server" },
+						{ "name":"offline-download" }
+					]
+				 },
+				 {
+					"name":"parental-control"
+				 },
+				 {
+					"name":"qos",
+					"children":[
+						{ "name":"qos_settings" },
+						{ "name":"database" }
+					]
+				 },
+				 {
+					"name":"security",
+					"children":[
+						{ "name":"settings" },
+						{ "name":"access-control" },
+						{ "name":"ip-mac-binding" }
+					]
+				 },
+				 {
+					"name":"nat-forwarding",
+					"children":[
+						{ "name":"nat" },
+						{ "name":"virtual-servers" },
+						{ "name":"port-triggering" },
+						{ "name":"dmz" },
+						{ "name":"upnp" }
+					]
+				 },
+				 {
+					"name":"ipv6"
+				 },
+				 {
+					"name":"vpn",
+					"children":[
+						{ "name": "openvpn" },
+						{ "name": "pptpvpn" },
+						{ "name": "vpnconnections" }
+					]
+				 },
+				 {
+					"name":"system-tools",
+					"children":[
+						{ "name":"time-settings" },
+						{ "name":"diagnostic" },
+						{ "name":"firmware-upgrade" },
+						{ "name":"backup-restore" },
+						{ "name":"administration" },
+						{ "name":"system-log" },
+						{ "name":"sysstatistics" },
+						{ "name":"system-parameters" }
+						
+					]
+				 }
+		]
+
+	}		
+
+}

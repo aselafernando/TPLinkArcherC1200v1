@@ -1,0 +1,23 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2008-2010 OpenWrt.org
+
+START=46
+
+IPTV_LIBDIR=/lib/iptv
+
+iptv() {
+	. ${IPTV_LIBDIR}/iptv_core.sh
+	iptv_$1
+}
+
+start() {
+	iptv start
+}
+
+stop() {
+	iptv stop
+}
+
+restart() {
+	iptv restart
+}

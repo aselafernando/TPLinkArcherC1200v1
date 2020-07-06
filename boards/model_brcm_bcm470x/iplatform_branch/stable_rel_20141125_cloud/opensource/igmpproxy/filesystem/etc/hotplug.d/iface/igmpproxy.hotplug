@@ -1,0 +1,37 @@
+#!/bin/sh
+# Copyright (c) 2013 The Linux Foundation. All rights reserved.
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+
+config_load igmpproxy
+
+is_upstream_iface() {
+	local section=$1
+
+	local direction
+	config_get direction ${section} direction
+	[ "upstream" = ${direction} ] && echo ${section}
+}
+
+[ "$DEVICE" == "lo" ] && exit 0
+
+/etc/init.d/igmpproxy enabled && [ "$ACTION" = "ifup" ] && {
+	local upste_sect
+	upstr_sect=$(config_foreach is_upstream_iface phyint)
+    
+    # When upstream network updated, we have to update altnet for the best
+    [ -n "$upstr_sect" ] && {
+        chmod 777 /lib/igmpproxy/igmpproxy_tool.lua
+        local net addr mask
+        network_get_subnet net "$INTERFACE"
+        addr=${net%/*}
+        mask=${net#*/}
+        eval "/lib/igmpproxy/igmpproxy_tool.lua $INTERFACE $addr $mask"
+    }
+    
+	local iface
+	config_get iface "${upstr_sect}" network
+	[ -n "$iface" ] && /etc/init.d/igmpproxy restart
+}
+

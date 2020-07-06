@@ -1,0 +1,6 @@
+/lib/modules/iplatform/em_u32.ko
+/lib/modules/iplatform/act_skbedit.ko
+/lib/modules/iplatform/cls_tcindex.ko
+/lib/modules/iplatform/sch_hfsc.ko
+/lib/modules/iplatform/act_mirred.ko
+/lib/modules/iplatform/cls_route.ko

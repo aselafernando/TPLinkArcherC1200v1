@@ -1,0 +1,7 @@
+[
+		{"ip": "192.168.1.101", "ssid": "TP-LINK-NEW-UI","network":"Wireless 2.4GHz"},
+		{"ip": "192.168.1.102", "ssid": "TP-LINK-NEW-UI","network":"Wireless 2.4GHz(Guest)"},
+		{"ip": "192.168.1.103", "ssid": "TP-LINK-NEW-UI","network":"Wireless 2.4GHz"},
+		{"ip": "192.168.1.104", "ssid": "TP-LINK-NEW-UI","network":"Wireless 2.4GHz"},
+		{"ip": "192.168.1.105", "ssid": "TP-LINK-NEW-UI","network":"Wireless 2.4GHz"}
+]	

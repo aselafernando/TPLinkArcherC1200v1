@@ -1,0 +1,19 @@
+#!/bin/sh
+
+brcm_restore()
+{
+    #set nvram ctf_disable when restore
+    hw_enable=`uci -c /tmp/config get nat.@nat_global[0].hw_enable`
+    if [ "$hw_enable" == "on" ]; then
+        nvram unset ctf_disable
+        nvram commit
+    elif [ "$hw_enable" == "off" ]; then
+        nvram set ctf_disable=1
+        nvram commit
+    else
+        #do nothing
+        :
+    fi
+}
+
+brcm_restore

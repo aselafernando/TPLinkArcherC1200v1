@@ -1,0 +1,12 @@
+#!/bin/sh
+# Copyright(c) 2008-2014 Shenzhen TP-LINK Technologies Co.Ltd.
+#
+# Details : Clear all system log from flash and memory.
+# Author  : Ye Qianchuan <yeqianchuan@tp-link.net>
+# Version : 1.0
+# Date    : 25 Mar, 2014
+
+kill -USR1 $(cat /var/run/logd.pid)
+if [ $? -ne 0 ]; then
+    mtd erase log
+fi

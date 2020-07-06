@@ -1,0 +1,15 @@
+{
+	"success": true,
+	"errCode": false,
+	"data":{
+		"uplimit":	287500,
+    	"downlimit":	2875000, 
+        "ifup":	"eth0.2",
+    	"ifdown":	"br-lan",
+    	"enable_streamboost":	1,
+    	"enable_auto":	0,
+    	"uplimit_auto":	0,
+    	"downlimit_auto":	0,
+		"auto_update":	1
+	}
+}

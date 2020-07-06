@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# echo ACTION=$ACTION, DEVPATH=$DEVPATH, SUBSYSTEM=$SUBSYSTEM, BUSNUM=$BUSNUM >/dev/console
+
+# echo "--------------" >>/dev/console
+#echo "busnum=$BUSNUM" >> /dev/console
+#echo "action=$ACTION" >> /dev/console
+#echo "intf=$INTERFACE" >> /dev/console
+#echo "devnum=$DEVNUM" >> /dev/console
+#echo "dev=$DEVICE" >> /dev/console
+#echo "pdt=$PRODUCT" >> /dev/console
+#echo "type=$TYPE" >> /dev/console
+#echo "--------------" >>/dev/console
+
+PORTNUM=`echo $DEVPATH | cut -d "-" -f 2 | cut -d ":" -f 1`
+
+echo "USB port event happened -- port=$PORTNUM" >> /dev/console
+case "$PORTNUM" in
+    1)
+        USB="USB3"
+        ;;
+    2)
+        USB="USB1"
+        ;;
+    *)
+        exit 0
+        ;;
+esac
+
+case "$ACTION" in
+        add|remove)
+            . /lib/print_server/printer_discovery.sh
+            scan_printers
+            [ "$ACTION" = "add" ] && {
+                uci set ledctrl.$USB.ledon='1'
+                ledcli $USB
+            }
+            ;;
+esac

@@ -1,0 +1,7 @@
+[ "$INTERFACE" == "lan" -a "$ACTION" == "ifup" ] && {
+    /sbin/wifi vlan
+}
+
+[ "$INTERFACE" == "lan" -a "$ACTION" == "ifdown" ] && {
+    : # Null command
+}

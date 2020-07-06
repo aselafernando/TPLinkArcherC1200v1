@@ -1,0 +1,74 @@
+#!/bin/sh
+[ -z "$1" ] && echo "Error: should be run by udhcpc" && exit 1
+
+. /lib/functions.sh
+. /lib/netifd/netifd-proto.sh
+
+set_classless_routes() {
+	local max=128
+	local type
+	while [ -n "$1" -a -n "$2" -a $max -gt 0 ]; do
+		proto_add_ipv4_route "${1%%/*}" "${1##*/}" "$2"
+		max=$(($max-1))
+		shift 2
+	done
+}
+
+setup_interface () {
+	config_load /etc/config/network
+	config_get username wan username
+	config_get password wan password
+	config_get authserver wan server
+	config_get authdomain wan domain
+	
+	[ -z "$username" -o -z "$password" ] && {
+		deconfig_interface
+		return
+	}
+
+	proto_init_update "$IFNAME" 1
+	proto_add_ipv4_address "$ip" "${subnet:-255.255.255.0}"
+	# TODO: apply $broadcast
+
+	for i in $router; do
+		proto_add_ipv4_route 0.0.0.0 0 "$i"
+	done
+
+	# CIDR STATIC ROUTES (rfc3442)
+	[ -n "$staticroutes" ] && set_classless_routes $staticroutes
+	[ -n "$msstaticroutes" ] && set_classless_routes $msstaticroutes
+
+	for dns in $dns; do
+		proto_add_dns_server "$dns"
+	done
+	for domain in $domain; do
+		proto_add_dns_search "$domain"
+	done
+	proto_send_update "$INTERFACE"
+
+	fw s_add 4 f zone_wan ACCEPT 1 { "-p udp -m udp --dport 5050" }
+
+	/usr/sbin/bpalogin user "$username" password "$password" \
+		interface "$INTERFACE"			\
+		${authserver:+authserver $authserver} \
+		${authdomain:+authdomain $authdomain}
+}
+
+deconfig_interface() {
+	proto_init_update "*" 0
+	proto_send_update "$INTERFACE"
+
+	fw s_del 4 f zone_wan ACCEPT 1 { "-p udp -m udp --dport 5050" }
+	killall -15 bpalogin
+}
+
+case "$1" in
+	deconfig)
+		deconfig_interface
+	;;
+	renew|bound)
+		setup_interface
+	;;
+esac
+
+exit 0

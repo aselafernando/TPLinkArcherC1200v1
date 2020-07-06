@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+</head>
+
+<body>
+<div class="func-container">
+	 <div id="storage">
+	 	<form id="storage-setting">
+	    	<input type="text"  id="status" name="status" value="" />
+	    </form>
+	 </div>
+
+	 <div id="userAccount">
+	 	<form id="user-account-setting">
+	    	<input type="text"  id="network-name" name="name" value="" />
+	    	<input type="text"  id="security" name="security" value="" />
+	    	<input type="text"  id="access-type" name="type" value="" />
+	    </form>
+	 </div>
+
+
+
+	 <div id="folder">
+	 	<div id="folderGrid">
+	     		
+		</div>
+	 </div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	$("div.func-container").page({
+		title: $.su.CHAR.STORAGE_SHARING.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+// storage 
+	$("div#storage").panel({
+		title: $.su.CHAR.STORAGE_SHARING.TITLE,
+		collapsible: false
+	});
+
+	$("input#status").switchbutton({
+		fieldLabel: $.su.CHAR.STORAGE_SHARING.TITLE
+	});
+// user account
+	$("div#userAccount").panel({
+		title: $.su.CHAR.STORAGE_SHARING.USER_ACCOUNT_MANAGEMENT,
+		collapsible: false
+	});
+
+	$("input#network-name").textbox({
+		fieldLabel: $.su.CHAR.STORAGE_SHARING.NETWORK_NAME,
+		readOnly: true
+	});
+
+	$("input#security").textbox({
+		fieldLabel: $.su.CHAR.STORAGE_SHARING.WIRELESS_SECURITY
+	});
+	
+	$("input#access-type").switchbutton({
+		fieldLabel: $.su.CHAR.STORAGE_SHARING.ACCESS_TYPE,
+		items:[
+			{text: $.su.CHAR.STORAGE_SHARING.READ_ONLY, handler: null, cls:'l', selected:true},
+			{text: $.su.CHAR.STORAGE_SHARING.WRITE_ONLY, handler: null, cls:'l'},
+			{text: $.su.CHAR.STORAGE_SHARING.READ_AND_WRITE, handler: null, cls:'l'}
+		]
+	});
+	
+	
+	//这里多个表格调用一个proxy，proxy需要单独定义！
+	var ipv4Proxy = new $.su.Proxy({
+		url: "./data/usb.storage.json"
+	});
+
+
+	$("form#storage-setting").form({
+		proxy: ipv4Proxy,
+		fields: [
+			{name: "status", mapping: "status"}
+		],
+		submitBtn: "null"
+	});
+
+
+	$("div#folder").panel({
+		title: $.su.CHAR.USB.FOLDERS,
+		collapsible: true
+	});
+
+
+	var storeTest = new $.su.Store({
+		proxy: {
+			url: "./data/usb.folder.json"
+		},
+		fields: [
+			{name: "name"},
+			{name: "partition"},
+			{name: "folder"}
+		],
+		autoLoad: true
+	});
+
+
+	$("div#folderGrid").grid({
+		store:storeTest,
+		minLines:0,
+		columns: [
+			{
+				text: "ID", 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.USB.NAME, 
+				width:100,
+				dataIndex: "name"
+			},
+			{
+				text: $.su.CHAR.USB.PART, 
+				width:160,
+				dataIndex: "partition"
+			},
+			{
+				text: $.su.CHAR.USB.FOLDER, 
+				width:100,
+				dataIndex: "folder"
+			},
+			{
+				xtype: "settings"
+			}
+		],
+		operation: [{xtype: "button", text: $.su.CHAR.USB.ADD},"search"]
+	});
+
+
+
+
+});
+</script>
+</body>
+
+</html>

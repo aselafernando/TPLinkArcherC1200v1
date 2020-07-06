@@ -1,0 +1,15 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：Security Access Control页面中online获取数据",
+	
+	"timeout": false,
+	"success": true,
+	"data": [
+			{"name":"TP-LINK-PXC222", "ipaddr": "172.29.85.1", "host":"HOST", "mac":"00-11-22-33-44-55", "conn_type":"0", "key":"key-1", "success": true},
+			{"name":"TP-LINK-SMB12", "ipaddr": "172.29.85.2", "host":"NOT HOST","mac":"00-11-22-33-44-55", "conn_type":"0", "key":"key-2", "success": true},
+			{"name":"TP-LINK-SOHO", "ipaddr": "172.29.85.3", "host":"NOT HOST","mac":"00-11-22-33-44-55", "conn_type":"0", "key":"key-3", "success": true},
+			{"name":"TP-LINK-BA", "ipaddr": "172.29.85.4", "host":"NOT HOST","mac":"00-11-22-33-44-55", "conn_type":"0", "key":"key-4", "success": true},
+			{"name":"TP-LINK-MOBILE", "ipaddr": "172.29.85.5","host":"NOT HOST",  "mac":"00-11-22-33-44-55", "conn_type":"0", "key":"key-5", "success": true}
+	]
+			
+}

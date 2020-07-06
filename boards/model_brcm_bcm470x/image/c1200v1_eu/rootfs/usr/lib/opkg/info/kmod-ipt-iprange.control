@@ -1,0 +1,15 @@
+Package: kmod-ipt-iprange
+Version: -
+Depends: kernel (=--unknown), kmod-ipt-core
+Provides: 
+Source: package/kernel
+Section: kernel
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 1614
+Description:  Netfilter (IPv4) module for matching ip ranges
+ Includes:
+ - iprange

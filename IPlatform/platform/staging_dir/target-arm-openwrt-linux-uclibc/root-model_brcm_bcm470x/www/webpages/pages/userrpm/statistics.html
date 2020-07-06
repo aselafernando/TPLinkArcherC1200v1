@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>statistic Control</title>
+</head>
+
+<body>
+<div class="func-container">
+	 <div id="statistic">
+		<div id="statisticsGrid">
+		
+		</div>
+	 </div>
+	 <div id="help-wireless-statistic"></div>
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var WIRELESS_STATISTIC_URL = "./data/wireless.statistics.json";
+
+	var WIRELESS_STATISTIC_URL_NEW  = $.su.url("/admin/wireless?form=statistics");
+
+	$("div.func-container").page({
+		title: $.su.CHAR.STATISTICS_WIRELESS.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$("div#statistic").panel({
+		title: $.su.CHAR.STATISTICS_WIRELESS.TITLE,
+		collapsible: false
+	});
+	$("div#statisticsGrid").grid({
+		store:{
+			proxy: {
+				url: WIRELESS_STATISTIC_URL_NEW
+			},
+			fields: [
+				{name: "mac"},
+				{name: "type"},
+				{name: "encryption"},
+				{name: "rxpkts"},
+				{name: "txpkts"}
+				// {name: "configuration"}
+			],
+			autoLoad: true
+		},
+		columns: [
+			// {
+			// 	xtype: "checkcolumn", 
+			// 	width: 30
+			// },
+			{
+				xtype: "rownumberer",
+				width: 45
+			},
+			{
+				text: $.su.CHAR.STATISTICS_WIRELESS.MAC_ADDRESS, 
+				width: 145,
+				dataIndex: "mac"
+			},
+			{
+				text: $.su.CHAR.STATISTICS_WIRELESS.CONN_TYPE, 
+				width: 120,
+				dataIndex: "type"
+			},
+			{
+				text: $.su.CHAR.STATISTICS_WIRELESS.SECURITY, 
+				width: 80,
+				dataIndex: "encryption",
+				renderer:function(val)
+				{
+					return $.su.func.escapeHtml(val.toUpperCase());
+				}
+			},
+			{
+				text: $.su.CHAR.STATISTICS_WIRELESS.RECEIVED_PACKETS, 
+				width: 120,
+				renderer:function(val){
+					return $.su.func.escapeHtml($.su.func.changeUnit(val));
+				},
+				dataIndex: "rxpkts"
+			},
+			{
+				text: $.su.CHAR.STATISTICS_WIRELESS.SEND_PACKETS,
+				renderer:function(val){
+					return $.su.func.escapeHtml($.su.func.changeUnit(val));
+				}, 
+				dataIndex: "txpkts"
+			}
+			// ,
+			// {
+			// 	text: $.su.CHAR.STATISTICS_WIRELESS.CONFIGURATION, 
+			// 	dataIndex: "configuration"
+			// }
+		],
+		operation: [{
+			xtype: "totalCount",
+			cls: "left",
+			fieldLabel: $.su.CHAR.STATISTICS_WIRELESS.CLIENT_NUMBER
+		},"refresh"]
+	});
+
+	var helpWirelessStatistic = new $.su.Help({
+		container: "div#help-wireless-statistic",
+		content: "WIRELESS_STATISTICS"
+	});
+	
+});
+</script>
+</body>
+
+</html>

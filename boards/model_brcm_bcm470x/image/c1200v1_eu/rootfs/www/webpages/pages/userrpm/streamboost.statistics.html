@@ -1,0 +1,550 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+<script src="./js/libs/jquery.flot.js"></script>
+<script src="./js/libs/jquery.flot.pie.min.js"></script>
+<style type="text/css">
+	div.container.widget-container.text-container.offset{
+		position: absolute;
+		top:200px;
+		left:540px;
+	}
+</style>
+
+</head>
+
+<body>
+<div class="func-container">
+
+	 <div id="uptime_panel">
+
+	 	<input id="chooseByTime"/>
+	 	<input id="chooseByDevice"/>
+
+	 	<div id="uptimeGrid" style="width:670px; height:400px;"></div>
+
+	 </div>
+
+	 <div id="downloads_panel">
+	 	<div id="downloadsGrid" style="width:600px; height:600px;"></div>
+	 </div>
+
+	 <div id="statistics_help"></div>
+</div>
+
+<script type="text/javascript">
+
+function jsonpFlowsCallback(result){
+	flowsName = result.flows;
+
+	//console.log(93)
+
+/////////////////////////////////////////////	
+
+};
+
+
+$(document).ready(function(e){
+
+var plotData = [];
+
+
+	var url_global = $.su.ozkerurl("/api/global")
+	var globalProxy = new $.su.Proxy({
+		url: url_global,
+		async: false,
+		preventErrorDefault: true,
+		reader: {
+			root: "data",
+			type: 'GET'
+		},
+	});
+
+    var url_events = $.su.ozkerurl("/api/events/flows")
+	var eventProxy = new $.su.Proxy({
+		url: url_events,
+		async: false,
+		preventErrorDefault: true,
+		reader: {
+			root: "data",
+			type: 'GET'
+		},
+	});
+    
+	var url_policies = $.su.ozkerurl("/api/policies")
+	var policyProxy = new $.su.Proxy({
+		url: url_policies,
+		async: false,
+		preventErrorDefault: true,
+		reader: {
+			root: "data",
+			type: 'GET'
+		},
+		writer: {
+			root: "data",
+			type: 'GET'
+		}
+	});
+
+	var flowsName = {};
+
+	var epochTime = 0;
+
+	var policyRules = {};
+	var eventsData = [];
+
+
+	var eventsByUid = [];	//根据uuid分类
+	var eventsByUDetail = {};	//根据应用分类，至少包含一个uuid数组。是更加细化的eventsByUid
+	var eventsByMac = {}; 	//根据mac来分类
+	var eventsByFlow = {};	//根据flows，即应用分类
+
+	var flowsArray = [];	//flowsArray为排序后的应用，可直接用于饼状图
+
+	var preDayTime = 24*60*60;
+	var preWeekTime = preDayTime*7;
+	var preMonthTime = preDayTime*30;
+
+	function sortByTime(a, b){
+		return a.time-b.time;
+	};
+
+	function sortByRx(a, b){
+		return a.rxBytes-b.rxBytes;
+	};
+
+
+
+	$.ajax({
+		url: "http://static.ap135.qualcomm.streamboost.yeti.bigfootnetworks.com/luci-app-streamboost-assets/v2.0/trans/flows_EN-US.js?callback=jsonpFlowsCallback",
+		dataType: "jsonp",
+		jsonp: 'callback',
+		async: false,
+		success: function(argument) {}
+	});
+
+
+	function setData(timeLimit, macValue){
+		var flowList = {};
+		var timeList = [];
+		var axisList = [];
+		var gridData = [];
+
+		if(macValue=='0'){
+			for(var e in eventsByMac){
+				for(var m in eventsByMac[e]){
+					flowList[m]= eventsByMac[e][m];
+				}
+			}
+		}else{
+			for(var m in eventsByMac[macValue]){
+				flowList[m] = eventsByMac[macValue][m];
+			}
+		}
+
+		for(var e in flowList){
+
+			timeList[flowList[e].policyName]==undefined?timeList[flowList[e].policyName]=0:1;
+
+			if( flowList[e].closeTime && flowList[e].closeTime<= timeLimit){
+				continue;
+			}
+
+			if( flowList[e].openTime>= timeLimit){
+				timeList[flowList[e].policyName] += flowList[e].wholeTime;
+				continue;
+			}
+
+			if(flowList[e].openTime<timeLimit){
+				for(var i=0; i<flowList[e][e].length; i++){
+					if( (i+1)<=(flowList[e][e].length-1) && flowList[e][e][i].time<timeLimit && flowList[e][e][i+1].time>=timeLimit ){
+						timeList[flowList[e].policyName] += ( flowList[e][e][flowList[e][e].length-1].time - flowList[e][e][i+1].time);
+					}else if( flowList[e][e][i].time<timeLimit && i==flowList[e][e].length-1 ){
+						timeList[flowList[e].policyName] += ( flowList[e][e][flowList[e][e].length-1].time - flowList[e][e][i].time);
+					}
+				}
+			}
+		}
+		//timeList排序，取前五
+		var timeOrder = [];
+
+		for(var e in timeList){
+			timeOrder.push({name:e, num:timeList[e]});
+		}
+
+		function sortByNum(a,b){
+			return b.num - a.num;
+		}
+
+		timeOrder.sort(sortByNum);
+
+	//	timeOrder = timeOrder.slice(0, 5);
+
+		if(timeOrder.length>5){
+			timeOrder = timeOrder.slice(timeOrder.length - 6);
+		}
+
+	////////////////////////// get the max in timeOrder.num
+
+		var count = 0;
+		var maxTime = 0;
+		for(var i=0; i<timeOrder.length; i++){
+			flowsName[timeOrder[i]['name']]==undefined?1:timeOrder[i]['name']=flowsName[timeOrder[i]['name']];
+
+			axisList.push([count, timeOrder[i]['name']]);
+			gridData.push([count, timeOrder[i].num/60])
+			count++;
+			if(maxTime < timeOrder[i].num/60){
+				maxTime = timeOrder[i].num/60;
+			}
+		}
+
+		maxTime = Number( Math.ceil(maxTime) );
+
+		if(maxTime>=0 && maxTime<5){
+			maxTime = 5;
+		}else if(maxTime>=5 && maxTime<10){
+			maxTime = 10;
+		}else if(maxTime>=10){
+			var maxStr = maxTime.toString();
+
+			if( Number(maxStr[1])<5){
+				maxTime = ( Number(maxStr[0]+'5') )*(Math.pow(10, maxStr.length-2) );
+			}else if( Number(maxStr[1]) >=5){
+				maxTime = ( Number(maxStr[0])+1 )*(Math.pow(10, maxStr.length-1) );
+			}
+		}
+
+
+		var plotRouterUp = $.plot(
+			$('#uptimeGrid'),
+			[
+				{
+					bars: {
+						show: true,
+						barWidth: 0.6
+					},
+					data: gridData
+				}
+			],
+			{
+				shadowSize: 5,
+				highlightColor: 'red',
+				legend: {
+					noColumns: 1,
+					position: 'sw',
+					margin: 10,
+					backgroundColor: '#CEDF99',
+					backgroundOpacity: 0.5
+				},
+				xaxis:{
+					max: 6,
+					min: 0,
+					tickColor: '#ccc',
+					tickSize: 1,
+					// reserveSpace: true,
+					labelWidth: 10,
+					ticks: axisList
+				},
+				yaxis:{
+					ticks: 10,
+					max: maxTime,
+					min: 0
+				},
+				grid:{
+					aboveData: true,
+					color: '#4D8CBC',
+					borderColor: '#6A9F7F',
+					labelMargin: 5,
+					minBorderMargin: null,
+					axisMargin: 5
+				},
+				crosshair: { mode: "x" }
+			}
+		);
+
+	}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	$("div.func-container").page({
+		title: $.su.CHAR.STREAMBOOST_STATISTICS.STATISTICS,
+		help: ""
+	});
+
+	var autoTestFlag = false;
+
+	$("div#uptime_panel").panel({
+		title: $.su.CHAR.STREAMBOOST_STATISTICS.UP_TIME,
+		collapsible: false
+	});
+
+	$("div#downloads_panel").panel({
+		title: $.su.CHAR.STREAMBOOST_STATISTICS.DOWNLOADS,
+		collapsible: false
+	});
+
+////////////////////////////
+	// //console.log(plotRouterUp.getOptions().xaxis.ticks)
+
+	// plotRouterUp.getOptions().xaxis.ticks  = [[1, 'world']];
+
+	// //console.log(plotRouterUp.getOptions().xaxis.ticks)
+
+	// plotRouterUp.setupGrid();
+	// plotRouterUp.draw();
+
+
+
+	$("input#chooseByTime").combobox({
+		fieldLabel: null,
+		disabled: true,
+		items:[
+			{name: $.su.CHAR.STREAMBOOST_STATISTICS.LAST_DAY, cls: 'm', value:'0', selected:true},
+			{name: $.su.CHAR.STREAMBOOST_STATISTICS.LAST_WEEK, cls: 'm', value: '1'},
+			{name: $.su.CHAR.STREAMBOOST_STATISTICS.LAST_MONTH, cls: 'm', value: '2'}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		switch(newValue[0])
+		{
+			case '0': 
+				setData( epochTime-preDayTime,  $("input#chooseByDevice").combobox('getValue')[0] );
+				break;
+			case '1': 
+				setData( epochTime-preWeekTime,  $("input#chooseByDevice").combobox('getValue')[0] );
+				break;
+			case '2': 
+				setData( epochTime-preMonthTime,  $("input#chooseByDevice").combobox('getValue')[0] );
+				break;
+		}
+	});
+
+
+	$("input#chooseByDevice").combobox({
+		fieldLabel: null,
+		disabled: true,
+		items:[{name:$.su.CHAR.STREAMBOOST_STATISTICS.ALL_LAN_HOSTS, value:'0', selected:true}]
+	}).on("ev_change", function(e, oldValue, newValue){
+
+		if(newValue[0]=='0'){
+			switch( $("input#chooseByTime").combobox('getValue')[0] ){
+				case '0': 
+					setData( epochTime-preDayTime,  '0' );
+					break;
+				case '1': 
+					setData( epochTime-preWeekTime,  '0' );
+					break;
+				case '2': 
+					setData( epochTime-preMonthTime, '0' );
+					break;
+			}
+
+		}else{
+			switch( $("input#chooseByTime").combobox('getValue')[0] ){
+				case '0': 
+					setData( epochTime-preDayTime,  newValue[0] );
+					break;
+				case '1': 
+					setData( epochTime-preWeekTime,  newValue[0] );
+					break;
+				case '2': 
+					setData( epochTime-preMonthTime, newValue[0] );
+					break;
+			}
+		}
+	});
+
+
+	$("input#chooseByTime").combobox('disable');
+	$("input#chooseByDevice").combobox('disable');
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	policyProxy.read({}, function(pData, status, xhr){
+
+		for(var e in pData){
+			policyRules[e] = pData[e];
+		}
+
+		eventProxy.read({}, function(data, status, xhr){
+			eventsData = data.events.sort(sortByTime);
+
+			globalProxy.read({}, function(data, status, xhr){
+
+
+				epochTime = data.epoch;
+
+				for(var i=0; i<eventsData.length; i++){
+
+					eventsByUid[eventsData[i].uuid]==undefined?eventsByUid[eventsData[i].uuid]=[]:1;
+
+					eventsByUid[eventsData[i].uuid].push(eventsData[i]);
+				}
+
+			//	//console.log(eventsByUid)
+
+				for(var e in eventsByUid){	//e是uuid，eventsByUid是array
+
+					eventsByUDetail[e] = {};
+					eventsByUDetail[e][e] = eventsByUid[e];
+
+					for(var i=0; i<eventsByUid[e].length; i++){
+
+						
+						eventsByUDetail[e]['wholeTime'] = eventsByUid[e][eventsByUid[e].length-1].time - eventsByUid[e][0].time;
+
+						if(eventsByUid[e][i]['event']=='open'){
+							eventsByUDetail[e]['openTime'] = eventsByUid[e][i].time;
+						//将policy_id转换成policyName
+							eventsByUDetail[e]['policyName'] = policyRules[eventsByUid[e][i].details.policy_id].emit;
+
+							eventsByUid[e][i].details.tx_bytes = 0;
+							eventsByUid[e][i].details.rx_bytes = 0;
+
+						}
+
+						eventsByUDetail[e]['txBytes'] = eventsByUid[e][eventsByUid[e].length-1].details.tx_bytes - eventsByUid[e][0].details.tx_bytes;
+						eventsByUDetail[e]['rxBytes'] = eventsByUid[e][eventsByUid[e].length-1].details.rx_bytes - eventsByUid[e][0].details.rx_bytes;
+
+
+						if(eventsByUid[e][i].event=='close'){
+							eventsByUDetail[e]['closeTime'] = eventsByUid[e][i].time;
+						}
+					}
+				}
+
+			//	//console.log(eventsByUDetail)
+
+
+
+			//得到eventsByUDetail，根据policyName来将其归类到不同flows下面，没有policyName的data将被丢弃
+			//同时根据MAC来将其归类到不同flows下面，没有MAC的data将被储存在一起
+
+				for(var e in eventsByUDetail){
+					if(eventsByUDetail[e].policyName!=undefined){
+
+						eventsByFlow[eventsByUDetail[e].policyName]==undefined?eventsByFlow[eventsByUDetail[e].policyName]={}:1;
+						eventsByFlow[eventsByUDetail[e].policyName][eventsByUDetail[e].policyName]==undefined?eventsByFlow[eventsByUDetail[e].policyName][eventsByUDetail[e].policyName]=[]:1;
+						eventsByFlow[eventsByUDetail[e].policyName]['txBytes']==undefined?eventsByFlow[eventsByUDetail[e].policyName]['txBytes']=0:1;
+						eventsByFlow[eventsByUDetail[e].policyName]['txBytes']+=eventsByUDetail[e].txBytes;
+						eventsByFlow[eventsByUDetail[e].policyName]['rxBytes']==undefined?eventsByFlow[eventsByUDetail[e].policyName]['rxBytes']=0:1;
+						eventsByFlow[eventsByUDetail[e].policyName]['rxBytes']+= Math.abs( eventsByUDetail[e].rxBytes );
+
+
+						eventsByFlow[eventsByUDetail[e].policyName][eventsByUDetail[e].policyName].push(eventsByUDetail[e]);
+
+						eventsByMac[eventsByUDetail[e][e][0].mac]==undefined?eventsByMac[eventsByUDetail[e][e][0].mac]={}:1;
+						eventsByMac[eventsByUDetail[e][e][0].mac][e] = eventsByUDetail[e];
+
+						eventsByFlow[eventsByUDetail[e].policyName]['name']==undefined?eventsByFlow[eventsByUDetail[e].policyName]['name']=eventsByUDetail[e].policyName:1;
+
+					}else{
+						eventsByFlow['other']==undefined?eventsByFlow['other']={}:1;
+						eventsByFlow['other']['other']==undefined?eventsByFlow['other']['other']=[]:eventsByFlow['other']['other'].push(eventsByUDetail[e]);
+
+						eventsByFlow['other']['txBytes']==undefined?eventsByFlow['other']['txBytes']=0:1;
+						eventsByFlow['other']['txBytes']+=eventsByUDetail[e].txBytes;
+						eventsByFlow['other']['rxBytes']==undefined?eventsByFlow['other']['rxBytes']=0:1;
+						eventsByFlow['other']['rxBytes']+=eventsByUDetail[e].rxBytes;
+
+					}
+				}
+
+			//	//console.log(eventsByMac)	//得到以MAC分类的数据，以后各个计算都是基于这个数据
+				var macOptions = [];
+				macOptions.push({name:$.su.CHAR.STREAMBOOST_STATISTICS.ALL_LAN_HOSTS, value:'0', selected:true})
+				for(var e in eventsByMac){
+					macOptions.push({name:e, value:e});
+				}
+				$("input#chooseByDevice").combobox('loadData', macOptions);
+
+			//	//console.log(eventsByFlow)	//得到以flows分类的数据，以后各个计算都是基于这个数据。饼状图数据
+
+			//	//console.log(eventsByFlow.sort(sortByRx))
+
+			//请求并处理好数据之后，再允许进行选择操作
+				$("input#chooseByTime").combobox('enable');
+				$("input#chooseByDevice").combobox('enable');
+
+			//以下应为基于eventsByMac的时间段的计算
+				setData( epochTime-preDayTime,  '0' );
+
+			//flowsArray为已排序成功的数据，用来计算饼状图
+				var wholeRxBytes = 0;
+				var plotData = [];
+				var otherRxBytes = 0;
+				
+				for(var e in eventsByFlow){
+					flowsArray.push( eventsByFlow[e] );
+					wholeRxBytes += eventsByFlow[e].rxBytes;
+					otherRxBytes += eventsByFlow[e].rxBytes;
+				}
+				flowsArray.sort(sortByRx);
+
+			//	//console.log(wholeRxBytes)
+
+				if(flowsArray.length > 5){
+					flowsArray = flowsArray.slice(flowsArray.length-5);
+				}
+
+			//	//console.log(flowsArray)
+
+
+				for(var i=0; i<flowsArray.length; i++){
+					plotData.push( {label:flowsArray[i].name, data:flowsArray[i].rxBytes/wholeRxBytes} );
+					otherRxBytes -= flowsArray[i].rxBytes;
+				}
+
+			//	//console.log(otherRxBytes)
+				plotData.push({label:$.su.CHAR.STREAMBOOST_STATISTICS.OTHER, data:otherRxBytes/wholeRxBytes});
+
+			// 更改名称
+				for(var i=0; i<plotData.length; i++){
+					flowsName[plotData[i]['label']]==undefined?1:plotData[i]['label']=flowsName[plotData[i]['label']];
+				}
+
+
+			////////////////////////////////////////////
+
+				$.plot($("div#downloadsGrid"), plotData, 
+			    { 
+			        series: {
+			            pie: { 
+			            	show: true,
+			                combine: {
+			                    color: '#999',
+			                    threshold: 0.01
+			                }
+			            }
+					},
+			        legend: {
+			            show: false
+			        }
+				}); 
+
+
+			});
+
+		});
+
+
+	});
+
+
+
+///////////////////////////////////////////////////////////////
+	var helpStatistics= new $.su.Help({
+		container: "div#statistics_help",
+		content: ['STREAM_BOOST_STATISTICS_UPTIME', 'STREAM_BOOST_STATISTICS_DOWNLOADS']
+	});
+
+});
+</script>
+</body>
+
+</html>

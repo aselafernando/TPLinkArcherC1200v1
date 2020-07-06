@@ -1,0 +1,233 @@
+Index: scripts/kconfig/mconf.c
+===================================================================
+--- scripts/kconfig/mconf.c	(版本 2022)
++++ scripts/kconfig/mconf.c	(工作副本)
+@@ -828,6 +828,22 @@
+ 	}
+ 
+ 	set_config_filename(conf_get_configname());
++
++
++        /*
++        **      read and parse dep_table
++        @@      TengFei, 14/07/04.
++        */
++#ifdef  IPT_DEP_TABLE_SUPPORT
++        res = mconf_deptab_maker();
++        if (res)
++        {
++                end_dialog(saved_x, saved_y);
++                return res;
++        }
++#endif  /* IPT_DEP_TABLE_SUPPORT */
++
++	
+ 	do {
+ 		conf(&rootmenu);
+ 		dialog_clear();
+@@ -842,6 +858,20 @@
+ 	} while (res == KEY_ESC);
+ 	end_dialog(saved_x, saved_y);
+ 
++
++	/*
++	**	To find dependency tree for specified kernel config.
++	@@	TengFei, 13/07/01.
++	*/
++#ifdef	CFG_RELIED_TREE_SUPPORT
++	if (ac > 2)
++	{
++		mconf_tree_getopt(ac -2, av + 2);
++		mconf_tree_maker();
++	}
++#endif	/* CFG_RELIED_TREE_SUPPORT */
++
++
+ 	switch (res) {
+ 	case 0:
+ 		if (conf_write(filename)) {
+Index: scripts/kconfig/symbol.c
+===================================================================
+--- scripts/kconfig/symbol.c	(版本 2022)
++++ scripts/kconfig/symbol.c	(工作副本)
+@@ -467,6 +467,20 @@
+ 	if (oldval != val && !sym_tristate_within_range(sym, val))
+ 		return false;
+ 
++        /*
++        **      limit range of value to set
++        @@      TengFei, 14/07/04.
++        */
++#ifdef  IPT_DEP_TABLE_SUPPORT
++        if (sym->node && sym->node->range)
++        {
++                if (!(*(unsigned int*)(sym->node->range) & val))
++                {
++                        return false;
++                }
++        }
++#endif  /* IPT_DEP_TABLE_SUPPORT */
++
+ 	if (!(sym->flags & SYMBOL_DEF_USER)) {
+ 		sym->flags |= SYMBOL_DEF_USER;
+ 		sym_set_changed(sym);
+@@ -629,6 +643,17 @@
+ 	if (!sym_string_within_range(sym, newval))
+ 		return false;
+ 
++        /*
++        **      limit range of value to set
++        @@      TengFei, 14/07/04.
++        */
++#ifdef  IPT_DEP_TABLE_SUPPORT
++        if (sym->node)
++        {
++                return false;
++        }
++#endif
++
+ 	if (!(sym->flags & SYMBOL_DEF_USER)) {
+ 		sym->flags |= SYMBOL_DEF_USER;
+ 		sym_set_changed(sym);
+Index: scripts/kconfig/Makefile
+===================================================================
+--- scripts/kconfig/Makefile	(版本 2022)
++++ scripts/kconfig/Makefile	(工作副本)
+@@ -3,7 +3,7 @@
+ # These targets are used from top-level makefile
+ 
+ PHONY += oldconfig xconfig gconfig menuconfig config silentoldconfig update-po-config \
+-	localmodconfig localyesconfig
++	localmodconfig localyesconfig cut_menuconfig atree_menuconfig stree_menuconfig
+ 
+ ifdef KBUILD_KCONFIG
+ Kconfig := $(KBUILD_KCONFIG)
+@@ -20,6 +20,22 @@
+ menuconfig: $(obj)/mconf
+ 	$< $(Kconfig)
+ 
++# added by TengFei, 13/07/01
++RES_FILE_NAME ?= /tmp/tree.log
++ifdef KCFG_NAME_TARG
++cut_menuconfig: $(obj)/mconf
++	$< $(Kconfig) range_allconfig config_displayonce $(KCFG_NAME_TARG) $(RES_FILE_NAME)
++atree_menuconfig: $(obj)/mconf
++	$< $(Kconfig) range_allconfig config_displayorignal $(KCFG_NAME_TARG) $(RES_FILE_NAME)
++stree_menuconfig: $(obj)/mconf
++	$< $(Kconfig) range_selectedconfig config_displayorignal $(KCFG_NAME_TARG) $(RES_FILE_NAME)
++else
++cut_menuconfig atree_menuconfig stree_menuconfig:
++	@echo You should specify var KCFG_NAME_TARG. 
++	@echo e.g. make cut_menuconfig KCFG_NAME_TARG=INET RES_FILE_NAME=/tmp/tree.log
++endif
++# end added
++	
+ config: $(obj)/conf
+ 	$< --oldaskconfig $(Kconfig)
+ 
+@@ -124,6 +140,9 @@
+ 	@echo  '  config	  - Update current config utilising a line-oriented program'
+ 	@echo  '  nconfig         - Update current config utilising a ncurses menu based program'
+ 	@echo  '  menuconfig	  - Update current config utilising a menu based program'
++	@echo  '  cut_menuconfig  - create dependency-tree of specified config used to cut unused modules from kernel'
++	@echo  '  atree_menuconfig - create dependency-tree of specified config through ranges of all kernel configs'
++	@echo  '  stree_menuconfig - create dependency-tree of specified config through ranges of selected kernel configs'
+ 	@echo  '  xconfig	  - Update current config utilising a QT based front-end'
+ 	@echo  '  gconfig	  - Update current config utilising a GTK based front-end'
+ 	@echo  '  oldconfig	  - Update current config utilising a provided .config as base'
+@@ -156,7 +175,7 @@
+ # conf:	  Used for defconfig, oldconfig and related targets
+ # nconf:  Used for the nconfig target.
+ #         Utilizes ncurses
+-# mconf:  Used for the menuconfig target
++# mconf:  Used for the menuconfig target && xxx_menuconfig target(xxx eq cut, etc.)
+ #         Utilizes the lxdialog package
+ # qconf:  Used for the xconfig target
+ #         Based on QT which needs to be installed to compile it
+@@ -168,7 +187,7 @@
+ lxdialog += lxdialog/textbox.o lxdialog/yesno.o lxdialog/menubox.o
+ 
+ conf-objs	:= conf.o  zconf.tab.o
+-mconf-objs     := mconf.o zconf.tab.o $(lxdialog)
++mconf-objs     := mconf.o mconf_tree.o mconf_deptab.o zconf.tab.o $(lxdialog)
+ nconf-objs     := nconf.o zconf.tab.o nconf.gui.o
+ kxgettext-objs	:= kxgettext.o zconf.tab.o
+ 
+@@ -182,6 +201,18 @@
+ 	hostprogs-y += mconf
+ endif
+ 
++# added by TengFei, 13/07/01
++ifeq ($(MAKECMDGOALS),cut_menuconfig)
++	hostprogs-y += mconf
++endif
++ifeq ($(MAKECMDGOALS),atree_menuconfig)
++	hostprogs-y += mconf
++endif
++ifeq ($(MAKECMDGOALS),stree_menuconfig)
++	hostprogs-y += mconf
++endif
++#end added
++
+ ifeq ($(MAKECMDGOALS),xconfig)
+ 	qconf-target := 1
+ endif
+@@ -204,7 +235,7 @@
+ clean-files     += mconf qconf gconf nconf
+ clean-files     += config.pot linux.pot
+ 
+-# Check that we have the required ncurses stuff installed for lxdialog (menuconfig)
++# Check that we have the required ncurses stuff installed for lxdialog (menuconfig, xxx_menuconfig)
+ PHONY += $(obj)/dochecklxdialog
+ $(addprefix $(obj)/,$(lxdialog)): $(obj)/dochecklxdialog
+ $(obj)/dochecklxdialog:
+Index: scripts/kconfig/expr.h
+===================================================================
+--- scripts/kconfig/expr.h	(版本 2022)
++++ scripts/kconfig/expr.h	(工作副本)
+@@ -15,6 +15,13 @@
+ #include <stdbool.h>
+ #endif
+ 
++/*
++**	Macro "CFG_RELIED_TREE_SUPPORT" used to find dependency tree
++**	for specified kernel config.
++@@	TengFei, 13/07/01	
++*/
++#include	"mconf_tree.h"	/* CFG_RELIED_TREE_SUPPORT */
++
+ struct file {
+ 	struct file *next;
+ 	struct file *parent;
+@@ -85,6 +92,14 @@
+ 	struct property *prop;
+ 	struct expr_value dir_dep;
+ 	struct expr_value rev_dep;
++
++        /*
++        **      node points to deptab_node which was attached to this menu.
++        @@      TengFei, 14/07/09
++        */
++#ifdef  IPT_DEP_TABLE_SUPPORT
++        struct deptab_node* node;
++#endif  /* IPT_DEP_TABLE_SUPPORT */
+ };
+ 
+ #define for_all_symbols(i, sym) for (i = 0; i < SYMBOL_HASHSIZE; i++) for (sym = symbol_hash[i]; sym; sym = sym->next) if (sym->type != S_OTHER)
+@@ -170,6 +185,16 @@
+ 	struct file *file;
+ 	int lineno;
+ 	void *data;
++/*
++**	Macro "CFG_RELIED_TREE_SUPPORT" used to find dependency tree for
++**	specified kernel config.
++**	member "times" used to mark the times this menu was selected
++**	by child configs.
++@@	TengFei, 13/07/01	 
++*/
++#ifdef	CFG_RELIED_TREE_SUPPORT
++	unsigned char times;
++#endif	/* CFG_RELIED_TREE_SUPPORT */
+ };
+ 
+ #define MENU_CHANGED		0x0001

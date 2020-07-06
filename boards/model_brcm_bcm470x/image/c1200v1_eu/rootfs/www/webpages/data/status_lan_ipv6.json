@@ -1,0 +1,11 @@
+{
+	"errCode": false,
+	"success": true,
+	"data":{
+		"lan_macaddr": "00-11-22-33-44-55",
+		"lan_ipv6_ipaddr": "fe80::20a:ebff:fe13:7b00/64",
+		"lan_ipv6_link_local_addr": "fe80::20a:ebff:fe13:7b00/64",
+		"lan_ipv6_assign_type": "SLAAC"
+
+	}
+}

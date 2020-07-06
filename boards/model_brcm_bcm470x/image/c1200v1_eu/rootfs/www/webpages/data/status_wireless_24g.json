@@ -1,0 +1,12 @@
+{
+	"errCode": false,
+	"success": true,
+	"data":{
+		"wireless_2g_ssid": "wireless 2.4g",
+		"wireless_2g_enable": "On",
+		"wireless_2g_hwmode": "11bgn mixed", 
+		"wireless_2g_htmode": "Automatic",
+		"wireless_2g_channel": "Automatic",
+		"wireless_2g_macaddr": "00-11-22-33-44-55"
+	}
+}

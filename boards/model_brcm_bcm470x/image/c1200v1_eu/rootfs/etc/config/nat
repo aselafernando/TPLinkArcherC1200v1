@@ -1,0 +1,23 @@
+config default nat
+    option zones 'lan wan'
+    list network 'lan-lan'
+    list network 'wan-wan'
+    list network 'wan-internet'
+    option norder 'http ftp vs pt dns'
+
+config nat_global
+	option enable 'on'
+	option hw_enable 'off'
+
+config nat_dmz
+	option name 'dmz01'
+	option enable 'off'
+
+config nat_alg
+	option ftp 'on'
+	option tftp 'on'
+	option h323 'on'
+	option rtsp 'on'
+	option pptp 'on'
+	option l2tp 'on'
+	option ipsec 'on'

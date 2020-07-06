@@ -1,0 +1,2853 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>syspara Control</title>
+<style type="text/css">
+	#title{
+		color: #10abe1;
+		font-size: 14px;
+		height: 24px;
+		border-bottom: 1px solid #d8d8d9;
+	}
+
+	#ok{
+		margin-left:200px;
+	}
+
+	lebel.notice_lbl{
+		padding-top:5px;
+	}
+
+	table#tbl_dos{
+		width:100%;
+	}
+
+
+	td.notice{
+		vertical-align:top;
+		width:230px;
+		margin:0px;
+		text-align: left;
+		padding-top:15px
+	}
+
+	td.value{
+		text-align: left;
+	}
+
+	span.disabled{
+	    color: #B3B3B3;
+   }
+</style>
+</head>
+
+<body>
+<div class="func-container">
+
+
+	 <div id="w24g">
+	 	<form id="w24g-setting">
+	    	<input type="text"  id="beacon_int_2g" name="beacon_int" value="" />
+	    	<input type="text"  id="rts_2g" name="rts" value="" />
+	    	<!-- <input type="text"  id="frag_2g" name="frag" value="" /> -->
+            <input type="text"  id="dtim_period_2g" name="dtim_period" value="" />
+			<input type="text"  id="wpa_group_rekey_2g" name="wpa_group_rekey" value="" />
+			
+
+			<div id="feature2g_container" class="hidden">
+				<input type="text"  id="wmm_2g" name="wmm" value="" />
+				<input type="text"  id="shortgi_2g" name="shortgi" value="" />
+				<input type="text"  id="isolate_2g" name="isolate" value="" />
+			</div>
+
+
+			<div id="2g_wds_status">
+	    	<input type="text"  id="enable_2g" name="enable" value="" />
+	    	<div id="ssid_cnt_2g">
+		    	<input type="text"  id="ssid_2g" name="ssid" value="" />
+		    	
+		    	<button type="button" id="syspara_survey_2g" name="syspara_survey"></button>
+		    	<input type="text"  id="bssid_2g" name="bssid" value="" />
+				<input type="text"  id="wds_mode_2g" name="wds_mode" value="" />
+
+		    	<input type="text"  id="encryption_2g" name="encryption" value="" />
+		    	<div id="wpa_cnt_24g">
+		    		<input type="text"  id="psk_key_2g" name="psk_key" value="" />
+			    </div>
+	    	
+
+	    	
+		    	<div id="wep_cnt_24g">
+		    		<input type="text"  id="wep_mode_2g" name="wep_mode" value="" />
+		    		<input type="text"  id="wep_select_2g" name="wep_select" value="" />
+		    		<div id="key1_cnt_2g">
+			    		<input type="text"  id="wep_format1_2g" name="wep_format1" value="" />
+			    		<input type="text"  id="wep_key1_2g" name="wep_key1" value="" />
+			    	</div>
+			    	<div id="key2_cnt_2g">
+			    		<input type="text"  id="wep_format2_2g" name="wep_format2" value="" />
+			    		<input type="text"  id="wep_key2_2g" name="wep_key2" value="" />
+			    	</div>
+			    	<div id="key3_cnt_2g">
+			    		<input type="text"  id="wep_format3_2g" name="wep_format3" value="" />
+			    		<input type="text"  id="wep_key3_2g" name="wep_key3" value="" />
+			    	</div>
+			    	<div id="key4_cnt_2g">
+			    		<input type="text"  id="wep_format4_2g" name="wep_format4" value="" />
+			    		<input type="text"  id="wep_key4_2g" name="wep_key4" value="" />
+			    	</div>
+		    		
+		    	</div>
+		    </div>
+			</div>
+	    	
+	    	<!-- <input type="text"  id="syspara_w24gPwd" name="syspara_w24gPwd" value="" /> -->
+	    	<button type="button" id="total_save_2g"></button>
+	    	<p class="note hidden" id="note_title_2g">
+	    		<span class="title note-title"></span>
+	    		<span class="text" id="note_title_2g_text"></span>
+	    	</p>
+	    </form>
+	 </div>
+
+
+	  <div id="w5g">
+	 	<form id="w5g-setting">
+	    	<input type="text"  id="beacon_int_5g" name="beacon_int" value="" />
+	    	<input type="text"  id="rts_5g" name="rts" value="" />
+	    	<!-- <input type="text"  id="frag_5g" name="frag" value="" /> -->
+            <input type="text"  id="dtim_period_5g" name="dtim_period" value="" />
+			<input type="text"  id="wpa_group_rekey_5g" name="wpa_group_rekey" value="" />
+			
+		
+			<div id="feature5g_container" class="hidden">
+				<input type="text"  id="wmm_5g" name="wmm" value="" />
+				<input type="text"  id="shortgi_5g" name="shortgi" value="" />
+				<input type="text"  id="isolate_5g" name="isolate" value="" />
+			</div>
+
+
+			<div id="5g_wds_status">
+	    	<input type="text"  id="enable_5g" name="enable" value="" />
+	    	<div id="ssid_cnt_5g">
+		    	<input type="text"  id="ssid_5g" name="ssid" value="" />
+		    	
+		    	<button type="button" id="syspara_survey_5g" name="syspara_survey"></button>
+		    	<input type="text"  id="bssid_5g" name="bssid" value="" />
+				<input type="text"  id="wds_mode_5g" name="wds_mode" value="" />
+
+	    	<input type="text"  id="encryption_5g" name="encryption" value="" />
+	    	<div id="wpa_cnt_5g">
+	    		<input type="text"  id="psk_key_5g" name="psk_key" value="" />
+	    	</div>
+		    
+
+	    	
+		    	<div id="wep_cnt_5g">
+		    		<input type="text"  id="wep_mode_5g" name="wep_mode" value="" />
+		    		<input type="text"  id="wep_select_5g" name="wep_select" value="" />
+		    		<div id="key1_cnt_5g">
+			    		<input type="text"  id="wep_format1_5g" name="wep_format1" value="" />
+			    		<input type="text"  id="wep_key1_5g" name="wep_key1" value="" />
+			    	</div>
+			    	<div id="key2_cnt_5g">
+			    		<input type="text"  id="wep_format2_5g" name="wep_format2" value="" />
+			    		<input type="text"  id="wep_key2_5g" name="wep_key2" value="" />
+			    	</div>
+			    	<div id="key3_cnt_5g">
+			    		<input type="text"  id="wep_format3_5g" name="wep_format3" value="" />
+			    		<input type="text"  id="wep_key3_5g" name="wep_key3" value="" />
+			    	</div>
+			    	<div id="key4_cnt_5g">
+			    		<input type="text"  id="wep_format4_5g" name="wep_format4" value="" />
+			    		<input type="text"  id="wep_key4_5g" name="wep_key4" value="" />
+			    	</div>
+		    		
+		    	</div>
+	    	</div>
+	   		</div>
+	    	<!-- <input type="text"  id="syspara_w5gPwd" name="syspara_w5gPwd" value="" /> -->
+	    <button  type="button" id="total_save_5g"></button>
+	    <p class="note hidden" id="note_title_5g">
+	    	<span class="title note-title"></span>
+	    	<span class="text" id="note_title_5g_text"></span>
+	    </p>
+	    </form>
+	 </div>
+	 
+	<!--  <div id="guest">
+	 	<form id="guest-setting">
+	    	<input type="text"  id="syspara_guest_access" name="syspara_guest_access" value="" />
+	    </form>
+	 </div> -->
+	 
+	 
+	 <div id="wps">
+	 	<form id="wps-setting">
+	    	<input type="text"  id="wps_status" name="wps" value="" />
+	    </form>
+	 </div>
+
+	 <div id="nat">
+	 	<form id="nat-setting">
+	    	<input type="text"  id="nat_enable" name="enable" value="" />
+	    	<input type="text"  id="nat_boost_enable" name="boost_enable" value="" />
+
+	    	<input type="button"  id="nat_save_btn" value="" />
+	    </form>
+	 </div>
+	 
+	 
+	 
+	
+
+
+	 <div id="level">
+	 	<form id="level-setting">
+	    	<!-- <input type="text"  id="syspara_level_interval" name="syspara_level_interval" value="" /> -->
+	    	<table id="tbl_dos">
+	    		<tbody>
+	    			<tr>
+	    				<td class="notice"><label id="syspara_level_icmp" class="notice_lbl"></label></td>
+	    				<td class="value">
+	    					<input type="text"  id="icmp_low" name="icmp_low" value="" />
+	    					<input type="text"  id="icmp_middle" name="icmp_middle" value="" />
+	    					<input type="text"  id="icmp_high" name="icmp_high" value="" />
+	    				</td>
+	    			</tr>
+
+	    			<tr>
+	    				<td class="notice"><label id="syspara_level_udp" class="notice_lbl"></label></td>
+	    				<td  class="value">
+	    					<input type="text"  id="udp_low" name="udp_low" value="" />
+	    					<input type="text"  id="udp_middle" name="udp_middle" value="" />
+	    					<input type="text"  id="udp_high" name="udp_high" value="" />
+	    				</td>
+	    			</tr>
+
+	    			<tr>
+	    				<td class="notice"><label id="syspara_level_tcp" class="notice_lbl"></label></td>
+	    				<td class="value">
+	    					<input type="text"  id="tcp_low" name="syn_low" value="" />
+	    					<input type="text"  id="tcp_middle" name="syn_middle" value="" />
+	    					<input type="text"  id="tcp_high" name="syn_high" value="" />
+	    				</td>
+	    			</tr>
+
+
+	    		</tbody>
+	    	</table>
+			
+
+
+
+		
+	    </form>
+	 </div>
+	 
+	 
+	 <!-- <div id="traffic">
+	 	<form id="traffic-setting">
+	    	<input type="text"  id="syspara_traffic_interval" name="syspara_traffic_interval" value="" />
+	    </form>
+	 </div> -->
+	 
+	 
+	 <div id="survey">
+	 	<!-- <p id="title"></p> -->
+	
+	 	<div id="result_2g">
+	     		
+		</div>
+		<div id="result_5g">
+	     		
+		</div>
+		<!-- <button id="ok"></button>
+		<button id="cancle"></button> -->
+	 </div>
+
+	<!--  <div id="adv">
+	 	<form id="adv-setting">
+	    	<input type="text"  id="syspara_adv_icmp" name="syspara_adv_icmp" value="" />
+	    	<input type="text"  id="syspara_adv_icmpPkt" name="syspara_adv_icmpPkt" value="" />
+	    	<input type="text"  id="syspara_adv_udp" name="syspara_adv_udp" value="" />
+	    	<input type="text"  id="syspara_adv_udpPkt" name="syspara_adv_udpPkt" value="" />
+	    	<input type="text"  id="syspara_adv_tcp" name="syspara_adv_tcp" value="" />
+	    	<input type="text"  id="syspara_adv_tcpPkt" name="syspara_adv_tcpPkt" value="" />
+	    </form>
+	 </div> -->
+
+
+    <div id="internet_duplex_panel">
+    	<form id="internet_duplex_form">
+    		<input name="port" value="wan" class="hidden"/>
+			<input id="internet_duplex" name="speed"/>
+		</form>
+	</div>
+
+	<div id="led_panel">
+		<form id="led_form">
+			<input id="led_night_mode" name="enable"/>
+			<input id="led_time_start" name="time_start"/>
+			<span id="led_time_to" class="led-time-to"></span>
+			<input id="led_time_end" name="time_end"/>
+			<p id="led_night_mode_note" class="note hidden"></p>
+			<p id="led_note" class="note hidden"></p>
+		</form>
+	</div>
+
+	<div id="notice_2g">
+		<h4 class="title">
+	    	<span class="icon"></span>
+	 		<span class="text" id="notice_content_2g"></span>
+	 	</h4>
+	</div>
+
+	<div id="notice_5g">
+		<h4 class="title">
+	    	<span class="icon"></span>
+	 		<span class="text" id="notice_content_5g"></span>
+	 	</h4>
+	</div>
+
+	<div id="notice_nat_boost">
+		<h4 class="title">
+	    	<span class="icon"></span>
+	 		<span class="text" id="notice_content_nat_boost"></span>
+	 	</h4>
+	 	
+	</div>
+
+	<div id="reboot_nat_boost">
+		<div id="factory_pro_cnt" class="reboot-loading-msg">
+	 		<p id="factory_note"  class="reboot-progressbar-text"></p>
+	    	<input id="factory_pro_bar" type="text" />
+	    </div>
+	</div>
+
+	<div id="help_system_para"></div>
+</div>
+
+<script type="text/javascript">
+
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(){
+
+///////////////////////// duplex
+var wds_2g = "";
+var wds_5g = "";
+
+var ledpm_support = "";
+
+var duplexProxy = new $.su.Proxy({
+	url: $.su.url('/admin/network?form=port_speed_current')
+});
+
+var duplexSpeedUrl = $.su.url("/admin/network?form=port_speed_supported");
+var SYS_NAT_URL_NEW = $.su.url("/admin/nat?form=setting");
+var IPTV_URL_NEW = $.su.url("/admin/iptv?form=setting");
+
+var WIRELESS_GUEST_2G_URL_NEW = $.su.url("/admin/wireless?form=guest_2g");
+var WIRELESS_GUEST_5G_URL_NEW = $.su.url("/admin/wireless?form=guest_5g");
+var guest2gProxy = new $.su.Proxy({
+		url: WIRELESS_GUEST_2G_URL_NEW
+	});
+
+var guest5gProxy = new $.su.Proxy({
+		url: WIRELESS_GUEST_5G_URL_NEW
+	});
+
+	
+var sysNatProxy = new $.su.Proxy({
+	url: SYS_NAT_URL_NEW
+});
+
+var iptvProxy = new $.su.Proxy({
+	url: IPTV_URL_NEW
+});
+
+var support_wds_show = "";
+$("#2g_wds_status").css({
+	"display" : "none"
+});
+
+$("#5g_wds_status").css({
+	"display" : "none"
+});
+
+$("div#internet_duplex_panel").panel({
+	title: $.su.CHAR.INTERNET.DUPLEX,
+	collapsible: false
+});
+
+$("input#internet_duplex").combobox({
+	fieldLabel: $.su.CHAR.INTERNET.DUPLEX,
+	labelCls: 'm',
+	items:[
+		// {name: $.su.CHAR.INTERNET.AUTO_NEGOTIATION, cls: 'l', value:'auto', selected:true},
+		// {name: $.su.CHAR.INTERNET.FULL_DUPLEX_1000, cls: 'l', value:'1000F'},
+		// {name: $.su.CHAR.INTERNET.FULL_DUPLEX_100, cls: 'l', value:'100F'},
+		// {name: $.su.CHAR.INTERNET.HALF_DUPLEX_100, cls: 'l', value:'100H'},
+		// {name: $.su.CHAR.INTERNET.FULL_DUPLEX_10, cls: 'l', value:'10F'},
+		// {name: $.su.CHAR.INTERNET.HALF_DUPLEX_10, cls: 'l', value:'10H'}
+	]
+});
+
+function isWdsDisabled(id)
+{
+	var cnt = $(id).checkbox("getContainer");
+	// cnt.is(":dis")
+	// console.dir(cnt);
+	// console.log(cnt.prop("disabled"));
+	// console.log(cnt.attr("disabled"));
+}
+
+function parseName(val)
+{
+	var str = "";
+	var temp = "";
+	var name = "";
+	if(!val)
+	{
+		return "";
+	}
+	else
+	{
+		if(val == "auto")
+		{
+			return $.su.CHAR.INTERNET.AUTO_NEGOTIATION;
+		}
+		else
+		{
+			if(val.indexOf("H") > 0)
+			{
+				temp = val.replace("H", "_DUPLEX_HALF");
+			}
+			else if(val.indexOf("F") > 0)
+			{
+				temp = val.replace("F", "_DUPLEX_FULL");
+			}
+			// temp = val.replace("H", "_DUPLEX_HALF").replace("F", "_DUPLEX_FULL");
+			var arr = temp.split("_");
+			arr.reverse();
+			name = arr.join("_");
+			str = $.su.CHAR.INTERNET[name];
+
+		}
+	}
+	return str;
+}
+
+var regionItem = [];
+$.post(duplexSpeedUrl,{},function(response,status,xhr){
+	if(!response.data)
+	{
+		return false;
+	}
+	$(response.data.supported).each(function(index,element){
+		var tempObj = {};
+		tempObj["value"] = element;
+		tempObj["name"] = parseName(element);
+		regionItem.push(tempObj);
+	});
+	$("#internet_duplex").combobox("loadData",regionItem);
+	$("form#internet_duplex_form").form({
+		proxy: duplexProxy,
+		fields: [
+			{name: "speed", mapping: "speed"}
+		],
+		submitBtn: "default"
+	});
+},"json");
+
+
+////////////////////////////////////////////////////////////////
+
+	var SYS_WIRELESS_2G_URL = "./data/syspara.w24g.json";
+	var SYS_WIRELESS_5G_URL = "./data/syspara.w5g.json";
+
+	var SYS_SURVEY_2G_URL = "./data/sys.survey2g.json";
+	var SYS_SURVEY_5G_URL = "./data/sys.survey5g.json";
+
+	var SYS_WIRELESS_WPS_URL = "./data/syspara.wps.json";
+	var SYS_DOS_PROTECT_URL = "./data/syspara.level.json";
+
+
+	var SYS_NAT_URL = "./data/nat.nat.json";
+
+	var SYS_WIRELESS_2G_URL_NEW = $.su.url("/admin/wireless?form=syspara_2g");
+	var SYS_WIRELESS_5G_URL_NEW = $.su.url("/admin/wireless?form=syspara_5g");
+
+	var SYS_SURVEY_2G_URL_NEW = $.su.url("/admin/wireless?form=survey_2g");
+	var SYS_SURVEY_5G_URL_NEW = $.su.url("/admin/wireless?form=survey_5g");
+	var SYS_WIRELESS_WPS_URL_NEW = $.su.url("/admin/wireless?form=syspara_wps");
+
+	var SYS_NAT_URL_NEW = $.su.url("/admin/nat?form=setting");
+	var SYS_DOS_PROTECT_URL_NEW = $.su.url("/admin/security_settings?form=dos_setting");
+
+	var URL_WIRELESS_2G_NEW = $.su.url("/admin/wireless?form=wireless_2g");
+	var URL_WIRELESS_5G_NEW = $.su.url("/admin/wireless?form=wireless_5g");
+
+	var LED_NEW = $.su.url("/admin/ledpm?form=setting");
+
+	var URL_QOS_SET_NEW = $.su.url("/admin/qos?form=settings"); //"./data/qos.set.json"
+	var qosProxy = new $.su.Proxy({
+		url: URL_QOS_SET_NEW
+	});
+
+
+
+	var qosEnable = "";
+    var URL_STA_SET_NEW = $.su.url("/admin/traffic?form=status"); //"./data/qos.set.json"
+	var sysStaProxy = new $.su.Proxy({
+		url: URL_STA_SET_NEW
+	});
+
+	var sysStaEnable = "";
+
+
+
+	var SYS_DOS_PROTECT_MIN = 5;
+	var SYS_DOS_PROTECT_MAX = 7200;
+
+
+	var wire_channel_2g = 0;
+	var wire_channel_5g = 0;
+
+	var wireless_2g_disabled = "off";
+	var wireless_2g_disabled_all = "off";
+
+	var wireless_5g_disabled = "off";
+	var wireless_5g_disabled_all = "off";
+
+	var sys_slt_2g = 0;
+	var sys_slt_5g = 0;
+
+
+	var wds_2g_disable_step1 =  false;
+	var wds_2g_disable_step2 =  false;
+	var wds_2g_disable_step3 =  false;
+
+	var wds_5g_disable_step1 =  false;
+	var wds_5g_disable_step2 =  false;
+	var wds_5g_disable_step3 =  false;
+
+	var nat_reboot_time = 10*1000;
+	var nat_boost_ori = "";
+
+
+
+
+	$("span.note-title").text($.su.CHAR.OPERATION.NOTE);
+	$("span#note_title_2g_text").text($.su.CHAR.SYSPARA.SWITCH_NOTICE);
+	$("span#note_title_5g_text").text($.su.CHAR.SYSPARA.SWITCH_NOTICE);
+
+
+	
+	
+
+
+
+	$("div.func-container").page({
+		title: $.su.CHAR.SYSPARA.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+	
+	// $("div#sys_para").panel({
+	// 	title: $.su.CHAR.SYSPARA.TITLE,
+	// 	collapsible: false
+	// });
+	
+	// $("p#note").html($.su.CHAR.SYSPARA.WARN);
+	$("div#w5g").panel({
+		title: $.su.CHAR.SYSPARA.W5G,
+		collapsible: false
+	});
+
+
+	$("input#beacon_int_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.BEACON,
+		tips:$.su.CHAR.SYSPARA.BEACONUNIT,
+		vtype:{
+				vtype:"number",
+				min:40,
+				max:1000
+		},
+		maxLength:4,
+		textFormat:$.su.format.number,
+		min:40,
+		max:1000,
+		allowBlank:false,
+		// validator:function(val){
+		// 	if((val >= 40) && (val <= 1000))
+		// 	{
+		// 		return true;
+		// 	}
+		// 	else
+		// 	{
+		// 		return $.su.CHAR.ERROR["00000035"];
+		// 	}
+		// },
+		labelCls:'l'
+	});   
+	
+	$("input#rts_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.RTS,
+		tips:$.su.CHAR.SYSPARA.RTSUNIT,
+		vtype:{
+				vtype:"number",
+				min:1,
+				max:2346
+		},
+		maxLength:4,
+		textFormat:$.su.format.number,
+		min:1,
+		max:2346,
+		allowBlank:false,
+		// validator:function(val){
+		// 	if((val >= 1) && (val <= 2346))
+		// 	{
+		// 		return true;
+		// 	}
+		// 	else
+		// 	{
+		// 		return $.su.CHAR.ERROR["00000036"];
+		// 	}
+		// },
+		labelCls:'l'
+	}); 
+
+
+	// $("input#frag_5g").textbox({
+	// 	fieldLabel: $.su.CHAR.SYSPARA.FRAG,
+	// 	tips:$.su.CHAR.SYSPARA.FRAGUNIT,
+	// 	vtype:"number",
+	// 	min:256,
+	// 	max:2346,
+	// 	allowBlank:false,
+	// 	validator:function(val){
+	// 		if((val >= 256) && (val <= 2346))
+	// 		{
+	// 			return true;
+	// 		}
+	// 		else
+	// 		{
+	// 			return $.su.CHAR.ERROR["00000037"];
+	// 		}
+	// 	},
+	// 	labelCls:'l'
+	// }); 
+
+
+	$("input#dtim_period_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.DTIM,
+		tips:$.su.CHAR.SYSPARA.DTIMUNIT,
+		vtype:{
+				vtype:"number",
+				min:1,
+				max:15
+		},
+		maxLength:2,
+		textFormat:$.su.format.number,
+		min:1,
+		max:15,
+		allowBlank:false,
+		labelCls:'l'
+	}); 
+	
+	
+	$("input#wpa_group_rekey_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.GROUP,
+		tips:$.su.CHAR.SYSPARA.GROUPUNIT,
+		vtype:"number",
+		textFormat:$.su.format.number,
+		allowBlank:false,
+		maxLength:5,
+		invalidText: $.su.CHAR.ERROR["00000039"],
+		validator: function(val){
+			if(val == 0)
+			{
+				return true;
+			}
+
+			if( (val >= 30) && (val <= 86400))
+			{
+				return true;
+			}
+			return false;
+		},
+		labelCls:'l'
+	});
+	
+
+ 	
+
+
+	// $("input#wmm").switchbutton({
+	// 	fieldLabel: $.su.CHAR.SYSPARA.WMM,
+	// 	labelCls:'l'
+	// });
+	$("input#wmm_5g").checkbox({
+		fieldLabel: $.su.CHAR.SYSPARA.WMM_FEATURE,
+		labelCls:'l',
+		cls:"part-separate",
+		items: [
+			{boxlabel: $.su.CHAR.SYSPARA.WMM, uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+
+
+	$("input#shortgi_5g").checkbox({
+		fieldLabel: $.su.CHAR.SYSPARA.GI_FEATURE,
+		labelCls:'l',
+		items: [
+			{boxlabel: $.su.CHAR.SYSPARA.GI, uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+
+
+	$("input#isolate_5g").checkbox({
+			fieldLabel: $.su.CHAR.SYSPARA.AP_FEATURE,
+			labelCls:'l',
+			items: [
+				{boxlabel: $.su.CHAR.SYSPARA.AP, uncheckedValue:"off", inputValue: "on"}
+			]
+		});
+
+
+	$("input#enable_5g").checkbox({
+		fieldLabel: $.su.CHAR.SYSPARA.WDS_FEATURE,
+		labelCls:'l',
+		cls:"part-separate",
+		tips:"",
+		tipsCls:"m",
+		items: [
+			{boxlabel: $.su.CHAR.SYSPARA.WDS, uncheckedValue:"off", inputValue: "on"}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		var val = (newValue[0]=="enable"||newValue[0]=="on") ? "on" : "off";
+		var enc = $("input#encryption_5g").radio("getValue");
+		var key = $("input#wep_select_5g").combobox("getValue")[0];
+		switch(val)
+		{
+			case "on":
+				$("#ssid_cnt_5g").fieldset("show");
+				$("#wpa_cnt_5g").fieldset((enc == "psk") ? "show" : "hide");
+				$("#wep_cnt_5g").fieldset((enc == "wep") ? "show" : "hide");
+				$('#key1_cnt_5g').fieldset(((enc == "wep") && key=='1') ? "show":"hide");
+				$('#key2_cnt_5g').fieldset(((enc == "wep") && key=='2') ? "show":"hide");
+				$('#key3_cnt_5g').fieldset(((enc == "wep") && key=='3') ? "show":"hide");
+				$('#key4_cnt_5g').fieldset(((enc == "wep") && key=='4') ? "show":"hide");
+				break;
+			case "off":
+				$("#ssid_cnt_5g").fieldset("hide");
+				$("#wep_cnt_5g").fieldset("hide");
+				$("#wpa_cnt_5g").fieldset("hide");
+				$('#key1_cnt_5g').fieldset("hide");
+				$('#key2_cnt_5g').fieldset("hide");
+				$('#key3_cnt_5g').fieldset("hide");
+				$('#key4_cnt_5g').fieldset("hide");
+				break;
+		}
+	});
+
+	$("input#ssid_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.SSID_BRIDEGE,
+		labelCls:'l',
+		vtype:"string_visible_allow_blank",
+		maxLength:32,
+		autoTrim:false,
+		cls:"inline"
+	});
+
+	$("#wds_mode_5g").combobox({
+		fieldLabel: $.su.CHAR.SYSPARA.WDS_MODE,
+		labelCls: "l",
+		items: [
+			{"value": "2", "name": $.su.CHAR.SYSPARA.AUTO},
+			{"value": "1", "name": $.su.CHAR.SYSPARA.WDS1},
+			{"value": "0", "name": $.su.CHAR.SYSPARA.WDS2}
+		]
+	}).combobox("hide");
+
+	$("button#syspara_survey_5g").button({
+		text:$.su.CHAR.SYSPARA.SURVEY,
+		handler:function(){
+
+			$("div#result_2g").hide();
+			$("div#result_5g").show();
+
+			$("div#result_5g").grid("runProgress");
+			$("#refreshBtn_5g").button("disable");
+			survey_store_5g.load({}, function(){
+				$("div#result_5g").grid("prompt", true);
+				$("#refreshBtn_5g").button("enable");
+			});
+			$("div#survey").msg("show");
+		},
+		cls:"inline-block more_pad ml5"
+	});
+
+	
+
+	$("input#bssid_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.MAC,
+		vtype:"mac",
+		maxLength:17,
+		labelCls:'l',
+		tips:$.su.CHAR.SYSPARA.MACUNIT
+	});
+	
+
+
+
+
+	$("#wpa_cnt_5g").fieldset({
+		fields: [
+			{name: "psk_key"}
+		]
+	});
+
+
+	$("#wep_cnt_5g").fieldset({
+		fields: [
+			{name: "wep_select"},
+			{name: "wep_mode"}
+			
+		]
+	}).hide();
+
+
+	$("input#encryption_5g").radio({
+		fieldLabel: $.su.CHAR.WIRELESS.SECURITY,
+		columns:3,
+		labelCls: "l",
+		cls:"part-separate",
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.NONE, inputValue: 'none'},
+			{boxlabel: $.su.CHAR.SYSPARA.WPA, inputValue: 'psk'},
+			{boxlabel: $.su.CHAR.SYSPARA.WEP, inputValue: 'wep'}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		var key = $("input#wep_select_5g").combobox("getValue")[0];
+		$("#wpa_cnt_5g").fieldset((newValue == "psk") ? "show" : "hide");
+		$("#wep_cnt_5g").fieldset((newValue == "wep") ? "show" : "hide");
+		$('#key1_cnt_5g').fieldset(((newValue == "wep") && key=='1') ? "show":"hide");
+		$('#key2_cnt_5g').fieldset(((newValue == "wep") && key=='2') ? "show":"hide");
+		$('#key3_cnt_5g').fieldset(((newValue == "wep") && key=='3') ? "show":"hide");
+		$('#key4_cnt_5g').fieldset(((newValue == "wep") && key=='4') ? "show":"hide");
+	});
+
+	// $("input#syspara_w5gPwd_5g").textbox({
+	// 	fieldLabel: $.su.CHAR.SYSPARA.PWD,
+	// 	labelCls:'l',
+	// });
+
+	$("input#psk_key_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.PASSWORD,
+		maxLength:64,
+		autoTrim:false,
+		labelCls:'l'
+	});
+
+	$("input#wep_key1_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.PASSWORD,
+		maxLength:32,
+		autoTrim:false,
+		labelCls:'l'
+	});
+
+	$("input#wep_key2_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.PASSWORD,
+		maxLength:32,
+		autoTrim:false,
+		labelCls:'l'
+	});
+
+	$("input#wep_key3_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.PASSWORD,
+		maxLength:32,
+		autoTrim:false,
+		labelCls:'l'
+	});
+
+	$("input#wep_key4_5g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.PASSWORD,
+		maxLength:32,
+		autoTrim:false,
+		labelCls:'l'
+	});
+
+
+	$("#key1_cnt_5g").fieldset({
+		fields: [
+			{name: "wep_format1"},
+			{name: "wep_key1"}
+		]
+	}).hide();
+
+	$("#key2_cnt_5g").fieldset({
+		fields: [
+			{name: "wep_format2"},
+			{name: "wep_key2"}
+		]
+	}).hide();
+
+	$("#key3_cnt_5g").fieldset({
+		fields: [
+			{name: "wep_format3"},
+			{name: "wep_key3"}
+		]
+	}).hide();
+
+	$("#key4_cnt_5g").fieldset({
+		fields: [
+			{name: "wep_format4"},
+			{name: "wep_key4"}
+		]
+	}).hide();
+
+	
+
+
+	
+
+
+	$("input#wep_mode_5g").radio({
+		fieldLabel: $.su.CHAR.SYSPARA.AUTH_TYPE,
+		labelCls: "l",
+		columns:3,
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.AUTO, inputValue: 'auto'},
+			{boxlabel: $.su.CHAR.SYSPARA.OPEN, inputValue: 'open', checked:true},
+			{boxlabel: $.su.CHAR.SYSPARA.SHARED, inputValue: 'shared'}
+		]
+	});
+
+	$("input#wep_format1_5g").radio({
+		fieldLabel: $.su.CHAR.SYSPARA.WEP_KEY_FORMAT,
+		columns:3,
+		labelCls: "l",
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.ASC, inputValue: 'asic', checked:true},
+			{boxlabel: $.su.CHAR.SYSPARA.HEX, inputValue: 'hex'}
+		]
+	});
+
+	$("input#wep_format2_5g").radio({
+		fieldLabel: $.su.CHAR.SYSPARA.WEP_KEY_FORMAT,
+		columns:3,
+		labelCls: "l",
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.ASC, inputValue: 'asic', checked:true},
+			{boxlabel: $.su.CHAR.SYSPARA.HEX, inputValue: 'hex'}
+		]
+	});
+
+	$("input#wep_format3_5g").radio({
+		fieldLabel: $.su.CHAR.SYSPARA.WEP_KEY_FORMAT,
+		columns:3,
+		labelCls: "l",
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.ASC, inputValue: 'asic', checked:true},
+			{boxlabel: $.su.CHAR.SYSPARA.HEX, inputValue: 'hex'}
+		]
+	});
+
+	$("input#wep_format4_5g").radio({
+		fieldLabel: $.su.CHAR.SYSPARA.WEP_KEY_FORMAT,
+		columns:3,
+		labelCls: "l",
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.ASC, inputValue: 'asic', checked:true},
+			{boxlabel: $.su.CHAR.SYSPARA.HEX, inputValue: 'hex'}
+		]
+	});
+
+	$("#ssid_cnt_5g").fieldset({
+		fields: [
+			{name: "ssid"},
+			// {name: "syspara_survey"},
+			{name: "bssid"},
+			{name: "wds_mode"},
+			{name: "encryption"}
+		]
+	}).hide();
+
+
+	
+
+	var ipv4Proxy = new $.su.Proxy({
+		url: SYS_WIRELESS_5G_URL_NEW
+	});
+
+	$("form#w5g-setting").form({
+		proxy: ipv4Proxy,
+		fields: [
+			{name: "beacon_int", mapping: "beacon_int"},
+			{name: "rts", mapping: "rts"},
+			{name: "frag", mapping: "frag"},
+			{name: "dtim_period", mapping: "dtim_period"},
+			{name: "wpa_group_rekey", mapping: "wpa_group_rekey"},
+			{name: "wmm", mapping: "wmm"},
+			{name: "shortgi", mapping: "shortgi"},
+			{name: "enable", mapping: "enable"},
+			{name: "ssid", mapping: "ssid"},
+			{name: "wds_mode", mapping: "wds_mode"},
+			{name: "bssid", mapping: "bssid"},
+			{name: "encryption", mapping: "encryption"},
+			
+			{name: "psk_key", mapping: "psk_key"},
+			{name: "wep_key1", mapping: "wep_key1"},
+			{name: "wep_key2", mapping: "wep_key2"},
+			{name: "wep_key3", mapping: "wep_key3"},
+			{name: "wep_key4", mapping: "wep_key4"},
+			{name: "isolate", mapping: "isolate"},
+			{name: "wep_format1", mapping: "wep_format1"},
+			{name: "wep_format2", mapping: "wep_format2"},
+			{name: "wep_format3", mapping: "wep_format3"},
+			{name: "wep_format4", mapping: "wep_format4"},
+			{name: "wep_select", mapping: "wep_select"},
+			{name: "wep_mode", mapping: "wep_mode"}
+		],
+		validator:function(){
+			var enable_5g = $("input#enable_5g").checkbox("getValue");
+			var ssid = $("input#ssid_5g").textbox("getValue");
+			var mac = $("input#bssid_5g").textbox("getValue");
+			if(enable_5g == "enable")
+			{
+				if( (ssid == "") && (mac == ""))
+				{
+					$("input#ssid_5g").textbox("setError",$.su.CHAR.ERROR["00000040"]);
+					return false;
+				}
+			}
+			
+
+			var encryption = $("input#encryption_5g").radio("getValue");
+
+			if(encryption == "none")
+			{
+				return true;
+			}
+			if(encryption == "psk")
+			{
+				var val = $("input#psk_key_5g").textbox("getValue");
+				var reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{8,63}|[0-9a-fA-F]{8,64})$/;
+				if(reg.test(val))
+				{
+					$("input#psk_key_5g").textbox("setNormal");
+					return true;
+				}
+				else
+				{
+					$("input#psk_key_5g").textbox("setError",$.su.CHAR.ERROR["00000066"]);
+					return false;
+				}
+			}
+			if(encryption == "wep")
+			{
+				var keyIndex_arr = $("input#wep_select_5g").combobox("getValue");
+				var keyIndex = keyIndex_arr[0];
+				// //console.log(keyIndex);
+				var id  = "input#wep_key" + keyIndex + "_5g";
+				// //console.log(id);
+				var formatId = "input#wep_format" + keyIndex + "_5g";
+				// //console.log(formatId);
+				var format = $(formatId).radio("getValue");
+				// //console.log(format);
+
+
+				var val = $(id).textbox("getValue");
+		//var asc_reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{5}|[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{13}|[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{16})$/;
+				var asc_reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{5}|[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{13})$/;
+				//var hex_reg = /^([0-9a-fA-F]{10}|[0-9a-fA-F]{26}|[0-9a-fA-F]{32})$/;
+				var hex_reg = /^([0-9a-fA-F]{10}|[0-9a-fA-F]{26})$/;
+				if(format == "asic")
+				{
+					if(asc_reg.test(val))
+					{
+						$(id).textbox("setNormal");
+						return true;
+					}
+					else
+					{
+						$(id).textbox("setError",$.su.CHAR.ERROR["00000120"]);
+						return false;
+					}
+				}
+				else
+				{
+					if(hex_reg.test(val))
+					{
+						$(id).textbox("setNormal");
+						return true;
+					}
+					else
+					{
+						$(id).textbox("setError",$.su.CHAR.ERROR["00000121"]);
+						return false;
+					}
+				}
+				
+			}
+		},
+		// submitBtn: "default"
+		 submitBtn: "#total_save_5g"
+	}).on("ev_loadData", function(e, data){
+		// //console.log(data.disabled);
+		var wds_5g = data.enable;
+		if(wds_5g == "on")
+		{
+			wds_2g_disable_step3 = true;
+			$("input#enable_2g").checkbox("disable");
+			$("input#enable_2g").checkbox("setTips", $.su.CHAR.ERROR["00000112"]);
+		}
+		else
+		{
+			if(!wds_2g_disable_step1&&!wds_2g_disable_step2)
+			{
+				$("input#enable_2g").checkbox("enable");
+				$("input#enable_2g").checkbox("setTips", "");
+			}
+			
+		}
+		support_wds_show = data.extinfo.support_wds_show;
+		if(support_wds_show == "yes")
+		{
+			$("#5g_wds_status").css({
+				"display" : "block"
+			});
+		}
+	});
+
+	$("#total_save_5g").button({
+		text: $.su.CHAR.OPERATION.SAVE,
+		cls:"submit",
+		handler:function(){
+			if($("form#w5g-setting").form("validate"))
+			{
+				$("form#w5g-setting").form("submit");
+			}
+		}
+	});
+
+
+	$("div#w24g").panel({
+		title: $.su.CHAR.SYSPARA.W24G,
+		collapsible: false
+	});
+
+
+	$("input#beacon_int_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.BEACON,
+		tips:$.su.CHAR.SYSPARA.BEACONUNIT,
+		vtype:{
+				vtype:"number",
+				min:40,
+				max:1000
+		},
+		maxLength:4,
+		textFormat:$.su.format.number,
+		allowBlank:false,
+		min:40,
+		max:1000,
+		labelCls:'l'
+	});   
+	
+	$("input#rts_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.RTS,
+		tips:$.su.CHAR.SYSPARA.RTSUNIT,
+		vtype:{
+				vtype:"number",
+				min:1,
+				max:2346
+		},
+		maxLength:4,
+		textFormat:$.su.format.number,
+		min:1,
+		max:2346,
+		allowBlank:false,
+		labelCls:'l'
+	}); 
+
+
+
+
+	$("input#dtim_period_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.DTIM,
+		tips:$.su.CHAR.SYSPARA.DTIMUNIT,
+		vtype:{
+				vtype:"number",
+				min:1,
+				max:15
+		},
+		maxLength:2,
+		textFormat:$.su.format.number,
+		min:1,
+		max:15,
+		allowBlank:false,
+		labelCls:'l'
+	}); 
+	
+	
+	$("input#wpa_group_rekey_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.GROUP,
+		tips:$.su.CHAR.SYSPARA.GROUPUNIT,
+		vtype:"number",
+		textFormat:$.su.format.number,
+		allowBlank:false,
+		maxLength:5,
+		invalidText: $.su.CHAR.ERROR["00000039"],
+		validator: function(val){
+			//console.log(val);
+			if(val == 0)
+			{
+				return true;
+			}
+			if( (val >= 30) && (val <= 86400))
+			{
+				return true;
+			}
+			return false;
+		},
+		labelCls:'l'
+	});
+
+ 	
+
+
+	// $("input#wmm").switchbutton({
+	// 	fieldLabel: $.su.CHAR.SYSPARA.WMM,
+	// 	labelCls:'l'
+	// });
+	$("input#wmm_2g").checkbox({
+		fieldLabel: $.su.CHAR.SYSPARA.WMM_FEATURE,
+		labelCls:'l',
+		cls:"part-separate",
+		items: [
+			{boxlabel: $.su.CHAR.SYSPARA.WMM,  uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+
+	// $("input#shortgi").switchbutton({
+	// 	fieldLabel: $.su.CHAR.SYSPARA.GI,
+	// 	labelCls:'l'
+	// });
+	$("input#shortgi_2g").checkbox({
+		fieldLabel: $.su.CHAR.SYSPARA.GI_FEATURE,
+		labelCls:'l',
+		items: [
+			{boxlabel: $.su.CHAR.SYSPARA.GI, uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+
+	// $("input#isolate").switchbutton({
+	// 	fieldLabel: $.su.CHAR.SYSPARA.AP,
+	// 	labelCls:'l'
+	// });
+	$("input#isolate_2g").checkbox({
+			fieldLabel: $.su.CHAR.SYSPARA.AP_FEATURE,
+			labelCls:'l',
+			items: [
+				{boxlabel: $.su.CHAR.SYSPARA.AP, uncheckedValue:"off", inputValue: "on"}
+			]
+		});
+
+	// $("input#enable").switchbutton({
+	// 	fieldLabel: $.su.CHAR.SYSPARA.WDS,
+	// 	labelCls:'l'
+	// });
+	$("input#enable_2g").checkbox({
+		fieldLabel: $.su.CHAR.SYSPARA.WDS_FEATURE,
+		labelCls:'l',
+		tips:"",
+		tipsCls:"m",
+		cls:"part-separate",
+		items: [
+			{boxlabel: $.su.CHAR.SYSPARA.WDS,  uncheckedValue:"off", inputValue: "on"}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+	
+		// //console.log(newValue[0]);
+		var val = (newValue[0]=="enable"||newValue[0]=="on") ? "on" : "off";
+		var enc = $("input#encryption_2g").radio("getValue");
+		var key = $("input#wep_select_2g").combobox("getValue")[0];
+
+		var cnt = $("input#enable_2g").checkbox("getContainer");
+		var isDisabled = $(cnt).hasClass("disabled");
+		// //console.log(val);
+		switch(val)
+		{
+			case "on":
+				if(isDisabled)
+				{
+					return;
+				}
+				$("#ssid_cnt_2g").fieldset("show");
+				$("#wpa_cnt_24g").fieldset((enc == "psk") ? "show" : "hide");
+				$("#wep_cnt_24g").fieldset((enc == "wep") ? "show" : "hide");
+				$('#key1_cnt_2g').fieldset(((enc == "wep") && key=='1') ? "show":"hide");
+				$('#key2_cnt_2g').fieldset(((enc == "wep") && key=='2') ? "show":"hide");
+				$('#key3_cnt_2g').fieldset(((enc == "wep") && key=='3') ? "show":"hide");
+				$('#key4_cnt_2g').fieldset(((enc == "wep") && key=='4') ? "show":"hide");
+				break;
+			case "off":
+				$("#ssid_cnt_2g").fieldset("hide");
+				$("#wep_cnt_24g").fieldset("hide");
+				$("#wpa_cnt_24g").fieldset("hide");
+				$('#key1_cnt_2g').fieldset("hide");
+				$('#key2_cnt_2g').fieldset("hide");
+				$('#key3_cnt_2g').fieldset("hide");
+				$('#key4_cnt_2g').fieldset("hide");
+				break;
+		}
+	});
+
+	$("input#ssid_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.SSID_BRIDEGE,
+		vtype:"string_visible_allow_blank",
+		maxLength:32,
+		autoTrim:false,
+		labelCls:'l',
+		cls:"inline"
+	});
+
+
+	$("#wds_mode_2g").combobox({
+		fieldLabel: $.su.CHAR.SYSPARA.WDS_MODE,
+		labelCls: "l",
+		items: [
+			{"value": "2", "name": $.su.CHAR.SYSPARA.AUTO},
+			{"value": "1", "name": $.su.CHAR.SYSPARA.WDS1},
+			{"value": "0", "name": $.su.CHAR.SYSPARA.WDS2}
+		]
+	}).combobox("hide");
+
+
+	$("button#syspara_survey_2g").button({
+		text:$.su.CHAR.SYSPARA.SURVEY,
+		handler:function(){
+			// $("div#result").grid.store = survey_store_2g; 
+			$("div#result_2g").show();
+			$("div#result_5g").hide();
+			$("div#result_2g").grid("runProgress");
+			$("#refreshBtn_2g").button("disable");
+			survey_store_2g.load({}, function(){
+				$("div#result_2g").grid("prompt", true);
+				$("#refreshBtn_2g").button("enable");
+			});
+			$("div#survey").msg("show");
+		},
+		cls:"inline-block more_pad ml5"
+	});
+
+	$("input#bssid_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.MAC,
+		vtype:"mac",
+		maxLength:17,
+		labelCls:'l',
+		tips:$.su.CHAR.SYSPARA.MACUNIT
+	});
+	
+
+	// $("input#encryption").switchbutton({
+	// 	fieldLabel: $.su.CHAR.SYSPARA.SECURITY,
+	// 	labelCls:'l',
+	// 	items:[
+	// 		{text: $.su.CHAR.SYSPARA.NO, value:0, handler: null},
+	// 		{text: $.su.CHAR.SYSPARA.WPA, value:1, handler: null,cls:"xxl"},
+	// 		{text: $.su.CHAR.SYSPARA.WEP_ASCII, value:2, handler: null,cls:"l"},
+	// 		{text: $.su.CHAR.SYSPARA.WEP_HEX, value:3, handler: null,cls:"m"}
+	// 	]
+	// });
+	// $("input#encryption").combobox({
+	// 	fieldLabel: $.su.CHAR.SYSPARA.SECURITY,
+	// 	//tips: "The tips of combo multi.",
+	// 	labelCls: "l",
+	// 	inputCls: "xxl",
+	// 	items: [
+	// 		{"value": "0", "name": $.su.CHAR.SYSPARA.NO, selected:"selected"},
+	// 		{"value": "1", "name": $.su.CHAR.SYSPARA.WPA},
+	// 		{"value": "2", "name": $.su.CHAR.SYSPARA.WEP_ASCII},
+	// 		{"value": "3", "name": $.su.CHAR.SYSPARA.WEP_HEX},
+	// 	]
+	// });
+
+	
+
+
+	$("#wpa_cnt_24g").fieldset({
+		fields: [
+			{name: "psk_key"}
+		]
+	}).hide();
+			
+
+
+	$("input#encryption_2g").radio({
+		fieldLabel: $.su.CHAR.WIRELESS.SECURITY,
+		columns:3,
+		labelCls: "l",
+		cls:"part-separate",
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.NONE, inputValue: 'none'},
+			{boxlabel: $.su.CHAR.SYSPARA.WPA, inputValue: 'psk'},
+			{boxlabel: $.su.CHAR.SYSPARA.WEP, inputValue: 'wep'}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		var key = $("input#wep_select_2g").combobox("getValue")[0];
+		$("#wpa_cnt_24g").fieldset((newValue == "psk") ? "show" : "hide");
+		$("#wep_cnt_24g").fieldset((newValue == "wep") ? "show" : "hide");
+		$('#key1_cnt_2g').fieldset(((newValue == "wep") && key=='1') ? "show":"hide");
+		$('#key2_cnt_2g').fieldset(((newValue == "wep") && key=='2') ? "show":"hide");
+		$('#key3_cnt_2g').fieldset(((newValue == "wep") && key=='3') ? "show":"hide");
+		$('#key4_cnt_2g').fieldset(((newValue == "wep") && key=='4') ? "show":"hide");
+	});
+
+	// $("input#syspara_w24gPwd_2g").textbox({
+	// 	fieldLabel: $.su.CHAR.SYSPARA.PWD,
+	// 	labelCls:'l',
+	// });
+
+	$("input#psk_key_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.PASSWORD,
+		maxLength:64,
+		autoTrim:false,
+		labelCls:'l',
+	});
+
+	$("input#wep_key1_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.PASSWORD,
+		maxLength:32,
+		autoTrim:false,
+		labelCls:'l',
+	});
+
+	$("input#wep_key2_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.PASSWORD,
+		maxLength:32,
+		autoTrim:false,
+		labelCls:'l',
+	});
+
+	$("input#wep_key3_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.PASSWORD,
+		maxLength:32,
+		autoTrim:false,
+		labelCls:'l',
+	});
+
+	$("input#wep_key4_2g").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.PASSWORD,
+		maxLength:32,
+		autoTrim:false,
+		labelCls:'l',
+	});
+
+
+	$("#key1_cnt_2g").fieldset({
+		fields: [
+			{name: "wep_format1"},
+			{name: "wep_key1"}
+		]
+	}).hide();
+
+	$("#key2_cnt_2g").fieldset({
+		fields: [
+			{name: "wep_format2"},
+			{name: "wep_key2"}
+		]
+	}).hide();
+
+	$("#key3_cnt_2g").fieldset({
+		fields: [
+			{name: "wep_format3"},
+			{name: "wep_key3"}
+		]
+	}).hide();
+
+	$("#key4_cnt_2g").fieldset({
+		fields: [
+			{name: "wep_format4"},
+			{name: "wep_key4"}
+		]
+	}).hide();
+
+	
+
+
+	
+
+
+	$("input#wep_mode_2g").radio({
+		fieldLabel: $.su.CHAR.SYSPARA.AUTH_TYPE,
+		labelCls: "l",
+		columns:3,
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.AUTO, inputValue: 'auto'},
+			{boxlabel: $.su.CHAR.SYSPARA.OPEN, inputValue: 'open', checked:true},
+			{boxlabel: $.su.CHAR.SYSPARA.SHARED, inputValue: 'shared'}
+		]
+	});
+
+	$("input#wep_format1_2g").radio({
+		fieldLabel: $.su.CHAR.SYSPARA.WEP_KEY_FORMAT,
+		columns:3,
+		labelCls: "l",
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.ASC, inputValue: 'asic', checked:true},
+			{boxlabel: $.su.CHAR.SYSPARA.HEX, inputValue: 'hex'}
+		]
+	});
+
+	$("input#wep_format2_2g").radio({
+		fieldLabel: $.su.CHAR.SYSPARA.WEP_KEY_FORMAT,
+		columns:3,
+		labelCls: "l",
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.ASC, inputValue: 'asic', checked:true},
+			{boxlabel: $.su.CHAR.SYSPARA.HEX, inputValue: 'hex'}
+		]
+	});
+
+	$("input#wep_format3_2g").radio({
+		fieldLabel: $.su.CHAR.SYSPARA.WEP_KEY_FORMAT,
+		columns:3,
+		labelCls: "l",
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.ASC, inputValue: 'asic', checked:true},
+			{boxlabel: $.su.CHAR.SYSPARA.HEX, inputValue: 'hex'}
+		]
+	});
+
+	$("input#wep_format4_2g").radio({
+		fieldLabel: $.su.CHAR.SYSPARA.WEP_KEY_FORMAT,
+		columns:3,
+		labelCls: "l",
+		items:[
+			{boxlabel: $.su.CHAR.SYSPARA.ASC, inputValue: 'asic', checked:true},
+			{boxlabel: $.su.CHAR.SYSPARA.HEX, inputValue: 'hex'}
+		]
+	});
+
+	$("#ssid_cnt_2g").fieldset({
+		fields: [
+			{name: "ssid"},
+			// {name: "syspara_survey"},
+			{name: "wds_mode"},
+			{name: "bssid"},
+			{name: "encryption"}
+		]
+	}).hide();
+
+	$("#wep_cnt_24g").fieldset({
+		fields: [
+			{name: "wep_select"},
+			{name: "wep_mode"}
+		]
+	}).hide();
+
+	
+
+	var ipv4Proxy = new $.su.Proxy({
+		url: SYS_WIRELESS_2G_URL_NEW
+	});
+
+	$("form#w24g-setting").form({
+		proxy: ipv4Proxy,
+		fields: [
+			{name: "beacon_int", mapping: "beacon_int"},
+			{name: "rts", mapping: "rts"},
+			{name: "frag", mapping: "frag"},
+			{name: "dtim_period", mapping: "dtim_period"},
+			{name: "wpa_group_rekey", mapping: "wpa_group_rekey"},
+			{name: "wmm", mapping: "wmm"},
+			{name: "shortgi", mapping: "shortgi"},
+			{name: "enable", mapping: "enable"},
+			{name: "ssid", mapping: "ssid"},
+			{name: "wds_mode", mapping: "wds_mode"},
+			{name: "bssid", mapping: "bssid"},
+			{name: "encryption", mapping: "encryption"},
+			
+			{name: "psk_key", mapping: "psk_key"},
+			{name: "wep_key1", mapping: "wep_key1"},
+			{name: "wep_key2", mapping: "wep_key2"},
+			{name: "wep_key3", mapping: "wep_key3"},
+			{name: "wep_key4", mapping: "wep_key4"},
+			{name: "isolate", mapping: "isolate"},
+			{name: "wep_format1", mapping: "wep_format1"},
+			{name: "wep_format2", mapping: "wep_format2"},
+			{name: "wep_format3", mapping: "wep_format3"},
+			{name: "wep_format4", mapping: "wep_format4"},
+			{name: "wep_select", mapping: "wep_select"},
+			{name: "wep_mode", mapping: "wep_mode"}
+		],
+		validator:function(){
+			var enable_2g = $("input#enable_2g").checkbox("getValue");
+			var ssid = $("input#ssid_2g").textbox("getValue");
+			var mac = $("input#bssid_2g").textbox("getValue");
+			if(enable_2g == "enable")
+			{
+				if( (ssid == "") && (mac == ""))
+				{
+					$("input#ssid_2g").textbox("setError",$.su.CHAR.ERROR["00000040"]);
+					return false;
+				}
+
+			}
+			
+
+			var encryption = $("input#encryption_2g").radio("getValue");
+			if(encryption == "none")
+			{
+				return true;
+			}
+			if(encryption == "psk")
+			{
+				var val = $("input#psk_key_2g").textbox("getValue");
+				var reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{8,63}|[0-9a-fA-F]{8,64})$/;
+				if(reg.test(val))
+				{
+					return true;
+				}
+				else
+				{
+					$("input#psk_key_2g").textbox("setError",$.su.CHAR.ERROR["00000066"]);
+					return false;
+				}
+			}
+			if(encryption == "wep")
+			{
+				var keyIndex_arr = $("input#wep_select_2g").combobox("getValue");
+				var keyIndex = keyIndex_arr[0];
+				// //console.log(keyIndex);
+				var id  = "input#wep_key" + keyIndex + "_2g";
+				// //console.log(id);
+				var formatId = "input#wep_format" + keyIndex + "_2g";
+				// //console.log(formatId);
+				var format = $(formatId).radio("getValue");
+				// //console.log(format);
+
+
+				var val = $(id).textbox("getValue");
+		//var asc_reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{5}|[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{13}|[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{16})$/;
+		var asc_reg = /^([A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{5}|[A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\=\_\+\[\]\{\}\;\:\'\"\\\|\/\?\.\,\<\>\ ]{13})$/;
+				//var hex_reg = /^([0-9a-fA-F]{10}|[0-9a-fA-F]{26}|[0-9a-fA-F]{32})$/;
+				var hex_reg = /^([0-9a-fA-F]{10}|[0-9a-fA-F]{26})$/;
+				if(format == "asic")
+				{
+					if(asc_reg.test(val))
+					{
+						return true;
+					}
+					else
+					{
+						$(id).textbox("setError",$.su.CHAR.ERROR["00000120"]);
+						return false;
+					}
+				}
+				else
+				{
+					if(hex_reg.test(val))
+					{
+						return true;
+					}
+					else
+					{
+						$(id).textbox("setError",$.su.CHAR.ERROR["00000121"]);
+						return false;
+					}
+				}
+				
+			}
+		},
+		// submitBtn: "default"
+		 submitBtn: "#total_save_2g"
+	}).on("ev_loadData", function(e, data){
+		if( (data.extinfo.support_band == "2G") || (data.extinfo.support_band == "none"))
+		{
+			$("div#w5g").panel("hide");
+		}
+		else
+		{
+			$("div#w5g").panel("show");
+		}
+		var wds_2g = data.enable;
+
+		if(wds_2g == "on")
+		{
+			wds_5g_disable_step3 = true;
+			$("input#enable_5g").checkbox("disable");
+			$("input#enable_5g").checkbox("setTips", $.su.CHAR.ERROR["00000112"]);
+		}
+		else
+		{
+			if(!wds_5g_disable_step1&&!wds_5g_disable_step2)
+			{
+				$("input#enable_5g").checkbox("enable");
+				$("input#enable_5g").checkbox("setTips", "");
+			}
+
+		}
+		if(data.extinfo.support_wds_show == "yes")
+		{
+			support_wds_show = "yes";
+			$("#2g_wds_status").css({
+				"display" : "block"
+			});
+		}
+
+	});
+
+	$("#total_save_2g").button({
+		text: $.su.CHAR.OPERATION.SAVE,
+		cls:"submit",
+		handler:function(){
+			if($("form#w24g-setting").form("validate"))
+			{
+				$("form#w24g-setting").form("submit");
+			}
+		}
+	});
+
+	$("div#wps").panel({
+		title: $.su.CHAR.SYSPARA.WPS,
+		collapsible: false
+	});
+
+	$("input#wps_status").checkbox({
+		fieldLabel: $.su.CHAR.SYSPARA.WPS,
+		labelCls:'l',
+		items: [
+			{boxlabel: $.su.CHAR.SYSPARA.ENABLE_WPS,  uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+
+	$("form#wps-setting").form({
+		proxy: {
+			url: SYS_WIRELESS_WPS_URL_NEW
+		},
+		fields: [
+			{name: "wps", mapping: "wps"}
+		],
+		submitBtn: "default"
+	});
+
+	$("div#nat").panel({
+		title: $.su.CHAR.SYSPARA.NAT,
+		collapsible: false
+	});
+
+	$("input#nat_enable").checkbox({
+		fieldLabel: $.su.CHAR.SYSPARA.NAT,
+		labelCls:'l',
+		items: [
+			{boxlabel: $.su.CHAR.SYSPARA.ENABLE_NAT,  uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+
+	$("input#nat_boost_enable").checkbox({
+		fieldLabel: $.su.CHAR.SYSPARA.NAT_BOOST,
+		tips:"",
+		labelCls:'l',
+		items: [
+			{boxlabel: $.su.CHAR.SYSPARA.ENABLE_NAT_BOOST,  uncheckedValue:"off", inputValue: "on"}
+		]
+	});
+
+	qosProxy.read({}, function(data){
+		qosenable = data.enable;
+		if(qosenable == "on")
+		{
+			$("input#nat_boost_enable").checkbox("disable");
+			$("input#nat_boost_enable").checkbox("setTips", $.su.CHAR.ERROR["00000119"]);
+		}
+		else
+		{
+			sysStaProxy.read({}, function(data){
+				sysStaEnable = data.enable;
+				if(sysStaEnable == "on")
+				{
+					$("input#nat_boost_enable").checkbox("disable");
+					$("input#nat_boost_enable").checkbox("setTips", $.su.CHAR.ERROR["00000119"]);
+				}
+				else
+				{
+					sysNatProxy.read({}, function(data){
+						var boost_iptv_compatible = data.boost_iptv_compatible;
+						if(boost_iptv_compatible == "no")
+						{
+							iptvProxy.read({},function(data){
+								iptvEnable = data.enable;
+								if(iptvEnable == "on")
+								{
+									$("input#nat_boost_enable").checkbox("disable");
+									$("input#nat_boost_enable").checkbox("setTips", $.su.CHAR.ERROR["00000119"]);
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+
+	$("input#nat_save_btn").button({
+		text:$.su.CHAR.OPERATION.SAVE,
+		handler:function(){
+		    var nat_boost_trans = "";
+			var nat_boost_new = $("#nat_boost_enable").checkbox("getValue");
+			if(nat_boost_new.length == 0)
+			{
+				nat_boost_trans = "off";
+			}
+			else
+			{
+				nat_boost_trans = "on";
+			}
+			
+			
+			if(nat_boost_ori != nat_boost_trans)
+			{
+				$("#notice_nat_boost").msg("show");
+			}
+			else
+			{
+				$("#nat-setting").form("submit");
+			}
+			
+		},
+		cls:"submit submitBtn"
+	});
+
+
+	$("form#nat-setting").form({
+		proxy: {
+			url: SYS_NAT_URL_NEW
+		},
+		fields: [
+			{name: "enable", mapping: "enable"},
+			{name: "boost_enable", mapping: "hw_enable"}
+		],
+		submitBtn: "#nat_save_btn"
+	}).on("ev_loadData", function(e,data){
+		nat_reboot_time = data.reboot_time*1000 || nat_reboot_time;
+		nat_boost_ori =  data.hw_enable;
+	});
+
+	
+	$("div#level").panel({
+		title: $.su.CHAR.SYSPARA.DOS_PROTECTION,
+		collapsible: false
+	});
+
+	$("#syspara_level_icmp").html($.su.CHAR.SYSPARA.ICMP);
+	$("#icmp_low").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.LOW,
+		tips:$.su.CHAR.SYSPARA.UNIT,
+		tipsCls:"m",
+		vtype:"number",
+		maxLength:4,
+		allowBlank:false,
+		validator:function(val){
+			if((val >= SYS_DOS_PROTECT_MIN) && (val <= SYS_DOS_PROTECT_MAX))
+			{
+				return true;
+			}
+			else
+			{
+				return $.su.CHAR.ERROR["00000034"];
+			}
+		},
+		inputCls:"s",
+		labelCls:"xxs"
+	});
+
+	$("#icmp_middle").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.MIDDLE,
+		tips:$.su.CHAR.SYSPARA.UNIT,
+		inputCls:"s",
+		vtype:"number",
+		maxLength:4,
+		allowBlank:false,
+		validator:function(val){
+			if((val >= SYS_DOS_PROTECT_MIN) && (val <= SYS_DOS_PROTECT_MAX))
+			{
+				return true;
+			}
+			else
+			{
+				return $.su.CHAR.ERROR["00000034"];
+			}
+		},
+		labelCls:"xxs"
+	});
+
+
+	$("#icmp_high").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.HIGH,
+		tips:$.su.CHAR.SYSPARA.UNIT,
+		inputCls:"s",
+		vtype:"number",
+		maxLength:4,
+		allowBlank:false,
+		validator:function(val){
+			if((val >= SYS_DOS_PROTECT_MIN) && (val <= SYS_DOS_PROTECT_MAX))
+			{
+				return true;
+			}
+			else
+			{
+				return $.su.CHAR.ERROR["00000034"];
+			}
+		},
+		labelCls:"xxs"
+	});
+
+
+	$("#syspara_level_udp").html($.su.CHAR.SYSPARA.UDP);
+	$("#udp_low").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.LOW,
+		tips:$.su.CHAR.SYSPARA.UNIT,
+		inputCls:"s",
+		vtype:"number",
+		maxLength:4,
+		allowBlank:false,
+		validator:function(val){
+			if((val >= SYS_DOS_PROTECT_MIN) && (val <= SYS_DOS_PROTECT_MAX))
+			{
+				return true;
+			}
+			else
+			{
+				return $.su.CHAR.ERROR["00000034"];
+			}
+		},
+		labelCls:"xxs"
+	});
+
+	$("#udp_middle").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.MIDDLE,
+		tips:$.su.CHAR.SYSPARA.UNIT,
+		inputCls:"s",
+		vtype:"number",
+		maxLength:4,
+		allowBlank:false,
+		validator:function(val){
+			if((val >= SYS_DOS_PROTECT_MIN) && (val <= SYS_DOS_PROTECT_MAX))
+			{
+				return true;
+			}
+			else
+			{
+				return $.su.CHAR.ERROR["00000034"];
+			}
+		},
+		labelCls:"xxs"
+	});
+
+
+	$("#udp_high").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.HIGH,
+		tips:$.su.CHAR.SYSPARA.UNIT,
+		inputCls:"s",
+		vtype:"number",
+		maxLength:4,
+		allowBlank:false,
+		validator:function(val){
+			if((val >= SYS_DOS_PROTECT_MIN) && (val <= SYS_DOS_PROTECT_MAX))
+			{
+				return true;
+			}
+			else
+			{
+				return $.su.CHAR.ERROR["00000034"];
+			}
+		},
+		labelCls:"xxs"
+	});
+
+
+	$("#syspara_level_tcp").html($.su.CHAR.SYSPARA.TCP);
+	$("#tcp_low").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.LOW,
+		tips:$.su.CHAR.SYSPARA.UNIT,
+		inputCls:"s",
+		vtype:"number",
+		maxLength:4,
+		allowBlank:false,
+		validator:function(val){
+			if((val >= SYS_DOS_PROTECT_MIN) && (val <= SYS_DOS_PROTECT_MAX))
+			{
+				return true;
+			}
+			else
+			{
+				return $.su.CHAR.ERROR["00000034"];
+			}
+		},
+		labelCls:"xxs"
+	});
+
+	$("#tcp_middle").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.MIDDLE,
+		tips:$.su.CHAR.SYSPARA.UNIT,
+		inputCls:"s",
+		vtype:"number",
+		maxLength:4,
+		allowBlank:false,
+		validator:function(val){
+			if((val >= SYS_DOS_PROTECT_MIN) && (val <= SYS_DOS_PROTECT_MAX))
+			{
+				return true;
+			}
+			else
+			{
+				return $.su.CHAR.ERROR["00000034"];
+			}
+		},
+		labelCls:"xxs"
+	});
+
+
+	$("#tcp_high").textbox({
+		fieldLabel: $.su.CHAR.SYSPARA.HIGH,
+		tips:$.su.CHAR.SYSPARA.UNIT,
+		inputCls:"s",
+		vtype:"number",
+		maxLength:4,
+		allowBlank:false,
+		validator:function(val){
+			if((val >= SYS_DOS_PROTECT_MIN) && (val <= SYS_DOS_PROTECT_MAX))
+			{
+				return true;
+			}
+			else
+			{
+				return $.su.CHAR.ERROR["00000034"];
+			}
+		},
+		labelCls:"xxs"
+	});
+
+	$("form#level-setting").form({
+		proxy: {
+			url: SYS_DOS_PROTECT_URL_NEW
+		},
+		fields: [
+			// {name: "syspara_level_interval", mapping: "syspara_level_interval"},
+			{name: "icmp_low", mapping: "icmp_low"},
+			{name: "icmp_middle", mapping: "icmp_middle"},
+			{name: "icmp_high", mapping: "icmp_high"},
+			{name: "udp_low", mapping: "udp_low"},
+			{name: "udp_middle", mapping: "udp_middle"},
+			{name: "udp_high", mapping: "udp_high"},
+			{name: "syn_low", mapping: "syn_low"},
+			{name: "syn_middle", mapping: "syn_middle"},
+			{name: "syn_high", mapping: "syn_high"}
+			
+		],
+		validator:function(){
+			var icmp_low_val = parseInt($("#icmp_low").textbox("getValue"),10);
+			var icmp_middle_val = parseInt($("#icmp_middle").textbox("getValue"),10);
+			var icmp_high_val = parseInt($("#icmp_high").textbox("getValue"),10);
+			// //console.log(icmp_low_val, icmp_middle_val, icmp_high_val);
+			//console.log(11);
+			if(icmp_low_val < icmp_middle_val)
+			{
+				//console.log(22);
+				//console.log($.su.CHAR.ERROR["00000032"]);
+				$("#icmp_middle").textbox("setError",$.su.CHAR.ERROR["00000032"]);
+				return false;
+			}
+			if(icmp_middle_val < icmp_high_val)
+			{
+				//console.log(33);
+				//console.log($.su.CHAR.ERROR["00000033"]);
+				$("#icmp_high").textbox("setError",$.su.CHAR.ERROR["00000033"]);
+				return false;
+			}
+
+
+			var udp_low_val =  parseInt($("#udp_low").textbox("getValue"),10);
+			var udp_middle_val =  parseInt($("#udp_middle").textbox("getValue"),10);
+			var udp_high_val =  parseInt($("#udp_high").textbox("getValue"),10);
+			// //console.log(udp_low_val, udp_middle_val, udp_high_val);
+			if(udp_low_val < udp_middle_val)
+			{
+				$("#udp_middle").textbox("setError",$.su.CHAR.ERROR["00000032"]);
+				return false;
+			}
+			if(udp_middle_val < udp_high_val)
+			{
+				$("#udp_high").textbox("setError",$.su.CHAR.ERROR["00000033"]);
+				return false;
+			}
+
+
+			var tcp_low_val =  parseInt($("#tcp_low").textbox("getValue"),10);
+			var tcp_middle_val =  parseInt($("#tcp_middle").textbox("getValue"),10);
+			var tcp_high_val =  parseInt($("#tcp_high").textbox("getValue"),10);
+			// //console.log(tcp_low_val, tcp_middle_val, tcp_high_val);
+			if(tcp_low_val < tcp_middle_val)
+			{
+				$("#tcp_middle").textbox("setError",$.su.CHAR.ERROR["00000032"]);
+				return false;
+			}
+			if(tcp_middle_val < tcp_high_val)
+			{
+				$("#tcp_high").textbox("setError",$.su.CHAR.ERROR["00000033"]);
+				return false;
+			}
+			return true;
+		},
+		autoLoad:true,
+		submitBtn: "default"
+	});
+
+	$("div#survey").msg({
+		autoshow:false,
+		title:$.su.CHAR.SYSPARA.SURVEY,
+		cls:"xxl",
+		type: "window"
+	});
+
+	var survey_store_2g = new $.su.Store({
+		proxy: {
+			url: SYS_SURVEY_2G_URL_NEW,
+			timeout:30000
+		},
+		fields: [
+			{name: "bssid"},
+			{name: "ssid"},
+			{name: "signal"},
+			{name: "channel"},
+			{name: "encryption"}
+		],
+		autoLoad: false
+	});
+
+
+	var survey_store_5g = new $.su.Store({
+		proxy: {
+			url: SYS_SURVEY_5G_URL_NEW,
+			timeout:30000
+		},
+		fields: [
+			{name: "bssid"},
+			{name: "ssid"},
+			{name: "signal"},
+			{name: "channel"},
+			{name: "encryption"}
+		],
+		autoLoad: false
+	});
+
+	function signal_level (n){
+		if(n <= 0)
+			return 0;
+		else if (n < 10)
+			return 1;
+		else if (n < 20)
+			return 2;
+		else if (n < 30)
+			return 3;
+		else if (n < 50)
+			return 4;
+		else
+			return 5;
+	}
+
+	grid_suvery_2g = $("div#result_2g").grid({
+		store:survey_store_2g,
+		minLines:0,
+		maxLines:5,
+		columns: [
+			{
+				text: $.su.CHAR.GRID.ID, 
+				xtype: "rownumberer",
+				width:40
+			},
+			
+			{
+				text: $.su.CHAR.SYSPARA.SSID, 
+				width:130,
+				dataIndex: "ssid"
+			},
+			{
+				text: $.su.CHAR.SYSPARA.MAC_ADDRESS, 
+				width:140,
+				dataIndex: "bssid"
+			},
+			{
+				text: $.su.CHAR.SYSPARA.SIGNAL, 
+				width:100,
+				dataIndex: "signal",
+				renderer: function (data){
+					var realSig = parseInt(data);
+					return "<div class=\"signal signallv" + signal_level(realSig) + "\">" + realSig + "</div>" ;
+				}
+			},
+			{
+				text: $.su.CHAR.SYSPARA.CHANNEL, 
+				width:100,
+				dataIndex: "channel"
+			},
+			{
+				text: $.su.CHAR.SYSPARA.SECURITY, 
+				width:100,
+				dataIndex: "encryption",
+				renderer:function(val)
+				{
+					if( val.toUpperCase()=='NONE' ){
+						return $.su.CHAR.SYSPARA.NONE;
+					}else{
+						return $.su.func.escapeHtml(val.toUpperCase());
+					}
+				}
+			},
+			{
+				text: $.su.CHAR.GRID.OPERATION, 
+				renderer:function(e, index, obj){
+					// console.dir(arguments);
+					return "<a href=\"void(0);\" index=\""+index+"\" class=\"choose\" >"+$.su.CHAR.OPERATION.CHOOSE+"</a>"
+				}
+			}
+			// operation: "refresh"
+			//operation: ["refresh","autoRefresh"]
+			
+		],
+		operation: [{
+				xtype: "totalCount",
+				cls:"left",
+				fieldLabel: $.su.CHAR.SYSPARA.AP_NUMBER
+			},
+			{
+				xtype: "button", 
+				text: $.su.CHAR.OPERATION.REFRESH,
+				id:"refreshBtn_2g",
+				iconCls:"btn-refresh",
+				handler:function(e){
+					//console.dir(arguments);
+					e.stopPropagation();
+					e.preventDefault();
+					$("#refreshBtn_2g").button("disable");
+					// setTimeout(enableButton, 1000);
+					grid_suvery_2g.grid("runProgress");
+					grid_suvery_2g.grid("getStore").load({}, function(){
+						grid_suvery_2g.grid("prompt", true);
+						$("#refreshBtn_2g").button("enable");
+					}, function(){
+						grid_suvery_2g.grid("prompt", false);
+						$("#refreshBtn_2g").button("enable");
+					}, function(){
+						grid_suvery_2g.grid("prompt", false);
+						enableButton();
+					});
+					return true;
+			}
+		}]
+	}).on("ev_load", function(e, arr){
+		var me = $(this);
+		$(arr).each(function(index,data){
+			// //console.dir(arguments);
+			var encryption = data.encryption.toUpperCase();
+			// //console.log(encryption);
+			if( encryption != "NONE" &&  encryption != "WEP" &&  encryption != "PSK")
+			{
+				me.grid("disableRow", index);
+			}
+		})
+		
+	});
+
+	$("div#result_2g").delegate("a.choose","click",function(e){
+		var store = $("div#result_2g").grid("getStore");
+		var index = $(this).attr("index");
+		// console.dir(store);
+		e.preventDefault();
+		var tr = $(this).parents("tr.grid-content-tr")[0];
+		var bssid = store.data[index].bssid;
+		var ssid = store.data[index].ssid;
+		var channel = store.data[index].channel;
+		// console.log(channel);
+		sys_slt_2g = channel;
+		var encryption = $(tr).find("td.grid-content-td-encryption span").eq(0).html().toLowerCase();
+		if( encryption != "none" &&  encryption != "wep" &&  encryption != "psk")
+		{
+			return;
+		}
+
+		// var editor = $("div#result").grid("getEditor");
+		$("input#ssid_2g").textbox("setValue", ssid);
+		$("input#bssid_2g").textbox("setValue", bssid);
+		$("#encryption_2g").radio("setValue", encryption);
+		$("div#survey").msg("close");
+	});
+
+	
+
+	var grid_suvery_5g = $("div#result_5g").grid({
+		store:survey_store_5g,
+		minLines:0,
+		maxLines:5,
+		columns: [
+			{
+				text: $.su.CHAR.GRID.ID, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.SYSPARA.MAC_ADDRESS, 
+				width:140,
+				dataIndex: "bssid"
+			},
+			{
+				text: $.su.CHAR.SYSPARA.SSID, 
+				width:130,
+				dataIndex: "ssid"
+			},
+			{
+				text: $.su.CHAR.SYSPARA.SIGNAL, 
+				width:100,
+				dataIndex: "signal",
+				renderer: function (data){
+					var realSig = parseInt(data);
+					return "<div class=\"signal signallv" + signal_level(realSig) + "\">" + realSig + "</div>" ;
+				}
+			},
+			{
+				text: $.su.CHAR.SYSPARA.CHANNEL, 
+				width:100,
+				dataIndex: "channel"
+			},
+			{
+				text: $.su.CHAR.SYSPARA.SECURITY, 
+				width:100,
+				dataIndex: "encryption",
+				renderer:function(val)
+				{
+					if( val.toUpperCase()=='NONE' ){
+						return $.su.CHAR.SYSPARA.NONE;
+					}else{
+						return $.su.func.escapeHtml(val.toUpperCase());
+					}
+				}
+			},
+			{
+				text: $.su.CHAR.GRID.OPERATION, 
+				// width:100,
+				renderer:function(e, index, obj){
+					return "<a href=\"void(0);\" index=\""+index+"\" class=\"choose\" >"+$.su.CHAR.OPERATION.CHOOSE+"</a>"
+				}
+			}
+
+			// operation: "refresh"
+			//operation: ["refresh","autoRefresh"]
+			
+		],
+		operation: [{
+					xtype: "totalCount",
+					cls:"left",
+					fieldLabel: $.su.CHAR.SYSPARA.AP_NUMBER
+				},{
+						xtype: "button", 
+						text: $.su.CHAR.OPERATION.REFRESH,
+						id:"refreshBtn_5g",
+						iconCls:"btn-refresh",
+						handler:function(e){
+							//console.dir(arguments);
+
+							e.stopPropagation();
+							e.preventDefault();
+							$("#refreshBtn_5g").button("disable");
+							// setTimeout(enableButton, 1000);
+							grid_suvery_5g.grid("runProgress");
+							grid_suvery_5g.grid("getStore").load({}, function(){
+								grid_suvery_5g.grid("prompt", true);
+								$("#refreshBtn_5g").button("enable");
+							}, function(){
+								grid_suvery_5g.grid("prompt", false);
+								$("#refreshBtn_5g").button("enable");
+							}, function(){
+								grid_suvery_5g.grid("prompt", false);
+								$("#refreshBtn_5g").button("enable");
+							});
+							return true;
+						}
+					}
+				]
+	}).on("ev_load", function(e, arr){
+		var me = $(this);
+		$(arr).each(function(index,data){
+			// //console.dir(arguments);
+			var encryption = data.encryption.toUpperCase();
+			// //console.log(encryption);
+			if( encryption != "NONE" &&  encryption != "WEP" &&  encryption != "PSK")
+			{
+				me.grid("disableRow", index);
+			}
+		})
+		
+	});
+
+
+
+	$("div#result_5g").delegate("a.choose","click",function(e){
+		var store = $("div#result_5g").grid("getStore");
+		var index = $(this).attr("index");
+		e.preventDefault();
+		var tr = $(this).parents("tr.grid-content-tr")[0];
+		var bssid = store.data[index].bssid;
+		var ssid = store.data[index].ssid;
+		var channel = store.data[index].channel;
+		// console.log(channel);
+		sys_slt_5g = channel;
+		var encryption = $(tr).find("td.grid-content-td-encryption span").eq(0).html().toLowerCase();
+		if( encryption != "none" &&  encryption != "wep" &&  encryption != "psk")
+		{
+			return;
+		}
+		// var editor = $("div#result").grid("getEditor");
+		$("input#ssid_5g").textbox("setValue", ssid);
+		$("input#bssid_5g").textbox("setValue", bssid);
+		$("#encryption_5g").radio("setValue", encryption);
+		$("div#survey").msg("close");
+	});
+
+	
+	
+	
+	$("input#wep_select_5g").combobox({
+		fieldLabel: $.su.CHAR.SYSPARA.WEP_INDEX,
+		//tips: "The tips of combo multi.",
+		labelCls: "l",
+		//inputCls: "xxl",
+		items: [
+			{"value": "1", "name": $.su.CHAR.SYSPARA.KEY1},
+			{"value": "2", "name": $.su.CHAR.SYSPARA.KEY2},
+			{"value": "3", "name": $.su.CHAR.SYSPARA.KEY3},
+			{"value": "4", "name": $.su.CHAR.SYSPARA.KEY4}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		//console.log( $('div#wpa-personal-5g') )
+		var sec = $("input#encryption_5g").radio("getValue");
+		var key = newValue[0];
+		$("#wpa_cnt_5g").fieldset((sec == "psk") ? "show" : "hide");
+		$("#wep_cnt_5g").fieldset((sec == "wep") ? "show" : "hide");
+		$('#key1_cnt_5g').fieldset(((sec == "wep") && key=='1') ? "show":"hide");
+		$('#key2_cnt_5g').fieldset(((sec == "wep") && key=='2') ? "show":"hide");
+		$('#key3_cnt_5g').fieldset(((sec == "wep") && key=='3') ? "show":"hide");
+		$('#key4_cnt_5g').fieldset(((sec == "wep") && key=='4') ? "show":"hide");
+	});
+
+	$("input#wep_select_5g").combobox("hide");
+	$("input#wep_select_5g").combobox("setValue", "1");
+
+
+	$("input#wep_select_2g").combobox({
+		fieldLabel: $.su.CHAR.SYSPARA.WEP_INDEX,
+		//tips: "The tips of combo multi.",
+		labelCls: "l",
+		//inputCls: "xxl",
+		items: [
+			{"value": "1", "name": $.su.CHAR.SYSPARA.KEY1},
+			{"value": "2", "name": $.su.CHAR.SYSPARA.KEY2},
+			{"value": "3", "name": $.su.CHAR.SYSPARA.KEY3},
+			{"value": "4", "name": $.su.CHAR.SYSPARA.KEY4}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		//console.log( $('div#wpa-personal-5g') )
+		var sec = $("input#encryption_2g").radio("getValue");
+		var key = newValue[0];
+		$("#wpa_cnt_24g").fieldset((sec == "psk") ? "show" : "hide");
+		$("#wep_cnt_24g").fieldset((sec == "wep") ? "show" : "hide");
+		$('#key1_cnt_2g').fieldset(((sec == "wep") && key=='1') ? "show":"hide");
+		$('#key2_cnt_2g').fieldset(((sec == "wep") && key=='2') ? "show":"hide");
+		$('#key3_cnt_2g').fieldset(((sec == "wep") && key=='3') ? "show":"hide");
+		$('#key4_cnt_2g').fieldset(((sec == "wep") && key=='4') ? "show":"hide");
+	});
+
+
+	$("input#wep_select_2g").combobox("hide");
+	$("input#wep_select_2g").combobox("setValue", "1");
+
+	$("#notice_2g").msg({
+		autoshow:false,
+		// title:$.su.CHAR.SYSPARA.SURVEY,
+		cls:"xl",
+		okHandler:function(){
+			$("#w24g-setting").form("submit");
+		},
+		cls:"m warning",
+		cancelHandler:function(){
+			return true;
+		},
+		type: "prompt"
+		// type: "confirm"
+	});
+
+
+
+	$("#notice_content_2g").html($.su.CHAR.SYSPARA.NOTICE);
+	$("#notice_content_5g").html($.su.CHAR.SYSPARA.NOTICE);
+
+	$("#notice_5g").msg({
+		autoshow:false,
+		// title:$.su.CHAR.SYSPARA.SURVEY,
+		cls:"xl",
+		okHandler:function(){
+			$("#w5g-setting").form("submit");
+		},
+		cls:"m warning",
+		cancelHandler:function(){
+			return true;
+		},
+		type: "prompt"
+		// type: "confirm"
+	});
+
+
+	$("#factory_note").html($.su.CHAR.SYSPARA.NOTICE_NAT_REBOOT);
+
+	$("#notice_content_nat_boost").html($.su.CHAR.SYSPARA.NOTICE_NAT_BOOST);
+	$("#notice_nat_boost").msg({
+		autoshow:false,
+		cls:"xl",
+		okHandler:function(){
+			$("#nat-setting").form("submit");
+			factory_pro_bar.progressbar("animate", 0, 1, nat_reboot_time,function(){
+				if(localStorage){
+                	localStorage.setItem("token", "");
+              	};
+             	location.href = "/";
+			});
+			factory_pro_bar.progressbar("show");
+			$("#reboot_nat_boost").msg("show");
+			$("#notice_nat_boost").msg("hide")
+			
+		},
+		cls:"m warning",
+		cancelHandler:function(){
+			return true;
+		},
+		type: "prompt"
+	});
+
+
+	$("#reboot_nat_boost").msg({
+		autoshow:false,
+		cls:"xl",
+		cls:"m warning",
+		type: "window"
+	});
+	
+	var factory_pro_bar  = $('input#factory_pro_bar').progressbar({
+		fieldLabel: null,
+		cls: 'inline',
+		width: 300,
+		height: 6,
+		value: 0
+	});
+
+	var wireless_2g_proxy = new $.su.Proxy({
+		url: URL_WIRELESS_2G_NEW
+	});
+	wireless_2g_proxy.read({}, function(data){
+		var wds_2g = data.enable;
+		if(typeof data == "undefined")
+		{
+			return;
+		}
+		wire_channel_2g = data.channel;
+		wireless_2g_disabled = data.disabled;
+		wireless_2g_disabled_all = data.disabled_all;
+
+		$("input#shortgi_2g").checkbox('disable');
+		if(data.hwmode == 'n' || data.hwmode == 'bgn'){
+			$("input#shortgi_2g").checkbox('enable');
+		}
+		$("div#feature2g_container").show();
+		if(wireless_2g_disabled == "on")
+		{
+			$("form#w24g-setting").form("disable");
+			$("#syspara_survey_2g").button("disable");
+			$("#note_title_2g").removeClass("hidden");
+		}
+		else
+		{
+
+			// $("form#w24g-setting").form("enable");
+			// $("#syspara_survey_2g").button("enable");
+			$("#note_title_2g").addClass("hidden");
+			if(wireless_2g_disabled_all == "on")
+			{
+				$("input#enable_2g").checkbox("disable");
+				$("input#enable_2g").checkbox("setTips", $.su.CHAR.SYSPARA.ENABLE_TIPS);
+				wds_5g_disable_step1 = true;
+				$("#ssid_cnt_2g").fieldset("hide");
+			}
+			else
+			{
+
+				// $("input#enable_2g").checkbox("enable");
+				// $("input#enable_2g").checkbox("setTips", "");
+				if($("input#enable_2g").checkbox("getValue")[0] == "enable")
+				{
+					$("#ssid_cnt_2g").fieldset("show");
+				}
+
+				guest2gProxy.read({}, function(data){
+					enable = data.enable;
+					
+					if(enable == "on")
+					{
+						wds_2g_disable_step2 = true;
+						$("input#enable_2g").checkbox("disable");
+						$("input#enable_2g").checkbox("setTips", $.su.CHAR.ERROR["00000112"]);
+					}
+					else
+					{
+						// $("input#enable_2g").switchbutton("enable");
+						// $("input#enable_2g").switchbutton("setTips", "");
+					}
+				});
+				
+			}
+		}
+	});
+
+
+	var wireless_5g_proxy = new $.su.Proxy({
+		url: URL_WIRELESS_5G_NEW
+	});
+	wireless_5g_proxy.read({}, function(data){
+		if(typeof data == "undefined")
+		{
+			return;
+		}
+		wire_channel_5g = data.channel;
+		wireless_5g_disabled = data.disabled;
+		wireless_5g_disabled_all = data.disabled_all;
+
+		$("input#shortgi_5g").checkbox('enable');
+		if(data.hwmode == 'a_5'){
+			$("input#shortgi_5g").checkbox('disable');
+		}
+		$("div#feature5g_container").show();
+		if(wireless_5g_disabled == "on")
+		// if(data.disabled == "on")
+		{
+			// $("input#enable_5g").checkbox("disable");
+			// $("input#enable_5g").checkbox("setTips", $.su.CHAR.WIRELESS.ENABLE_TIPS);
+			$("form#w5g-setting").form("disable");
+			$("#syspara_survey_5g").button("disable");
+			$("#note_title_5g").removeClass("hidden");
+		}
+		else
+		{
+			// $("input#enable_5g").checkbox("enable");
+			// $("input#enable_5g").checkbox("setTips", "");
+
+			// $("form#w5g-setting").form("enable");
+			// $("#syspara_survey_5g").button("enable");
+
+			$("#note_title_5g").addClass("hidden");
+			if(wireless_5g_disabled_all == "on")
+			{
+				$("input#enable_5g").checkbox("disable");
+				$("input#enable_5g").checkbox("setTips", $.su.CHAR.SYSPARA.ENABLE_TIPS);
+				wds_5g_disable_step1 = true;
+				$("#ssid_cnt_5g").fieldset("hide");
+			}
+			else
+			{
+				// $("input#enable_5g").checkbox("enable");
+				// $("input#enable_5g").checkbox("setTips", "");
+				if($("input#enable_5g").checkbox("getValue")[0] == "enable")
+				{
+					$("#ssid_cnt_5g").fieldset("show");
+				}
+
+				guest5gProxy.read({}, function(data){
+					enable = data.enable;
+					if(enable == "on")
+					{
+						wds_5g_disable_step2 = true;
+						$("input#enable_5g").checkbox("disable");
+						$("input#enable_5g").checkbox("setTips", $.su.CHAR.ERROR["00000112"]);
+					}
+					else
+					{
+						// $("input#enable_5g").switchbutton("enable");
+						// $("input#enable_5g").switchbutton("setTips", "");
+					}
+				});
+			}
+				
+		}
+	});
+
+////////////////////// LED
+	$("div#led_panel").panel({
+		title: $.su.CHAR.SYSPARA.LED,
+		collapsible: false
+	});
+	
+	$("form#led_form").form({
+		proxy: {
+			url: LED_NEW
+		},
+		fields: [
+			{name: "enable", mapping: "enable"},
+			{name: "time_start", mapping: "time_start"},
+			{name: "time_end", mapping: "time_end"}
+		],
+		submitBtn: "default",
+		validator: function(){
+			if( $('input#led_time_start').time('getValue') == $('input#led_time_end').time('getValue')  ){
+				$('input#led_time_end').time('setError');
+	// 			$("form#led_form").form('setError', $.su.CHAR.ERROR["00000108"]);
+				return false;
+			}
+			return true;
+		}
+	}).on("ev_loadData", function(e,data){
+		ledpm_support = data.ledpm_support;
+		if(ledpm_support == "yes")
+		{
+			$("div#led_panel").show();
+		}
+		else
+		{
+			$("div#led_panel").hide();
+		}
+	});
+
+	$("input#led_night_mode").checkbox({
+		fieldLabel: $.su.CHAR.SYSPARA.NIGHT_MODE,
+		items: [
+			{boxlabel: $.su.CHAR.SYSPARA.ENABLE, uncheckedValue:"off", inputValue: "on"}
+		]
+	});/*.on("ev_change", function(e, oldValue, newValue){
+		var val = (newValue[0] == "on" || newValue[0] == "enable") ? "on" : "off";
+		switch(val)
+		{
+			case "on":
+				$("input#led_time_start").time("enable");
+				$("input#led_time_end").time("enable");
+				$("span#led_time_to").removeClass("disabled");
+				break;
+			case "off":
+				$("input#led_time_start").time("disable");
+				$("input#led_time_end").time("disable");
+				$("span#led_time_to").addClass("disabled");
+				break;
+		}
+	});*/
+
+	$("input#led_time_start").time({
+		fieldLabel: $.su.CHAR.SYSPARA.PERIOD_NIGHT_TIME,
+		format: 'h:m',
+		cls: 'inline-block'
+		// tips: $.su.CHAR.TIMESET.TIMEFORMAT
+	});
+	
+	$('span#led_time_to').html($.su.CHAR.SYSPARA.TO);	
+	$('p#led_night_mode_note').html($.su.CHAR.SYSPARA.NIGHT_MODE_NOTE);
+	$("p#led_note").html($.su.CHAR.SYSPARA.NOTE2);
+
+	$("input#led_time_end").time({
+		fieldLabel: null,
+		format: 'h:m',
+		cls: 'inline-block',
+		tips: $.su.CHAR.SYSPARA.HH_MM,
+		tipsCls: 'xs'
+	});
+
+	var URL_LED = $.su.url("/admin/ledgeneral?form=setting");
+    var ledProxy = new $.su.Proxy({
+        url: URL_LED,
+		autoLoad: false
+		//async: false
+    });	
+
+/*	ledProxy.read({},function(data){
+		if (data.ledpm_support == "yes")
+		{
+			if (data.enable == "off"){
+				$("p#led_night_mode_note").show(); 
+				$("input#led_night_mode").checkbox("disable");
+				$("input#led_time_start").time("disable");
+				$("input#led_time_end").time("disable");
+				$("span#led_time_to").addClass("disabled");
+			}
+			else{
+				$("p#led_night_mode_note").hide();  
+				$("input#led_night_mode").checkbox("enable");
+				$("input#led_time_start").time("enable");
+				$("input#led_time_end").time("enable");
+				$("span#led_time_to").removeClass("disabled");
+			}
+		}
+	});
+*/
+	ledProxy.read({},function(data){
+		if (data.ledpm_support == "yes")
+		{
+		    if(data.time_set == "yes") // time is set by ntp or manual
+		    {
+		        if (data.enable == "off")
+		        {
+					$("p#led_note").hide();
+				$("p#led_night_mode_note").show(); 
+				$("#led_form").form("disable");                              
+					$("span#led_time_to").addClass("disabled");
+			}
+		        else
+		        {
+					$("p#led_note").hide();
+				$("p#led_night_mode_note").hide();  
+				$("#led_form").form("enable");                              
+					$("span#led_time_to").removeClass("disabled");
+			}
+		}
+			else // time is not set
+			{
+		$("#led_form").form("disable");                              
+		$("p#led_night_mode_note").hide(); 
+				$("p#led_note").show();
+				$("span#led_time_to").addClass("disabled");
+			}
+		}
+	});
+
+/////////////////
+	var helpSystemPara = new $.su.Help({
+		container: "div#help_system_para",
+		content: ["SYSTEM_PARA_WIRELESS", "SYSTEM_PARA_WPS", "SYSTEM_PARA_NAT", "SYSTEM_PARA_DOS", "SYSTEM_PARA_DUPLEX", "SYSTEM_PARA_LED"],
+		afterLoad:function(){
+			if(support_wds_show == "yes")
+			{
+				$("#help_syspara_wds_title").show();
+			}
+			else
+			{	
+				$("#help_syspara_wds_title").hide();
+			}
+		}
+	});
+
+
+});
+</script>
+</body>
+
+</html>

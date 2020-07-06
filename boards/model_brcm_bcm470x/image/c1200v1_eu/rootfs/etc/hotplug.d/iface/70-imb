@@ -1,0 +1,5 @@
+#!/bin/sh
+
+[ "$DEVICE" = "lo" ] && exit 0
+
+[ "$INTERFACE" = "lan" ] && /etc/init.d/imb restart

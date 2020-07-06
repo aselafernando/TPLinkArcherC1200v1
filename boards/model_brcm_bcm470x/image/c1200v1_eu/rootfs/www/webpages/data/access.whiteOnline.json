@@ -1,0 +1,12 @@
+{	
+	"timeout": false,
+	"success": true,
+	"data": [
+			{"name":"TP-LINK-PXC","host":"HOST", "ipaddr": "172.29.85.1", "mac":"00-11-22-33-44-55", "conn_type":"0"},
+			{"name":"TP-LINK-SMB","host":"NOT HOST", "ipaddr": "172.29.85.2", "mac":"00-11-22-33-44-55", "conn_type":"0"},
+			{"name":"TP-LINK-SOHO","host":"NOT HOST", "ipaddr": "172.29.85.3", "mac":"00-11-22-33-44-55", "conn_type":"0"},
+			{"name":"TP-LINK-BA","host":"NOT HOST", "ipaddr": "172.29.85.4", "mac":"00-11-22-33-44-55", "conn_type":"0"},
+			{"name":"TP-LINK-MOBILE","host":"NOT HOST", "ipaddr": "172.29.85.5", "mac":"00-11-22-33-44-55", "conn_type":"0"}
+	]
+			
+}

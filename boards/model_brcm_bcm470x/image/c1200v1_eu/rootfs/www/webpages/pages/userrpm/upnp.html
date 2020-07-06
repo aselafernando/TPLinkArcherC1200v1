@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Virtual Server</title>
+</head>
+
+<body>
+	<div class="func-container">
+		<div id="upnp_setting">
+				<input type="text"  id="upnp_enable" name="enable" value=""/>
+		</div>
+
+		<div id="upnp_list">
+			 <div id="upnpGrid"  class="natSeries">
+			</div>
+		</div>
+		<span id="nat_notice" class="hidden"></span>
+		<div id="upnp_help"></div>
+	</div>
+	
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+
+	var URL_UPNP_ENABLE = $.su.url("/admin/upnp?form=enable"); //data/upnp.rule.json	
+	var URL_UPNP_SERVICE = $.su.url("/admin/upnp?form=service"); //data/upnp.json
+
+	$("div.func-container").page({
+		title: $.su.CHAR.UPNP.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$('div#upnp_setting').panel({
+		title: $.su.CHAR.UPNP.TITLE,
+		collapsible: false
+	});
+	$("span#nat_notice").html($.su.CHAR.UPNP.NAT_ENABLE_NOTICE);
+
+	var upnpProxy = new $.su.Proxy({
+		url: URL_UPNP_ENABLE
+	});
+
+	$("input#upnp_enable").switchbutton({
+		fieldLabel: $.su.CHAR.UPNP.CURRENT_UPNP_STATUS,
+		proxy: upnpProxy,
+		cls:"form-inner",
+		field: {
+			"name": "enable"
+		}
+	});
+
+
+	$('div#upnp_list').panel({
+		title: $.su.CHAR.UPNP.UPNP_LIST,
+		collapsible: false
+	});
+
+	var upnpSerProxy = new $.su.Proxy({
+		url: URL_UPNP_SERVICE
+	});
+ 	 	 	 	
+	var storeVs = new $.su.Store({
+		proxy: upnpSerProxy,
+		fields: [
+			{name: "name"},
+	 		{name: "external_port"},
+	 		{name: "protocol"},
+	 		{name: "ipaddr"},
+	 		{name: "internal_port"}
+		],
+		autoLoad: true
+	});
+
+	$("div#upnpGrid").grid({
+		store:storeVs,
+		columns: [
+			{
+				text: $.su.CHAR.UPNP.ID, 
+				xtype: "rownumberer",
+				width:40
+			},
+			{
+				text: $.su.CHAR.UPNP.SERVICE, 
+				width:100,
+				renderer:function(val){
+				 	return $.su.func.escapeHtml(val);
+				},
+				dataIndex: "name"
+			},
+			{
+				text: $.su.CHAR.UPNP.EXTERNAL_PORT, 
+				width:100,
+				dataIndex: "external_port"
+			},
+			{
+				text: $.su.CHAR.UPNP.PROTOCAL, 
+				width:60,
+				dataIndex: "protocol"
+			},
+			{
+				text: $.su.CHAR.UPNP.IP_ADDR, 
+				width:100,
+				dataIndex: "ipaddr"
+			},
+			{
+				text: $.su.CHAR.UPNP.INTERNAL_PORT, 
+				width:100,
+				dataIndex: "internal_port"
+			}
+		],
+		operation: [{
+			xtype: "totalCount",
+			cls: "left",
+			fieldLabel: $.su.CHAR.UPNP.CLIENT_NUMBER
+		},"refresh"]
+	});
+
+	var natProxy = new $.su.Proxy({
+		url: $.su.url('/admin/nat?form=setting')
+	});
+
+	natProxy.read({}, function(data){
+		if(data.enable == 'off'){
+			$("span#nat_notice").show();
+		}
+		else{
+			$("span#nat_notice").hide();
+		}
+	});
+
+	var helpUpnp = new $.su.Help({
+		container: "div#upnp_help",
+		content: "UPNP"
+	});
+
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+config default params
+    option count   '4'
+    option pktsize '64'
+    option timeout '800'
+    option ttl     '20'
+    option ipaddr  '192.168.1.1'

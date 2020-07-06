@@ -1,0 +1,13 @@
+Package: miniupnpd
+Version: 1.8.20130426-2
+Depends: iptables, libip4tc, libnfnetlink
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/opensource/miniupnpd
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Daniel Dickinson <openwrt@cshore.neomailbox.net>
+Architecture: model_brcm_bcm470x
+Installed-Size: 41781
+Description:  Lightweight UPnP daemon

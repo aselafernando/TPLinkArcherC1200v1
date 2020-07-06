@@ -1,0 +1,1433 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+<script src="./js/libs/jquery.flot.js"></script>
+<style type="text/css">
+	div.container.widget-container.text-container.offset{
+		position: absolute;
+		top:200px;
+		left:540px;
+	}
+</style>
+
+</head>
+
+<body>
+<div class="func-container">
+
+	 <div id="network_map" class="">
+
+	 	<div id="" class="sb-network-map">
+
+	 		<div class="line-speed"></div>
+	 		<div class="line-vertical"></div>
+	 		<div class="line-content"></div>
+	 		<div class="line-box-left"></div>
+	 		<div class="line-box-right"></div>
+
+		 	<div id="network_internet" class="sb-map-internet">
+		 		<span></span>
+		 		<span id="router_internet_text" class="text"></span>
+		 	</div>
+
+		 	<div id="network_internet_up" class="sb-map-internet-up">
+		 		<span class="speed-up-icon"></span>
+		 		<span id="internet_up_num"></span>
+		 	</div>
+		 	<div id="network_internet_down" class="sb-map-internet-down">
+		 		<span class="speed-down-icon"></span>
+		 		<span id="internet_down_num"></span>
+		 	</div>
+
+		 	<div id="network_router" class="sb-map-router">
+		 		<span id="wireless_text" class="wireless"></span>
+		 		<span id="router_router_text" class="text"></span>
+		 	</div>
+
+		 	<div id="network_windows" class="sb-map-windows">
+		 		<span id="router_windows_num" class="num"></span>
+		 		<span id="router_windows_text" class="text"></span>		 		
+		 	</div>
+
+		 	<div id="network_android" class="sb-map-android">
+		 		<span id="router_android_num" class="num"></span>
+		 		<span id="router_android_text" class="text"></span>	
+		 	</div>
+
+		 	<div id="network_ios" class="sb-map-ios">
+		 		<span id="router_ios_num" class="num"></span>
+		 		<span id="router_ios_text" class="text"></span>	
+		 	</div>
+
+		 	<div id="network_unix" class="sb-map-unix">
+		 		<span id="router_unix_num" class="num"></span>
+		 		<span id="router_unix_text" class="text"></span>	
+		 	</div>
+
+		 	<div id="network_linux" class="sb-map-linux">
+		 		<span id="router_linux_num" class="num"></span>
+		 		<span id="router_linux_text" class="text"></span>	
+		 	</div>
+
+		 	<div id="network_otheros" class="sb-map-otheros">
+		 		<span id="router_others_num" class="num"></span>
+		 		<span id="router_others_text" class="text"></span>	
+		 	</div>
+
+		 </div>
+
+		 <div id="" class="">
+
+		 	<div id="windows_grid" class="detail-grid hidden"></div>
+
+		 	<div id="android_grid" class="detail-grid hidden"></div>
+
+		 	<div id="ios_grid" class="detail-grid hidden"></div>
+		 	
+		 	<div id="unix_grid" class="detail-grid hidden"></div>
+		 	
+		 	<div id="linux_grid" class="detail-grid hidden"></div>
+		 	
+		 	<div id="otheros_grid" class="detail-grid hidden"></div>
+		 	
+		 </div>
+
+	 </div>
+
+	 <div id="router_panel" class="hidden">
+	 	<div id="router_return_icon" class="router-return-icon"></div>
+
+	 	<div id="router_flows_devices">
+	 		<div id="routerGrid" class="sb-router-grid"></div>
+	 	</div>
+
+	 	<div id="router_flows_chart">
+	 		<div id="router_chart_up" style="width: 670px; height: 200px;"></div>
+	 		<div id="router_chart_down" style="width: 670px; height: 200px;"></div>
+	 	</div>
+
+	 </div>
+
+	 <div id="device_panel" class="hidden">
+	 	<div id="device_return_icon" class="device-return-icon"></div>
+
+	 	<div id="device_flows">
+	 		<div id="deviceGrid" class="sb-device-grid"></div>
+	 	</div>
+
+	 	<div id="device_flows_chart">
+	 		<div id="device_chart_up" style="width: 670px; height: 200px;"></div>
+	 		<div id="device_chart_down" style="width: 670px; height: 200px;"></div>
+	 	</div>
+
+	 </div>
+
+	 <div id="network_map_help"></div>
+</div>
+
+<script type="text/javascript">
+
+/////////////////////////////////////////////////////////////////// 数据处理
+
+	var flowsData;
+	var nodesData;
+
+	var down_bytes_prev = [];	// 记录上一次所有flow（应用）的上下行bytes
+	var up_bytes_prev = [];
+
+	var loop_index = 0;		
+
+	var windowsData = [];
+	var androidData = [];
+	var iosData = [];
+	var unixData = [];
+	var linuxData = [];
+	var otherosData = [];
+
+	var routerStackUp = [];
+	var routerStackDown = [];
+
+	var upLimitNum = 0;
+	var downLimitNum = 0;
+	
+
+	var windowsType = ["Windows RT", "Windows", "windows Phone", "Nokia Lumia", "Windows Phone"];
+
+	var androidType = ["HTC Android Device", "Google TV", "NVIDIA SHIELD", "Android", "WD TV"];
+
+	var iosType = ["Apple TV", "iPad", "iPhone", "iPod Touch"];
+
+	var unixType = [];
+
+	var linuxType = ["Linux"];
+
+	var otherosType = [];
+
+	//记录之前数据，防止epoch与前一个相同的情况
+	var preRouterData = [];
+
+
+// record previous data
+	var preEpoch = -1;
+	var curEpoch = 0;
+	var epochError = 0;	
+			
+	var routerData = [];
+	var deviceBpsUp = {};
+	var deviceBpsDown = {};
+
+	var deviceLoopName = 0;
+
+	var deviceRelation = {};
+
+
+	var deviceStore = new $.su.Store({
+		proxy: null,
+		preventErrorDefault: true,
+		fields: [
+			{name: "name"},
+			{name: "upBps"},
+			{name: "upPercent"},
+			{name: "downBps"},
+			{name: "downPercent"},
+			{name: "policy"}
+		],
+		autoLoad: false
+	});
+
+	var routerStore = new $.su.Store({
+		proxy: null,
+		preventErrorDefault: true,
+		fields: [
+			{name: "name"},
+			{name: "type"},
+			{name: "upBytes"},
+			{name: "upPercent"},
+			{name: "downBytes"},
+			{name: "downPercent"}
+		],
+		autoLoad: false
+	});
+
+
+
+	function removeSlt(){
+		$('div#network_windows').removeClass('item-slt');
+		$('div#network_android').removeClass('item-slt');
+		$('div#network_ios').removeClass('item-slt');
+		$('div#network_unix').removeClass('item-slt');
+		$('div#network_linux').removeClass('item-slt');
+		$('div#network_otheros').removeClass('item-slt');
+	}
+
+
+	var url_bwconfig = $.su.ozkerurl("/api/bw_config")
+	var bwProxy = new $.su.Proxy({
+		url: url_bwconfig,	
+		preventErrorDefault: true,	
+		reader: {
+			url: url_bwconfig,
+			root: "data",
+			type: 'GET'
+		}
+	});
+
+	var url_global = $.su.ozkerurl("/api/global")
+	var globalProxy = new $.su.Proxy({
+		url: url_global,		
+		preventErrorDefault: true,
+		reader: {
+			url: url_global,
+			root: "data",
+			type: 'GET'
+		}
+	});
+	
+	var url_flows = $.su.ozkerurl("/api/flows")
+	var flowsProxy = new $.su.Proxy({
+		url: url_flows,		
+		preventErrorDefault: true,
+		reader: {
+			url: url_flows,
+			root: "data",
+			type: 'GET'
+		}
+	});
+
+	var url_nodes = $.su.ozkerurl("/api/nodes")
+	var nodesProxy = new $.su.Proxy({
+		url: url_nodes,		
+		preventErrorDefault: true,
+		reader: {
+			url: url_nodes,
+			root: "data",
+			type: 'GET'
+		}
+	});
+
+	function getMax(array){
+		var maxValue = 0;
+		var maxY = 0;
+		for(var i=0; i<array.length; i++){
+			if( array[i][1]>maxValue ){
+				maxValue = array[i][1];
+			}
+		}
+
+		if( maxValue<=10 ){
+			maxY = 15;
+		}else if( 10<maxValue<=20 ){
+			maxY = 30;
+		}else if( 20<maxValue<=40 ){
+			maxY = 60;
+		}else if( 40<maxValue<=60 ){
+			maxY = 90;
+		}else if( 60<maxValue<=100 ){
+			maxY = 110;
+		}else if( maxValue>100 ){
+			maxY = 150;
+		}
+		return maxY;
+	}
+
+	function postData(upLimit, downLimit){
+
+	//	每次循环时重置系统分类表格里面的数据，防止缓存之前的内容
+		windowsData = [];
+		androidData = [];
+		iosData = [];
+		unixData = [];
+		linuxData = [];
+		otherosData = [];
+
+		var downRate = 0;
+		var upRate = 0;
+
+		nodesProxy.read({}, function(ndata, status, xhr){
+
+			nodesData = ndata.nodes;
+
+			flowsProxy.read({}, function(fdata, status, xhr){
+
+				flowsData = fdata.flows;
+
+				globalProxy.read({}, function(data, status, xhr){
+					curEpoch = data.epoch;
+
+
+				// 堆叠map分类数据	
+					for(var i=0; i<nodesData.length; i++){
+						nodesData[i].Pipeline.name?1:(nodesData[i].Pipeline.name=nodesData[i].Pipeline.ip_addr);
+
+					//	将数据分类为不同系统
+						if( $.inArray( nodesData[i].Pipeline.type, windowsType) != -1 )
+						{
+							windowsData.push(nodesData[i].Pipeline);
+						}
+						else if( $.inArray( nodesData[i].Pipeline.type, androidType) != -1 )
+						{
+							androidData.push(nodesData[i].Pipeline);
+						}
+						else if( $.inArray( nodesData[i].Pipeline.type, iosType) != -1 )
+						{
+							iosData.push(nodesData[i].Pipeline);
+						}
+						else if( $.inArray( nodesData[i].Pipeline.type, unixType) != -1 )
+						{
+							unixData.push(nodesData[i].Pipeline);
+						}
+						else if( $.inArray( nodesData[i].Pipeline.type, linuxType) != -1 )
+						{
+							linuxData.push(nodesData[i].Pipeline);
+						}
+						else
+						{
+							otherosData.push(nodesData[i]);
+						}
+
+						for(var m=0; m<flowsData.length; m++){
+
+							if(loop_index==0){
+						//第一次发送请求
+								routerData[ nodesData[i].Pipeline.mac_addr ] == undefined?routerData[ nodesData[i].Pipeline.mac_addr ]=[]:1;					
+							//	routerData[ nodesData[i].Pipeline.mac_addr ].push({uid:flowsData[m].uid, name:flowsData[m].name, upBps:0, downBps:0});
+								downRate = 0;
+								upRate = 0 ;
+
+								down_bytes_prev[ flowsData[m].uid ] = flowsData[m].down_bytes/1024;
+								up_bytes_prev[ flowsData[m].uid ] = flowsData[m].up_bytes/1024;	
+							}
+							else if( loop_index!=0 && flowsData[m].epoch == preEpoch )
+							{
+						//后一次返回的epoch跟前一次相同，那么速率统统置为0
+								downRate = 0;
+								upRate = 0 ;
+
+								if( flowsData[m].mac.toString() == nodesData[i].Pipeline.mac_addr.toString() ){
+									routerData[ nodesData[i].Pipeline.mac_addr ] == undefined?routerData[ nodesData[i].Pipeline.mac_addr ]=[]:1;
+							
+									routerData[ nodesData[i].Pipeline.mac_addr ].push({uid:flowsData[m].uid, name:flowsData[m].name, type:nodesData[i].Pipeline.type, upBps:0, downBps:0, device:nodesData[i].Pipeline.name, policy:-1});
+								}
+
+								if( epochError==0 ){
+									epochError = loop_index;
+								}
+							}
+							else if( loop_index!=0 &&  flowsData[m].epoch != preEpoch )
+							{
+						// 匹配属于同一个设备下的应用，并记录信息
+								if( flowsData[m].mac.toString() == nodesData[i].Pipeline.mac_addr.toString() ){
+						// 获取到所有flows内的速率
+									down_bytes_prev[ flowsData[m].uid ] == undefined ? down_bytes_prev[flowsData[m].uid]=0 : 1;
+									up_bytes_prev[ flowsData[m].uid ] == undefined ? up_bytes_prev[flowsData[m].uid]=0 : 1;
+
+									downRate += ( flowsData[m].down_bytes/1024 - down_bytes_prev[ flowsData[m].uid ] )/( flowsData[m].epoch - preEpoch );
+									upRate += ( flowsData[m].up_bytes/1024 - up_bytes_prev[ flowsData[m].uid ] )/( flowsData[m].epoch - preEpoch );
+
+									routerData[ nodesData[i].Pipeline.mac_addr ] == undefined?routerData[ nodesData[i].Pipeline.mac_addr ]=[]:1;
+
+									var deviceUpTemp = (flowsData[m].up_bytes/1024 - up_bytes_prev[flowsData[m].uid] )/(flowsData[m].epoch-preEpoch);
+									var deviceDownTemp = (flowsData[m].down_bytes/1024 - down_bytes_prev[flowsData[m].uid] )/(flowsData[m].epoch-preEpoch);
+
+							//将每一个设备里面的每一个应用及应用的速率拼成一个对象存在数组里	
+									routerData[ nodesData[i].Pipeline.mac_addr ].push({uid:flowsData[m].uid, name:flowsData[m].name, type:nodesData[i].Pipeline.type, upBps:deviceUpTemp, downBps:deviceDownTemp, device:nodesData[i].Pipeline.name, policy:flowsData[m].policies.up_profile_active>flowsData[m].policies.down_profile_active?flowsData[m].policies.up_profile_active:flowsData[m].policies.down_profile_active});
+
+									down_bytes_prev[ flowsData[m].uid ] = flowsData[m].down_bytes/1024;
+									up_bytes_prev[ flowsData[m].uid ] = flowsData[m].up_bytes/1024;	
+
+								}
+
+							}
+
+						};
+					};
+
+
+		// for循环结束，将router总速率显示在页面上
+					$('#internet_up_num').html(Math.round(downRate)+' kbps');
+					$('#internet_down_num').html(Math.round(upRate)+' kbps');
+
+		//循环结束，清算各种数据并显示
+
+		//处理routerData，将里面每一个设备的总速率计算出来，并在使用完数据以后进行清空。清空之前用pre数据备份。
+					
+					if( flowsData[0] && flowsData[0].epoch != preEpoch ){
+						for(var e in routerData){
+							preRouterData[e] = routerData[e];
+						}
+					}
+
+					var gridData = [];
+					for(var e in routerData){
+				//检测device部分是否需要加载表格内容
+						if(deviceLoopName!=0 && e==deviceLoopName){
+							var array =[];
+
+							for(var i=0; i<routerData[deviceLoopName].length; i++){
+								var upBpsDevice = routerData[deviceLoopName][i].upBps>1024?(Math.round(routerData[deviceLoopName][i].upBps/1024)+' Mbps'):(Math.round(routerData[deviceLoopName][i].upBps)+' Kbps');
+								var downBpsDevice = routerData[deviceLoopName][i].downBps>1024?(Math.round(routerData[deviceLoopName][i].downBps/1024)+' Mbps'):(Math.round(routerData[deviceLoopName][i].downBps)+' Kbps');
+								array.push({name:routerData[deviceLoopName][i].name, upBps:upBpsDevice, upPercent:routerData[deviceLoopName][i].upBps/upLimitNum, downBps:downBpsDevice, downPercent:routerData[deviceLoopName][i].downBps/downLimitNum, policy:routerData[deviceLoopName][i].policy});								
+							}
+							loop_index==0?1:deviceStore.loadData(deviceStore.dataFormat(array));
+						}
+
+				//router部分表格内容加载
+						var upStack = 0;
+						var downStack = 0;
+						for(var i=0; i<routerData[e].length; i++){
+							upStack += routerData[e][i].upBps;
+							downStack += routerData[e][i].downBps;
+						}
+					//收集每一次的device信息并保存，用于显示在chart里面
+						deviceBpsUp[e] == undefined?deviceBpsUp[e]=[]:1;
+						loop_index==0?1:deviceBpsUp[e].push(Math.round(upStack));
+						deviceBpsDown[e] == undefined?deviceBpsDown[e]=[]:1;
+						loop_index==0?1:deviceBpsDown[e].push(Math.round(downStack));
+
+						// upStack = Math.round(upStack)>1024?(Math.round(upStack/1024)+' Mbps'):(Math.round(upStack)+' Kbps');
+						// downStack = Math.round(downStack)>1024?(Math.round(downStack/1024)+' Mbps'):(Math.round(downStack)+' Kbps');
+
+
+						if(loop_index!=0 && routerData[e].length!=0){
+							gridData.push({name:routerData[e][0].device, type:routerData[e][0].type, upPercent:upStack/upLimit, upBytes:Math.round(upStack)>1024?(Math.round(upStack/1024)+' Mbps'):(Math.round(upStack)+' Kbps'), downPercent:downStack/downLimit, downBytes:Math.round(downStack)>1024?(Math.round(downStack/1024)+' Mbps'):(Math.round(downStack)+' Kbps') });
+						}
+
+
+						routerData[e] = [];
+					}
+
+					routerStore.loadData(gridData);
+
+
+
+		//处理device页面的plot信息
+					for(var m in deviceBpsUp){
+						deviceBpsUp[m].length>61?(deviceBpsUp[m]=deviceBpsUp[m].slice( deviceBpsUp[m].length-61 )):1;
+						deviceBpsDown[m].length>61?(deviceBpsDown[m]=deviceBpsDown[m].slice( deviceBpsDown[m].length-61 )):1;
+
+			//处理epoch异常之后恢复的情况，处理router页面的数据
+						if( epochError!=0 && preEpoch != flowsData[0].epoch ){
+							for(var i=1; i<=loop_index-epochError; i++){
+								if(deviceBpsUp[m].length>=i){
+									deviceBpsUp[m][deviceBpsUp[m].length-i-1] = deviceBpsUp[m][deviceBpsUp[m].length-1];
+									deviceBpsDown[m][deviceBpsDown[m].length-i-1] = deviceBpsDown[m][deviceBpsDown[m].length-1];							
+								}
+							}
+					//		epochError = 0;
+						}
+
+
+						if(deviceLoopName!=0 && m==deviceLoopName){
+							var tempDeviceUp = [];
+							var tempDeviceDown = [];
+
+							for(var i=0; i<deviceBpsUp[m].length; i++){
+								tempDeviceUp.push( [60-i, deviceBpsUp[m][deviceBpsUp[m].length-i-1]/1024 ] );
+								tempDeviceDown.push( [60-i, deviceBpsDown[m][deviceBpsDown[m].length-i-1]/1024 ] );
+							}
+							// plotDeviceUp.setData( [tempDeviceUp] );
+							// plotDeviceUp.draw();
+							// plotDeviceDown.setData( [tempDeviceDown] );
+							// plotDeviceDown.draw();
+
+
+							$.plot( $('#device_chart_up'), [tempDeviceUp],
+								{
+									shadowSize: 5,
+									highlightColor: 'red',
+									legend: {
+										noColumns: 1,
+										position: 'sw',
+										margin: 10,
+										backgroundColor: '#CEDF99',
+										backgroundOpacity: 0.5
+									},
+									xaxis:{ 
+										max: 60,
+										min: 0,
+										tickColor: '#ccc',
+										tickSize: 10,
+										reserveSpace: true,
+										labelWidth: 10
+									},
+									yaxis:{
+										tickSize: 3,
+										max: getMax(tempDeviceUp),
+										min: 0
+									},
+									grid:{
+										aboveData: true,
+										color: '#4D8CBC',
+										borderColor: '#6A9F7F',
+										labelMargin: 5,
+										minBorderMargin: null,
+										axisMargin: 5
+									},
+									crosshair: { mode: "x" }
+								}
+							);
+
+							$.plot( $('#device_chart_down'), [tempDeviceDown],
+								{
+									shadowSize: 5,
+									highlightColor: 'red',
+									legend: {
+										noColumns: 1,
+										position: 'sw',
+										margin: 10,
+										backgroundColor: '#CEDF99',
+										backgroundOpacity: 0.5
+									},
+									xaxis:{ 
+										max: 60,
+										min: 0,
+										tickColor: '#ccc',
+										tickSize: 10,
+										reserveSpace: true,
+										labelWidth: 10
+									},
+									yaxis:{
+										tickSize: 3,
+										max: getMax(tempDeviceDown),
+										min: 0
+									},
+									grid:{
+										aboveData: true,
+										color: '#4D8CBC',
+										borderColor: '#6A9F7F',
+										labelMargin: 5,
+										minBorderMargin: null,
+										axisMargin: 5
+									},
+									crosshair: { mode: "x" }
+								}
+							);
+
+						}
+					}
+
+		//处理routerData为grid可显示数据
+					routerStackUp.push(Math.round(upRate));
+					routerStackDown.push(Math.round(downRate));
+
+		//处理routerStack数据，取最新的61组数据给flot备用
+					routerStackUp.length>61?(routerStackUp=routerStackUp.slice( routerStackUp.length-61 )):1;
+					routerStackDown.length>61?(routerStackDown=routerStackDown.slice( routerStackDown.length-61 )):1;
+
+		//处理epoch异常之后恢复的情况，处理router页面的数据，加载flot数据
+					if( flowsData[0] && epochError!=0 && preEpoch != flowsData[0].epoch ){
+						for(var i=1; i<=loop_index-epochError; i++){
+							if(routerStackUp.length>=i){
+								routerStackUp[routerStackUp.length-i-1] = upRate;
+								routerStackDown[routerStackDown.length-i-1] = downRate;								
+							}
+						}
+						epochError = 0;
+					}
+
+					var tempRouterUp = [];
+					var tempRouterDown = [];
+					for(var n=0; n<routerStackUp.length; n++){
+						tempRouterUp.push( [ 60-n, routerStackUp[routerStackUp.length-n-1]/1024 ] );
+						tempRouterDown.push( [ 60-n, routerStackDown[routerStackDown.length-n-1]/1024 ] );
+					}
+
+				//根据flot数据获取到flot Y轴最大值，并重绘曲线
+
+					$.plot( $('#router_chart_up'), [tempRouterUp],
+						{
+							shadowSize: 5,
+							highlightColor: 'red',
+							legend: {
+								noColumns: 1,
+								position: 'sw',
+								margin: 10,
+								backgroundColor: '#CEDF99',
+								backgroundOpacity: 0.5
+							},
+							xaxis:{ 
+								// tickLength: 55,
+								max: 60,
+								min: 0,
+								tickColor: '#ccc',
+								tickSize: 10,
+								// tickLength: 10,
+								reserveSpace: true,
+								labelWidth: 10
+							},
+							yaxis:{
+								tickSize: 3,
+							//	tickLength: 40,
+								max: getMax(tempRouterUp),
+								min: 0,
+							//	autoscaleMargin: true
+							},
+							grid:{
+								aboveData: true,
+								color: '#4D8CBC',
+								borderColor: '#6A9F7F',
+								labelMargin: 5,
+								minBorderMargin: null,
+								axisMargin: 5
+							},
+							crosshair: { mode: "x" }
+						}
+					);
+
+					$.plot( $('#router_chart_down'), [tempRouterDown],
+						{
+							shadowSize: 5,
+							highlightColor: 'red',
+							legend: {
+								noColumns: 1,
+								position: 'sw',
+								margin: 10,
+								backgroundColor: '#CEDF99',
+								backgroundOpacity: 0.5
+							},
+							xaxis:{ 
+								max: 60,
+								min: 0,
+								tickColor: '#ccc',
+								tickSize: 10,
+								reserveSpace: true,
+								labelWidth: 10
+							},
+							yaxis:{
+								tickSize: 3,
+								max: getMax(tempRouterDown),
+								min: 0
+							},
+							grid:{
+								aboveData: true,
+								color: '#4D8CBC',
+								borderColor: '#6A9F7F',
+								labelMargin: 5,
+								minBorderMargin: null,
+								axisMargin: 5
+							},
+							crosshair: { mode: "x" }
+						}
+					);
+
+
+		// 放在最后，以取到数据，方便与下一次请求到的数据相比较
+					preEpoch = flowsData[0]?flowsData[0].epoch:preEpoch;
+					loop_index++;
+
+		//处理各个分类表格的上标数字
+					windowsData.length>0?($('span#router_windows_num').show(),$('span#router_windows_num').html(windowsData.length)):$('span#router_windows_num').hide();
+					androidData.length>0?($('span#router_android_num').show(),$('span#router_android_num').html(androidData.length)):$('span#router_android_num').hide();
+					iosData.length>0?($('span#router_ios_num').show(),$('span#router_ios_num').html(iosData.length)):$('span#router_ios_num').hide();
+					unixData.length>0?($('span#router_unix_num').show(),$('span#router_unix_num').html(unixData.length)):$('span#router_unix_num').hide();
+					linuxData.length>0?($('span#router_linux_num').show(),$('span#router_linux_num').html(linuxData.length)):$('span#router_linux_num').hide();
+					otherosData.length>0?($('span#router_others_num').show(),$('span#router_others_num').html(otherosData.length)):$('span#router_others_num').hide();
+
+				});
+			});
+		});
+
+		bwProxy.aaa = setTimeout(function(){postData(upLimit, downLimit)}, 2000);
+
+	}
+
+
+    function jsonpDevicesCallback(result){
+		deviceRelation = result.devices;
+		postData(upLimitNum, downLimitNum);
+    }
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$(document).ready(function(e){
+
+
+	$('span#router_internet_text').html($.su.CHAR.STREAMBOOST.INTERNET);
+	$('span#router_router_text').html($.su.CHAR.STREAMBOOST.ROUTER);
+	$('span#router_windows_text').html($.su.CHAR.STREAMBOOST.WINDOWS);
+	$('span#router_android_text').html($.su.CHAR.STREAMBOOST.ANDROID);
+	$('span#router_ios_text').html($.su.CHAR.STREAMBOOST.MAC_IOS);
+	$('span#router_unix_text').html($.su.CHAR.STREAMBOOST.UNIX);
+	$('span#router_linux_text').html($.su.CHAR.STREAMBOOST.LINUX);
+	$('span#router_others_text').html($.su.CHAR.STREAMBOOST.OTHERS);
+
+
+	$('#network_router').click(function(){
+		$('#network_map').hide();
+		$('#router_panel').show();
+	});
+
+	$('#router_return_icon').click(function(){
+		$('#network_map').show();
+		$('#router_panel').hide();
+	});
+
+	$('#device_return_icon').click(function(){
+		$('#network_map').show();
+		$('#device_panel').hide();
+	});
+
+
+/////////////////////////////////////////////////////router 
+
+	$("div#router_panel").panel({
+		title: $.su.CHAR.STREAMBOOST.ROUTER,
+		collapsible: false
+	});
+
+	$('div#routerGrid').grid({
+		store: routerStore,
+		minLines:0,
+		columns: [
+			{
+				xtype: "actioncolumn",
+				text: $.su.CHAR.STREAMBOOST.DEVICE,
+				width: 200,
+				items: [
+					{
+						xtype: 'html',
+						dataIndex: "type",
+						renderer: function(value){
+							return '<img class="router-icons" src="/images/default.png"/><img class="router-icons hidden" src="http://static.ac1900v1.tplink.streamboost.yeti.bigfootnetworks.com/luci-app-streamboost-assets/v2.0/images/'+deviceRelation[$.su.func.escapeHtml(value)]+'" onload="javascript:$(this).prev().hide();$(this).show()"/>';
+						}
+					},
+					{
+						xtype: 'html',
+						dataIndex: "name",
+						renderer: function(value, dd){
+							return '<div class=\"router-name\">'+$.su.func.escapeHtml(value)+'</div>';
+						}
+					}
+				]
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.RATE,
+				xtype: "actioncolumn",
+				items: [
+					{
+						xtype: 'progressbar',
+						showPercentage: false,
+						width: 300,
+						cls: 'inlineBlock pro300',
+						dataIndex: 'upPercent'
+					},
+					{
+						xtype: "textbox",
+						dataIndex: "upBytes",
+						fieldLabel: null,
+						inputCls: 'm',
+						readOnly: true,
+						cls: 'inlineBlock h20',
+						properties: [
+							{
+								property: "readOnly"
+							}
+						]
+					},
+					{
+						xtype: 'progressbar',
+						showPercentage: false,
+						width: 300,
+						cls: 'inlineBlock pro300 colorBlue',
+						dataIndex: 'downPercent'
+					},
+					{
+						xtype: "textbox",
+						dataIndex: "downBytes",
+						fieldLabel: null,
+						inputCls: 'm',
+						readOnly: true,
+						cls: 'inlineBlock h20 colorBlue',
+						properties: [
+							{
+								property: "readOnly"
+							}
+						]
+					}
+				]
+			}
+		]
+	});
+
+	var plotRouterUp = $.plot(
+		$('#router_chart_up'),
+		[
+			{
+				label: "xaxis", 
+				points: {
+					show: true
+				},
+				lines: {
+					show: true
+				},
+				data: []
+			}
+		],
+		{
+			shadowSize: 5,
+			highlightColor: 'red',
+			legend: {
+				noColumns: 1,
+				position: 'sw',
+				margin: 10,
+				backgroundColor: '#CEDF99',
+				backgroundOpacity: 0.5
+			},
+			xaxis:{ 
+				// tickLength: 55,
+				max: 60,
+				min: 0,
+				// ticks: [[0, "zero"], [10, "one mark"], [40, "two marks"]],
+				tickColor: '#ccc',
+				tickSize: 10,
+				// tickLength: 10,
+				reserveSpace: true,
+				labelWidth: 10
+			},
+			yaxis:{
+				tickSize: 3,
+			//	tickLength: 40,
+				max: 15,
+				min: 0,
+			//	autoscaleMargin: true
+			},
+			grid:{
+				aboveData: true,
+				color: '#4D8CBC',
+			//	backgroundColor: { colors: ["#000", "#999", { opacity: 0.8 }, { brightness: 0.6, opacity: 0.8 }]},
+				borderColor: '#6A9F7F',
+				labelMargin: 5,
+				minBorderMargin: null,
+			//	markings: [{ xaxis: { from: 0, to: 12 }, yaxis: { from: 10, to: 20 }, color: "#bb0000" }],
+				axisMargin: 5
+			},
+			crosshair: { mode: "x" }
+		}
+	);
+
+	var plotRouterDown = $.plot(
+		$('#router_chart_down'),
+		[
+			{
+				label: "xaxis", 
+				points: {
+					show: true
+				},
+				lines: {
+					show: true
+				},
+				data: []
+			}
+		],
+		{
+			shadowSize: 5,
+			highlightColor: 'red',
+			legend: {
+				noColumns: 1,
+				position: 'sw',
+				margin: 10,
+				backgroundColor: '#CEDF99',
+				backgroundOpacity: 0.5
+			},
+			xaxis:{ 
+				// tickLength: 55,
+				max: 60,
+				min: 0,
+				// ticks: [[0, "zero"], [10, "one mark"], [40, "two marks"]],
+				tickColor: '#ccc',
+				tickSize: 10,
+				// tickLength: 10,
+				reserveSpace: true,
+				labelWidth: 10
+			},
+			yaxis:{
+				tickSize: 3,
+				max: 15,
+			//	tickLength: 40,
+				min: 0
+			},
+			grid:{
+				aboveData: true,
+				color: '#4D8CBC',
+			//	backgroundColor: { colors: ["#000", "#999", { opacity: 0.8 }, { brightness: 0.6, opacity: 0.8 }]},
+				borderColor: '#6A9F7F',
+				labelMargin: 5,
+				minBorderMargin: null,
+			//	markings: [{ xaxis: { from: 0, to: 12 }, yaxis: { from: 10, to: 20 }, color: "#bb0000" }],
+				axisMargin: 5
+			},
+			crosshair: { mode: "x" }
+		}
+	);
+////////////////////////////////////////////////////////// device
+	$("div#device_panel").panel({
+		title: $.su.CHAR.STREAMBOOST.DEVICES,
+		collapsible: false
+	});
+
+
+	$('div#deviceGrid').grid({
+		store: deviceStore,
+		minLines:0,
+		columns: [
+			{
+				text: $.su.CHAR.STREAMBOOST.APPLICATION,
+				xtype: "actioncolumn",
+				width: 200,
+				items: [
+					{
+						xtype: 'html',
+						dataIndex: "name",
+						renderer: function(value){
+							return '<img src="/images/default.png" class="device-icons"/><img class="device-icons hidden" src="http://static.ac1900v1.tplink.streamboost.yeti.bigfootnetworks.com/luci-app-streamboost-assets/v2.0/images/'+$.su.func.escapeHtml(value)+'.png"  onload="javascript:$(this).prev().hide();$(this).show()"/><div class="router-name">'+$.su.func.escapeHtml(value)+'</div>';
+						}
+					}
+				]
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.RATE,
+				xtype: "actioncolumn",
+				items: [
+					{
+						xtype: 'progressbar',
+						showPercentage: false,
+						width: 300,
+						cls: 'inlineBlock pro300',
+						dataIndex: 'upPercent'
+					},
+					{
+						xtype: "textbox",
+						dataIndex: "upBps",
+						fieldLabel: null,
+						inputCls: 'm',
+						readOnly: true,
+						cls: 'inlineBlock h20',
+						properties: [
+							{
+								property: "readOnly"
+							}
+						]
+					},
+					{
+						xtype: 'progressbar',
+						showPercentage: false,
+						width: 300,
+						cls: 'inlineBlock pro300 colorBlue',
+						dataIndex: 'downPercent'
+					},
+					{
+						xtype: "textbox",
+						dataIndex: "downBps",
+						fieldLabel: null,
+						inputCls: 'm',
+						readOnly: true,
+						cls: 'inlineBlock h20 colorBlue',
+						properties: [
+							{
+								property: "readOnly"
+							}
+						]
+					},
+					{
+						xtype: 'html',
+						dataIndex: "policy",
+						renderer: function(value){
+							switch(value)
+							{
+								case 0:
+									return '<div class="policy-optimal"></div>';
+								case 1:
+									return '<div class="policy-nominal"></div>';
+								case 2:
+									return '<div class="policy-best"></div>';
+							}
+						}
+					}
+				]
+			}
+		]
+	});
+
+	var plotDeviceUp = $.plot(
+		$('#device_chart_up'),
+		[
+			{
+				label: "xaxis", 
+				points: {
+					show: true
+				},
+				lines: {
+					show: true
+				},
+				data: []
+			}
+		],
+		{
+			shadowSize: 5,
+			highlightColor: 'red',
+			legend: {
+				noColumns: 1,
+				position: 'sw',
+				margin: 10,
+				backgroundColor: '#CEDF99',
+				backgroundOpacity: 0.5
+			},
+			xaxis:{ 
+				// tickLength: 55,
+				max: 60,
+				min: 0,
+				// ticks: [[0, "zero"], [10, "one mark"], [40, "two marks"]],
+				tickColor: '#ccc',
+				tickSize: 10,
+				// tickLength: 10,
+				reserveSpace: true,
+				labelWidth: 10
+			},
+			yaxis:{
+				tickSize: 3,
+				max: 15,
+				min: 0
+			},
+			grid:{
+				aboveData: true,
+				color: '#4D8CBC',
+			//	backgroundColor: { colors: ["#000", "#999", { opacity: 0.8 }, { brightness: 0.6, opacity: 0.8 }]},
+				borderColor: '#6A9F7F',
+				labelMargin: 5,
+				minBorderMargin: null,
+			//	markings: [{ xaxis: { from: 0, to: 12 }, yaxis: { from: 10, to: 20 }, color: "#bb0000" }],
+				axisMargin: 5
+			},
+			crosshair: { mode: "x" }
+		}
+	);
+
+	var plotDeviceDown = $.plot(
+		$('#device_chart_down'),
+		[
+			{
+				label: "xaxis", 
+				points: {
+					show: true
+				},
+				lines: {
+					show: true
+				},
+				data: []
+			}
+		],
+		{
+			shadowSize: 5,
+			highlightColor: 'red',
+			legend: {
+				noColumns: 1,
+				position: 'sw',
+				margin: 10,
+				backgroundColor: '#CEDF99',
+				backgroundOpacity: 0.5
+			},
+			xaxis:{ 
+				// tickLength: 55,
+				max: 60,
+				min: 0,
+				// ticks: [[0, "zero"], [10, "one mark"], [40, "two marks"]],
+				tickColor: '#ccc',
+				tickSize: 10,
+				// tickLength: 10,
+				reserveSpace: true,
+				labelWidth: 10
+			},
+			yaxis:{
+				tickSize: 3,
+				max: 15,
+				min: 0
+			},
+			grid:{
+				aboveData: true,
+				color: '#4D8CBC',
+			//	backgroundColor: { colors: ["#000", "#999", { opacity: 0.8 }, { brightness: 0.6, opacity: 0.8 }]},
+				borderColor: '#6A9F7F',
+				labelMargin: 5,
+				minBorderMargin: null,
+			//	markings: [{ xaxis: { from: 0, to: 12 }, yaxis: { from: 10, to: 20 }, color: "#bb0000" }],
+				axisMargin: 5
+			},
+			crosshair: { mode: "x" }
+		}
+	);
+
+///////////////////////////////////////////////////////////////
+	$("div.func-container").page({
+		title: $.su.CHAR.STREAMBOOST.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$("div#network_map").panel({
+		title: $.su.CHAR.STREAMBOOST.TITLE,
+		collapsible: false
+	});
+
+	$('div#network_windows').click(function(){
+		removeSlt();
+		$(this).addClass('item-slt');
+		$('div.detail-grid').hide();
+		$("div#windows_grid").show();
+		$("div#windows_grid").grid('getStore').loadData($("div#windows_grid").grid('getStore').dataFormat(windowsData));
+	});
+
+	$('div#network_android').click(function(){
+		removeSlt();
+		$(this).addClass('item-slt');
+		$('div.detail-grid').hide();
+		$("div#android_grid").show();
+		$("div#android_grid").grid('getStore').loadData($("div#android_grid").grid('getStore').dataFormat(androidData));
+	});
+
+	$('div#network_ios').click(function(){
+		removeSlt();
+		$(this).addClass('item-slt');
+		$('div.detail-grid').hide();
+		$("div#ios_grid").show();
+		$("div#ios_grid").grid('getStore').loadData($("div#ios_grid").grid('getStore').dataFormat(iosData));
+	});
+
+	$('div#network_unix').click(function(){
+		removeSlt();
+		$(this).addClass('item-slt');
+		$('div.detail-grid').hide();
+		$("div#unix_grid").show();
+		$("div#unix_grid").grid('getStore').loadData($("div#unix_grid").grid('getStore').dataFormat(unixData));
+	});
+
+	$('div#network_linux').click(function(){
+		removeSlt();
+		$(this).addClass('item-slt');
+		$('div.detail-grid').hide();
+		$("div#linux_grid").show();
+		$("div#linux_grid").grid('getStore').loadData($("div#linux_grid").grid('getStore').dataFormat(linuxData));
+	});
+
+	$('div#network_otheros').click(function(){
+		removeSlt();
+		$(this).addClass('item-slt');
+		$('div.detail-grid').hide();
+		$("div#otheros_grid").show();
+		$("div#otheros_grid").grid('getStore').loadData($("div#otheros_grid").grid('getStore').dataFormat(otherosData));
+	});
+
+//	initial all grid detail
+
+	$("div#windows_grid").grid({
+		operation: [],
+		store:{
+			proxy: {},
+			fields: [
+				{name: "name"},
+				{name: "ip_addr"},
+				{name: "mac_addr"}
+			],
+			autoLoad: true
+		},
+		minLines: 0,
+		columns: [
+			{
+				text: $.su.CHAR.STREAMBOOST.NAME, 
+				dataIndex: "name",
+				width: 160
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.MAC_ADDRESS, 
+				width: 140,
+				dataIndex: "mac_addr"
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.IP_ADDRESS, 
+				width: 150,
+				dataIndex: "ip_addr"
+			}
+		]
+	}).on('ev_lineclicked', function(e, key, data){
+		deviceLoopName = data.mac_addr;
+		$('#network_map').hide();
+		$('#device_panel').show();
+	});
+
+	$("div#android_grid").grid({
+		operation: [],
+		store:{
+			proxy: {},
+			fields: [
+				{name: "name"},
+				{name: "ip_addr"},
+				{name: "mac_addr"}
+			],
+			autoLoad: false
+		},
+		minLines: 0,
+		columns: [
+			{
+				text: $.su.CHAR.STREAMBOOST.NAME, 
+				dataIndex: "name",
+				width: 160
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.MAC_ADDRESS, 
+				width: 140,
+				dataIndex: "mac_addr"
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.IP_ADDRESS, 
+				width: 150,
+				dataIndex: "ip_addr"
+			}
+		]
+	}).on('ev_lineclicked', function(e, key, data){
+		deviceLoopName = data.mac_addr;
+		$('#network_map').hide();
+		$('#device_panel').show();
+	});
+
+	$("div#ios_grid").grid({
+		operation: [],
+		store:{
+			proxy: {},
+			fields: [
+				{name: "name"},
+				{name: "ip_addr"},
+				{name: "mac_addr"}
+			],
+			autoLoad: false
+		},
+		minLines: 0,
+		columns: [
+			{
+				text: $.su.CHAR.STREAMBOOST.NAME, 
+				dataIndex: "name",
+				width: 160
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.MAC_ADDRESS, 
+				width: 140,
+				dataIndex: "mac_addr"
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.IP_ADDRESS, 
+				width: 150,
+				dataIndex: "ip_addr"
+			}
+		]
+	}).on('ev_lineclicked', function(e, key, data){
+		deviceLoopName = data.mac_addr;
+		$('#network_map').hide();
+		$('#device_panel').show();
+	});
+
+	$("div#unix_grid").grid({
+		operation: [],
+		store:{
+			proxy: {},
+			fields: [
+				{name: "name"},
+				{name: "ip_addr"},
+				{name: "mac_addr"}
+			],
+			autoLoad: false
+		},
+		minLines: 0,
+		columns: [
+			{
+				text: $.su.CHAR.STREAMBOOST.NAME, 
+				dataIndex: "name",
+				width: 160
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.MAC_ADDRESS, 
+				width: 140,
+				dataIndex: "mac_addr"
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.IP_ADDRESS, 
+				width: 150,
+				dataIndex: "ip_addr"
+			}
+		]
+	}).on('ev_lineclicked', function(e, key, data){
+		deviceLoopName = data.mac_addr;
+		$('#network_map').hide();
+		$('#device_panel').show();
+	});
+
+	$("div#linux_grid").grid({
+		operation: [],
+		store:{
+			proxy: {},
+			fields: [
+				{name: "name"},
+				{name: "ip_addr"},
+				{name: "mac_addr"}
+			],
+			autoLoad: false
+		},
+		minLines: 0,
+		columns: [
+			{
+				text: $.su.CHAR.STREAMBOOST.NAME, 
+				dataIndex: "name",
+				width: 160
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.MAC_ADDRESS,
+				width: 140,
+				dataIndex: "mac_addr"
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.IP_ADDRESS, 
+				width: 150,
+				dataIndex: "ip_addr"
+			}
+		]
+	}).on('ev_lineclicked', function(e, key, data){
+		deviceLoopName = data.mac_addr;
+		$('#network_map').hide();
+		$('#device_panel').show();
+	});
+
+	$("div#otheros_grid").grid({
+		operation: [],
+		store:{
+			proxy: {},
+			fields: [
+				{name: "name"},
+				{name: "ip_addr"},
+				{name: "mac_addr"}
+			],
+			autoLoad: false
+		},
+		minLines: 0,
+		columns: [
+			{
+				text: $.su.CHAR.STREAMBOOST.NAME, 
+				dataIndex: "name",
+				width: 160
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.MAC_ADDRESS,
+				width: 140,
+				dataIndex: "mac_addr"
+			},
+			{
+				text: $.su.CHAR.STREAMBOOST.IP_ADDRESS, 
+				width: 150,
+				dataIndex: "ip_addr"
+			}
+		]
+	}).on('ev_lineclicked', function(e, key, data){
+		deviceLoopName = data.mac_addr;
+		$('#network_map').hide();
+		$('#device_panel').show();
+	});
+
+
+
+//	global param define
+//	pre packets && current packets  -----param define
+
+
+
+	bwProxy.read({}, function(bdata, status, xhr){
+		upLimitNum = Math.round(bdata.bw_config.up_limit/1024);
+		downLimitNum = Math.round(bdata.bw_config.down_limit/1024);
+
+		$.ajax({
+			url: "http://static.ac1900v1.tplink.streamboost.yeti.bigfootnetworks.com/luci-app-streamboost-assets/v2.0/trans/devices_icons.js?callback=jsonpDevicesCallback",
+			dataType: "jsonp",
+			jsonp: 'callback',
+			success: function(argument){}
+		});
+
+	});
+
+	$.su.app.runningModule.addUnloadHandler(function(){
+		clearTimeout(bwProxy.aaa);
+	});
+
+ 
+	var helpNetworkMap = new $.su.Help({
+		container: "div#network_map_help",
+		content: ['STREAM_BOOST_NETWORK', 'STREAM_BOOST_ROUTER', 'STREAM_BOOST_DEVICES']
+	});
+
+
+});
+
+</script>
+
+
+</body>
+
+</html>

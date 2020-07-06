@@ -1,0 +1,11 @@
+{
+	"errCode": false,
+	"success": true,
+	"data":{
+		"lan_macaddr": "00-11-22-33-44-55",
+		"lan_ipv4_ipaddr": "202.116.78.5",
+		"lan_ipv4_netmask": "255.255.255.0",
+		"lan_ipv4_dhcp_enable": "On"
+
+	}
+}

@@ -1,0 +1,30 @@
+#!/bin/sh
+# Copyright(c) 2008-2014 Shenzhen TP-LINK Technologies Co.Ltd.
+#
+# Details : Auto detection script.
+# Author  : Ye Qianchuan <yeqianchuan@tp-link.net>
+# Version : 1.0
+# Date    : 25 Mar, 2014
+
+export DHCP_TIMEOUT=3
+export DHCP_RETRIES=3
+
+export PPPOE_TIMEOUT=3
+export PPPOE_RETRIES=3
+
+export INTERNET_TIMEOUT=2
+export DNS_TIMEOUT=5
+
+export EST_TIME=16
+
+export CHECK_URL=tp-link.com
+export RESULT_FILE=/tmp/autodetect
+
+export DHCP_ALIAS=1
+export PPPOE_ALIAS=2
+
+(
+    flock -n 9 || exit 0
+    echo time $((EST_TIME*1000)) > "$RESULT_FILE"
+    /lib/autodetect/autodetect.sh $@ &
+) 9>/var/run/autodetect.lock

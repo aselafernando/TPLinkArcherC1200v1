@@ -1,0 +1,13 @@
+Package: access-control
+Version: 1
+Depends: iptables, kmod-ipt-conntrack, kmod-ipt-nat, client_mgmt, conntrack-tools
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/access-control
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Hu Luyao <huluyao@tp-link.net>
+Architecture: all
+Installed-Size: 3092
+Description:  UCI based access-control

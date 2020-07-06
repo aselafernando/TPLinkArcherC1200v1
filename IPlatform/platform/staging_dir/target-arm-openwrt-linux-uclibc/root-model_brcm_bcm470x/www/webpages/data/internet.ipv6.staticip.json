@@ -1,0 +1,17 @@
+{
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{	
+		"conntype": "pppoev6",
+		
+		"ip6addr": "fe80::20a:ebff:fe13:7b00/64",
+		"ip6gw": "fe80::20a:ebff:fe13:7b00/64",
+		"pri_dns": "fe80::20a:ebff:fe13:7b00/64",
+		"snd_dns": "fe80::20a:ebff:fe13:7b00/64",
+		"mtu": "1260",
+		
+		"conn_status": "connected"
+	}
+}

@@ -1,0 +1,11 @@
+config 'dhcp6s' 'basic'
+	option 'enabled' '1'				# 1 = enabled; 0 = disabled
+    option 'proto' 'dhcp6s'             # Protocol: dhcp6s or slaac
+	option 'interface' 'lanv6'			# This is the interface the DHCPv6 server will run on
+    option 'ifname' 'br-lan'            # Ifname
+    option 'primary_dns' ''             # Primary DNS
+    option 'secondary_dns' ''           # Secondary DNS
+    option 'startip' ''                 # Start ip6addr
+    option 'endip' ''                   # End ip6addr
+    option 'leasetime' '86400'          # Lease time
+	option 'config_file' '/etc/dhcp6s.conf'		# Config file (as this UCI config doesn't fully support all options)

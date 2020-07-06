@@ -1,0 +1,25 @@
+{
+
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：internet页面中, ipV6模式下，当前拨号类型是Dynamic IP时，以及点击Renew/Release时, 则请求该数据",
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{
+		"conntype": "pppoe",
+		
+		"ip6addr": 		"fe80::20a:ebff:fe13:7b00:7b00:7b00:7b00/64",
+		"prefix":		"fe80::20a:ebff:fe13:7b00/64",
+		"pri_dns": 			"1.1.1.1",
+		"snd_dns": 			"2.2.2.2",
+		
+		"ip_mode": 			"prefix",		
+		"dns_mode": 			"dynamic",
+		"dyn_pridns": 		"3.3.3.3",
+		"dyn_snddns": 		"4.4.4.4",
+		"static_pridns": 		"5.5.5.5",
+		"static_snddns": 		"4.4.4.4",
+		"conn_status": "connected"
+	}
+}

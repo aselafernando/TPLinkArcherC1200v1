@@ -1,0 +1,6 @@
+/etc/init.d/ledctrl
+/usr/bin/ledcli
+/etc/init.d/sys-led-end
+/usr/bin/ledctrl
+/etc/config/ledctrl
+/etc/init.d/sys-led-start

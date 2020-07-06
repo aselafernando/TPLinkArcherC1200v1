@@ -1,0 +1,13 @@
+{
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：upgrade页面中获取数据",
+	
+	"timeout": false,
+	"errorcode":"err_check",
+	"success": true,
+	"data":{	
+		"firmware_version": "3.13.31 Build 130320 Rel.55761n",
+		"ops":"upload",
+		"totaltime":"10"
+	}
+}

@@ -1,0 +1,14 @@
+Package: libbz2
+Version: 1.0.6-1
+Depends: 
+Provides: 
+Source: package/bzip2
+Section: libs
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 28366
+Description:  bzip2 is a freely available, patent free, high-quality
+ data compressor. This packages provides libbz2 library.

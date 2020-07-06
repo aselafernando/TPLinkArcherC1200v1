@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Wireless</title>
+</head>
+
+<body>
+<div class="func-container">
+
+	<div id="wds-2g">
+    	<form id="wireless-wds-2g">
+	    	<input type="text"  id="wds-status-2g" name="status" value=""/>
+	    	<input type="text"  id="wds-ssid-2g" name="ssid-2g" value=""/>
+			<input type="text"  id="wds-ssid-survey-2g" value=""/>
+			<input type="text"  id="wds-mac-2g" value=""/>
+		
+		<!--security-->
+			<input type="text"  id="wds-security-no-2g" name="" value=""/>
+			
+			<input type="text"  id="wds-security-wpa-2g" name="" value=""/>
+			<input type="text"  id="wds-wpa-pw-2g" name="" value=""/>
+			
+			<input type="text"  id="wds-security-wep-ascii-2g" name="" value=""/>
+			<input type="text"  id="wds-wep-ascii-pw-2g" name="" value=""/>
+			
+			<input type="text"  id="wds-security-wep-hex-2g" name="" value=""/>
+			<input type="text"  id="wds-wep-hex-pw-2g" name="" value=""/>
+	    </form>
+	</div>
+	
+	<div id="wds-5g">		
+    	<form id="wireless-wds-5g">
+	    	<input type="text"  id="wds-status-5g" name="status" value=""/>
+	    	<input type="text"  id="wds-ssid-5g" name="ssid-5g" value=""/>
+			<input type="text"  id="wds-ssid-survey-5g" value=""/>
+			<input type="text"  id="wds-mac-5g" value=""/>
+		
+		<!--security-->
+			<input type="text"  id="wds-security-no-5g" name="" value=""/>
+			
+			<input type="text"  id="wds-security-wpa-5g" name="" value=""/>
+			<input type="text"  id="wds-wpa-pw-5g" name="" value=""/>
+			
+			<input type="text"  id="wds-security-wep-ascii-5g" name="" value=""/>
+			<input type="text"  id="wds-wep-ascii-pw-5g" name="" value=""/>
+			
+			<input type="text"  id="wds-security-wep-hex-5g" name="" value=""/>
+			<input type="text"  id="wds-wep-hex-pw-5g" name="" value=""/>
+	    </form>
+		 <!--<button type="button" class="btn-save"></button>-->
+        
+    </div>
+
+    
+    
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	$("div.func-container").page({
+		title: $.su.CHAR.WIRELESS.WDS,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+	
+	/////////////// 2g panel	
+	$("div#wds-2g").panel({
+		title: $.su.CHAR.WIRELESS.WDS_2G,
+		help: ""	//可能是个调用的id 也可能是个url
+	});	
+	
+	$("input#wds-status-2g").switchbutton({
+		fieldLabel: $.su.CHAR.WIRELESS.WDS_STATUS,
+		labelCls: "l"
+	});
+	
+	$("input#wds-ssid-2g").textbox({
+		fieldLabel: $.su.CHAR.WIRELESS.SSID_TO_BE_BRIDGED,
+	//	tips:$.su.CHAR.BANDWIDTHCTR.UNIT,
+		labelCls: "l",
+		cls: 'inline'
+	});
+	
+	$("input#wds-ssid-survey-2g").button({
+		fieldLabel: null,
+		text: $.su.CHAR.WIRELESS.SURVEY,
+		cls: 'inline'
+	});
+	
+	
+	$("input#wds-mac-2g").textbox({
+		fieldLabel: $.su.CHAR.WIRELESS.MAC_ADDR_BREDGED,
+		labelCls: "l",
+		tips: $.su.CHAR.WIRELESS.MAC_EXAMPLE
+	});
+	
+	$("input#wds-security-no-2g").button({
+		fieldLabel: $.su.CHAR.WIRELESS.SECURITY,
+		text: $.su.CHAR.WIRELESS.NO_SECURITY,
+		labelCls: "l",
+		cls: "l"
+	});
+	
+	$("input#wds-security-wpa-2g").button({
+		fieldLabel: "",
+		text: $.su.CHAR.WIRELESS.WPA_PSK,
+		labelCls: "l",
+		cls: 'inline l'
+	});
+	
+	$("input#wds-wpa-pw-2g").textbox({
+		fieldLabel: null,
+		cls: "inline"
+	});
+	
+	$("input#wds-security-wep-ascii-2g").button({
+		fieldLabel: "",
+		text: $.su.CHAR.WIRELESS.WEP_ASCII,
+		labelCls: "l",
+		cls: 'inline l'
+	});
+	
+	$("input#wds-wep-ascii-pw-2g").textbox({
+		fieldLabel: null,
+		cls: "inline"
+	});
+	
+	$("input#wds-security-wep-hex-2g").button({
+		fieldLabel: "",
+		text: $.su.CHAR.WIRELESS.WEP_HEX,
+		labelCls: "l",
+		cls: 'inline l'
+	});
+	
+	$("input#wds-wep-hex-pw-2g").textbox({
+		fieldLabel: null,
+		cls: "inline"
+	});
+	
+	/////////////// 5g panel	
+	$("div#wds-5g").panel({
+		title: $.su.CHAR.WIRELESS.WDS_5G,
+		help: ""	//可能是个调用的id 也可能是个url
+	});	
+	
+	$("input#wds-status-5g").switchbutton({
+		fieldLabel: $.su.CHAR.WIRELESS.WDS_STATUS,
+		labelCls: "l"
+	});
+	
+	$("input#wds-ssid-5g").textbox({
+		fieldLabel: $.su.CHAR.WIRELESS.SSID_TO_BE_BRIDGED,
+	//	tips:$.su.CHAR.BANDWIDTHCTR.UNIT,
+		labelCls: "l",
+		cls: 'inline'
+	});
+	
+	$("input#wds-ssid-survey-5g").button({
+		fieldLabel: null,
+		text: $.su.CHAR.WIRELESS.SURVEY,
+		cls: 'inline'
+	});
+	
+	
+	$("input#wds-mac-5g").textbox({
+		fieldLabel: $.su.CHAR.WIRELESS.MAC_ADDR_BREDGED,
+		labelCls: "l",
+		tips: $.su.CHAR.WIRELESS.MAC_EXAMPLE
+	});
+	
+	$("input#wds-security-no-5g").button({
+		fieldLabel: $.su.CHAR.WIRELESS.SECURITY,
+		text: $.su.CHAR.WIRELESS.NO_SECURITY,
+		labelCls: "l",
+		cls: "l"
+	});
+	
+	$("input#wds-security-wpa-5g").button({
+		fieldLabel: "",
+		text: $.su.CHAR.WIRELESS.WPA_PSK,
+		labelCls: "l",
+		cls: 'inline l'
+	});
+	
+	$("input#wds-wpa-pw-5g").textbox({
+		fieldLabel: null,
+		cls: "inline"
+	});
+	
+	$("input#wds-security-wep-ascii-5g").button({
+		fieldLabel: "",
+		text: $.su.CHAR.WIRELESS.WEP_ASCII,
+		labelCls: "l",
+		cls: 'inline l'
+	});
+	
+	$("input#wds-wep-ascii-pw-5g").textbox({
+		fieldLabel: null,
+		cls: "inline"
+	});
+	
+	$("input#wds-security-wep-hex-5g").button({
+		fieldLabel: "",
+		text: $.su.CHAR.WIRELESS.WEP_HEX,
+		labelCls: "l",
+		cls: 'inline l'
+	});
+	
+	$("input#wds-wep-hex-pw-5g").textbox({
+		fieldLabel: null,
+		cls: "inline"
+	});
+	
+});
+//]]>
+</script>
+
+</body>
+</html>

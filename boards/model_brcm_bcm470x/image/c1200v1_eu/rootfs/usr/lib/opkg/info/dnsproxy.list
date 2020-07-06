@@ -1,0 +1,5 @@
+/etc/hotplug.d/iface/25-dnsproxy
+/usr/lib/dnsproxy/dnsproxy_deamon.sh
+/etc/config/dnsproxy
+/usr/lib/dnsproxy/dnsproxy_api.sh
+/etc/hotplug.d/nat/10-nat-dnsproxy

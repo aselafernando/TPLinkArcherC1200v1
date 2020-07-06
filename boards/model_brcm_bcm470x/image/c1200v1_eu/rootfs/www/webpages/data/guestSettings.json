@@ -1,0 +1,8 @@
+{
+	"timeout": false,
+	"success": true,
+	"data":{
+		"isolate": "on",
+		"access": "off"
+	}
+}

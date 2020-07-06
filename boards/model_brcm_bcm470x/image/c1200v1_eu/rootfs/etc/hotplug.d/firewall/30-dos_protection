@@ -1,0 +1,10 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+
+if [ "$ACTION" = "start" ]; then
+	echo "reload: dos_protection"
+	fw s_add 4 f dos_protection
+	fw s_add 4 f forwarding_rule dos_protection
+fi

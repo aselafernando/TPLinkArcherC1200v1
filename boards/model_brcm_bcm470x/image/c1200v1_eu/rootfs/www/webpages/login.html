@@ -1,0 +1,749 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" manifest="app.manifest">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<link rel="shortcut icon" href="favicon.ico"/>
+<!-- <link type="text/css" href="css/reset.css" rel="stylesheet" /> -->
+<link type="text/css" href="css/widget.css" rel="stylesheet" />
+
+<link type="text/css" href="themes/blue/css/widget.css" rel="stylesheet" />
+<link type="text/css" href="themes/blue/css/style.css" rel="stylesheet" />
+
+<!--[if lte IE 8]>
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<link href="themes/blue/css/ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<!--[if lte IE 7]>
+<link href="themes/blue/css/ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<!--[if lte IE 6]>
+<link href="themes/blue/css/ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<title>Opening...</title>
+
+</head>
+
+<body id="login-body">
+
+<noscript>
+    <meta http-equiv="refresh" content="0; url=error.html"/>
+</noscript>
+
+<div class="top" id="login-main">
+	<div class="top-header">
+    	<div class="top-header-wrap">
+        	<h1 id="product-tag"></h1>
+            <div id="top-control" class="top-control">
+                <input id="lan-select" tabindex="0" class="lan-select-container"/>
+            </div>
+        </div>
+    </div>
+    
+    <div class="top-main">
+    	<div class="top-main-wrap">
+            <div class="top-content">
+            	<div class="top-content-wrap" id="top-content">
+                    <form id="form-login" method="post" action="/cgi-bin/luci">
+                        <div class="login-field">
+                            <label id="login-username-label">
+                                <span class="icon"></span>
+                                <span class="text"></span>
+                            </label>
+                            <input id="login-username" tabindex="1" name="username" type="text" />
+                        </div>
+                        <div class="login-field">
+                            <label id="login-password-label">
+                                <span class="icon"></span>
+                                <span class="text"></span>
+                            </label>
+                            <input id="login-password" tabindex="2" name="password" type="password" />
+                            <a class="link" href="javascript:void(0);" id="btn-forget-password"></a>
+                        </div>
+                        <!--<div>
+                            <input id="show-characters" />
+                        </div>-->
+                        <button id="login-btn" type="button"></button>
+                    </form>
+                    
+                </div>
+            </div>
+            
+            <div class="top-footer">
+                <div class="top-footer-wrap">
+                    <span class="help-faq">
+                        <a id="btn-faq" class="btn-faq" target="_blank" href="http://www.tp-link.com/en/Support/"></a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- forget password 内容 -->
+<div id="forget-password-msg-container" class="form-panel">
+    <h4 class="title forget-password-title" id="forget-password-title"></h4>
+    <div id="forget-password-situation-0" class="forget-password-situation">
+        <div>
+            <p class="note">
+                <!--<span class="title note-title"></span>-->
+                <span class="" id="forget-password-situation-0-info"></span>
+            </p>
+        </div>
+    </div>
+
+    <div id="forget-password-situation-1" class="forget-password-situation">
+        <div>
+            <p class="note first-line" id="forget-password-situation-1-info"></p>
+            <input id="txt-verification-code" />
+            <button id="btn-receive-code"></button>
+            <button id="receive-code-status"></button>
+            <button id="btn-forget-password-confirm"></button>
+            <div id="send-failed-info-container"><span id="send-failed-info" class="error-tips"></span></div>
+            <p class="note">
+                <span class="title note-title"></span>
+                <span class="text" id="forget-password-situation-1-note"></span>
+            </p>
+        </div>
+    </div>
+
+    <div id="forget-password-prompt" class="form-prompt successed">
+        <div class="bg"></div>
+        <div class="content">
+            <span class="icon"></span>
+            <span id="forget-password-success-prompt" class="text text-successed"></span>
+            <!-- <span class="text text-failed"></span> -->
+        </div>
+    </div>
+</div>
+
+<!-- user confilct 内容 -->
+<div id="user-conflict-msg-container" class="conflict-situation">
+    <div>
+        <h4 class="title">
+            <span class="icon"></span>
+            <span class="text" id="user-conflict-situation"></span>
+        </h4>
+        <div class="content">
+            <span id="user-conflict-situation-info"></span>
+        </div>
+    </div>
+</div>
+
+<!-- ip conflict 内容 -->
+<div id="ip-conflict-msg-container">
+
+    <div id="ip-conflict-situation-0" class="conflict-situation">
+        <h4 class="title">
+            <span class="icon"></span>
+            <span class="text" id="ip-conflict-situation-0-title"></span>
+        </h4>
+        <div class="content">
+            <span id="ip-conflict-situation-0-info"></span>
+            <a class="link" id="ip-conflict-situation-0-new" href="javascript:void(0);"></a>
+            <span id="ip-conflict-situation-0-end"></span>
+        </div>
+
+        <button type="button" id="ip-conflict-situation-0-btn-continue"></button>
+    </div>
+
+    <div id="ip-conflict-situation-1" class="conflict-situation">
+        <h4 class="title">
+            <span class="icon"></span>
+            <span class="text" id="ip-conflict-situation-1-title"></span>
+        </h4>
+        <div class="content">
+            <span id="ip-conflict-situation-1-info"></span>
+            <a class="link" id="ip-conflict-situation-1-new" href="javascript:void(0);"></a>
+            <span id="ip-conflict-situation-1-or"></span>
+            <a class="link" id="ip-conflict-situation-1-dst" href="javascript:void(0);"></a>
+            <span id="ip-conflict-situation-1-end"></span>
+        </div>
+    </div>
+
+</div>
+
+<!-- 无开cookie的操作提示 -->
+<div id="no-cookie-msg-container" class="hidden warning">
+    <h4 class="title">
+        <span class="icon"></span>
+        <span class="text" id="no-cookie-text"></span>
+    </h4>
+</div>
+
+<!-- 最长尝试次数超时 -->
+<div id="max-attempts-msg-container" class="hidden warning">
+    <h4 class="title">
+        <span class="icon"></span>
+        <span class="text" id="max-attempts-text"></span>
+    </h4>    
+</div>
+
+
+<!-- 剩余尝试次数 -->
+<div id="left-attempts-msg-container" class="hidden warning">
+    <h4 class="title">
+        <span class="icon"></span>
+        <span class="text" id="left-attempts-text"></span>
+    </h4>    
+</div>
+
+
+<script type="text/javascript" src="js/libs/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/su/locale.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+    try{
+        $.su.locale.URL_LAN_CHECK =  $.su.url("/locale?form=lang");//"./data/lan.json";
+        $.su.locale.get();
+    }catch(error){
+        location.href = "./error.html";
+    };
+//]]>
+</script>
+<!--<script type="text/javascript" src="http://192.168.1.101:1070/target/target-script-min.js#anonymous"></script>-->
+<script type="text/javascript" src="js/libs/encrypt.js"></script>
+<!--<script type="text/javascript" src="js/su/su.full.min.js"></script>-->
+
+
+<script type="text/javascript" src="js/su/su.js"></script>
+<script type="text/javascript" src="js/libs/encrypt.js"></script>
+
+<script type="text/javascript" src="js/su/data/proxy.js"></script>
+<script type="text/javascript" src="js/su/widget/widget.js"></script>
+<script type="text/javascript" src="js/su/widget/window/msg.js"></script>
+
+<script type="text/javascript" src="js/su/widget/form/form.js"></script>
+<script type="text/javascript" src="js/su/widget/form/combobox.js"></script>
+<script type="text/javascript" src="js/su/widget/form/textbox.js"></script>
+<script type="text/javascript" src="js/su/widget/form/password.js"></script>
+<script type="text/javascript" src="js/su/widget/form/checkbox.js"></script>
+<script type="text/javascript" src="js/su/widget/form/button.js"></script>
+<script type="text/javascript" src="js/su/widget/form/status.js"></script>
+
+<!-- 升级重载后刷新 -->
+<script type="text/javascript">
+    if(typeof(window.applicationCache) != "undefined")
+    {
+        var appCache=window.applicationCache;
+        appCache.addEventListener('updateready', function(){
+            location.reload();
+        }, false);
+    }
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function(e){
+
+    var URL_IP_CONFLICT = $.su.url("/domain_login?form=dlogin");
+    var URL_USER_CONFLICT = $.su.url("/login?form=limit");
+    var URL_FORGET_PASSWORD = $.su.url("/login?form=password");
+    var URL_VERIFY_CODE = $.su.url("/login?form=vercode");
+
+    var URL_LOGIN = $.su.url("/login?form=login");
+
+    var name_validate = false;
+    var pwd_validate = false;
+    /*var URL_IP_CONFLICT = "./data/login.json";
+    var URL_USER_CONFLICT = "./data/login.json";
+    var URL_FORGET_PASSWORD = "./data/login.json";
+    var URL_VERIFY_CODE = "./data/login.json";
+    var URL_LOGIN = "./data/login.json";*/
+
+    //ip冲突部分内容
+    var ipConflictProxy = new $.su.Proxy({
+        url: URL_IP_CONFLICT,
+        autoLoad: false
+    });
+
+    var ipConflictMsg = $("div#ip-conflict-msg-container").msg({
+        closeBtn: false,
+        type: "window",
+        cls: "l"
+    });
+
+    $("button#ip-conflict-situation-0-btn-continue").button({
+        text: $.su.CHAR.LOGIN.CONTINUE,
+        handler: function(){
+            ipConflictMsg.msg("close");
+            loginMain.fadeIn(200);
+        },
+        cls: "submit btn-continue-conflict"
+    });
+
+    $("span#ip-conflict-situation-0-title").html($.su.CHAR.LOGIN.IMPORTANT_NOTICE);
+    $("span#ip-conflict-situation-0-info").html($.su.CHAR.LOGIN.IMPORTANT_UPDATE_INFO);
+    $("span#ip-conflict-situation-0-end").html($.su.CHAR.LOGIN.END);
+
+    $("span#ip-conflict-situation-1-title").html($.su.CHAR.LOGIN.IMPORTANT_NOTICE);
+    $("span#ip-conflict-situation-1-info").html($.su.CHAR.LOGIN.IMPORTANT_UPDATE_INFO);
+    $("span#ip-conflict-situation-1-or").html($.su.CHAR.LOGIN.OR);
+    $("span#ip-conflict-situation-1-end").html($.su.CHAR.LOGIN.END2);
+
+    $("a#ip-conflict-situation-1-new").on("click", function(e){
+        ipConflictMsg.msg("close");
+        loginMain.fadeIn(200);
+    });
+
+    //忘记密码部分
+    var forgetPasswordProxy = new $.su.Proxy({
+        url: URL_FORGET_PASSWORD,
+        autoLoad: false
+    });
+
+    var verifyCodeProxy = new $.su.Proxy({
+        url: URL_VERIFY_CODE,
+        autoLoad: false,
+        preventErrorDefault: true
+    });
+    
+    //忘记密码部分
+    $("a#btn-forget-password").html($.su.CHAR.LOGIN.FORGET_PASSWORD).on("click", function(e){
+        forgetPasswordProxy.read({}, function(data, status, xhr){
+            if (data){
+                if (data.enable_rec){
+                    //跳转到有emal的页面
+                    $("div#forget-password-situation-0").css("display", "none");
+                    $("div#forget-password-situation-1").fadeIn(150);
+                    var h = forgetPasswordInfo.html($.su.CHAR.LOGIN.FORGET_PASSWORD_INFO_1.replace("%EMAIL%", data.email));
+                }else{
+                    $("div#forget-password-situation-0").fadeIn(150);
+                    $("div#forget-password-situation-1").css("display", "none");
+                };
+
+                clearInterval(receiveCodeTime);
+                receiveCodeTimeCount = 60;
+                btnReceiveCode.button("enable").button("setText", $.su.CHAR.LOGIN.RECEIVE_CODE);
+                forgetPasswordMsg.msg("show");
+            };
+        });
+    });
+    
+    var forgetPasswordMsg = $("div#forget-password-msg-container").msg({
+        cls: "l",
+        type: "window"
+    });
+    
+    $("h4#forget-password-title").html($.su.CHAR.LOGIN.FORGET_PASSWORD);
+    $("span#forget-password-situation-0-info").html($.su.CHAR.LOGIN.FORGET_PASSWORD_INFO_0);
+    $("span#forget-password-success-prompt").html($.su.CHAR.OPERATION.SUCCESSED);
+
+    var forgetPasswordInfo = $("p#forget-password-situation-1-info").html($.su.CHAR.LOGIN.FORGET_PASSWORD_INFO_1);
+    var forgetPasswordSendFailedInfo = $("span#send-failed-info").css("display", "none").html($.su.CHAR.LOGIN.FORGET_PASSWORD_SEND_FAILED);
+    var verificationCode = $("input#txt-verification-code").textbox({
+        fieldLabel: $.su.CHAR.LOGIN.VERIFICATION_CODE,
+        labelCls: "xs",
+        cls: "inline-block"
+    }).on("keyup focus blur", function(){
+        if (codeLock && $(this).val()){
+            btnFogetPasswordConfirm.button("enable");
+        }else{
+            btnFogetPasswordConfirm.button("disable");
+        };
+        return true;
+    });
+
+    var receiveCodeTime = 0,
+        receiveCodeTimeCount = 60,
+        codeLock = false;
+
+    var receiveCodeStatus = $("#receive-code-status").status({
+        cls: "inline-block"
+    }).hide();
+    
+    var btnReceiveCode = $("button#btn-receive-code").button({
+        text: $.su.CHAR.LOGIN.RECEIVE_CODE,
+        cls: "inline-block btn-receive-code",
+        handler: function(){
+            forgetPasswordSendFailedInfo.fadeOut(150);
+            btnReceiveCode.button("disable");
+            receiveCodeStatus.status("setLoading");
+            verifyCodeProxy.read({}, function(){
+                codeLock = true;
+                btnReceiveCode.button("disable").button("setText", receiveCodeTimeCount + $.su.CHAR.LOGIN.SEC);
+                receiveCodeStatus.status("setNormal");
+                clearInterval(receiveCodeTime);
+                receiveCodeTime = setInterval(function(){
+                    if (receiveCodeTimeCount > 0){
+                        receiveCodeTimeCount--;
+
+                        btnReceiveCode.button("setText", receiveCodeTimeCount + $.su.CHAR.LOGIN.SEC);
+                    }else{
+                        clearInterval(receiveCodeTime);
+                        receiveCodeTimeCount = 60;
+
+                        btnReceiveCode.button("enable").button("setText", $.su.CHAR.LOGIN.RECEIVE_CODE);
+                    };
+                    //console.log("run");
+                }, 1*1000);
+            }, function(){
+                btnReceiveCode.button("enable");
+                receiveCodeStatus.status("setNormal");
+                forgetPasswordSendFailedInfo.fadeIn(150);
+            }, function(){
+                btnReceiveCode.button("enable");
+                receiveCodeStatus.status("setNormal");
+                forgetPasswordSendFailedInfo.fadeIn(150);
+            });
+        }
+    });
+
+    var btnFogetPasswordConfirm = $("button#btn-forget-password-confirm").button({
+        text: $.su.CHAR.LOGIN.CONFIRM,
+        fieldLabel: "",
+        labelCls: "xs",
+        cls: "submit btn-confirm",
+        handler: function(){
+            forgetPasswordSendFailedInfo.fadeOut(150);
+            var code = $.trim(verificationCode.textbox("getValue"));
+            verifyCodeProxy.write({
+                "operation": "write",
+                "vercode": code
+            }, function(){
+                var prompt = $("div#forget-password-prompt").fadeIn(150, function(){
+                    setTimeout(function(){
+                       /* prompt.fadeOut(150, function(){
+                            forgetPasswordMsg.msg("close");
+                        });*/
+                        prompt.css("display", "none");
+                        forgetPasswordMsg.msg("close");
+
+                    }, 700);
+                })
+            }, function(){
+                verificationCode.textbox("setError");
+            }, function(){
+                verificationCode.textbox("setError");
+            });
+        }
+    }).button("disable");
+    
+    $("span.note-title").text($.su.CHAR.OPERATION.NOTE);
+    $("span#forget-password-situation-1-note").text($.su.CHAR.LOGIN.FORGET_PASSWORD_NOTE);
+    
+    //用户登录冲突部分
+    var userConflictMsg = $("div#user-conflict-msg-container").msg({
+        closeBtn: false,
+        cls: "l",
+        type: "alert",
+        okHandler: function(){
+            $("button#login-btn").button("enable");
+        }
+    });
+
+    //主页面内容部分
+    var loginMain = $("div#login-main");
+
+    var lanSelectCombo = $("input#lan-select").combobox({
+        cls: "top-lan-select",
+        tabindex: -1,
+        items: [
+            {"value": "en_US", "name": $.su.CHAR.LANGUAGE.EN_US}
+            
+        ],
+        fieldLabel: null
+    }).on("ev_click", function(e, vOld, vNew){
+        if (vOld[0] == vNew[0]){
+            return;
+        };
+        $.su.locale.set(vNew[0], function(){
+            lanSelectCombo.combobox("setValue", [$.su.locale.locale]);
+        }, function(){
+            lanSelectCombo.combobox("setValue", [$.su.locale.locale]);
+        });
+    }).combobox("setValue", [$.su.locale.locale]);
+
+    document.title = $.su.locale.model;
+    //$("title").text($.su.locale.model);
+    $("h1#product-tag").html($.su.locale.model);
+    $("a#btn-faq").html($.su.CHAR.INDEX.HELP_SUPPORT);
+
+    var region_select_permission = $.su.locale.region_select_permission;
+    if(region_select_permission == "no")
+    {
+        $("a#btn-faq").attr("href","http://www.tp-link.us/Support/");
+    }
+
+    //console.log($.su.locale.force)
+    if ($.su.locale.force != false){
+        lanSelectCombo.combobox("hide");
+    };
+
+    $("input#login-username").textbox({
+        hint: $.su.CHAR.LOGIN.USERNAME,
+        fieldLabel: null,
+        allowBlank: false,
+        vtype: "ascii_visible",
+        maxLength: 15,
+        minLength: 1,
+        tabindex:0,
+        cls: "inline-block login-text"
+    }).on("ev_change",function(){
+        /*name_validate = $(this).textbox("validate",false);
+        if(name_validate === true && pwd_validate === true){
+            $("button#login-btn").button("enable");
+        }
+        else{
+            $("button#login-btn").button("disable");
+        }*/
+    }).on("blur",function(){
+        //$("input#login-username").trigger("ev_change");
+    });
+
+
+    $("input#login-password").password({
+        showLevel: false,
+        hint: $.su.CHAR.LOGIN.PASSWORD,
+        fieldLabel: null,
+        maxLength: 15,
+        minLength: 1,
+        allowBlank: false,
+        allowVisible: true,
+        cls: "inline-block login-text"
+    }).on("ev_change", function(e, value, key, keyCode){
+        if (key == "Enter" || keyCode == 13){
+            if(!$("button#login-btn").prop('disabled')){
+                $("button#login-btn").button("disable");
+                $("input#login-password").password("doEncrypt");
+                if (checkCookie()){
+                    doLogin();
+                };
+                setTimeout(function(){
+                    $("button#login-btn").button("enable");
+                },500);
+            }
+        }
+        /*else{
+            pwd_validate = $(this).password("validate",false);
+            if(name_validate === true && pwd_validate === true){
+                $("button#login-btn").button("enable");
+            }
+            else{
+                $("button#login-btn").button("disable");
+            }
+        }*/
+    });
+
+    $("input#login-password").password("getContainer").delegate("input.password-text", "focus", function(e){
+        $("input#login-username").textbox("hideErrorTips");
+    });
+
+    /*$("input#login-username").textbox("getContainer").delegate("input.text-text", "focus", function(e){
+        $("input#login-password").password("hideErrorTips");
+    });*/
+
+    var loginProxy = new $.su.Proxy({
+        url: URL_LOGIN
+    });
+
+    var loginForm = $("form#form-login").form({
+        proxy: loginProxy,
+        showPrompt: false,
+        fields: [
+            {name: "username"},
+            {name: "password"}
+        ]
+    });
+
+    var doLogin = function(){
+        loginForm.form("submit", {
+            "operation": "login"
+        }, function(data, status, xhr){
+            var token = data.stok || (function(){
+                var stok = "12345",
+                    href = top.location.href;
+                var stokPos = href.indexOf("stok=");
+                if (stokPos >= 0){
+                    stok = href.substring(stokPos+5);
+                };
+                return stok;
+            })();
+
+            if (localStorage){
+                localStorage.setItem("token", token);
+                location.href = "./index.html";
+            };
+            
+        }, function(errorcode, others, data){
+            switch (errorcode){
+                case "user conflict":
+                    $("span#user-conflict-situation").html($.su.CHAR.LOGIN.USER_CONFLICT);
+                    if(data.logined_remote)
+                    {
+                        var c = $.su.CHAR.LOGIN.USER_CONFLICT_INFO_2.replace("%USER%", data.logined_user).replace("%IP%", data.logined_ip)
+                    }
+                    else
+                    {
+                        
+                        var c = $.su.CHAR.LOGIN.USER_CONFLICT_INFO.replace("%USER%", data.logined_user).replace("%HOST%", data.logined_host).replace("%IP%", data.logined_ip).replace("%MAC%", data.logined_mac);
+                    }
+                    
+                    $("span#user-conflict-situation-info").html(c)
+                    userConflictMsg.msg("show");
+                    break;
+                case "login failed":
+                    var num1 = data.failureCount;
+                    var num2 = data.attemptsAllowed;
+                    var num3 = num2 + num1;
+                    if(num1 >= num2)
+                    {
+                        var str = $.su.CHAR.LOGIN.LOGIN_FAILED_COUNT.replace("%num1", num1);
+                        str = str.replace("%num2", num2);
+                        // loginForm.form("prompt", false, str, 4000);
+                        $("span#left-attempts-text").html(str);
+                        leftAttemptsMsg.msg("show");
+                    }
+                    else
+                    {
+                        loginForm.form("prompt", false, $.su.CHAR.LOGIN.LOGIN_FAILED);
+                        //$("button#login-btn").button("enable");
+                    }
+                    
+                    break;
+                case "exceeded max attempts":
+                    var num1 = data.failureCount;
+                    var num2 = data.attemptsAllowed;
+                    var num3 = num2 + num1;
+                    var str = $.su.CHAR.ERROR["00000089"].replace("%num", num3);
+                    $("span#max-attempts-text").html(str);
+                    maxAttemptsMsg.msg("show");
+                    break;
+                default:
+                
+            };
+        });
+    };
+
+
+    $("button#login-btn").button({
+        text: $.su.CHAR.LOGIN.LOGIN,
+        handler: function(e){
+            $("button#login-btn").button("disable");
+            if (checkCookie()){
+                doLogin();
+            };
+            setTimeout(function(){
+                $("button#login-btn").button("enable");
+            },500);
+        },
+        cls: "submit login-btn inline-block"
+    });/*.on("mousedown",function(){
+         $("button#login-btn").button("disable");
+            if (checkCookie()){
+                doLogin();
+            };
+            setTimeout(function(){
+                $("button#login-btn").button("enable");
+            },500);
+    });*/
+    //$("button#login-btn").button("disable");
+
+    //登录流程
+    ipConflictProxy.read({}, function(data){
+        if (data && data.conflict === true){
+            var sit0 = $("div#ip-conflict-situation-0");
+            var sit1 = $("div#ip-conflict-situation-1");
+            switch (data.mode){
+                case 0:
+                    sit0.css("display", "block");
+                    sit1.css("display", "none");
+
+                    $("a#ip-conflict-situation-0-new").html(data.new_addr);
+                    break;
+                case 1:
+                    sit0.css("display", "none");
+                    sit1.css("display", "block");
+
+                    $("a#ip-conflict-situation-1-dst").html(data.dst_addr).attr("href", "http://" + data.dst_addr + data.dst_webpath);
+                    $("a#ip-conflict-situation-1-new").html(data.new_addr);
+                    break;
+            };
+            loginMain.css("display", "none");
+            ipConflictMsg.msg("show");
+        }else{
+            ipConflictMsg.msg("close");
+            loginMain.fadeIn(200);
+        };
+
+        //console.log(data.redirect)
+
+        if (data && data.redirect){
+            location.href = data.redirect;
+        };
+
+    }, function(e){
+        ipConflictMsg.msg("close");
+        loginMain.fadeIn(200);
+    }, function(e){
+        ipConflictMsg.msg("close");
+        loginMain.fadeIn(200);
+    });
+
+    
+    /*cookie check*/
+    $("span#no-cookie-text").html($.su.CHAR.LOGIN.NO_COOKIE);
+    var noCookieMsg = $("div#no-cookie-msg-container").msg({
+        type: "alert",
+        cls: "m",
+        closeBtn: false,
+        okHandler: function(){
+            $("button#login-btn").button("enable");
+        }
+    });
+
+    /*max attempt*/
+    //$("span#max-attempts-text").html($.su.CHAR.ERROR["00000089"]);
+    var maxAttemptsMsg = $("div#max-attempts-msg-container").msg({
+        type: "alert",
+        cls: "m",
+        closeBtn: false,
+        okHandler: function(){
+            $("button#login-btn").button("enable");
+        }
+    })
+
+    /*left attempt*/
+    // $("span#left-attempts-text").html($.su.CHAR.ERROR.LOGIN_FAILED_COUNT);
+    var leftAttemptsMsg = $("div#left-attempts-msg-container").msg({
+        type: "alert",
+        cls: "m",
+        closeBtn: false,
+        okHandler: function(){
+            $("button#login-btn").button("enable");
+        }
+    })
+
+
+    var checkCookie = function(){
+        try{
+            localStorage.setItem("private", 100);
+            if (!navigator.cookieEnabled){
+                noCookieMsg.msg("show");
+                return false;
+            };
+        }catch(e){
+            noCookieMsg.msg("show");
+            return false;
+        };
+        noCookieMsg.msg("close");
+        return true;
+
+    };
+
+    checkCookie();
+    //$.su.loading.show();
+    $.su.loading.hide();
+	setTimeout(function(){
+        $("input#login-username").parent().parent().find('input.text-hint').click();
+        // document.getElementById('login-username').focus();
+    }, 1000)
+});
+//]]>
+</script>
+</body>
+</html>

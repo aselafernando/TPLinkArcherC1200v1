@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#add directories here
+RAMFS_DIRS="/etc/ "
+ 
+rootfs_init_etc_ramfs() {
+    ramfs_dir $RAMFS_DIRS;
+}
+
+boot_hook_add preinit_mount_root rootfs_init_etc_ramfs

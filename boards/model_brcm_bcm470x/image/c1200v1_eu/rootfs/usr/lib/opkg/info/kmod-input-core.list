@@ -1,0 +1,2 @@
+/etc/modules.d/19-input-core
+/lib/modules/iplatform/input-core.ko

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+
+[ "$ACTION" = "start" ] && {
+	config_load network
+	
+	config_get _igmp "lan" igmp_snooping
+	[ "$_igmp" = "1" ] && {
+		# Add filter rules
+		fw add 4 f zone_wan ACCEPT ^ { -p igmp }
+		fw add 4 f zone_wan ACCEPT ^ { -p udp -d 224.0.0.0/4 }
+		fw add 4 f zone_wan_forward zone_lan_ACCEPT ^ { -p udp -d 224.0.0.0/4 }
+	}
+}

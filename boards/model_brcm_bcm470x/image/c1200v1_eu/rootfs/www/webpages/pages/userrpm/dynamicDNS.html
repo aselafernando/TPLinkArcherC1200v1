@@ -1,0 +1,675 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>dynamicDNS</title>
+</head>
+
+<body>
+<div class="func-container">
+
+    
+	<div id="ddns-panel">
+        
+        <form id="ip-setting">
+			<!--<input id="ddns-status" name="ddns_status"/>-->
+	        <input class="connection-type" id="radio_service_provider" name="provider" />
+			<a id="btn-go-register" target="_window" class="link" href="javascript:void(0)"></a>	
+	        
+	    </form> 
+			
+			
+		<div id="dyndns-cnt">
+			<!--<input id="dyndns-hostname" name="dyndns_hostname"/>-->
+			<input id="dyndns-username" name="username"/>
+			<input id="dyndns-password" name="password" type="password"/>
+
+			<input id="dyndns-domainname" name="domain" />
+			<input id="dyndns-update-time" name="update_time" />
+			<!-- <button id="dyndns_update" type="button"></button> -->
+
+			
+		   <div class="setting-buttons part-seperate button-context">
+				<button class="renew" id="dyndns-login" name="dyndns_login" type="button"></button>
+				<button class="release" id="dyndns-logout" name="dyndns_logout" type="button"></button>
+				<input id="dyndns-status" name="status" />
+		   </div>
+		   
+		   <!--<button type="button" id="dyndns-submit-btn"></button>-->
+		</div>
+		
+		<div id="no-ip-cnt" class="hidden">
+			<!--<input id="no-ip-hostname" name="no_ip_hostname"/>-->
+			<input id="no-ip-username" name="username"/>
+			<input id="no-ip-password" name="password" type="password"/>
+
+			<input id="no-ip-domainname" name="domain" />
+			<input id="no-ip-update-time" name="update_time" />
+			<input class="" id="wan-ip-binding" name="wan_bind" />
+			<!-- <button id="no_ip_update" type="button"></button> -->
+			
+		   <div class="setting-buttons part-seperate button-context">
+				<button class="renew" id="no-ip-login" name="no_ip_login" type="button"></button>
+				<button class="release" id="no-ip-logout" name="no_ip_logout" type="button"></button>
+				<input id="no-ip-status" name="status" />
+		   </div>
+
+		   <!--<button type="button" id="noipdns-submit-btn"></button>-->
+		</div>
+       
+
+    </div>
+    
+    <div id="ddns_help"></div>
+
+	
+
+	<div id="help_ddns"></div>
+    
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var URL_PROVIDER = $.su.url("/admin/ddns?form=provider"); //./data/ddns.json
+	var URL_DYNDNS = $.su.url("/admin/ddns?form=dyndns"); //./data/ddns.dyndns.json
+	var URL_NOIP = $.su.url("/admin/ddns?form=noip"); //./data/ddns.noip.json
+
+	$("div.func-container").page({
+		title: $.su.CHAR.DDNS.DDNS,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+	
+	$("div#ddns-panel").panel({
+		title: $.su.CHAR.DDNS.DDNS,
+		collapsible: false
+	});
+
+	var changeBtnText = function(obj, status)
+	{
+        /*
+		//console.log(obj.text);
+		if( (obj[0].text == $.su.CHAR.DDNS.LOGIN) && (status == 0))
+		{
+			// //console.log("change to upate");
+			obj.button("setText", $.su.CHAR.DDNS.UPDATE);
+			obj.text == $.su.CHAR.DDNS.UPDATE;
+		}
+		else if((obj[0].text == $.su.CHAR.DDNS.UPDATE) && (status != 0) && (status != 2))
+		{
+			//console.log("change to login");
+			obj.button("setText", $.su.CHAR.DDNS.LOGIN);
+			//obj.text == $.su.CHAR.DDNS.LOGIN;
+		}
+        */
+		if ((obj[0].text == $.su.CHAR.DDNS.LOGIN_SAVE) && (status == 0))
+		{
+			obj.button("setText", $.su.CHAR.DDNS.UPDATE);
+		}
+		else if ((obj[0].text == $.su.CHAR.DDNS.UPDATE) && (status != 2) && (status != 0))
+		{
+			obj.button("setText", $.su.CHAR.DDNS.LOGIN_SAVE);
+		}        
+	}
+	
+	
+	// $("input#ddns-status").switchbutton({
+	// 	fieldLabel: $.su.CHAR.DDNS.DDNS_STATUS
+	// });
+
+	function refershNoIp()
+	{
+
+		clearInterval(t_dyndns);
+		t_dyndns = 0;
+		if(t_noipdns == 0)
+		{
+			t_noipdns = setInterval(function(){
+					noipdnsStatus.status("refresh", {
+					}, function(data, status, xhr){
+						var data = data || {};
+						if (typeof data.status != "undefined"){
+							switch (parseInt(data.status,10)){
+								case 0:
+									noipdnsStatus.status("setSuccess", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+									break;
+								case 2:
+									noipdnsStatus.status("setLoading", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+									break;
+								default: 
+									noipdnsStatus.status("setFailed", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+							}
+						}
+						changeBtnText(noipdnsLogin, parseInt(data.status,10));
+					}, function(){
+						noipdnsStatus.status("setFailed", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+					});
+				}, 5*1000);
+		}
+	}
+
+
+	function refershDdns()
+	{
+		clearInterval(t_noipdns);
+		t_noipdns = 0;
+		if(t_dyndns == 0)
+		{
+			t_dyndns = setInterval(function(){
+					dyndnsStatus.status("refresh", {
+					}, function(data, status, xhr){
+						var data = data || {};
+						if (typeof data.status != "undefined"){
+							switch (parseInt(data.status,10)){
+								case 0:
+									dyndnsStatus.status("setSuccess", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+									
+									break;
+								case 2:
+									dyndnsStatus.status("setLoading", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+									break;
+								default: 
+									dyndnsStatus.status("setFailed", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+							}
+						}
+						changeBtnText(dyndnsLogin, parseInt(data.status,10));
+					}, function(){
+						dyndnsStatus.status("setFailed", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+					});
+				}, 5*1000);
+		}
+	}
+	
+	
+	$("input#radio_service_provider").radio({
+		fieldLabel: $.su.CHAR.DDNS.SERVICEPROVIDER,
+		columns:2,
+		cls: "inline-block",
+		items:[
+			//{boxlabel: $.su.CHAR.DDNS.COMEXE, cls: '', inputValue: 'comexe'},
+			
+			{boxlabel: $.su.CHAR.DDNS.NOIP, cls: '', inputValue: 'noip'},
+			{boxlabel: $.su.CHAR.DDNS.DYNDNS, cls: '', inputValue: 'dyndns'}
+		] 
+	}).on('ev_change', function(e, oldValue, newValue){
+		/*if(newValue == 'comexe'){
+			$('div#comexe-cnt').form("show");
+			$('div#dyndns-cnt').form("hide");
+			$('div#no-ip-cnt').form("hide");
+			comexeProxy.read();
+			$("a#btn-go-register").attr("href", "http://www.comexe.com");
+			//comexeProxy.read();
+		}*/
+		if(newValue == 'dyndns'){
+			$('div#comexe-cnt').form("hide");
+			$('div#dyndns-cnt').form("reset");
+			$('div#dyndns-cnt').form("setNormal");
+			$('div#dyndns-cnt').form("show");
+			$('div#no-ip-cnt').form("hide");
+			dyndnsProxy.read();
+			refershDdns();
+			$("a#btn-go-register").attr("href", "http://www.dyndns.com");
+			//dyndnsProxy.read();
+		}
+		else{
+			$('div#comexe-cnt').form("hide");
+			$('div#dyndns-cnt').form("hide");
+			$('div#no-ip-cnt').form("reset");
+			$('div#no-ip-cnt').form("setNormal");
+			$('div#no-ip-cnt').form("show");
+			noIpProxy.read();
+			refershNoIp();
+			$("a#btn-go-register").attr("href", "http://www.noip.com");
+		}
+	});
+
+	$("a#btn-go-register").html($.su.CHAR.DDNS.GO_TO_REGISTER);
+	
+// comexe
+	/*$("input#comexe-username").textbox({
+		fieldLabel: $.su.CHAR.DDNS.USERNAME
+	});
+	
+	$("input#comexe-password").textbox({
+		fieldLabel: $.su.CHAR.DDNS.PASSWORD
+	});
+	
+	$("p#domain-list").html($.su.CHAR.DDNS.DOMAIN_NAME_LIST);
+
+	$("input#comexe-domain").keyword({
+		//fieldLabel:"",
+		addBtnText: $.su.CHAR.ADD_A_NEW_NAME
+		//columns:3
+	});
+	
+
+	$("input#comexe-status").status({
+		//loadingText: $.su.CHAR.DDNS.CONNECTING,
+		//loadedText: $.su.CHAR.DDNS.CONNECTED,
+		//loadedFailedText: $.su.DDNS.CONNECTFAILED,
+		//unloadingText: $.su.DDNS.CONNECTERROR
+		//readOnly: true
+	});
+
+	$("button#comexe-login").button({
+		text: "login",
+		cls: "inline"
+	});
+	$("button#comexe-logout").button({
+		text: "logout",
+		cls: "inline"
+	});*/
+
+// dyndns
+	// $("input#dyndns-hostname").textbox({
+	// 	fieldLabel: $.su.CHAR.DDNS.HOST_NAME
+	// });
+	
+	$("input#dyndns-username").textbox({
+		fieldLabel: $.su.CHAR.DDNS.USERNAME,
+		allowBlank:false,
+		maxLength:128,
+		vtype:"string_visible"
+	});
+
+	$("input#dyndns-password").textbox({
+		fieldLabel: $.su.CHAR.DDNS.PASSWORD,
+		allowBlank:false,
+		maxLength:128,
+		vtype:"ascii_visible"
+	});
+
+	$("input#dyndns-domainname").textbox({
+		fieldLabel: $.su.CHAR.DDNS.DOMAIN_NAME,
+		allowBlank:false,
+		vtype:"domain"
+	});
+
+
+	$("#dyndns-update-time").combobox({
+		fieldLabel: $.su.CHAR.DDNS.UPDATE_INTERVAL,
+		//tips: "The tips of combo multi.",
+		//labelCls: "l",
+		cls: "inline-block",
+		items: [
+			{"value": "1h", "name": $.su.CHAR.DDNS.ONE_HOUR},
+			{"value": "6h", "name": $.su.CHAR.DDNS.SIX_HOUR},
+			{"value": "12h", "name": $.su.CHAR.DDNS.TWETEEN_HOUR},
+			{"value": "1d", "name": $.su.CHAR.DDNS.ONE_DAY},
+			{"value": "2d", "name": $.su.CHAR.DDNS.TWO_DAY},
+			{"value": "3d", "name": $.su.CHAR.DDNS.THREE_DAY},
+			{"value": "never", "name": $.su.CHAR.DDNS.NEVER}
+		]
+	});
+
+	
+		
+	var dyndnsStatus = $("input#dyndns-status").status({
+		cls: "inline-block",
+		proxy: {
+			url: URL_DYNDNS
+		}
+	});
+
+	// $("#dyndns_update").button({
+	// 	text: $.su.CHAR.DDNS.UPDATE,
+	// 	cls:"inline",
+	// 	handler: function(){
+	// 		dyndnsProxy.write({"operation": "update"}, function(data){
+
+	// 		});
+	// 	}
+	// });
+	
+	var t_dyndns = 0;
+	/*var dyndnsSubmitBtn = $("button#dyndns-submit-btn").button({
+		text: $.su.CHAR.OPERATION.SAVE,
+		cls: "submit",
+		handler: function(){
+			clearInterval(t_dyndns);
+			t_dyndns = 0;
+			dyndnsForm.form("submit");
+		}
+	});*/
+
+	/*var noipdnsSubmitBtn = $("button#noipdns-submit-btn").button({
+		text: $.su.CHAR.OPERATION.SAVE,
+		cls: "submit",
+		handler: function(){
+			clearInterval(t_noipdns);
+			t_noipdns = 0;
+			noipdnsForm.form("submit");
+		}
+	});*/
+
+	var  err_str_arr = ["STATU_SUCCESS", "STATU_NO_LAUNCH", "STATU_CONN", "STATU_INCORRENT", "STATU_ERR_DOMAIN"];
+
+	
+	var dyndnsLogin = $("button#dyndns-login").button({
+		fieldLabel: null,
+		text: $.su.CHAR.DDNS.LOGIN_SAVE,
+		cls: "inline gap field-buttons",
+		handler: function(e){
+			// //console.log(t_dyndns);
+			clearInterval(t_dyndns);
+			t_dyndns = 0;
+			// //console.log(t_dyndns);
+			//dyndnsSubmitBtn.button("disable");
+			$("div#dyndns-cnt").form("submit", {
+				"operation": "login"
+			}, function(data, status, xhr){
+				//dyndnsSubmitBtn.button("enable");
+				refershDdns();
+			}, function(errorcode, others){
+			},null);
+		}
+	});
+	
+	$("button#dyndns-logout").button({
+		text: $.su.CHAR.DDNS.LOGOUT,
+		cls: "inline field-buttons",
+		handler:function(){
+			dyndnsProxy.write({"operation": "logout"}, function(data){
+				//console.log(t_dyndns);
+				clearInterval(t_dyndns);
+				t_dyndns = 0;
+				//console.log(t_dyndns);
+				if (typeof data.status!="undefined")
+				{
+					switch (parseInt(data.status,10)){
+						case 0:
+							dyndnsStatus.status("setSuccess", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+							break;
+						case 2:
+							dyndnsStatus.status("setLoading", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+							break;
+						default: 
+							dyndnsStatus.status("setFailed", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+                            dyndnsLogin.button("setText", $.su.CHAR.DDNS.LOGIN_SAVE);
+					}
+				}
+			});
+		}
+	});
+	
+	
+// no-ip
+	// $("input#no-ip-hostname").textbox({
+	// 	fieldLabel: $.su.CHAR.DDNS.HOST_NAME
+	// });
+	
+	$("input#no-ip-username").textbox({
+		fieldLabel: $.su.CHAR.DDNS.USERNAME,
+		allowBlank:false,
+		maxLength:128,
+		vtype:"string_visible"
+	});
+
+	$("input#no-ip-password").textbox({
+		fieldLabel: $.su.CHAR.DDNS.PASSWORD,
+		allowBlank:false,
+		maxLength:128,
+		vtype:"ascii_visible"
+	});
+
+	$("input#no-ip-domainname").textbox({
+		fieldLabel: $.su.CHAR.DDNS.DOMAIN_NAME,
+		allowBlank:false,
+		vtype:"domain"
+	});
+	
+	// $("input#no-ip-status").textbox({
+	// 	fieldLabel: $.su.CHAR.DDNS.CONNSTATUS,
+	// 	readOnly: true
+	// });
+    $("#no-ip-update-time").combobox({
+		fieldLabel: $.su.CHAR.DDNS.UPDATE_INTERVAL,
+		//tips: "The tips of combo multi.",
+		//labelCls: "l",
+		cls:"inline-block",
+		items: [
+			{"value": "1h", "name": $.su.CHAR.DDNS.ONE_HOUR},
+			{"value": "6h", "name": $.su.CHAR.DDNS.SIX_HOUR},
+			{"value": "12h", "name": $.su.CHAR.DDNS.TWETEEN_HOUR},
+			{"value": "1d", "name": $.su.CHAR.DDNS.ONE_DAY},
+			{"value": "2d", "name": $.su.CHAR.DDNS.TWO_DAY},
+			{"value": "3d", "name": $.su.CHAR.DDNS.THREE_DAY},
+			{"value": "never", "name": $.su.CHAR.DDNS.NEVER}
+		]
+	});
+
+	$("input#wan-ip-binding").radio({
+		fieldLabel: $.su.CHAR.DDNS.WAN_IP_BIND,
+		columns:2,
+		cls: "",
+		items:[			
+			{boxlabel: $.su.CHAR.DDNS.DISABLE, cls: '', inputValue: 'disable', checked: "checked"},
+			{boxlabel: $.su.CHAR.DDNS.ENABLE, cls: '', inputValue: 'enable'}
+		] 
+	})
+
+	// $("#no_ip_update").button({
+	// 	text: $.su.CHAR.DDNS.UPDATE,
+	// 	cls:"inline",
+	// 	handler: function(){
+	// 		noIpProxy.write({"operation": "update"}, function(data){
+				
+	// 		});
+	// 	}
+	// });
+
+	
+	var noipdnsStatus = $("input#no-ip-status").status({
+		cls: "inline-block",
+		proxy: {
+			url: URL_NOIP
+		}
+	});
+	
+	var t_noipdns = 0;
+	
+
+	var noipdnsLogin = $("button#no-ip-login").button({
+		fieldLabel: null,
+		text: $.su.CHAR.DDNS.LOGIN_SAVE,
+		cls: "inline gap field-buttons",
+		handler: function(e){
+			clearInterval(t_noipdns);
+			t_noipdns = 0;
+			//noipdnsSubmitBtn.button("disable");
+			$("div#no-ip-cnt").form("submit", {
+				"operation": "login"
+			}, function(data, status, xhr){
+				// //console.log(22);
+				// noipdnsSubmitBtn.button("enable");
+				refershNoIp();
+			}, function(errorcode, others){
+			});
+		}
+	});
+	$("button#no-ip-logout").button({
+		text: $.su.CHAR.DDNS.LOGOUT,
+		cls: "inline field-buttons",
+		handler:function(){
+			noIpProxy.write({"operation": "logout"}, function(data){
+				clearInterval(t_noipdns);
+				t_noipdns = 0;
+				if (typeof data.status!="undefined")
+				{
+					switch (parseInt(data.status,10)){
+						case 0:
+							noipdnsStatus.status("setSuccess", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+							break;
+						case 2:
+							noipdnsStatus.status("setLoading", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+							break;
+						default: 
+							noipdnsStatus.status("setFailed", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+                            noipdnsLogin.button("setText", $.su.CHAR.DDNS.LOGIN_SAVE);
+					}
+				}
+			});
+		}
+	});
+		
+	var ipv4Proxy = new $.su.Proxy({
+		url: URL_PROVIDER
+	});
+	
+	$("form#ip-setting").form({
+		proxy: ipv4Proxy,
+		fields: [
+			//{name: "ddns_status", mapping: "ddns_status"},
+			{name: "provider", mapping: "provider"}
+		],
+
+		submitBtn: false,
+		autoLoad: false
+	});
+
+	ipv4Proxy.read();
+	
+	
+	/*var comexeProxy = new $.su.Proxy({
+		url: "./data/ddns.comexe.json"
+	});
+
+	$("div#comexe-cnt").form({
+		proxy: comexeProxy,
+		fields: [
+			{name: "username", mapping: "username"},
+			{name: "password", mapping: "password"},
+			{name: "domain", mapping: "domain"},
+			{name: "status", mapping: "status"}			
+		],
+		autoLoad: false,
+		submitBtn: "default"
+	});*/
+	//comexeProxy.read();
+	
+	
+	var dyndnsProxy = new $.su.Proxy({
+		url: URL_DYNDNS
+	});
+
+	var dyndnsForm = $("div#dyndns-cnt").form({
+		proxy: dyndnsProxy,
+		cls:"no-padding",
+		fields: [
+			//{name: "dyndns_hostname", mapping: "dyndns_hostname"},
+			{name: "username", mapping: "username"},
+			{name: "password", mapping: "password"},
+			{name: "domain", mapping: "domain"},
+			{name: "update_time", mapping: "update_time"},
+			{name: "status", mapping: "status"}			
+		],
+		autoLoad: false,
+		//submitBtn: "default"
+		submitBtn: false
+		//submitBtn: "button#dyndns-submit-btn"
+	}).on("ev_loadData", function(e, data){
+		// //console.dir(arguments);
+		
+		if (typeof data.status!="undefined" )
+		{
+			
+			switch (parseInt(data.status,10)){
+				case 0:
+				    // //console.log(22);
+					dyndnsStatus.status("setSuccess", $.su.CHAR.DDNS[err_str_arr[0]]);
+					if(data.logined==1)
+					{
+						dyndnsLogin.button("setText", $.su.CHAR.DDNS.UPDATE);
+					}
+					break;
+				case 2:
+					dyndnsStatus.status("setLoading", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+					if(data.logined==1)
+					{
+						dyndnsLogin.button("setText", $.su.CHAR.DDNS.UPDATE);
+					}
+					break;
+				default: 
+					dyndnsStatus.status("setFailed", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+					
+			}
+		}
+		
+
+	});
+	
+	var noIpProxy = new $.su.Proxy({
+		url: URL_NOIP
+	});
+
+	var noipdnsForm = $("div#no-ip-cnt").form({
+		proxy: noIpProxy,
+		fields: [
+			//{name: "no_ip_hostname", mapping: "no_ip_hostname"},
+			{name: "username", mapping: "username"},
+			{name: "password", mapping: "password"},
+			{name: "domain", mapping: "domain"},
+			{name: "update_time", mapping: "update_time"},
+			{name: "status", mapping: "status"},	
+			{name: "wan_bind", mapping: "wan_bind"}	
+		],
+		cls:"no-padding",
+		autoLoad: false,
+		// submitBtn: "default"
+		//submitBtn: "button#noipdns-submit-btn"
+		submitBtn: false
+	}).on("ev_loadData", function(e, data){
+		// //console.dir(arguments);
+		if (typeof data.status != "undefined")
+		{
+			switch (parseInt(data.status,10)){
+				case 0:
+					noipdnsStatus.status("setSuccess", $.su.CHAR.DDNS[err_str_arr[0]]);
+					if(data.logined==1)
+					{
+						noipdnsLogin.button("setText", $.su.CHAR.DDNS.UPDATE);
+					}
+					break;
+				case 2:
+					noipdnsStatus.status("setLoading", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+					if(data.logined==1)
+					{
+						noipdnsLogin.button("setText", $.su.CHAR.DDNS.UPDATE);
+					}
+					break;
+				default: 
+					noipdnsStatus.status("setFailed", $.su.CHAR.DDNS[err_str_arr[data.status]]);
+			}
+		}
+		
+	});
+	
+	$.su.app.runningModule.addUnloadHandler(function(){
+		clearInterval(t_dyndns);
+		t_dyndns = 0;
+		clearInterval(t_noipdns);
+		t_noipdns= 0;
+	});
+
+	var helpDdns = new $.su.Help({
+			container: "div#help_ddns",
+			content: "DDNS"
+	});
+
+	
+	var helpDDNS = new $.su.Help({
+		container: "div#ddns_help",
+		content: "DDNS"
+	});
+});
+//]]>
+</script>
+
+</body>
+</html>

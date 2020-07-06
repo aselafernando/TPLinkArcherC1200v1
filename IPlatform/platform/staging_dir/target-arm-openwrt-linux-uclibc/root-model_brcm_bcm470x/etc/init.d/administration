@@ -1,0 +1,27 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2008-2010 OpenWrt.org
+
+START=47
+
+LIBDIR=/lib/administration
+
+administration() {
+    . $LIBDIR/core.sh
+    administration_$1
+}
+
+start() {
+    administration start
+}
+
+stop() {
+    administration stop
+}
+
+restart() {
+    administration restart
+}
+
+reload() {
+    administration reload
+}

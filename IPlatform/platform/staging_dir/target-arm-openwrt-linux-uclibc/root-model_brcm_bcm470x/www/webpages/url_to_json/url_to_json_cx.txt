@@ -1,0 +1,13 @@
+/cgi-bin/luci/;stok=12345/admin/quick_setup?form=quick_setup  quicksetup.json
+/cgi-bin/luci/;stok=12345/admin/quick_setup?form=check_router  quicksetup.check.json
+/cgi-bin/luci/;stok=12345/admin/quick_setup?form=check_internet  quicksetup.check.json
+
+/cgi-bin/luci/;stok=/locale?form=lang  lan.json
+
+/cgi-bin/luci/;stok=/domain_login?form=dlogin  login.json
+/cgi-bin/luci/;stok=/login?form=login  login.json
+/cgi-bin/luci/;stok=/login?form=password  login.json
+
+/cgi-bin/luci/;stok=12345/admin/region?form=region  region.json
+
+/cgi-bin/luci/;stok=/login?form=vercode login.json

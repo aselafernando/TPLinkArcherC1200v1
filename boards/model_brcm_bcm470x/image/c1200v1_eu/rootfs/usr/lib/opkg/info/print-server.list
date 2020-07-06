@@ -1,0 +1,5 @@
+/lib/print_server/printer_discovery.sh
+/etc/init.d/print_server
+/etc/hotplug.d/usb/11-printer
+/lib/print_server/core_print_server.sh
+/lib/upgrade/keep.d/print-server

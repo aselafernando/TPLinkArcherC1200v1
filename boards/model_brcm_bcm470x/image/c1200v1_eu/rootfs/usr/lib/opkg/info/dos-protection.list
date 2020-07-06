@@ -1,0 +1,8 @@
+/lib/dos_protection/core.sh
+/etc/init.d/dos_protection
+/lib/dos_protection/config.sh
+/etc/config/dos_protection
+/lib/dos_protection/core_log.sh
+/lib/dos_protection/core_global.sh
+/etc/hotplug.d/firewall/30-dos_protection
+/usr/sbin/dosd

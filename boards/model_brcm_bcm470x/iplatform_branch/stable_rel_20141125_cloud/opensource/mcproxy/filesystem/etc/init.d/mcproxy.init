@@ -1,0 +1,53 @@
+#!/bin/sh /etc/rc.common
+# Copyright (c) 2014 The Linux Foundation. All rights reserved.
+# Copyright (C) 2010-2014 OpenWrt.org
+
+START=99
+STOP=10
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+CONF_FILE="/etc/mcproxy.conf"
+
+mcproxy_pinstance() {
+	local instname upstream downstreams
+	config_get instname $1 name
+	config_get upstream $1 upstream
+	config_get downstreams $1 downstreams
+
+	#section name as instance name
+	[ -n "$instname" ] || {
+		instname=$1
+	}
+
+	#default WAN
+	[ -n "$upstream" ] || {
+		config_load network
+		config_get upstream wan ifname
+		uci_set_state mcproxy $1 upstream "$upstream"
+	}
+
+	#default LAN
+        [ -n "$downstreams" ] || {
+		config_load network
+		config_get downstreams lan ifname
+		uci_set_state mcproxy $1 downstreams "$downstreams"
+        }
+
+	echo "pinstance $instname: \"$upstream\" ==> \"$downstreams\";" >>$CONF_FILE
+}
+
+start() {
+	local protocol
+	config_load mcproxy
+
+	config_get protocol config protocol "IGMPv3"
+	echo "protocol $protocol;" >$CONF_FILE
+
+	config_foreach mcproxy_pinstance pinstance
+	service_start /usr/sbin/mcproxy -f $CONF_FILE
+}
+
+stop() {
+	service_stop /usr/sbin/mcproxy
+}

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+lan_status=0
+
+
+[ -n "$(et port_status 1 | grep Up)" ]&& { 
+	lan_status=$(($lan_status+1)) 
+	}
+[ -n "$(et port_status 2 | grep Up)" ]&& { 
+	lan_status=$(($lan_status+2)) 
+	}
+[ -n "$(et port_status 3 | grep Up)" ]&& { 
+	lan_status=$(($lan_status+4)) 
+	}
+[ -n "$(et port_status 4 | grep Up)" ]&& { 
+	lan_status=$(($lan_status+8)) 
+	}
+
+return $lan_status;
+

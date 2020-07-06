@@ -1,0 +1,17 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": [
+			{"name":"TP-LINK-PXC", "host":"HOST", "mac":"00-11-22-33-44-55"},
+			{"name":"TP-LINK-SMB", "host":"NOT HOST", "mac":"00-11-22-33-44-55"},
+			{"name":"TP-LINK-SOHO","host":"NOT HOST", "mac":"00-11-22-33-44-55"},
+			{"name":"TP-LINK-BA", "host":"NOT HOST","mac":"00-11-22-33-44-55"},
+			{"name":"TP-LINK-MOBILE","host":"NOT HOST",  "mac":"00-11-22-33-44-55"},
+			{"name":"TP-LINK-PXC", "host":"NOT HOST", "mac":"00-11-22-33-44-55"},
+			{"name":"TP-LINK-SMB", "host":"NOT HOST", "mac":"00-11-22-33-44-55"},
+			{"name":"TP-LINK-SOHO","host":"NOT HOST", "mac":"00-11-22-33-44-55"},
+			{"name":"TP-LINK-BA","host":"NOT HOST", "mac":"00-11-22-33-44-55"}
+
+	]
+			
+}

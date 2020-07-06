@@ -1,0 +1,145 @@
+﻿#router_post	:设备向云端发起请求时，需要的数据，由luci端填充，cloud-client只有读权限
+#cloud_push		:云端向设备推送信息，由cloud-client写入，luci端只有读权限
+#cloud_reply	:云端返回，由cloud—client写入，luci端只有读权限
+#cloud_device   :云设备信息，非出厂默认，可由用户配置
+#bind_status	:表示设备绑定状态，0表示未绑定，1表示已绑定
+#login_status	:表示云账户登录状态，0表示未登录，1表示已登录
+#account_status	:表示云账户激活状态，0表示未注册，1表示已注册成功等待邮箱验证，2表示已激活
+#bind_tip		:表示绑定提示，字段not_show为0表示提示，1表示不提示，且只允许luci端修改值
+
+#绑定信息
+config router_post 'bind'
+	option username ''
+	option password ''
+
+#登录信息
+config router_post 'login'
+	option username ''
+	option password ''
+
+#注册信息
+config router_post 'register'
+	option username ''
+	option password ''
+	option verify_code ''
+	option account_type ''
+
+#重置云账户密码信息
+config router_post 'reset_account_pwd'
+	option username ''
+	option password ''
+	option verify_code ''
+	option account_type ''
+	
+#修改云账户密码信息
+config router_post 'modify_account_pwd'
+	option username ''
+	option old_pwd ''	
+	option new_pwd ''
+
+#获取注册验证码信息	
+config router_post 'get_reg_verify_code'
+	option username ''
+	option account_type ''
+
+#获取重置云账户密码验证码信息
+config router_post 'get_reset_pwd_verify_code'
+	option username ''
+	option account_type ''
+	
+#检查注册验证码信息
+config router_post 'check_reg_verify_code'
+	option username ''
+	option verify_code ''
+	
+#检查重置云账户密码验证码信息
+config router_post 'check_reset_pwd_verify_code'
+	option username ''
+	option verify_code ''
+	
+#云设备请求分类插件信息
+config router_post 'get_plugins'
+	option index_start ''
+	option index_end ''
+	option category ''
+	
+#云设备请求可更新插件信息
+config router_post 'get_can_update_plugins'
+	option index_start ''
+	option index_end ''
+
+#云设备请求未安装插件信息
+config router_post 'get_not_installed_plugins'
+	option index_start ''
+	option index_end ''
+	
+#云设备请求某一个功能插件更新情况
+config router_post 'check_plugin_update'
+	option plugin_id ''
+	option name ''
+	option version ''
+	option property ''
+	
+#云推送新固件信息, not_show为0表示推送，1表示不推送
+config cloud_push 'new_firmware'
+	option fw_new_notify '0'
+	option fw_update_type '1'
+	option not_show '0'
+
+#云通知设备合法性信息
+config cloud_push 'device_legality'
+	option illegal ''
+	option illegal_type ''
+	
+#云设备状态信息:绑定、登录、激活状态
+config cloud_reply 'device_status'
+	option bind_status '0'
+	option login_status '0'
+	option account_status '0'
+
+#新固件信息
+config cloud_reply 'upgrade_info'
+	option type ''
+	option version ''
+	option release_date ''
+	option download_url ''
+	option location ''
+	option release_log ''
+	option release_log_url ''
+
+#云设备信息
+config cloud_device 'info'
+	option alias ''
+
+#提示用户绑定云账户，0提示，1不提示
+config cloud_device 'bind_tip'
+	option not_show '0'
+	
+#厂商MAC地址更新信息
+config cloud_device 'brand_mac'
+	option renew_time '0'
+
+#数据采集模块: 静态数据
+config data_collect 'static'
+	option switch '1'
+	option report_time '0'
+
+#数据采集模块: APP配置数据	
+config data_collect 'conf_app'
+	option switch '1'
+	option report_time '0'
+	
+#数据采集模块: WEB配置数据	
+config data_collect 'conf_web'
+	option switch '1'
+	option report_time '0'
+
+#数据采集模块: 设备连接信息	
+config data_collect 'conn_dev'
+	option switch '1'
+	option report_time '0'
+
+#数据采集模块: 周围设备	
+config data_collect 'surr_dev'
+	option switch '1'
+	option report_time '0'

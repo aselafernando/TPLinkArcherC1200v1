@@ -1,0 +1,57 @@
+#!/bin/sh
+
+[ "$DEVICE" == "lo" ] && exit 0
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+. /lib/domain_login/domain_login_core.sh
+
+if [ "$INTERFACE" == "lan" ]; then
+	case "$ACTION" in
+		ifup)
+			dlogin_iface_event "$INTERFACE" &
+		;;
+		*)
+			echo "ifdown no operation." 
+		;;
+	esac
+else
+	[ "$ACTION" == "ifup" ] && {
+		local iface="$INTERFACE"
+		local lan_addr=
+		local wan_addr=
+		local mask=
+		
+		network_get_ipaddr lan_addr "$DLOGIN_LAN_IFACE"
+		network_get_subnet mask "$DLOGIN_LAN_IFACE"
+		
+		network_get_ipaddr wan_addr "$iface"
+		
+		mask="${mask#*/}"
+		
+		[ ! -e ${DLOGIN_LIB_PATH}/domain_login_tools.lua ] && exit 0
+		
+		# chmod 777 ${DLOGIN_LIB_PATH}/domain_login_tools.lua
+		
+		local same_subnet=$(lua ${DLOGIN_LIB_PATH}/domain_login_tools.lua check $lan_addr $wan_addr $mask)
+		[ "$same_subnet" = "true" ] && {
+            local old_mask=
+            config_load network
+            # Before changing the lan ip address, it needs to record old lan mask
+            config_get old_mask "$DLOGIN_LAN_IFACE" netmask
+            uci set domain_login.tp_domain.conflict="on"
+            uci commit doamin_login
+			# Change lan address to 192.168.1.1 or 192.168.0.1
+			local result=$(lua ${DLOGIN_LIB_PATH}/domain_login_tools.lua ipchg $wan_addr)
+            [ -n "$result" -a "$result" != "false" ] && {
+                local new_addr new_mask
+                new_addr=${result%/*}
+                new_mask=${result#*/}       
+                # Domain login ip conflict tips flow         
+                eval "/usr/sbin/domain_login conflict $lan_addr $old_mask $new_addr $new_mask"
+                # Clear web session
+                lua ${DLOGIN_LIB_PATH}/domain_login_tools.lua ksess
+            }
+		}
+	}
+fi

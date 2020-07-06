@@ -1,0 +1,562 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>log_filter_form Control</title>
+
+</head>
+
+<body>
+<div class="func-container">
+	<div id="log_filter_form">
+		<form id="account_setting">
+			<div class="widget-container">
+				<div class="widget-fieldlabel-wrap xxs">
+					<label id="filter" class="widget-fieldlabel"></label>
+				</div>
+
+				<label id="lbl_type"></label>
+				<input type="text"  id="type" name="type" value="" />
+				<label id="lbl_level"></label>
+				<input type="text"  id="level" name="level" value="" />
+			</div>
+			<div id="log_prompt" class="form-prompt successed hidden pos">
+				<div class="bg"></div>
+				<div class="content">
+					<span class="icon"></span>
+					<span class="text text-successed"></span>
+					<span class="text text-failed"></span>
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+	<div id="log_list"></div>
+
+
+	
+	<form id="save-setting" enctype="multipart/form-data">
+		<input type="hidden" />	
+	</form>
+
+	<div id="adv_btn" class="advanced-block  part-seperate" type="button">
+		<span class="advanced-icon"></span>
+		<span class="advanced-text"></span>
+	</div>
+
+	 
+
+
+	<div id="mail" class="hidden system-log-mail-container">
+		<form id="mail-setting">
+
+			<input type="text"  id="log_from" name="from" value="" />
+			<input type="text"  id="log_to" name="to" value="" />
+			<input type="text"  id="log_smtp" name="smtp_server" value="" />
+
+
+			<input type="text"  id="log_auth" name="auth" value="" />
+			<div id="auth_cnt">
+				<input type="text"  id="username"  name="user" value="" />
+				<input   id="password"  type="password" name="password" value="" />
+				
+			</div>
+
+			<input type="text"  id="log_mail" name="auto_mail" value="" />
+			<div id="mail_cnt">
+				<input type="text"  id="auto_mail_type" name="auto_mail_type" value="" />
+				<input type="text"  id="time_range" name="every_day_time" value="" />
+				<div id="hour_cnt" class="mp5">
+					<input type="text"  id="hour" name="every_hours" value="" />
+				</div>
+				
+			</div>
+			
+		</form>
+	</div>
+
+
+	<div class="part-seperate button-context ">
+		
+		<button id="mail_log"></button>
+		<button id="save_log"></button>
+		<input id="dyndns-status" name="status" />
+	</div>
+
+
+	<div id="help_system_log"></div>
+	
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var LOG_LIST_URL = "./data/log.grid.json";
+	var LOG_MAIL_URL = "./data/syslog.mail.json";
+	var LOG_FILTER_URL = "./data/syslog.filter.json";
+	var LOG_TYPE_URL= "./data/syslog.types.json";
+
+	var LOG_LIST_URL_NEW = $.su.url("/admin/syslog?form=log");
+	var LOG_MAIL_URL_NEW = $.su.url("/admin/syslog?form=mail");
+	var LOG_FILTER_URL_NEW= $.su.url("/admin/syslog?form=filter");
+	var LOG_TYPE_URL_NEW= $.su.url("/admin/syslog?form=types");
+
+	$("div.func-container").page({
+		title: $.su.CHAR.SYSLOG.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+	$("div#log_filter_form").panel({
+		title: $.su.CHAR.SYSLOG.TITLE,
+		collapsible: false
+	});
+	$("#filter").html($.su.CHAR.SYSLOG.LOG_FILTER);
+
+	$("#lbl_type").html($.su.CHAR.SYSLOG.TYPE_EQ);
+
+
+
+	$("input#type").combobox({
+		fieldLabel: null,
+		inputCls:'xl',
+		cls:"s inline-block",
+		items: [
+			
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		if(oldValue.length!=0){
+			$("form#account_setting").form("submit", {}, function(){
+				storeTest.load();
+			});
+			
+		}
+	});
+
+	
+
+	var regionItem = $.su.loadComboData(LOG_TYPE_URL_NEW, {}, [
+		{srcKey:"value", dstKey:"value"},
+		{srcKey:"name", dstKey:"name",
+			para:$.su.CHAR.SYSLOG,
+			func: function(src, para){
+		        var res = para[src];
+		        if (!res){
+		        	res = src;
+		        }
+		
+		        return res;
+		    }
+		}
+	]);
+
+	
+
+	$("#type").combobox("loadData", regionItem);
+	
+
+	$("form#account_setting").form({
+		proxy: {url:LOG_FILTER_URL_NEW},
+		showPrompt:false,
+		cls:"no-padding",
+		fields: [
+			{name: "type", mapping: "type"},
+			{name: "level", mapping: "level"}
+		],
+		autoLoad:false
+	});
+
+	$("#lbl_level").text($.su.CHAR.SYSLOG.AND + ' ' + $.su.CHAR.SYSLOG.LEVEL + '=');
+
+	$("input#level").combobox({
+		fieldLabel: null,
+		inputCls:'m',
+		cls:"s inline-block",
+		items: [
+			{"value": $.su.CHAR.SYSLOG.ALL, "name": $.su.CHAR.SYSLOG.ALL},
+			{"value": $.su.CHAR.SYSLOG.EMERGENCY, "name": $.su.CHAR.SYSLOG.EMERGENCY},
+			{"value": $.su.CHAR.SYSLOG.ALERT, "name": $.su.CHAR.SYSLOG.ALERT},
+			{"value": $.su.CHAR.SYSLOG.CRITICAL, "name": $.su.CHAR.SYSLOG.CRITICAL},
+			{"value": $.su.CHAR.SYSLOG.ERROR, "name": $.su.CHAR.SYSLOG.ERROR},
+			{"value": $.su.CHAR.SYSLOG.WARNING, "name": $.su.CHAR.SYSLOG.WARNING},
+			{"value": $.su.CHAR.SYSLOG.NOTICE, "name": $.su.CHAR.SYSLOG.NOTICE},
+			{"value": $.su.CHAR.SYSLOG.INFO, "name": $.su.CHAR.SYSLOG.INFO},
+			{"value": $.su.CHAR.SYSLOG.DEBUG, "name": $.su.CHAR.SYSLOG.DEBUG}
+			
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		if(oldValue.length!=0){
+			$("form#account_setting").form("submit",{}, function(){
+				storeTest.load();
+			});
+		}
+	});
+
+
+	$("form#account_setting").form("load");
+	
+
+	
+
+	var storeTest = new $.su.Store({
+		proxy: {
+			url: LOG_LIST_URL_NEW
+		},
+		fields: [
+			{name: "time"},
+			{name: "type"},
+			{name: "level"},
+			{name: "content"}
+		],
+		updateMode:"complete",
+		autoLoad: true
+	});
+
+
+	$("div#log_list").grid({
+		store:storeTest,
+		minLines:0,
+		paging:{
+			numPerPage: 50
+		},
+		columns: [
+			{
+				text: $.su.CHAR.VIRTUAL_SERVERS.ID, 
+				xtype: "rownumberer",
+				width: 38
+			},
+			{
+				text: $.su.CHAR.SYSLOG.TIME, 
+				width: 140,
+				dataIndex: "time"
+			},
+			{
+				text: $.su.CHAR.SYSLOG.TYPE, 
+				width: 120,
+				renderer:function(val, index){
+					var res = $.su.CHAR.SYSLOG[val];
+					if(!res)
+					{
+						res = val;
+					}
+				
+					return $.su.func.escapeHtml(res);
+				},
+				dataIndex: "type"
+			},
+			{
+				text: $.su.CHAR.SYSLOG.LEVEL_COL, 
+				width:100,
+				dataIndex: "level"
+			},
+			{
+				text: $.su.CHAR.SYSLOG.CONTENT, 
+				dataIndex: "content"
+			}
+		],
+		operation: ["refresh","deleteAll"
+			
+		]
+	});
+
+	
+
+	$("span.advanced-text").html($.su.CHAR.SYSLOG.MAIL_SETTING);
+
+	
+
+	$("#mail_log").button({
+		fieldLabel: null,
+		text: $.su.CHAR.SYSLOG.MAIL_LOG,
+		cls:"inline-block gap",
+		handler: function(e){
+			$('button#mail_log').button("disable");
+			var proxy = storeTest.proxy;
+			proxy.write({"operation":"mail"}, function(data){
+				if (typeof data.send!="undefined")
+				{
+					$('button#mail_log').button("enable");
+					if(data.send)
+					{
+						dyndnsStatus.status("setSuccess", $.su.CHAR.SYSLOG.SEND_OK);
+					}
+					else
+					{
+						dyndnsStatus.status("setFailed", $.su.CHAR.SYSLOG.SEND_FAILED);
+					}
+				}
+			},function(){
+
+			});	
+		}
+	});
+
+	var dyndnsStatus = $("input#dyndns-status").status({
+		cls: "inline-block",
+		proxy: {
+			url: LOG_LIST_URL_NEW
+		}
+	});
+
+	$("div#adv_btn").on('click',function(){
+		
+
+		var btn = $(this);
+		if (btn.hasClass("basic-block")){
+			btn.removeClass("basic-block").addClass("advanced-block");
+			btn.find("span.basic-icon").removeClass("basic-icon").addClass("advanced-icon");
+			btn.find("span.basic-text").removeClass("basic-icon").addClass("advanced-text");
+			$("#mail").css("display", "none");
+		}else{
+			btn.removeClass("advanced-block").addClass("basic-block");
+			btn.find("span.advanced-icon").removeClass("advanced-icon").addClass("basic-icon");
+			btn.find("span.advanced-text").removeClass("advanced-text").addClass("basic-text");
+			$("#mail").fadeIn(150);
+		};
+	});
+
+	
+
+
+	$("#log_prompt .text-successed").html($.su.CHAR.OPERATION.FORM_SAVED);
+	$("#log_prompt .text-failed").html($.su.CHAR.OPERATION.FORM_FAILED);
+
+	$("#save-setting").form({
+		proxy:{url: LOG_LIST_URL_NEW},
+		formEnctype: "multipart/form-data",
+		traditional: true,
+		hiddenFrame: true,
+		autoLoad: false
+	});
+
+	$("#save_log").button({
+		fieldLabel: null,
+		text: $.su.CHAR.SYSLOG.SAVE_LOG,
+		cls:"inline-block",
+		handler: function(e){
+			$("#save-setting").form('submit', {operation:'save'});
+		}
+	});
+
+
+
+
+	
+
+
+
+	$("div#mail").panel({
+		title: $.su.CHAR.SYSLOG.AUTOMAILTITLE,
+		collapsible: false
+	});
+
+	
+
+	
+	$("input#log_from").textbox({
+		fieldLabel: $.su.CHAR.SYSLOG.FROM,
+		allowBlank:false,
+		minLength:6,
+		maxLength:128,
+		vtype:"email"
+	});
+
+
+	$("input#log_to").textbox({
+		fieldLabel: $.su.CHAR.SYSLOG.TO,
+		allowBlank:false,
+		minLength:6,
+		maxLength:128,
+		vtype:"email"
+	});
+
+
+	$("input#log_smtp").textbox({
+		fieldLabel: $.su.CHAR.SYSLOG.SMTP_SERVER,
+		allowBlank:false,
+		vtype:"string_ip_domain"
+	});
+
+
+	$("input#log_auth").checkbox({
+		fieldLabel: "",
+		items: [
+			{boxlabel: $.su.CHAR.SYSLOG.ENABLE_AUTHENTICATION, uncheckedValue:"off", inputValue: "on"}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		var val = (newValue[0]=="auth"||newValue[0]=="on") ? "on" : "off";
+		switch(val)
+		{
+			case 'on':
+				$("#auth_cnt").fieldset("show");
+				break;
+			case 'off':
+				$("#auth_cnt").fieldset("hide");
+				break;
+		}
+	});
+
+	$("#auth_cnt").fieldset({
+		fields: [
+			{name: "user"},
+			{name: "password"}
+		]
+	}).hide();
+	
+	$("#username").textbox({
+		fieldLabel: $.su.CHAR.SYSLOG.USERNAME,
+		minLength:1,
+		maxLength:96,
+		vtype:"string_visible",
+		allowBlank:false
+	});
+
+	$("#password").password({
+		fieldLabel: $.su.CHAR.SYSLOG.PASSWORD,
+		showLevel:false,
+		minLength:1,
+		maxLength:32,
+		vtype:"string_visible",
+		allowBlank:false
+	});
+
+
+
+
+
+
+	$("#password").on("ev_change", function(){
+		var pwd = $("#password").password("getValue");
+	
+	});
+
+	$("#confirm").on("ev_change", function(){
+		var pwd = $("#password").password("getValue");
+		
+	});
+
+	$("input#log_mail").checkbox({
+		fieldLabel: "",
+		items: [
+			{boxlabel: $.su.CHAR.SYSLOG.AUTO_MAIL, uncheckedValue:"off", inputValue: "on"}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		var val = (newValue[0]=="auto_mail"||newValue[0]=="on") ? "on" : "off";
+		switch(val)
+		{
+			case 'on':
+				$("#mail_cnt").fieldset("show");
+				break;
+			case 'off':
+				$("#mail_cnt").fieldset("hide");
+				break;
+		}
+	});
+
+	
+	$("#mail_cnt").fieldset({
+		fields: [
+			{name: "auto_mail_type"},
+			{name: "time_range"},
+			{name: "hour"}
+		]
+	}).hide();
+
+	$("#auto_mail_type").radio({
+		fieldLabel: "",
+		columns:1,
+		cls: 'inline-block',
+		items:[
+			{boxlabel: $.su.CHAR.SYSLOG.LOG_AT, inputValue: 'day_time', contentCls: 'inline-block time_padding', content:'#time_range'},
+			{boxlabel: $.su.CHAR.SYSLOG.LOG_EVERY,  inputValue: 'hours', contentCls: 'inline-block hour_padding', content:'#hour_cnt'}
+		]
+	}).on('ev_change', function(e, oldValue, newValue){	
+
+		if(newValue=='day_time'){
+			$("#time_range").time("enable");
+			$("#hour").textbox("disable");
+		}
+		else{
+			$("#time_range").time("disable");
+			$("#hour").textbox("enable");
+		}
+	});
+
+	$("#time_range").time({
+		fieldLabel: null,
+		tips: $.su.CHAR.SYSLOG.HH_MM,
+		cls: 'inline-block',
+		format: 'h:m',
+		tipsCls: "s"
+	});
+
+	$("#hour").textbox({
+		fieldLabel: null,
+		tips: $.su.CHAR.SYSLOG.HOURS,
+		inputCls:"xs",
+		vtype:{
+				vtype:"number",
+				min:1,
+				max:24
+		},
+		maxLength:2,
+		textFormat:$.su.format.number,
+		cls: 'inline-block'
+	});
+
+	
+	//这里多个表格调用一个proxy，proxy需要单独定义！
+	var ipv4Proxy = new $.su.Proxy({
+		url: LOG_MAIL_URL_NEW
+	});
+
+
+	$("form#mail-setting").form({
+		proxy: ipv4Proxy,
+		fields: [
+			{name: "from", mapping: "from"},
+			{name: "to", mapping: "to"},
+			{name: "smtp_server", mapping: "smtp_server"},
+			{name: "auth", mapping: "auth"},
+			{name: "user", mapping: "user"},
+			{name: "password", mapping: "password"},
+			{name: "auto_mail", mapping: "auto_mail"},
+			{name: "auto_mail_type", mapping: "auto_mail_type"},
+			{name: "every_day_time", mapping: "every_day_time"},
+			{name: "every_hours", mapping: "every_hours"}
+		],
+		validator:function(){
+			var log_mail = $("#log_mail").checkbox("getValue");
+			var hour_type = $("#auto_mail_type").radio("getValue");
+			if(log_mail[0] == "auto_mail")
+			{
+				if(hour_type == "hours")
+				{
+					var hour_val = $("#hour").textbox("getValue");
+					if(hour_val == "")
+					{
+						$("#hour").textbox("setError",$.su.CHAR.VTYPETEXT.BLANKTEXT);
+						return false;	
+					}
+				}
+			}
+			return true;
+		},
+		submitBtn: "default"
+	});
+
+	var helpSystemLog = new $.su.Help({
+		container: "div#help_system_log",
+		content: "SYSTEM_LOG"
+	});
+	
+});
+</script>
+</body>
+
+</html>

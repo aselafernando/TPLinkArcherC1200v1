@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>OpenVPN</title>
+</head>
+<body>
+<div class="func-container">
+	<div id="open_vpn">
+		<p class="note no-cert-note-container hidden">
+            <span class="title note-title"></span>
+            <span class="text" id="no_cert_note"></span>
+        </p> 
+		<input type="text" id="enable_vpn_server" name="enabled" />
+		<input type="text" id="service_type" name="proto" />
+		<input type="text" id="service_port" name="port" />
+		<input type="text" id="vpn_subnet" name="serverip" />
+		<input type="text" id="vpn_mask" name="mask"/>
+		<input type="text" id="access_type" name="access" />
+		<button type="button" id="btn_save" name="btn_save"></button>
+	</div>
+
+	<div id="cert_file">
+		<div id="cert_generate_setting">
+			<p id="cert_generate_note" name="cert_generate_note"  class="note first-line inline-block"></p>
+			<div class="cert_generate_button_ctn">
+				<span id="cert_generate_status" class="hidden"></span>
+				<button type="button" id="cert_generate_btn"></button>
+			</div>
+			<!--<span id="wp-loading" class="loading wps-submit-wait-loading" style="display: none;"></span>-->
+		</div>
+	</div>
+
+	<div id="conf_file">
+		<div id="export_setting">
+			<!--<p class="note no-cert-note-container hidden">
+	            <span class="title note-title"></span>
+	            <span class="text" id="no_cert_note2"></span>
+	        </p>-->
+			<p id="export_note" name="export_note"  class="note first-line inline-block"></p>
+			<button type="button" id="export_btn"></button>
+		</div>
+	</div>
+
+	<div id="cert_generate_confirm" class="hidden">
+		<h4 class="title">
+			<span class="icon" ></span>
+			<span class="text" id="cert_generate_str"></span>
+		</h4>
+	</div>
+
+	<div id="cert_generate_promsg" class="hidden">
+		<p id="cert_generate_tips"></p>
+		<input id="cert-generate-probar" />
+	</div>
+
+	<div id="vpn_help"></div>
+<div>
+
+<script type="text/javascript">
+//<![CDATA[
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	var VPN_CERT_GENERATE_URL = $.su.url("/admin/openvpn?form=openvpn_cert");
+	var VPN_EXPORT_URL = $.su.url("/admin/openvpn?form=export");
+	var VPN_CONFIG_URL = $.su.url("/admin/openvpn?form=config");
+	//var VPN_CONFIG_URL = "./data/openvpn.config.json";
+
+	var cert_general_id = false;
+	var cert_exist = false;
+	var cert_generate_result = false;
+	var operate_mode = "";
+
+	var dhcp_ip_start = "";
+	var dhcp_ip_end = "";
+	var dhcpSettingProxy = new $.su.Proxy({
+		url: $.su.url('/admin/dhcps?form=setting')
+	});
+	dhcpSettingProxy.read({},function(data){
+		dhcp_ip_start = data.ipaddr_start;
+		dhcp_ip_end = data.ipaddr_end;
+	});
+
+	var dhcp_reservation = "";
+	var dhcpReservationProxy = new $.su.Proxy({
+		url: $.su.url('/admin/dhcps?form=reservation')
+	});
+	dhcpReservationProxy.read({},function(data){
+		dhcp_reservation = data;
+	});
+
+	var pptpvpn_ip_start = "";
+	var pptpvpn_ip_end = "";
+	var pptpvpnSettingProxy = new $.su.Proxy({
+		url: $.su.url('/admin/pptpd?form=config')
+	});
+	pptpvpnSettingProxy.read({},function(data){
+		var remote_ip = data.remoteip;
+		pptpvpn_ip_start = remote_ip.substr(0, remote_ip.indexOf('-'));
+		pptpvpn_ip_end = pptpvpn_ip_start.substr(0, pptpvpn_ip_start.lastIndexOf('.') + 1) + remote_ip.substr(remote_ip.indexOf('-') + 1);
+		pptpvpn_ip_start = $.su.format.ip(pptpvpn_ip_start);
+		pptpvpn_ip_end = $.su.format.ip(pptpvpn_ip_end);
+	});
+
+	$("span.note-title").text($.su.CHAR.OPERATION.NOTE);
+	$("#no_cert_note").html($.su.CHAR.VPN.NO_CERT_NOTE);
+	$("#no_cert_note2").html($.su.CHAR.VPN.NO_CERT_NOTE2);
+	$("#cert_generate_tips").html($.su.CHAR.VPN.GENERATE_TIPS);
+
+	$("div#open_vpn").panel({
+		title: $.su.CHAR.VPN.OPEN_VPN,
+		collapsible: false
+	});
+	$("div#open_vpn").form({
+		proxy: {
+			timeout:30000,
+			url: VPN_CONFIG_URL
+		},
+		fields: [
+			{ name:"enabled", mapping:"enabled"},
+			{ name:"proto", mapping:"proto"},
+			{ name:"port", mapping:"port"},
+			{ name:"serverip", mapping:"serverip"},
+			{ name:"mask", mapping:"mask"},
+			{ name:"access", mapping:"access"}
+		],
+		submitBtn: '#btn_save',
+		validator: function(){
+			var subnet = $("input#vpn_subnet").textbox("getValue");
+			var netmask = $("input#vpn_mask").textbox("getValue");
+			//mask
+			if( $.su.func.ipToInt(netmask) > $.su.func.ipToInt("255.255.255.248") ){
+				$("div#open_vpn").form('setError',  $.su.CHAR.VPN.VPN_MASK_ERROR);
+				$("input#vpn_mask").textbox("setError");
+				return false;
+			}
+
+			//pptp conflict
+			if($.su.func.isSameNet(pptpvpn_ip_start, subnet, netmask)){
+				$("div#open_vpn").form('setError',  $.su.CHAR.VPN.CONFLICT_WITH_PPTPVPN);
+				$("input#vpn_subnet").textbox('setError');
+				return false;
+			}
+			if($.su.func.isSameNet(pptpvpn_ip_end, subnet, netmask)){
+				$("div#open_vpn").form('setError',  $.su.CHAR.VPN.CONFLICT_WITH_PPTPVPN);
+				$("input#vpn_subnet").textbox('setError');
+				return false;
+			}
+
+			//dhcp reservation conflict
+			for(var i = 0; i < dhcp_reservation.length; ++i){
+				if($.su.func.isSameNet(dhcp_reservation[i].ip, subnet, netmask)){
+					$("div#open_vpn").form('setError',  $.su.CHAR.VPN.CONFLICT_WITH_RESERVED2);
+					$("input#vpn_subnet").textbox('setError');
+					return false;
+				}
+			}
+
+			//dhcp conflict
+			if($.su.func.isSameNet(dhcp_ip_start, subnet, netmask)){
+				$("div#open_vpn").form('setError',  $.su.CHAR.VPN.CONFLICT_WITH_DHCP2);
+				$("input#vpn_subnet").textbox('setError');
+				return false;
+			}
+			if($.su.func.isSameNet(dhcp_ip_end, subnet, netmask)){
+				$("div#open_vpn").form('setError',  $.su.CHAR.VPN.CONFLICT_WITH_DHCP2);
+				$("input#vpn_subnet").textbox('setError');
+				return false;
+			}
+			return true;
+		}
+	}).on("ev_loadData",function(e,data){
+		cert_exist = data.cert_exist || false;
+		if(!cert_exist && !cert_generate_result){
+			$(".no-cert-note-container").show();
+		}
+		else{
+			$(".no-cert-note-container").hide();
+		}
+	}); 
+	$("input#enable_vpn_server").checkbox({
+		fieldLabel: "",
+		tips:"",
+		cls:"",
+		items: [
+			{boxlabel: $.su.CHAR.VPN.ENABLE_VPN_SERVER, uncheckedValue:"off", inputValue: "on", id: "chk_enable_vpn_server"}
+		]
+	});
+	$("input#service_type").radio({
+		fieldLabel: $.su.CHAR.VPN.SERVICE_TYPE,
+		cls: "inline-block",
+		columns:2,
+		items: [
+			{boxlabel: $.su.CHAR.VPN.UDP,  inputValue: "udp"},
+			{boxlabel: $.su.CHAR.VPN.TCP,  inputValue: "tcp"}
+		]
+	});
+	$("input#service_port").textbox({
+		fieldLabel: $.su.CHAR.VPN.SERVICE_PORT,
+		allowBlank: false,
+		textFormat: $.su.format.number,
+		maxLength: 5,
+        vtype: {
+            vtype: "number",
+			max: 65535,
+			min: 1024
+        }
+	});
+	$("input#vpn_subnet").textbox({
+		fieldLabel: $.su.CHAR.VPN.VPN_SUBNET,
+		allowBlank: false,
+		textFormat: $.su.format.ip,
+        vtype: "ip",
+        cls: "inline-block"
+	});
+	$("input#vpn_mask").textbox({
+		fieldLabel: null,
+		allowBlank: false,
+		textFormat: $.su.format.ip,
+        vtype: "netmask",
+        cls: "inline-block"
+	});
+	$("input#access_type").radio({
+		fieldLabel: $.su.CHAR.VPN.CLIENTS_ACCESS,
+		cls: "inline-block",
+		columns:2,
+		items: [
+			{boxlabel: $.su.CHAR.VPN.HOME_NETWORK_ONLY,  inputValue: "home"},
+			{boxlabel: $.su.CHAR.VPN.INTERNET_HOME,  inputValue: "internet"}
+		]
+	});
+	$("button#btn_save").button({
+		text: $.su.CHAR.OPERATION.SAVE,
+		cls: "submit",
+		handler: function(e){
+			$("button#btn_save").button("disable");
+			if(!$("div#open_vpn").form("validate")){
+				$("button#btn_save").button("enable");
+				return false;
+			}
+			operate_mode = "openvpn";
+			if(!cert_exist && !cert_generate_result){
+				$("#cert_generate_str").html($.su.CHAR.VPN.CERT_STR);
+				$("#cert_generate_confirm").msg("show");
+				$("button#btn_save").button("enable");
+				return;
+			}
+			$("div#open_vpn").form("submit", {}, function(){
+				$("button#btn_save").button("enable");
+			},function(){
+				$("button#btn_save").button("enable");
+			},function(){
+				$("button#btn_save").button("enable");
+			});
+
+			setTimeout(function(){
+				$("button#btn_save").button("enable");
+			},1000)
+		}
+	});
+	$("div#cert_file").panel({
+		title: $.su.CHAR.VPN.GENERATE_CERT,
+		collapsible: false
+	});
+
+	$("p#cert_generate_note").html($.su.CHAR.VPN.GENERATE_NEW_CERT);
+
+	cert_generate_proxy = new $.su.Proxy({
+			timeout:40000,
+			url: VPN_CERT_GENERATE_URL
+	});
+
+	var cert_generate_form = $("div#cert_generate_setting").form({
+		proxy: cert_generate_proxy,
+		formEnctype: "multipart/form-data",
+		traditional: true,
+		hiddenFrame: true,
+		autoLoad: false
+	});
+
+
+	$("button#cert_generate_btn").button({
+		text: $.su.CHAR.VPN.GENERATE,
+		cls: "submit inline-block",
+		handler: function(){
+			//to  be  continue 
+			// $("#cert_generate_setting").form('submit', {operation:'generate'});
+			// $('button#cert_generate_btn').button("disable");
+			// $("button#btn_save").button("disable");
+			// $("#export_btn").button("disable");
+			// $("span.wps-submit-wait-loading").show();
+
+			if(cert_general_id){
+				clearInterval(cert_general_id);
+				cert_general_id = false;
+			}
+			promsg.msg("show");
+			$("#cert-generate-probar").progressbar("reset");
+			$("#cert-generate-probar").progressbar("animate",0,1,480000,function(){
+				cert_generate_result = false;
+				$("#cert_generate_status").html($.su.CHAR.VPN.CERT_FAIL);
+				promsg.msg("close");
+				success_callback("timeout","error");
+			});
+			cert_generate_proxy.write({operation: "generate"});
+			cert_general_id = setInterval(function(){
+				cert_generate_proxy.write({operation: "check"}, function(data){
+					if(data.cert_status == "generating"){//generating
+						return;
+					}
+					else if(data.cert_status == "error"){//error
+						cert_generate_result = false;
+						$("#cert_generate_status").html($.su.CHAR.VPN.CERT_FAIL);
+						success_callback("interrupt","error");
+					}
+					else if(data.cert_status == "success"){//success
+						cert_generate_result = true;
+						$(".no-cert-note-container").hide();
+						$("#cert_generate_status").html($.su.CHAR.VPN.CERT_SUCCESS);
+						success_callback("interrupt","success");
+					}
+					else{;}
+				}, function(){
+				});
+			},1000);
+		}
+	});
+
+	var success_callback = function(type,status){
+		if(cert_general_id){
+			clearInterval(cert_general_id);
+			cert_general_id = false;
+		}
+		if(type == "interrupt"){
+			$("#cert-generate-probar").progressbar("stop");
+			$("#cert-generate-probar").progressbar("animate",null,1,250,function(){
+				promsg.msg("close");
+			});
+			if(status == "success"){
+				setTimeout(function(){
+						if(operate_mode == "openvpn"){
+							$("button#btn_save").trigger("click");
+						}
+						else if(operate_mode == "export"){
+							$("button#export_btn").trigger("click");
+						}
+						else{;}
+					operate_mode = "";
+				},250);
+			}
+		}
+		$("#cert_generate_status").show();
+	}
+
+	$("div#conf_file").panel({
+		title: $.su.CHAR.VPN.CONF_FILE,
+		collapsible: false
+	});
+	/*var vpn_export_proxy = new $.su.Proxy({
+		url: VPN_EXPORT_URL
+	});*/
+	$("p#export_note").html($.su.CHAR.VPN.EXPORT_CONF_FILE);
+	var export_form = $("div#export_setting").form({
+		proxy: {
+		    timeout:30000,
+			url: VPN_EXPORT_URL
+		},
+		formEnctype: "multipart/form-data",
+		traditional: true,
+		hiddenFrame: true,
+		autoLoad: false
+	});
+	$("button#export_btn").button({
+		text: $.su.CHAR.VPN.EXPORT,
+		cls: "submit inline-right",
+		handler: function(){
+			$("button#export_btn").button("disable");
+			operate_mode = "export";
+			if(!cert_exist && !cert_generate_result){
+				$("#cert_generate_str").html($.su.CHAR.VPN.CERT_STR2);
+				$("#cert_generate_confirm").msg("show");
+				$("button#export_btn").button("enable");
+				return;
+			}
+			$("#export_setting").form('submit', {operation:'backup'},function(){
+				$("button#export_btn").button("enable");
+			},function(){
+				$("button#export_btn").button("enable");
+			},function(){
+				$("button#export_btn").button("enable");
+			});
+			setTimeout(function(){
+				$("button#export_btn").button("enable");
+			},1000);
+		}
+	});
+
+	$("#cert_generate_confirm").msg({
+		type: "prompt",
+		cls: "warning",
+		okHandler: function(){
+			$("#cert_generate_confirm").msg("hide");
+			$("button#cert_generate_btn").trigger("click");
+		},
+		cancelHandler: function(){
+			operate_mode = "";
+		}
+	});
+
+	var promsg = $("#cert_generate_promsg").msg({
+		type: "prompt",
+	    closeBtn: false,
+		cls: 'warning reboot-confirm-size'
+	});
+	promsg.msg("hideButtons");
+	$("#cert-generate-probar").progressbar({
+		width: 270,
+		height: 6
+	});
+
+	$.su.app.runningModule.addUnloadHandler(function(){
+		if(cert_general_id)
+	    {
+	    	clearInterval(cert_general_id);
+			cert_general_id = false;
+	    }
+	});
+
+	var helpVPN = new $.su.Help({
+		container: "div#vpn_help",
+		content: ["OPEN_VPN", "OPEN_VPN_CERTIFICATE", "OPEN_VPN_CONF", "OPEN_VPN_GUIDE"]
+	});
+})
+	
+</script>
+
+</body>
+</html>

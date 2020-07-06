@@ -1,0 +1,16 @@
+{
+
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：internet页面中当前拨号类型是Static IP时，则请求该数据",
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{	
+		"static_ip_address": "1.1.1.1",
+		"static_submask": "255.255.255.0",
+		"static_dft_gateway": "2.2.2.2",
+		"static_pridns": "3.3.3.3",
+		"static_snddns": "4.4.4.4"
+	}
+}

@@ -1,0 +1,385 @@
+# Broadcom platforms selection
+
+if ARCH_BRCM
+
+menu "TP-LINK GPIO configuration"
+
+menu "GPIO LED configuration"
+
+config GPIO_ENABLE_BLUE_LAN
+	bool "enable blue lan"
+	default y
+	
+config GPIO_BLUE_LAN
+	int "blue lan"
+	depends on GPIO_ENABLE_BLUE_LAN
+	default 1
+
+config GPIO_BLUE_LAN_ACTIVE_LOW
+	int "blue lan active_low"
+	depends on GPIO_ENABLE_BLUE_LAN
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_BLUE_LAN1
+	bool "enable blue lan1"
+	default n
+	
+config GPIO_BLUE_LAN1
+	int "blue lan1"
+	depends on GPIO_ENABLE_BLUE_LAN1
+	default 15
+
+config GPIO_BLUE_LAN1_ACTIVE_LOW
+	int "blue lan1 active_low"
+	depends on GPIO_ENABLE_BLUE_LAN1
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_BLUE_LAN2
+	bool "enable blue lan2"
+	default n
+	
+config GPIO_BLUE_LAN2
+	int "blue lan2"
+	depends on GPIO_ENABLE_BLUE_LAN2
+	default 13
+
+config GPIO_BLUE_LAN2_ACTIVE_LOW
+	int "blue lan1 active_low"
+	depends on GPIO_ENABLE_BLUE_LAN2
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_BLUE_LAN3
+	bool "enable blue lan3"
+	default n
+	
+config GPIO_BLUE_LAN3
+	int "blue lan3"
+	depends on GPIO_ENABLE_BLUE_LAN3
+	default 6
+
+config GPIO_BLUE_LAN3_ACTIVE_LOW
+	int "blue lan3 active_low"
+	depends on GPIO_ENABLE_BLUE_LAN3
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_BLUE_LAN4
+	bool "enable blue lan4"
+	default n
+	
+config GPIO_BLUE_LAN4
+	int "blue lan4"
+	depends on GPIO_ENABLE_BLUE_LAN4
+	default 8
+
+config GPIO_BLUE_LAN4_ACTIVE_LOW
+	int "blue lan4 active_low"
+	depends on GPIO_ENABLE_BLUE_LAN4
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_BLUE_USB_1
+	bool "enable blue usb_1"
+	default y
+
+config GPIO_BLUE_USB_1
+	int "blue usb_1"
+	depends on GPIO_ENABLE_BLUE_USB_1
+	default 7
+
+config GPIO_BLUE_USB_1_ACTIVE_LOW
+	int "blue usb_1 active_low"
+	depends on GPIO_ENABLE_BLUE_USB_1
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_BLUE_USB_3
+	bool "enable blue usb_3"
+	default y
+	
+config GPIO_BLUE_USB_3
+	int "blue usb_3"
+	depends on GPIO_ENABLE_BLUE_USB_3
+	default 6
+
+config GPIO_BLUE_USB_3_ACTIVE_LOW
+	int "blue usb_3 active_low"
+	depends on GPIO_ENABLE_BLUE_USB_3
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_BLUE_WPS
+	bool "enable blue wps"
+	default y
+	
+config GPIO_BLUE_WPS
+	int "blue wps"
+	depends on GPIO_ENABLE_BLUE_WPS
+	default 2
+
+config GPIO_BLUE_WPS_ACTIVE_LOW
+	int "blue wps active_low"
+	depends on GPIO_ENABLE_BLUE_WPS
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_BLUE_WAN
+	bool "enable blue wan"
+	default y
+
+config GPIO_BLUE_WAN
+	int "blue wan"
+	depends on GPIO_ENABLE_BLUE_WAN
+	default 14
+
+config GPIO_BLUE_WAN_ACTIVE_LOW
+	int "blue wan active_low"
+	depends on GPIO_ENABLE_BLUE_WAN
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_ORANGE_WAN
+	bool "enable orange wan"
+	default y
+	
+config GPIO_ORANGE_WAN
+	int "orange wan"
+	depends on GPIO_ENABLE_ORANGE_WAN
+	default 15
+
+config GPIO_ORANGE_WAN_ACTIVE_LOW
+	int "orange wan active_low"
+	depends on GPIO_ENABLE_ORANGE_WAN
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_BLUE_STATUS
+	bool "enable blue status"
+	default y
+
+config GPIO_BLUE_STATUS
+	int "blue status"
+	depends on GPIO_ENABLE_BLUE_STATUS
+	default 18
+
+config GPIO_BLUE_STATUS_ACTIVE_LOW
+	int "blue status active_low"
+	depends on GPIO_ENABLE_BLUE_STATUS
+	range 0 1
+	default 1
+
+config GPIO_ENABLE_BLUE_WLAN_2G
+	bool "enable blue wlan_2g"
+	default y
+
+config GPIO_BLUE_WLAN_2G
+	int "blue wlan_2g"
+	depends on GPIO_ENABLE_BLUE_WLAN_2G
+	default 4
+
+config GPIO_BLUE_WLAN_2G_ACTIVE_LOW
+	int "blue wlan_2g active_low"
+	depends on GPIO_ENABLE_BLUE_WLAN_2G
+	range 0 1
+	default 0
+
+config GPIO_ENABLE_BLUE_WLAN_5G
+	bool "enable blue wlan_5g"
+	default y
+	
+config GPIO_BLUE_WLAN_5G
+	int "blue wlan_5g"
+	depends on GPIO_ENABLE_BLUE_WLAN_5G
+	default 5
+
+config GPIO_BLUE_WLAN_5G_ACTIVE_LOW
+	int "blue wlan_5g active_low"
+	depends on GPIO_ENABLE_BLUE_WLAN_5G
+	range 0 1
+	default 0
+
+endmenu
+
+menu "GPIO button configuration"
+
+config GPIO_ENABLE_WIFI_BUTTON
+	bool "enable wifi button"
+	default y
+	
+config GPIO_WIFI_BUTTON
+	int "wifi button"
+	depends on GPIO_ENABLE_WIFI_BUTTON
+	default 0
+
+config GPIO_ENABLE_RESET_BUTTON
+	bool "enable reset button"
+	default y
+	
+config GPIO_RESET_BUTTON
+	int "reset button"
+	depends on GPIO_ENABLE_RESET_BUTTON
+	default 3
+
+endmenu
+
+endmenu
+
+endif
+
+config PLAT_MPCORE
+	bool "ARM A9 MPCORE architecture support"
+	select CPU_V7
+	select ARM_GIC
+	select HAVE_ARM_TWD
+	select HAVE_ARM_SCU
+	select EARLY_PRINTK
+	select GENERIC_CLOCKEVENTS_BUILD
+	select GENERIC_CLOCKEVENTS
+	select LOCAL_TIMERS
+	help
+	  Support for ARM A9 MPCORE subsystem
+
+config CACHE_L310
+	bool "PL310 Level-2 Cache Controller"
+        select OUTER_CACHE
+        select OUTER_CACHE_SYNC
+
+config PLAT_IPROC
+	bool "Broadcom iProc common SoC platform"
+	depends on PLAT_MPCORE
+
+config PLAT_IHOST
+	bool "Broadcom iHost common SoC peripherals"
+	depends on PLAT_IPROC
+
+config PLAT_BCM5301X
+	bool "Broadcom BCM5301X SoC support"
+	select FPE_FASTFPE
+	select COMMON_CLKDEV
+	select CACHE_L310 
+	select PCI
+	select PCI_DOMAINS if PCI
+	select ARCH_SPARSEMEM_ENABLE
+	select ZONE_DMA if SPARSEMEM
+	depends on PLAT_MPCORE
+	depends on PLAT_IPROC
+	depends on PLAT_IHOST
+
+config ARCH_HAS_HEAD_FIXUP
+	bool "Machine needs fixup after the boot monitor"
+	help
+	Inserts a platform-specific assembly fix-up function
+	after boot rom monitor to work around a non-compliant
+	boot monitor or certain hardware issues that are not taken
+	care of by the boot monitor.
+
+config PLAT_NAND_JFFS2
+	bool "BCM5301X NAND Flash driver for JFFS file system"
+	depends on PLAT_BCM5301X
+	depends on JFFS2_FS
+	depends on MTD_NAND
+	depends on MTD
+	depends on !MTD_BRCMNAND
+        depends on !MTD_NFLASH
+	help
+	Support for JFFS2 on NAND Flash memory connected to the SoC
+	NAND controller.
+
+config PLAT_MUX_CONSOLE
+	bool "Support UART1(CCA) console"
+	depends on PLAT_BCM5301X
+	default n
+	help
+	Using Top-level Muxing to support UART1 on ChipCommonA (CCA) console.  Otherwise default is GPIO pins.
+
+config PLAT_MUX_CONSOLE_CCB
+	bool "Support UART0(CCB) console"
+	depends on PLAT_BCM5301X
+	default n
+	help
+	Using Top-level Muxing to support UART0 on ChipCommonB (CCB) console.  Otherwise default is GPIO pins.
+
+config PLAT_CCA_GPIO_IRQ
+	bool "Support CCA GPIO interrupts"
+	depends on PLAT_BCM5301X
+	depends on GENERIC_GPIO
+	default n
+	help
+	This should be enabled to support CCA GPIO interrupts.
+
+config PLAT_GPIOLIB
+	bool "Support GPIO exporting to user-space"
+	depends on PLAT_BCM5301X
+	select GENERIC_GPIO
+	select GPIOLIB
+	select GPIO_SYSFS
+	default n
+	help
+	This should be enabled to support exporting of GPIO to userspace.
+
+config PLAT_GPIOLIB_NAME
+	string
+	depends on PLAT_GPIOLIB
+	default "gpiolib"
+
+config PLAT_UART_CLOCKS
+	bool "Precise configuration of UART clocks and dividers"
+	depends on PLAT_BCM5301X
+	default n
+
+choice
+	prompt "Clock source for ChipCommon_A UART"
+	depends on PLAT_UART_CLOCKS
+	default PLAT_CCA_UART_CLK_DEFAULT
+
+config PLAT_CCA_UART_CLK_DEFAULT
+	bool "Use after reset default settings"
+
+config PLAT_CCA_UART_CLK_INTERNAL_OVERRIDE
+	bool "ALP(APB) (125Mhz as for now) clock used as CCA UARTs clock"
+
+config PLAT_CCA_UART_CLK_INTERNAL_DIVIDER
+	bool "ALP(APB) (125Mhz as for now) clock with divider applied used as CCA UARTs clock"
+	help
+	   CCA UARTs clock will be ALB(APB) divided by PLAT_CCA_UART_CLK_INTERNAL_DIVIDER_VAL
+
+config PLAT_CCA_UART_CLK_EXTERNAL
+	bool "External 25Mhz clock used as CCA UARTs clock"
+
+endchoice
+
+config PLAT_CCA_UART_CLK_INTERNAL_DIVIDER_VAL
+	int "Divider value"
+	depends on PLAT_CCA_UART_CLK_INTERNAL_DIVIDER
+	default 48
+
+config PLAT_CCA_UART0_DIVIDER
+	int "Divider value for CCA UART0"
+	depends on PLAT_UART_CLOCKS
+	help
+	  If requested baud rate is 38400, it will be ignored and this divider be used instead.
+	  Baud rate will be CCA UARTs clock divided by 16 and then divided by current value.
+	  Divider is 16 bit, so default setting above maximum 16 bit value switch off this feature.
+	default 65536
+
+config PLAT_CCA_UART1_DIVIDER
+	int "Divider value for CCA UART1"
+	depends on PLAT_UART_CLOCKS
+	help
+	  If requested baud rate is 38400, it will be ignored and this divider be used instead.
+	  Baud rate will be CCA UARTs clock divided by 16 and then divided by current value.
+	  Divider is 16 bit, so default setting above maximum 16 bit value switch off this feature.
+	default 65536
+
+config PLAT_CCB_UART0_DIVIDER
+	int "Divider value for CCA UART0"
+	depends on PLAT_UART_CLOCKS
+	help
+	  If requested baud rate is 38400, it will be ignored and this divider be used instead.
+	  Baud rate will be CCB UART clock divided by 16 and then divided by current value.
+	  Divider is 16 bit, so default setting above maximum 16 bit value switch off this feature.
+	  CCB UART clock is always same - ALP(APB) (125Mhz as for now) clock.
+	default 65536

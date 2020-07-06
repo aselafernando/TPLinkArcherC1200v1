@@ -1,0 +1,51 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+. /lib/domain_login/domain_login_log.sh
+. /lib/domain_login/domain_login_core.sh
+
+usage()
+{
+	echo $0 "<command>" "[<arguments>]}"
+	echo "Commands:"
+	echo "        conflict    <old_addr> <old_mask> <new_addr> <new_mask>"
+	echo "        get         [<mode>|<dst>|<wpath>]"
+	echo "        redirect"
+	echo "        destroy"
+	exit 0
+}
+
+cmd=$1
+shift
+case "$cmd" in
+	conflict)
+		[ $# -ne 4 ] && usage
+		dlogin_ip_conflict "$1" "$2" "$3" "$4"
+	;;
+	get)
+		case "$1" in
+			mode)
+				dlogin_tips_mode
+			;;
+			dst)
+				dlogin_dst_addr
+			;;
+			wpath)
+				dlogin_dst_web_path
+			;;
+			*)
+				usage
+			;;
+		esac
+	;;
+	redirect)
+		dlogin_redirect
+	;;
+	destroy)
+		dlogin_conflict_cancel
+	;;
+	*)
+		usage
+	;;
+esac

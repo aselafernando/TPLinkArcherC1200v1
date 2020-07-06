@@ -1,0 +1,4 @@
+/sbin/swaplabel
+/sbin/swapon
+/sbin/swapoff
+/sbin/mkswap

@@ -1,0 +1,13 @@
+Package: iptables-mod-httphost
+Version: 1.42-3.1
+Depends: iptables, kmod-ipt-httphost
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/opensource/xtables-addons
+Section: net
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 2894
+Description:  httphost iptables extension

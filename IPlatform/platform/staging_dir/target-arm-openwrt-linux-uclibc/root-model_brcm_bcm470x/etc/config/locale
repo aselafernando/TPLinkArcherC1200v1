@@ -1,0 +1,6 @@
+config global sysinfo
+    option force   'false'
+    option default 'en_US'
+    option model   'Wireless Router Archer C9'
+    option region  'USA'
+    option locale  'en_US'

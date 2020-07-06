@@ -1,0 +1,4 @@
+/usr/sbin/tsched
+/usr/sbin/tsched_conf
+/etc/init.d/tsched
+/usr/lib/lua/tsched_conf.lua

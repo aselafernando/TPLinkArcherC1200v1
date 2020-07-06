@@ -1,0 +1,26 @@
+#!/bin/sh /etc/rc.common
+
+START=69
+
+start() {
+	local addr=
+	local mask=
+	local tpdomain=
+	local enabled=
+	
+	. /lib/domain_login/domain_login_log.sh
+	. /lib/domain_login/domain_login_core.sh
+
+	config_load domain_login
+	config_get enabled "tp_domain" conflict
+	
+	[ "$enabled" = "on" ] && {
+		config_get addr "tp_domain" old_addr
+		config_get mask "tp_domain" old_mask
+		config_get tpdomain "tp_domain" domain
+		
+    	dlogin_tip_install $addr $mask "$tpdomain"
+    }
+    
+	return 0
+}

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+res=$(et port_status 0 | grep Up);
+
+if [ -n "$res" ]; then
+return 0;
+else
+return 1;
+fi
+

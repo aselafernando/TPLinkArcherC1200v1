@@ -1,0 +1,25 @@
+#!/bin/sh
+
+#insert usbhost & scsi modules
+ 
+insmod_usbhost_scsi() {
+	insmod xhci-hcd
+	insmod ehci-hcd
+	insmod ohci-hcd
+
+	insmod sd_mod
+	insmod scsi_wait_scan
+
+	insmod crc16
+	insmod mbcache
+	insmod jbd2
+	insmod fat
+	insmod vfat
+	insmod ntfs
+	insmod ext4
+	insmod msdos
+
+	insmod fuse
+}
+
+boot_hook_add preinit_main insmod_usbhost_scsi 

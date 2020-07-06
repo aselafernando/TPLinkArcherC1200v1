@@ -1,0 +1,10 @@
+libblobmsg_json.so
+libgcc_s.so.1
+libiwinfo.so
+libjson.so.0
+libjson.so.0.0.1
+libpthread-0.9.32.1.so
+libpthread.so.0
+libubox.so
+libubus.so
+libuci.so

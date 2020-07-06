@@ -1,0 +1,75 @@
+# This is a basic ProFTPD configuration file (rename it to 
+# 'proftpd.conf' for actual use.  It establishes a single server
+# and a single anonymous login.  It assumes that you have a user/group
+# "nobody" and "ftp" for normal operation and anon.
+
+ServerName			"|HOSTNAME|"
+ServerType			standalone
+DefaultServer			on
+DefaultAddress          0.0.0.0
+
+# Port 21 is the standard FTP port.
+Port				21
+
+# In some cases you have to specify passive ports range to by-pass
+# firewall limitations. Ephemeral ports can be used for that, but
+# feel free to use a more narrow range.
+PassivePorts        50000 60000
+
+IdentLookups	off
+UseReverseDNS	off
+
+# Timeout while no transfer.
+TimeoutNoTransfer		600
+
+# Umask 022 is a good standard umask to prevent new dirs and files
+# from being group and world writable.
+Umask				022
+
+# To prevent DoS attacks, set the maximum number of child processes
+# to 30.  If you need to allow more than 30 concurrent connections
+# at once, simply increase this value.  Note that this ONLY works
+# in standalone mode, in inetd mode you should use an inetd server
+# that allows you to limit maximum number of processes per service
+# (such as xinetd).
+MaxInstances			20
+MaxClientsPerUser       5
+MaxClients              4
+
+# AuthUserFile        /etc/proftpd/ftpd.passwd
+# AuthGroupFile       /etc/proftpd/ftpd.group
+
+# Set the user and group under which the server will run.
+User				guest
+Group				nogroup
+
+# UserAlias           admin root
+# UserAlias           anonymous guest
+Include             /etc/proftpd/alias.conf
+
+# TransferLog /var/log/proftpd.xfer.log
+# SystemLog   /var/log/proftpd.log
+
+# To cause every FTP user to be "jailed" (chrooted) into their home
+# directory, uncomment this line.
+# DefaultRoot ~
+DefaultRoot /tmp/ftp
+
+# Normally, we want files to be overwriteable.
+AllowOverwrite		on
+
+# Bar use of SITE CHMOD by default
+<Limit SITE_CHMOD>
+  DenyAll
+</Limit>
+
+# Enable root
+RootLogin           on
+RequireValidShell   off
+
+<Directory /tmp/ftp/*>
+    <Limit ALL>
+        DenyAll
+    </Limit>
+</Directory>
+

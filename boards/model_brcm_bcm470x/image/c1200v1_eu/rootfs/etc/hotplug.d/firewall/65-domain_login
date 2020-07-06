@@ -1,0 +1,24 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+
+[ "$ACTION" = "start" ] && {
+	local _addr _conflict
+	
+	config_load domain_login
+	
+	config_get _conflict "tp_domain" conflict
+	config_get _addr "tp_domain" old_addr
+	
+	[ "$_conflict" = "on" -a -n "$_addr" ] && {
+		local mangle_rule=$(fw list 4 m | grep "domain_login_rule")
+	    [ -z "$mangle_rule" ] && {
+	        fw add 4 m domain_login_rule
+	        fw add 4 m PREROUTING domain_login_rule
+	    }
+	
+	    fw flush 4 m domain_login_rule
+	    fw add 4 m domain_login_rule MARK { -d $_addr -p tcp -m tcp --dport 80 --set-xmark 0xdead0000/0xffff0000 }
+	} 
+}

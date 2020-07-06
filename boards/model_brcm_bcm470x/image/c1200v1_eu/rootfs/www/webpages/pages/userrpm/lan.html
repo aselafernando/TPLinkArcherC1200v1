@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Internet</title>
+<style type="text/css">
+	div.container.widget-container.text-container.offset{
+		position: absolute;
+		top:200px;
+		left:540px;
+	}
+</style>
+
+</head>
+
+<body>
+<div class="func-container">
+
+	<div id="lan_panel">
+
+		 <div id="lan-ipv4">
+
+		 	<form id="lan-ipv4-setting">
+		    	<input type="text"  id="ipv4_lan_mac_address" name="macaddr" value="" />
+		    	<input type="text"  id="ipv4_lan_ip_address" name="ipaddr" value="" />
+		    	<input id="ipv4_lan_mask_address" name="mask_type" value="" />
+
+		    	<input id="custom" name="custom_value" value="" />
+
+		    	
+		    	
+
+		    	<button id="lan_submit" type="button"></button>
+		    </form>
+
+		 </div>
+
+	</div>
+
+	<div id="lan_help"></div>
+
+
+	<div id="lan_pro_msg" class="hidden">
+		<div class="reboot-loading-msg">
+			<p id="reboot_tips"></p>
+			<input id="lan_pro" />
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+try{
+    $
+}catch(e){
+    location.href = "/";
+};
+
+$(document).ready(function(e){
+	$("div.func-container").page({
+		title: $.su.CHAR.LAN.TITLE,
+		help: ""	//可能是个调用的id 也可能是个url
+	});
+
+
+	var lanIP = 0;
+	var lanMask = 0;
+	var wanIP = 0;
+	var wanMask = 0;
+	var wanSndIP = 0;
+	var wanSndMask = 0;
+	var connType = 0;
+
+	var lanProxy = new $.su.Proxy({
+		url: $.su.url('/admin/network?form=status_ipv4')
+	});
+
+	lanProxy.read({}, function(data){
+		lanIP = data.lan_ipv4_ipaddr;
+		lanMask = data.lan_ipv4_netmask;
+		wanIP = data.wan_ipv4_ipaddr;
+		wanMask = data.wan_ipv4_netmask;
+		connType = data.wan_ipv4_conntype;
+		data.wan_ipv4_snd_ipaddr?wanSndIP=data.wan_ipv4_snd_ipaddr:1;
+		data.wan_ipv4_snd_netmask?wanSndMask=data.wan_ipv4_snd_netmask:1;	
+	});
+
+
+	$("div#lan_panel").panel({
+		title: $.su.CHAR.LAN.TITLE,
+		collapsible: false
+	});
+
+
+	$("input#ipv4_lan_mac_address").textbox({
+		fieldLabel: $.su.CHAR.LAN.MAC_ADDRESS,
+		readOnly: true
+	});
+
+
+	$("input#ipv4_lan_ip_address").textbox({
+		fieldLabel: $.su.CHAR.LAN.IP_ADDRESS,
+		allowBlank: false,
+		textFormat: $.su.format.ip,
+		vtype: 'ip'
+	});
+
+	
+
+
+	$("input#ipv4_lan_mask_address").combobox({
+		fieldLabel: $.su.CHAR.LAN.SUBNET_MASK,
+		cls: 'inline',
+		items:[
+			{name: '255.255.255.0', value:'255.255.255.0'},
+			{name: '255.255.0.0', value: '255.255.0.0'},
+			{name: '255.0.0.0', value: '255.0.0.0'},
+			{name: $.su.CHAR.LAN.CUSTOM, value: 'custom'}
+		]
+	}).on("ev_change", function(e, oldValue, newValue){
+		switch(newValue[0])
+		{
+			case 'custom': 
+				$("input#custom").textbox('getContainer').css({
+					"display": "inline-block"
+				});
+				$("input#custom").textbox('enable');
+				break;
+			default: 
+				$("input#custom").textbox('hide'); 
+				$("input#custom").textbox('disable');
+		}
+	});
+
+
+	$("input#custom").textbox({
+		fieldLabel: null,
+		cls: 'inline-block hidden',
+		allowBlank: false,
+		vtype: 'netmask'
+	});
+
+
+	$('p#reboot_tips').html($.su.CHAR.LAN.REBOOT_TIP);
+
+	var lanProMsg = $("div#lan_pro_msg").msg({
+	    type: "window",
+	    global: true,
+	    closeBtn: false,
+		cls: 'warning reboot-confirm-size'
+	   /* okHandler: function(e){
+	        logoutProxy.write({}, function(){
+	            location.href = "/";
+	        });
+		}*/
+	});
+
+	var lanPro = $("input#lan_pro").progressbar({
+		// cls: "connect-progressbar",
+		height: 6,
+		width: 326
+	});
+	
+
+	//这里多个表格调用一个proxy，proxy需要单独定义！
+	var ipv4Proxy = new $.su.Proxy({
+	//	url: "./data/lan.ipv4.json"
+		timeout: 20000,
+		url: $.su.url('/admin/network?form=lan_ipv4')
+	});
+
+	$("form#lan-ipv4-setting").form({
+		proxy: ipv4Proxy,
+		fields: [
+			{name: "macaddr", mapping: "macaddr"},
+			{name: "ipaddr", mapping: "ipaddr"},
+			{name: "mask_type", mapping: "mask_type"},
+			{name: "custom_value", mapping: "custom_value"}
+		],
+		submitBtn: '#lan_submit',
+		validator: function(){
+			var ipVal = $('input#ipv4_lan_ip_address').textbox('getValue');
+			var maskVal = $('input#ipv4_lan_mask_address').combobox('getValue')[0]=='custom'?$('input#custom').textbox('getValue'):$('input#ipv4_lan_mask_address').combobox('getValue')[0];
+
+			if( !$.su.func.isNetIpLegal(ipVal, maskVal) ){
+				$("form#lan-ipv4-setting").form('setError',  $.su.CHAR.ERROR['00000059']);
+				$('input#ipv4_lan_ip_address').textbox('setError');
+				$('input#ipv4_lan_mask_address').combobox('setError');
+				return false;
+			}
+
+			if( $.su.func.isNetIp(ipVal, maskVal) ||  $.su.func.isBroadCastIp(ipVal, maskVal) ){
+				$("form#lan-ipv4-setting").form('setError',  $.su.CHAR.ERROR['00000059']);
+				$('input#ipv4_lan_ip_address').textbox('setError');
+				return false;
+			}
+
+			if( $.su.func.isSameNet( ipVal, wanIP, wanMask) ||  $.su.func.isSameNet( wanIP, ipVal, maskVal)  ){
+				$("form#lan-ipv4-setting").form('setError',  $.su.CHAR.ERROR['00000060']);
+				$('input#ipv4_lan_ip_address').textbox('setError');
+				return false;
+			}
+
+			if( (connType=='l2tp'||connType=='pptp'||connType=='pppoe') && wanSndIP!=0 && wanSndMask!=0 &&  ( $.su.func.isSameNet( ipVal, wanSndIP, wanSndMask) ||  $.su.func.isSameNet( wanSndIP, ipVal, maskVal)  ) ){
+				$("form#lan-ipv4-setting").form('setError',  $.su.CHAR.ERROR['00000060']);
+				$('input#ipv4_lan_ip_address').textbox('setError');
+				return false;
+			}
+
+			return true;
+		}
+	});
+
+
+	$('button#lan_submit').button({
+		text: $.su.CHAR.LAN.SAVE,
+		cls: "submit",
+		handler: function(){
+			$("form#lan-ipv4-setting").form('submit', {}, function(data){
+				function goToNewUrl(param)
+				{
+					var oriUrl = top.location.href;
+					var stIindex = oriUrl.indexOf('//');
+				//	var endIndex = oriUrl.slice(stIindex+2).indexOf(':');	// for port 
+
+					top.location.href = oriUrl.slice(0, stIindex+2) + param;// + oriUrl.slice(stIindex+2).slice(endIndex);
+				}
+				function showProgress(){
+					lanProMsg.msg('show');
+					lanPro.progressbar("reset");
+					lanPro.progressbar("animate", 0, 1, 32000);
+					
+					var o = setTimeout(function(){
+						goToNewUrl(data.new_ipaddr);
+					}, 32000);
+				}
+
+				if(data.new_ipaddr && data.ipaddr!=data.new_ipaddr){
+					showProgress();
+				}
+				else{
+					switch(data.mask_type){
+						case "custom":{
+							if(data.custom_value != lanMask){
+								lanMask = data.custom_value;
+								showProgress();
+							}
+							break;
+						}
+						default:{
+							if(data.mask_type != lanMask){
+								lanMask = data.mask_type;
+								showProgress();
+							}
+						}
+					}
+				}
+				
+			});
+
+		}
+	});
+
+
+
+	var helpLan = new $.su.Help({
+		container: "div#lan_help",
+		content: ['LAN_IPV4']
+	});
+
+});
+</script>
+</body>
+
+</html>

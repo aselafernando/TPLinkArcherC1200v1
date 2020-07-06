@@ -1,0 +1,2 @@
+/etc/modules.d/46-ipt-app
+/lib/modules/iplatform/xt_app.ko

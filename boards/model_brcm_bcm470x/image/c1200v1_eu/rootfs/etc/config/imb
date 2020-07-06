@@ -1,0 +1,2 @@
+config default 'switch'
+	option enable 'on'

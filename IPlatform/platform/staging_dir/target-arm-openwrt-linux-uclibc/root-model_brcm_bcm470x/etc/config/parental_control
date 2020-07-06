@@ -1,0 +1,20 @@
+config global 'settings'
+    option enable        'off'
+    option access_mode   'black'
+    option w_https       'pass'
+    option w_httpr       'pass'
+    option filter_mode   'simple'
+    option dns_filter    'on'
+    option dns_forward   'on'
+
+config black_list 'black_list'
+
+
+config white_list 'white_list'
+
+
+
+
+
+
+

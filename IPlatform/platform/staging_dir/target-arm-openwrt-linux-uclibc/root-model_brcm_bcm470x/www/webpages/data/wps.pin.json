@@ -1,0 +1,11 @@
+{
+	"timeout": false,
+	"success": true,
+	"data": {
+			"wps_label": "on",
+			"wps_pin": "205300",
+			"result":"0",
+			"mac":"11-11-11-11-11-12"
+	}
+	
+}

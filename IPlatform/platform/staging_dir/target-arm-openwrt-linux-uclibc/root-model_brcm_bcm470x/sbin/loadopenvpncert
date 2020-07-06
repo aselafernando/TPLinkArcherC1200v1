@@ -1,0 +1,4 @@
+#!/usr/bin/lua
+
+openvpn = require "luci.controller.admin.openvpn"
+openvpn.load_openvpn_cert()

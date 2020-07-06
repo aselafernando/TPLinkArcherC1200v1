@@ -1,0 +1,50 @@
+{
+
+	"timeout": false,
+	"success": true,
+	"data": 
+	{	
+		"conntype": "dslite",
+		
+		"configuration_type": "manual",
+		"AFTR_name": "1111",
+		
+		"snd_conn":"static",
+		
+		
+		"static_ip6addr": "fe80::20a:ebff:fe13:7b00/64",
+		"static_ip6gw": "fe80::20a:ebff:fe13:7b00/64",
+		"static_pri_dns": "fe80::20a:ebff:fe13:7b00/64",
+		"static_snd_dns": "fe80::20a:ebff:fe13:7b00/64",
+		"static_mtu": "1260",
+		
+		
+		"pppoe_username": "pppoe2342",
+		"pppoe_password": "pppoe234",
+		"pppoe_ip6addr": "1.1.1.1",
+		"pppoe_dns_mode":	"static",
+		"pppoe_snd_conn": "static",
+		"pppoe_static_pridns": "8.8.8.8",
+		"pppoe_static_snddns": "9.9.9.9",
+		"pppoe_ip_mode": "prefix",
+		"pppoe_specific_ip": "fe80::20a:ebff:fe13:7b00",
+		"pppoe_conn_status": "connected",
+		
+		
+		"dynamic_ip6addr": 		"fe80::20a:ebff:fe13:7b00:7b00:7b00:7b00/64",
+		"dynamic_prefix":		"fe80::20a:ebff:fe13:7b00/64",
+		"dynamic_pri_dns": 			"1.1.1.1",
+		"dynamic_snd_dns": 			"2.2.2.2",
+		"dynamic_ip_mode": 			"prefix",		
+		"dynamic_dns_mode": 			"dynamic",
+		"dynamic_dyn_pridns": 		"3.3.3.3",
+		"dynamic_dyn_snddns": 		"4.4.4.4",
+		"dynamic_static_pridns": 		"5.5.5.5",
+		"dynamic_static_snddns": 		"4.4.4.4",
+		"dynamic_conn_status": "connected",
+		
+	
+		
+		"conn_status": "connected"
+	}
+}

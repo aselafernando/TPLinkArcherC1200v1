@@ -1,0 +1,13 @@
+Package: base-files
+Version: 117-r7549
+Depends: netifd, libc
+Provides: 
+Source: package/base-files
+Section: base
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 6659
+Description:  This package contains a base filesystem and system scripts for OpenWrt.

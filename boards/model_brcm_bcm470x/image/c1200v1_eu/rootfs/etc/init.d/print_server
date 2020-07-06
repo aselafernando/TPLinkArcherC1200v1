@@ -1,0 +1,36 @@
+#!/bin/sh /etc/rc.common
+# Copyright(c) 2011-2014 Shenzhen TP-LINK Technologies Co.Ltd.
+
+
+START=71
+
+debug() {
+    echo $1 >/dev/console 2>&1
+}
+
+start() {
+	. /lib/print_server/core_print_server.sh
+	start_print_server
+
+	. /lib/print_server/printer_discovery.sh
+	scan_printers
+    return 0
+}
+
+stop() {
+	. /lib/print_server/core_print_server.sh
+	stop_print_server
+
+	. /lib/print_server/printer_discovery.sh
+	scan_printers
+    return 0
+}
+
+restart() {
+	stop
+	start
+}
+
+reload() {
+    return 0
+}

@@ -1,0 +1,13 @@
+Package: libcurl
+Version: 7.29.0-1
+Depends: libopenssl, zlib
+Provides: 
+Source: package/curl
+Section: libs
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: OpenWrt Developers Team <openwrt-devel@openwrt.org>
+Architecture: model_brcm_bcm470x
+Installed-Size: 139331
+Description:  A client-side URL transfer library

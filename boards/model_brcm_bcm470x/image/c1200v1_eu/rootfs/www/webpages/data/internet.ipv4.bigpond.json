@@ -1,0 +1,23 @@
+{
+
+	"comments": "----实际使用中，请删除所有comments字段----",	
+	"comments": "说明：internet ipv4页面中当前拨号类型是bigpond时，则请求该数据",
+
+	"timeout": false,
+	"success": true,
+	"data": {
+		"conntype": "pppoe",
+		
+		"username": "bigpond username",
+		"password": "bigpond password",
+		"server": "2.2.2.2",
+		"domain": "www.baiud.com",
+		"mtu": "1200",
+		"conn_mode": "demand",
+		"demand_idle": "11",
+		"inet4_bp_time_start": "13",
+		"inet4_bp_time_end": "56",
+		"manual_idle": "22",
+		"conn_status": "connecting"
+	}
+}

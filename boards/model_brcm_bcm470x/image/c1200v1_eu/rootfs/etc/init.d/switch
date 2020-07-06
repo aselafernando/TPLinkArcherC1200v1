@@ -1,0 +1,42 @@
+#!/bin/sh /etc/rc.common
+
+START=19
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+start() {
+        setup_switch() { return 0; }
+		#. /lib/switch/switch.sh
+        setup_switch
+
+        . /lib/switch/core.sh
+
+        setup_vlan
+	
+		setup_duplex
+}
+
+restart() {
+		stop
+        start
+}
+
+shutdown() {
+		echo "Shutdown switch!"
+}
+
+stop() {
+		. /lib/switch/core.sh
+		unsetup_vlan
+
+		unsetup_duplex
+		
+        unsetup_switch() { return 0; }
+		#. /lib/switch/switch.sh
+		unsetup_switch
+}
+
+reload() {
+        start
+}

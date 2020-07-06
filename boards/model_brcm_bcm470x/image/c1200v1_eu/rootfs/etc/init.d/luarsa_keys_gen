@@ -1,0 +1,16 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2008-2010 OpenWrt.org
+
+START=48
+
+start() {
+#    luarsa_keys_gen
+}
+
+restart() {
+#    luarsa_keys_gen
+}
+
+reload() {
+#    luarsa_keys_gen
+}

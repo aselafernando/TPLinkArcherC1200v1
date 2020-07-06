@@ -1,0 +1,27 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2008-2010 OpenWrt.org
+
+START=99
+
+PC_LIBDIR=/lib/qos
+
+pc() {
+	. $PC_LIBDIR/core.sh
+	fw_$1
+}
+
+start() {
+	pc start
+}
+
+stop() {
+	pc stop
+}
+
+restart() {
+	pc restart
+}
+
+reload() {
+	pc reload
+}

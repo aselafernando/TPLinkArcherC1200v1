@@ -1,0 +1,13 @@
+Package: dnsproxy
+Version: 1.0-1
+Depends: nat, dnslookup
+Provides: 
+Source: /home/seal/products_sohoi_platform_v2/boards/model_brcm_bcm470x/iplatform_branch/stable_rel_20141125_cloud/private/dnsproxy
+Section: TP-LINK
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Guo Dongxian <guodongxian@tp-link.com.cn>
+Architecture: all
+Installed-Size: 2290
+Description:  A deamon of dns proxy that check primary and secondary dns work well or not 

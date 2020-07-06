@@ -1,0 +1,5 @@
+#!/usr/bin/lua
+
+uci = require "luci.model.uci"
+uci_c = uci.cursor()
+uci_c:commit("wireless")

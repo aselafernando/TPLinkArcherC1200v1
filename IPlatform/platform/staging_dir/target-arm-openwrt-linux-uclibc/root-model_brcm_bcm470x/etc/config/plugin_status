@@ -1,0 +1,51 @@
+#声明		:本文件用于保存临时的PLUGIN信息(更新及未安装PLUGIN信息)，已安装的PLUGIN信息存储在plugin_config文件中。
+#plugin_update	:已安装PLUGIN的可更新信息，每个PLUGIN占用一个section，section_type统一为plugin_update，section_name取plugin_id，保证唯一性。
+#plugin_none	:未安装PLUGIN的信息，每个PLUGIN占用一个section，section_type统一为plugin_none，section_name取plugin_id，保证唯一性。
+#plugin_id		:功能插件的标识
+#name		:名称
+#version   	:版本号
+#size		:安装后占用flash体积
+#author		:功能插件发布者
+#tag		:Plugin的标签，分类时使用。
+#description:功能展示页面的URL
+#update_log	:更新说明
+#icon_url	:用于展示图标的URL
+#data_url	:安装包下载的URL
+#release_time:发布时间
+#components	:该功能插件的组件
+#opera_type	:插件的操作状态，0表示无操作，1表示正在更新，2表示正在卸载
+#download_progress:插件下载进度
+#install_progress:插件安装进度
+
+#config plugin_update 'LW003'
+#	option status '0'
+#	option name '无线定时开关'
+#	option version '1.0.1'
+#	option size '10KB'
+#	option author 'TP-LINK Technologies Co.,Ltd'
+#	option tag 'Wireless'
+#	option description 'http://plugin-store/ds/LW001.html'
+#	option update_log '修复IE6显示不友好的问题'
+#	option icon_url 'http://plugin-store/icon/LW001.png'
+#	option data_url 'http://plugin-store/data/LW001.bin'
+#	option release_time '2014.09.02_17:20'
+#	option components 'libiw, wifi_switch, luci_wifi_switch'
+#	option download_progress '0'
+#	option install_progress '0'
+
+#PLUGIN未安装信息示例
+#config plugin_none 'LW009'
+#	option name '无线定时开关'
+#	option version '1.0.1'
+#	option size '10KB'
+#	option author 'TP-LINK Technologies Co.,Ltd'
+#	option tag 'Wireless'
+#	option description 'http://plugin-store/ds/LW001.html'
+#	option update_log '修复IE6显示不友好的问题'
+#	option icon_url 'http://plugin-store/icon/LW001.png'
+#	option data_url 'http://plugin-store/data/LW001.bin'
+#	option release_time '2014.09.02_17:20'
+#	option components 'libiw, wifi_switch, luci_wifi_switch'
+#	option download_progress '0'
+#	option install_progress '0'
+#	option opera_type '0'
